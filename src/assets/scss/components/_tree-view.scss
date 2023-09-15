@@ -1,0 +1,121 @@
+.tree-view {
+	color: var(--sb-color-secondary-font);
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 1.5;
+
+	.tree-view-item {
+		padding: 0.15rem;
+
+		.label-wrapper {
+			align-items: center;
+			border: 1px solid transparent;
+			border-radius: 6px;
+			cursor: pointer;
+			display: flex;
+			justify-content: flex-start;
+			padding: 0.5rem 1rem;
+			transition: all 0.15s ease-in-out;
+
+			&:hover {
+				background: var(--sb-color-secondary-20);
+				color: var(--sb-color-primary-font);
+			}
+
+			label {
+				cursor: pointer;
+				flex: 1;
+			}
+
+			svg.angle-right {
+				fill: var(--sb-color-secondary-60);
+				transform: rotate(0deg);
+				transition: transform 0.2s ease-in-out;
+			}
+
+			&.selected {
+				background: rgba(var(--sb-color-primary-accent-60), 0.15);
+				color: var(--sb-color-primary-accent-60);
+				font-weight: 600;
+
+				.check-wrapper {
+					background: var(--sb-color-primary-accent-60);
+					border-color: var(--sb-color-primary-accent-60);
+
+					span.check {
+						color: #ffffff;
+					}
+				}
+			}
+
+			& > * {
+				margin-right: 1.15rem;
+			}
+
+			& > *:last-child {
+				margin-right: 0;
+			}
+
+			.check-wrapper {
+				border: 2px solid var(--sb-color-secondary-30);
+				border-radius: 6px;
+				height: 2rem;
+				position: relative;
+				transition: all 0.25s ease-in-out;
+				width: 2rem;
+
+				span {
+					color: var(--sb-color-secondary-100);
+					font-size: 3rem;
+					font-weight: 400;
+					left: 52%;
+					position: absolute;
+					top: 35%;
+					transform: translate(-50%, -50%);
+				}
+
+				span.check {
+					top: 50%;
+
+					svg {
+						height: 1.25rem;
+					}
+				}
+
+				&:hover {
+					border-color: var(--sb-color-primary-accent-60);
+				}
+
+				&.all-checked {
+					background: var(--sb-color-primary-accent-60);
+					border-color: var(--sb-color-primary-accent-60);
+
+					span.check {
+						color: #ffffff;
+					}
+				}
+			}
+		}
+
+		&.has-child {
+			& > ul {
+				max-height: 0;
+				overflow: hidden;
+				padding-left: 1.75rem;
+				transition: max-height 0.25s ease-in-out;
+			}
+
+			&.expanded {
+				.label-wrapper {
+					svg.angle-right {
+						transform: rotate(90deg);
+					}
+				}
+
+				& > ul {
+					max-height: 100vh;
+				}
+			}
+		}
+	}
+}

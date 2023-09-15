@@ -1,0 +1,25 @@
+@keyframes table-skeleton-loading {
+	0% {
+		background-color: var(--sb-color-border-100);
+	}
+	100% {
+		background-color: var(--sb-color-table-head);
+	}
+}
+
+.table.loader {
+	tbody {
+		tr {
+			td {
+				color: transparent;
+
+				div {
+					animation: table-skeleton-loading 1s linear infinite
+						alternate;
+					border-radius: 6px;
+					display: block;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+.card {
+	background: #ffffff;
+	border-color: var(--sb-color-secondary-30);
+	border-radius: 0.75rem;
+	border-width: 1px;
+	box-shadow:
+		0 4px 6px -1px rgb(0 0 0 / 0.1),
+		0 2px 4px -2px rgb(0 0 0 / 0.1);
+	color: var(--sb-color-primary-font-100);
+	overflow: hidden;
+
+	.header {
+		background: var(--sb-color-secondary-30);
+		font-weight: 500;
+		padding: 1rem 1.5rem;
+	}
+
+	.body {
+		height: 100%;
+		padding: 2rem 1.5rem;
+		width: 100%;
+	}
+
+	.footer {
+		padding: 1.5rem 1rem;
+	}
+}

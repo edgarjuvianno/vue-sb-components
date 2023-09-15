@@ -1,0 +1,151 @@
+.checkbox-wrapper {
+	.label {
+		color: var(--sb-color-primary-font);
+		display: inline-block;
+		font-size: 1.05rem;
+		font-weight: 400;
+		line-height: 1.5;
+		margin-bottom: 1.5rem;
+	}
+
+	.checkboxs-wrapper {
+		display: grid;
+		gap: 1.5rem 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(100px, max-content));
+
+		.checkbox {
+			align-items: center;
+			display: flex;
+			justify-content: flex-start;
+			outline: 0;
+
+			&:first-of-type {
+				margin-left: 0;
+			}
+
+			&:last-of-type {
+				margin-right: 0;
+			}
+
+			.selector {
+				align-items: center;
+				background: var(--sb-color-default-30);
+				border: 1px solid var(--sb-color-border);
+				border-radius: 6px;
+				cursor: pointer;
+				display: flex;
+				height: 1.75rem;
+				justify-content: center;
+				position: relative;
+				transition: filter 0.15s ease-in-out;
+				width: 1.75rem;
+
+				svg.check {
+					fill: var(--sb-color-primary-accent-60);
+					height: 1.25rem;
+					opacity: 0;
+					top: 0;
+					transition: opacity 0.15s ease-in-out;
+				}
+
+				&:hover {
+					filter: brightness(0.75);
+				}
+			}
+
+			&:focus:not(.disabled, .readonly) {
+				.selector {
+					filter: brightness(0.75);
+				}
+			}
+
+			.label {
+				color: var(--sb-color-primary-font);
+				cursor: pointer;
+				font-size: 1rem;
+				font-weight: 400;
+				line-height: 1.5;
+				margin: 0 0 0 0.5rem;
+				user-select: none;
+			}
+
+			&.selected {
+				.label {
+					font-weight: 500;
+				}
+
+				.selector {
+					background: rgba(var(--sb-color-primary-accent-60), 0.15);
+
+					svg.check {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.disabled {
+			.checkbox {
+				.selector {
+					background: var(--sb-color-disabled-100);
+					border-color: var(--sb-color-disabled-100);
+					cursor: not-allowed;
+
+					&:hover {
+						filter: brightness(1);
+
+						svg.check {
+							opacity: 0;
+						}
+					}
+				}
+
+				&.selected {
+					.selector svg.check {
+						fill: var(--sb-color-secondary-100);
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		&.readonly {
+			.checkbox {
+				.selector {
+					background: var(--sb-color-border);
+
+					&:hover {
+						filter: brightness(1);
+
+						svg.check {
+							opacity: 0;
+						}
+					}
+				}
+
+				&.selected {
+					.selector svg.check {
+						fill: var(--sb-color-disabled-100);
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+
+	&.error {
+		.label {
+			color: var(--sb-color-danger-100);
+			font-weight: 500;
+		}
+	}
+
+	.error-wrapper {
+		margin-top: 1rem;
+
+		span {
+			color: var(--sb-color-danger-100);
+			font-weight: 500;
+		}
+	}
+}

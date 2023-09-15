@@ -1,0 +1,132 @@
+@keyframes modal-slide-up {
+	0% {
+		transform: translateY(75vh);
+		animation-timing-function: ease-out;
+	}
+	60% {
+		transform: translateY(7.5vh);
+		animation-timing-function: ease-in;
+	}
+	80% {
+		transform: translateY(12.5vh);
+		animation-timing-function: ease-out;
+	}
+	100% {
+		transform: translateY(10vh);
+		animation-timing-function: ease-in;
+	}
+}
+
+@keyframes modal-fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.modal-mask {
+	background: rgba(255, 255, 255, 0.1);
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	backdrop-filter: blur(3px);
+	color: var(--sb-color-primary-font);
+
+	.modal-wrapper {
+		z-index: 12;
+
+		.modal-container {
+			margin: 0px auto;
+			padding: 1.5rem 2rem;
+			background-color: #ffffff;
+			border-radius: 8px;
+			box-shadow:
+				0 10px 15px -3px rgb(0 0 0 / 0.1),
+				0 4px 6px -4px rgb(0 0 0 / 0.1);
+			position: relative;
+
+			.x-mark {
+				color: #9ca3af;
+				position: absolute;
+				right: 0.5rem;
+				top: 0;
+
+				svg {
+					height: 1.5rem;
+				}
+
+				&:hover {
+					color: #4b5563;
+				}
+			}
+
+			.modal-content {
+				overflow-y: auto;
+				max-height: 80vh;
+
+				@media screen and (max-width: 768px) {
+					max-height: 90vh;
+				}
+			}
+		}
+
+		.modal-container.small {
+			width: 25vw;
+
+			@media screen and (max-width: 768px) {
+				width: 50vw;
+			}
+
+			@media screen and (max-width: 425px) {
+				width: 80vw;
+			}
+		}
+
+		.modal-container.medium {
+			width: 35vw;
+
+			@media screen and (max-width: 768px) {
+				width: 65vw;
+			}
+
+			@media screen and (max-width: 425px) {
+				width: 80vw;
+			}
+		}
+
+		.modal-container.large {
+			width: 50vw;
+
+			@media screen and (max-width: 425px) {
+				width: 80vw;
+			}
+		}
+
+		.modal-container.x-large {
+			width: 80vw;
+		}
+	}
+
+	&.hide {
+		display: none;
+		opacity: 0;
+		z-index: -100;
+	}
+
+	&.show {
+		animation: modal-fade-in 0.15s;
+		z-index: 11;
+
+		.modal-wrapper {
+			animation: modal-slide-up 0.8s linear;
+			transform: translateY(10vh);
+		}
+	}
+}

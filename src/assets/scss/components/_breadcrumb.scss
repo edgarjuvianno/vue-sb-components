@@ -1,0 +1,25 @@
+.breadcrumb {
+	align-items: center;
+	display: flex;
+	justify-content: flex-start;
+	user-select: none;
+
+	.crumb {
+		color: var(--sb-color-secondary-100);
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		text-transform: capitalize;
+
+		&:last-of-type {
+			color: var(--sb-color-primary-font);
+			font-weight: 500;
+		}
+	}
+
+	svg {
+		color: var(--sb-color-secondary-60);
+		height: 1.25rem;
+		margin: 0 0.5rem;
+	}
+}

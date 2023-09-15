@@ -1,0 +1,122 @@
+@keyframes file-preview-skeleton-loading {
+	0% {
+		background-color: var(--sb-color-border);
+	}
+	100% {
+		background-color: var(--sb-color-table-head);
+	}
+}
+
+.file-preview-wrapper {
+	width: 100%;
+
+	.loading {
+		height: 50vh;
+		width: 100%;
+
+		.skeleton {
+			animation: file-preview-skeleton-loading 1s linear infinite
+				alternate;
+			border-radius: 8px;
+			height: 100%;
+			width: 100%;
+		}
+	}
+
+	.content {
+		.iframe {
+			width: 100%;
+
+			&.audio {
+				height: 75px;
+			}
+
+			&.video {
+				min-height: 420px;
+			}
+		}
+
+		.pdf-viewer {
+			overflow: hidden;
+			position: relative;
+
+			.image-wrapper {
+				max-height: 75vh;
+				overflow-y: auto;
+
+				@media screen and (max-width: 768px) {
+					max-height: 85vh;
+				}
+
+				img {
+					width: 100%;
+				}
+			}
+
+			.control {
+				align-items: center;
+				background: var(--sb-color-secondary-20);
+				border-radius: 8px;
+				bottom: 2rem;
+				box-shadow:
+					0 4px 6px -1px rgb(0 0 0 / 0.1),
+					0 2px 4px -2px rgb(0 0 0 / 0.1);
+				display: flex;
+				justify-content: center;
+				left: 50%;
+				opacity: 0;
+				padding: 1rem;
+				position: absolute;
+				transform: translateX(-50%);
+				transition: opacity 0.25s ease-in-out;
+				user-select: none;
+				width: max-content;
+
+				.page-state {
+					color: var(--sb-color-secondary-100);
+					font-size: 1.25rem;
+					font-weight: 500;
+
+					.current {
+						color: var(--sb-color-primary-font);
+						font-weight: 600;
+					}
+
+					span:nth-child(2) {
+						margin: 0 0.5rem;
+					}
+				}
+
+				svg {
+					color: var(--sb-color-secondary-100);
+					cursor: pointer;
+					height: 2.15rem;
+					transition: color 0.15s ease-in-out;
+
+					&:first-of-type {
+						margin-right: 1.5rem;
+					}
+
+					&:last-of-type {
+						margin-left: 1.5rem;
+					}
+
+					&:hover {
+						color: var(--sb-color-primary-accent-30);
+					}
+
+					&.disabled {
+						color: var(--sb-color-secondary-60);
+						pointer-events: none;
+					}
+				}
+			}
+
+			&:hover {
+				.control {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}

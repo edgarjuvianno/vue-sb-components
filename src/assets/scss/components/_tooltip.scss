@@ -1,0 +1,22 @@
+.tooltip {
+	background: #6b7280;
+	border-radius: 0.375rem;
+	color: #ffffff;
+	font-size: 0.75rem;
+	font-weight: 500;
+	line-height: 1rem;
+	opacity: 0;
+	padding: 0.25rem 0.5rem;
+	position: fixed;
+	transition: opacity 0.2s ease-in-out;
+	z-index: -100;
+
+	&.show {
+		opacity: 1;
+		z-index: 20;
+	}
+
+	&.hide {
+		display: none;
+	}
+}

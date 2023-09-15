@@ -1,0 +1,45 @@
+.dropdown-wrapper {
+	.options-wrapper {
+		.option {
+			color: var(--sb-color-primary-font);
+			cursor: pointer;
+			font-weight: 300;
+			line-height: 1.5;
+			outline: 0;
+			overflow: hidden;
+			padding: 0.5rem 1.5rem;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&:hover,
+			&.focus,
+			&.selected {
+				background: var(--sb-color-border);
+				font-weight: 500;
+			}
+		}
+
+		.loading-wrapper {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+			padding: 1rem;
+		}
+	}
+
+	&.multi {
+		.options-wrapper {
+			.option {
+				&.selected {
+					user-select: none;
+				}
+			}
+		}
+	}
+
+	&.expanded {
+		.options-wrapper {
+			max-height: 15rem;
+		}
+	}
+}

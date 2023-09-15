@@ -1,0 +1,150 @@
+.radio-wrapper {
+	.label {
+		color: var(--sb-color-primary-font);
+		display: inline-block;
+		font-size: 1.05rem;
+		font-weight: 400;
+		line-height: 1.5;
+		margin-bottom: 1.5rem;
+	}
+
+	.radios-wrapper {
+		display: grid;
+		gap: 1.5rem 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(100px, max-content));
+
+		.radio {
+			align-items: center;
+			display: flex;
+			justify-content: flex-start;
+			outline: 0;
+
+			&:first-of-type {
+				margin-left: 0;
+			}
+
+			&:last-of-type {
+				margin-right: 0;
+			}
+
+			.selector {
+				background: var(--sb-color-default-30);
+				border: 1px solid var(--sb-color-border);
+				border-radius: 50%;
+				cursor: pointer;
+				height: 1.75rem;
+				position: relative;
+				width: 1.75rem;
+
+				&::after {
+					content: '';
+					background: transparent;
+					border-radius: 50%;
+					height: 1rem;
+					left: 50%;
+					position: absolute;
+					top: 50%;
+					transform: translate(-50%, -50%);
+					transition: background 0.15s ease-in-out;
+					width: 1rem;
+				}
+
+				&:hover {
+					&::after {
+						background: var(--sb-color-primary-accent-60);
+					}
+				}
+			}
+
+			&:focus:not(.disabled, .readonly) {
+				.selector {
+					&::after {
+						background: var(--sb-color-primary-accent-60);
+					}
+				}
+			}
+
+			.label {
+				color: var(--sb-color-primary-font);
+				cursor: pointer;
+				font-size: 1rem;
+				font-weight: 400;
+				line-height: 1.5;
+				margin: 0 0 0 0.5rem;
+				user-select: none;
+			}
+
+			&.selected {
+				.label {
+					font-weight: 500;
+				}
+
+				.selector {
+					background: rgba(var(--sb-color-primary-accent-60), 0.1);
+
+					&::after {
+						background: var(--sb-color-primary-accent-60);
+					}
+				}
+			}
+		}
+
+		&.disabled {
+			.radio {
+				.selector {
+					background: var(--sb-color-disabled-100);
+					border-color: var(--sb-color-disabled-100);
+					cursor: not-allowed;
+
+					&:hover {
+						&::after {
+							background: initial;
+						}
+					}
+				}
+
+				&.selected {
+					.selector::after {
+						background: var(--sb-color-secondary-100);
+					}
+				}
+			}
+		}
+
+		&.readonly {
+			.radio {
+				.selector {
+					background: var(--sb-color-border);
+
+					&:hover {
+						&::after {
+							background: initial;
+						}
+					}
+				}
+
+				&.selected {
+					.selector::after {
+						background: var(--sb-color-disabled-100);
+					}
+				}
+			}
+		}
+	}
+
+	&.error {
+		.label {
+			color: var(--sb-color-danger-100);
+			font-weight: 500;
+		}
+	}
+
+	.error-wrapper {
+		margin-top: 1rem;
+
+		span {
+			color: var(--sb-color-danger-100);
+			font-weight: 500;
+		}
+	}
+}

@@ -1,0 +1,229 @@
+body {
+	table.table {
+		thead {
+			background: var(--sb-color-table-head);
+
+			tr:first-of-type {
+				th {
+					border-top: 0;
+				}
+			}
+		}
+
+		tr {
+			td {
+				border-top: 1px solid var(--sb-color-border);
+				padding: 0.75rem;
+				vertical-align: middle;
+			}
+
+			th {
+				border-top: 1px solid var(--sb-color-border);
+				padding: 0.75rem;
+				vertical-align: middle;
+			}
+		}
+
+		&.odd-even {
+			tbody {
+				tr:first-child,
+				tr:nth-child(2n + 3) {
+					background: var(--sb-color-border);
+				}
+			}
+		}
+	}
+
+	.datatable {
+		.table-wrapper {
+			border: 1px solid var(--sb-color-border);
+			border-radius: 12px;
+
+			&.table-responsive {
+				display: block;
+				overflow-x: auto;
+				width: 100%;
+			}
+
+			.table {
+				background: transparent;
+				border-collapse: collapse;
+				width: 100%;
+
+				thead {
+					th {
+						position: relative;
+
+						.th-items-wrapper {
+							align-items: center;
+							display: flex;
+							justify-content: flex-start;
+
+							.th-search-wrapper {
+								align-items: center;
+								display: flex;
+								flex-grow: 1;
+								overflow: hidden;
+								position: relative;
+
+								.label {
+									flex: 1 1 0%;
+									position: relative;
+								}
+
+								.input {
+									overflow: hidden;
+									position: absolute;
+									right: 0;
+									top: 0;
+									transition-duration: 150ms;
+									transition-property: all;
+									transition-timing-function: cubic-bezier(
+										0.4,
+										0,
+										0.2,
+										1
+									);
+
+									.input-wrapper {
+										background: #ffffff;
+									}
+								}
+							}
+						}
+
+						.sort-wrapper {
+							cursor: pointer;
+							display: block;
+							height: 2rem;
+							position: relative;
+							width: 1rem;
+
+							.icon {
+								left: 50%;
+								position: absolute;
+								transform: translateX(-50%);
+							}
+
+							.icon:first-of-type {
+								top: 0.425rem;
+							}
+
+							.icon:last-of-type {
+								bottom: 0.425rem;
+							}
+						}
+
+						&.sort {
+							&.asc {
+								.sort-wrapper {
+									.icon:last-of-type {
+										color: var(--sb-color-border);
+									}
+								}
+							}
+
+							&.desc {
+								.sort-wrapper {
+									.icon:first-of-type {
+										color: var(--sb-color-border);
+									}
+								}
+							}
+						}
+
+						.actions-wrapper {
+							align-items: center;
+							display: flex;
+							justify-content: flex-start;
+							position: absolute;
+							right: 0.5rem;
+
+							.col-search-wrapper {
+								align-items: center;
+								cursor: pointer;
+								display: flex;
+								height: 2rem;
+								margin-right: 1.25rem;
+								width: 1rem;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.search-wrapper {
+			align-items: center;
+			display: flex;
+			justify-content: flex-end;
+			margin-bottom: 1.5rem;
+
+			.form-group {
+				width: 15rem;
+			}
+		}
+
+		.footer-wrapper {
+			align-items: center;
+			color: var(--sb-color-primary-font);
+			display: flex;
+			flex-flow: row wrap;
+			font-size: 1rem;
+			justify-content: flex-end;
+			margin-top: 1.5rem;
+
+			&.options {
+				justify-content: space-between;
+			}
+
+			.pagination-wrapper {
+				display: flex;
+				justify-content: flex-start;
+
+				.count-wrapper {
+					font-weight: 600;
+					margin-right: 2rem;
+				}
+
+				.arrow-wrapper {
+					svg {
+						color: var(--sb-color-secondary-font);
+						cursor: pointer;
+						height: 1.5rem;
+						transition: transform 0.15s ease-in-out;
+
+						&:first-of-type {
+							margin-right: 2rem;
+						}
+
+						&:hover:not(.disabled) {
+							color: var(--sb-color-primary-font);
+							transform: scale(1.15);
+						}
+
+						&.disabled {
+							color: var(--sb-color-disabled-100);
+							cursor: not-allowed;
+						}
+					}
+				}
+			}
+
+			.options-wrapper {
+				align-items: center;
+				display: flex;
+				justify-content: flex-start;
+
+				span {
+					font-weight: 500;
+					margin-right: 1rem;
+				}
+
+				.dropdown-wrapper {
+					min-width: 5rem;
+				}
+			}
+		}
+	}
+}
