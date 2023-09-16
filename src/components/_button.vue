@@ -1,7 +1,13 @@
 <template>
 	<button
 		class="btn"
-		:class="[`btn-${variant}`, size, color, isClicked && 'clicked']"
+		:class="[
+			`btn-${variant}`,
+			size,
+			color,
+			isClicked && 'clicked',
+			noElevation && 'no-elevation',
+		]"
 		:disabled="disabled"
 		@click="(event) => handleClick(event)"
 		v-bind="{ ...$attrs }"
@@ -36,6 +42,10 @@
 			modal: {
 				required: false,
 				type: String,
+			},
+			noElevation: {
+				required: false,
+				type: Boolean,
 			},
 			size: {
 				default: 'base',

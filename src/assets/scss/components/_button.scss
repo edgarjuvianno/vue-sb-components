@@ -12,6 +12,9 @@
 .btn {
 	border: 1.5px solid;
 	border-radius: 6px;
+	box-shadow:
+		0 4px 6px -1px rgb(0 0 0 / 0.1),
+		0 2px 4px -2px rgb(0 0 0 / 0.1);
 	color: var(--sb-color-primary-font);
 	font-size: 1rem;
 	font-weight: 500;
@@ -200,9 +203,6 @@
 		&-text {
 			background: transparent;
 			border-color: transparent;
-			box-shadow:
-				0 4px 6px -1px rgb(0 0 0 / 0.1),
-				0 2px 4px -2px rgb(0 0 0 / 0.1);
 			font-weight: 500;
 
 			&.accent {
@@ -305,5 +305,9 @@
 		&::before {
 			animation: button-ripple 0.25s linear;
 		}
+	}
+
+	&.no-elevation {
+		box-shadow: none;
 	}
 }
