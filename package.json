@@ -1,7 +1,7 @@
 {
   "author": "Edgar Juvianno S",
   "name": "@edgarjuvianno/vue-sb-components",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "files": [
     "dist"
@@ -24,6 +24,10 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "vite-build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edgarjuvianno/vue-sb-components"
   },
   "dependencies": {
     "axios": "^1.5.0",
