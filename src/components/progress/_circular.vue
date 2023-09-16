@@ -85,30 +85,6 @@
 
 				return []
 			},
-			getColor() {
-				switch (this.color) {
-					case 'default':
-						return '#9db2bf'
-					case 'primary':
-						return '#4942e4'
-					case 'info':
-						return '#62b6b7'
-					case 'secondary':
-						return '#636363'
-					case 'warning':
-						return '#fbc252'
-					case 'success':
-						return '#54b435'
-					case 'danger':
-						return '#ed2b2a'
-					case 'white':
-						return '#ffffff'
-					case 'black':
-						return '#303030'
-					default:
-						return '#6e53b9'
-				}
-			},
 		},
 	})
 </script>

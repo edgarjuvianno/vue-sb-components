@@ -14,14 +14,11 @@ export default () => {
 				entry: resolve(__dirname, 'src/main.ts'),
 				name: 'vueSB',
 				formats: ['es', 'cjs', 'umd'],
-				fileName: (format) => `vue-sb.${format}.js`,
 			},
 			rollupOptions: {
 				external: ['vue'],
 				input: resolve(__dirname, 'src/main.ts'),
 				output: {
-					assetFileNames: 'vue-sb.css',
-					exports: 'named',
 					globals: {
 						vue: 'Vue',
 					},
@@ -30,9 +27,7 @@ export default () => {
 		},
 		plugins: [
 			vue(),
-			dts({
-				insertTypesEntry: true,
-			}),
+			dts(),
 			typescript2({
 				check: false,
 				include: ['src/components/**/*.vue'],
