@@ -496,6 +496,8 @@
 
 						const xhr: XMLHttpRequest = new XMLHttpRequest()
 
+						xhr.setRequestHeader('responseType', 'json')
+
 						if (this.localAbort) {
 							this.localAbort.abort()
 						}
