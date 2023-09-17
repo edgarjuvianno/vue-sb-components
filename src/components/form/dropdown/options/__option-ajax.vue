@@ -27,7 +27,6 @@
 
 	export default defineComponent({
 		emits: {
-			onLoading: (_loading: boolean) => true,
 			onListChange: (_list: any[]) => true,
 			onSelect: (_selected: any) => true,
 		},
@@ -306,9 +305,6 @@
 			},
 			localList(newValue: any[]) {
 				this.$emit('onListChange', newValue)
-			},
-			localLoading(newValue: boolean) {
-				this.$emit('onLoading', newValue)
 			},
 			term: {
 				handler() {

@@ -61,7 +61,6 @@
 				:infinite="infinite"
 				:is-scroll-bottom="isScrollBottom"
 				@on-list-change="handleListChange"
-				@on-loading="handleOptionLoading"
 				@on-select="doSelect"
 				v-else
 			/>
@@ -187,7 +186,6 @@
 				} as IIcon,
 				isFocus: false,
 				isOpen: false,
-				isOptionLoading: false,
 				localList: [] as any[],
 				localTerm: '' as string,
 				optWrapperStyles: {
@@ -395,12 +393,7 @@
 				}
 			},
 			handleKeyEvent(event: KeyboardEvent) {
-				if (this.serverSide && this.isOptionLoading) {
-					event.preventDefault()
-				} else if (
-					event.key === 'ArrowDown' ||
-					event.key === 'ArrowUp'
-				) {
+				if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
 					const inc: number = event.key === 'ArrowDown' ? 1 : -1
 
 					if (!this.isOpen) {
@@ -439,9 +432,6 @@
 						this.setOptionsPosition()
 					})
 				}
-			},
-			handleOptionLoading(isLoading: boolean) {
-				this.isOptionLoading = isLoading
 			},
 			handleRemoveFocus() {
 				this.isFocus = false
