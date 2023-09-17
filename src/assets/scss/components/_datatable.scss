@@ -1,5 +1,7 @@
 body {
 	table.sb-table {
+		width: 100%;
+
 		thead {
 			background: rgb(
 				var(--sb-color-table-head) / var(--sb-color-opacity)
@@ -52,7 +54,7 @@ body {
 				width: 100%;
 			}
 
-			.table {
+			.sb-table {
 				background: transparent;
 				border-collapse: collapse;
 				width: 100%;
