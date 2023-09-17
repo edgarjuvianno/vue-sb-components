@@ -16,6 +16,7 @@
 		</div>
 		<div class="table-wrapper table-responsive">
 			<table
+				class="sb-table"
 				:class="[rowStyle, localLoading || isLoading ? 'loader' : '']"
 				ref="dt-table"
 			>
