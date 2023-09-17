@@ -125,8 +125,6 @@
 
 						const xhr: XMLHttpRequest = new XMLHttpRequest()
 
-						xhr.setRequestHeader('responseType', 'json')
-
 						if (this.localAbort) {
 							this.localAbort.abort()
 						}
@@ -164,7 +162,7 @@
 							)
 
 							xhr.onload = () => {
-								const response: any = xhr.response
+								const response: any = JSON.parse(xhr.response)
 
 								if (xhr.status !== 200) {
 									reject({
@@ -182,7 +180,7 @@
 							}
 
 							xhr.onabort = () => {
-								const response: any = xhr.response
+								const response: any = JSON.parse(xhr.response)
 
 								reject({
 									status: xhr.status,
