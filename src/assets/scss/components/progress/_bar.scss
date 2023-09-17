@@ -11,18 +11,22 @@
 }
 
 .progress-bar {
-	background: rgba(var(--sb-color-primary-accent-60), 0.3);
+	background: rgb(var(--sb-color-primary-accent-60) / 0.3);
 	border-radius: 6px;
 	width: 100%;
 
 	&-value {
-		background: var(--sb-color-primary-accent-60);
+		background: rgb(
+			var(--sb-color-primary-accent-60) / var(--sb-color-opacity)
+		);
 		height: 100%;
 		position: relative;
 		transition: width 0.15s ease-in-out;
 
 		&-percentage {
-			color: var(--sb-color-primary-accent-30);
+			color: rgb(
+				var(--sb-color-primary-accent-30) / var(--sb-color-opacity)
+			);
 			font-size: 0.875rem;
 			font-weight: 600;
 			position: absolute;
@@ -37,98 +41,122 @@
 
 		.progress-bar-value {
 			animation: indeterminate-bar 1s infinite linear;
-			background: var(--sb-color-primary-accent-60);
+			background: rgb(
+				var(--sb-color-primary-accent-60) / var(--sb-color-opacity)
+			);
 			transform-origin: 0% 50%;
 			width: 100%;
 		}
 	}
 
 	&.default {
-		background: rgba(var(--sb-color-default-60), 0.3);
+		background: rgb(var(--sb-color-default-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-default-60);
+			background: rgb(
+				var(--sb-color-default-60) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-default-30);
+				color: rgb(
+					var(--sb-color-default-30) / var(--sb-color-opacity)
+				);
 			}
 		}
 	}
 
 	&.primary {
-		background: rgba(var(--sb-color-primary-60), 0.3);
+		background: rgb(var(--sb-color-primary-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-primary-60);
+			background: rgb(
+				var(--sb-color-primary-60) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-primary-30);
+				color: rgb(
+					var(--sb-color-primary-30) / var(--sb-color-opacity)
+				);
 			}
 		}
 	}
 
 	&.info {
-		background: rgba(var(--sb-color-info-60), 0.3);
+		background: rgb(var(--sb-color-info-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-info-60);
+			background: rgb(var(--sb-color-info-60) / var(--sb-color-opacity));
 
 			&-percentage {
-				color: var(--sb-color-info-30);
+				color: rgb(var(--sb-color-info-30) / var(--sb-color-opacity));
 			}
 		}
 	}
 
 	&.secondary {
-		background: rgba(var(--sb-color-secondary-60), 0.3);
+		background: rgb(var(--sb-color-secondary-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-secondary-60);
+			background: rgb(
+				var(--sb-color-secondary-60) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-secondary-30);
+				color: rgb(
+					var(--sb-color-secondary-30) / var(--sb-color-opacity)
+				);
 			}
 		}
 	}
 
 	&.warning {
-		background: rgba(var(--sb-color-warning-60), 0.3);
+		background: rgb(var(--sb-color-warning-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-warning-60);
+			background: rgb(
+				var(--sb-color-warning-60) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-warning-30);
+				color: rgb(
+					var(--sb-color-warning-30) / var(--sb-color-opacity)
+				);
 			}
 		}
 	}
 
 	&.success {
-		background: rgba(var(--sb-color-success-60), 0.3);
+		background: rgb(var(--sb-color-success-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-success-60);
+			background: rgb(
+				var(--sb-color-success-60) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-success-30);
+				color: rgb(
+					var(--sb-color-success-30) / var(--sb-color-opacity)
+				);
 			}
 		}
 	}
 
 	&.danger {
-		background: rgba(var(--sb-color-danger-60), 0.3);
+		background: rgb(var(--sb-color-danger-60) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-danger-60);
+			background: rgb(
+				var(--sb-color-danger-60) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-danger-30);
+				color: rgb(var(--sb-color-danger-30) / var(--sb-color-opacity));
 			}
 		}
 	}
 
 	&.white {
-		background: rgba(#ffffff, 0.3);
+		background: rgba(255, 255, 255, 0.3);
 
 		.progress-bar-value {
 			background: #ffffff;
@@ -140,13 +168,17 @@
 	}
 
 	&.black {
-		background: rgba(var(--sb-color-primary-font), 0.3);
+		background: rgb(var(--sb-color-primary-font) / 0.3);
 
 		.progress-bar-value {
-			background: var(--sb-color-primary-font);
+			background: rgb(
+				var(--sb-color-primary-font) / var(--sb-color-opacity)
+			);
 
 			&-percentage {
-				color: var(--sb-color-primary-font);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 			}
 		}
 	}

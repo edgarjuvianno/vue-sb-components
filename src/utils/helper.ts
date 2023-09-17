@@ -14,7 +14,7 @@ export const hexToRgb: (hex: string) => string | null = (hex: string) => {
 			g = parseInt(regex[2], 16),
 			r = parseInt(regex[1], 16)
 
-		return `rgb(${r}, ${g}, ${b})`
+		return `${r} ${g} ${b}`
 	}
 
 	return null

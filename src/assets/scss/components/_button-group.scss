@@ -48,50 +48,84 @@
 			}
 
 			&.accent.btn-outlined {
-				background: var(--sb-color-primary-accent-100);
-				border-color: var(--sb-color-primary-accent-100);
+				background: rgb(
+					var(--sb-color-primary-accent-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-primary-accent-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 
 			&.default.btn-outlined {
-				background: var(--sb-color-default-100);
-				border-color: var(--sb-color-default-100);
+				background: rgb(
+					var(--sb-color-default-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-default-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 
 			&.primary.btn-outlined {
-				background: var(--sb-color-primary-100);
-				border-color: var(--sb-color-primary-100);
+				background: rgb(
+					var(--sb-color-primary-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-primary-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 
 			&.info.btn-outlined {
-				background: var(--sb-color-info-100);
-				border-color: var(--sb-color-info-100);
+				background: rgb(
+					var(--sb-color-info-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-info-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 
 			&.secondary.btn-outlined {
-				background: var(--sb-color-secondary-100);
-				border-color: var(--sb-color-secondary-100);
+				background: rgb(
+					var(--sb-color-secondary-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-secondary-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 
 			&.warning.btn-outlined {
-				background: var(--sb-color-warning-100);
-				border-color: var(--sb-color-warning-100);
-				color: var(--sb-color-primary-font);
+				background: rgb(
+					var(--sb-color-warning-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-warning-100) / var(--sb-color-opacity)
+				);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 			}
 
 			&.success.btn-outlined {
-				background: var(--sb-color-success-100);
-				border-color: var(--sb-color-success-100);
+				background: rgb(
+					var(--sb-color-success-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-success-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 
 			&.danger.btn-outlined {
-				background: var(--sb-color-danger-100);
-				border-color: var(--sb-color-danger-100);
+				background: rgb(
+					var(--sb-color-danger-100) / var(--sb-color-opacity)
+				);
+				border-color: rgb(
+					var(--sb-color-danger-100) / var(--sb-color-opacity)
+				);
 				color: #ffffff;
 			}
 		}
@@ -99,41 +133,53 @@
 
 	&.accent,
 	&.accent .btn::after {
-		border-color: var(--sb-color-primary-accent-100);
+		border-color: rgb(
+			var(--sb-color-primary-accent-100) / var(--sb-color-opacity)
+		);
 	}
 
 	&.default,
 	&.default .btn::after {
-		border-color: var(--sb-color-default-100);
+		border-color: rgb(
+			var(--sb-color-default-100) / var(--sb-color-opacity)
+		);
 	}
 
 	&.primary,
 	&.primary .btn::after {
-		border-color: var(--sb-color-primary-100);
+		border-color: rgb(
+			var(--sb-color-primary-100) / var(--sb-color-opacity)
+		);
 	}
 
 	&.info,
 	&.info .btn::after {
-		border-color: var(--sb-color-info-100);
+		border-color: rgb(var(--sb-color-info-100) / var(--sb-color-opacity));
 	}
 
 	&.secondary,
 	&.secondary .btn::after {
-		border-color: var(--sb-color-secondary-100);
+		border-color: rgb(
+			var(--sb-color-secondary-100) / var(--sb-color-opacity)
+		);
 	}
 
 	&.warning,
 	&.warning .btn::after {
-		border-color: var(--sb-color-warning-100);
+		border-color: rgb(
+			var(--sb-color-warning-100) / var(--sb-color-opacity)
+		);
 	}
 
 	&.success,
 	&.success .btn::after {
-		border-color: var(--sb-color-success-100);
+		border-color: rgb(
+			var(--sb-color-success-100) / var(--sb-color-opacity)
+		);
 	}
 
 	&.danger,
 	&.danger .btn::after {
-		border-color: var(--sb-color-danger-100);
+		border-color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 	}
 }

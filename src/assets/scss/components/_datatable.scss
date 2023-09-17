@@ -1,7 +1,9 @@
 body {
 	table.table {
 		thead {
-			background: var(--sb-color-table-head);
+			background: rgb(
+				var(--sb-color-table-head) / var(--sb-color-opacity)
+			);
 
 			tr:first-of-type {
 				th {
@@ -12,13 +14,15 @@ body {
 
 		tr {
 			td {
-				border-top: 1px solid var(--sb-color-border);
+				border-top: 1px solid
+					rgb(var(--sb-color-border) / var(--sb-color-opacity));
 				padding: 0.75rem;
 				vertical-align: middle;
 			}
 
 			th {
-				border-top: 1px solid var(--sb-color-border);
+				border-top: 1px solid
+					rgb(var(--sb-color-border) / var(--sb-color-opacity));
 				padding: 0.75rem;
 				vertical-align: middle;
 			}
@@ -28,7 +32,9 @@ body {
 			tbody {
 				tr:first-child,
 				tr:nth-child(2n + 3) {
-					background: var(--sb-color-border);
+					background: rgb(
+						var(--sb-color-border) / var(--sb-color-opacity)
+					);
 				}
 			}
 		}
@@ -36,7 +42,8 @@ body {
 
 	.datatable {
 		.table-wrapper {
-			border: 1px solid var(--sb-color-border);
+			border: 1px solid
+				rgb(var(--sb-color-border) / var(--sb-color-opacity));
 			border-radius: 12px;
 
 			&.table-responsive {
@@ -118,7 +125,10 @@ body {
 							&.asc {
 								.sort-wrapper {
 									.icon:last-of-type {
-										color: var(--sb-color-border);
+										color: rgb(
+											var(--sb-color-border) /
+												var(--sb-color-opacity)
+										);
 									}
 								}
 							}
@@ -126,7 +136,10 @@ body {
 							&.desc {
 								.sort-wrapper {
 									.icon:first-of-type {
-										color: var(--sb-color-border);
+										color: rgb(
+											var(--sb-color-border) /
+												var(--sb-color-opacity)
+										);
 									}
 								}
 							}
@@ -166,7 +179,7 @@ body {
 
 		.footer-wrapper {
 			align-items: center;
-			color: var(--sb-color-primary-font);
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 			display: flex;
 			flex-flow: row wrap;
 			font-size: 1rem;
@@ -188,7 +201,10 @@ body {
 
 				.arrow-wrapper {
 					svg {
-						color: var(--sb-color-secondary-font);
+						color: rgb(
+							var(--sb-color-secondary-font) /
+								var(--sb-color-opacity)
+						);
 						cursor: pointer;
 						height: 1.5rem;
 						transition: transform 0.15s ease-in-out;
@@ -198,12 +214,18 @@ body {
 						}
 
 						&:hover:not(.disabled) {
-							color: var(--sb-color-primary-font);
+							color: rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
 							transform: scale(1.15);
 						}
 
 						&.disabled {
-							color: var(--sb-color-disabled-100);
+							color: rgb(
+								var(--sb-color-disabled-100) /
+									var(--sb-color-opacity)
+							);
 							cursor: not-allowed;
 						}
 					}

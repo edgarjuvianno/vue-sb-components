@@ -3,36 +3,44 @@
 	box-shadow:
 		0 10px 15px -3px rgb(0 0 0 / 0.1),
 		0 4px 6px -4px rgb(0 0 0 / 0.1);
-	color: var(--sb-color-primary-font);
+	color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 	overflow: hidden;
 
 	.header-wrapper {
-		background: var(--sb-color-default-100);
+		background: rgb(var(--sb-color-default-100) / var(--sb-color-opacity));
 		color: #ffffff;
 		cursor: pointer;
 		padding: 0.75rem 1rem;
 		position: relative;
 
 		&.success {
-			background: var(--sb-color-success-100);
+			background: rgb(
+				var(--sb-color-success-100) / var(--sb-color-opacity)
+			);
 		}
 
 		&.primary {
-			background: var(--sb-color-primary-100);
+			background: rgb(
+				var(--sb-color-primary-100) / var(--sb-color-opacity)
+			);
 		}
 
 		&.warning {
-			background: var(--sb-color-warning-100);
-			color: var(--sb-color-primary-font);
+			background: rgb(
+				var(--sb-color-warning-100) / var(--sb-color-opacity)
+			);
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		}
 
 		&.danger {
-			background: var(--sb-color-danger-100);
+			background: rgb(
+				var(--sb-color-danger-100) / var(--sb-color-opacity)
+			);
 		}
 
 		&.info {
-			background: var(--sb-color-info-100);
-			color: var(--sb-color-primary-font);
+			background: rgb(var(--sb-color-info-100) / var(--sb-color-opacity));
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		}
 
 		.title {

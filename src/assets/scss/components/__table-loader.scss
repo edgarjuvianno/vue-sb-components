@@ -1,9 +1,11 @@
 @keyframes table-skeleton-loading {
 	0% {
-		background-color: var(--sb-color-border-100);
+		background-color: rgb(var(--sb-color-border) / var(--sb-color-opacity));
 	}
 	100% {
-		background-color: var(--sb-color-table-head);
+		background-color: rgb(
+			var(--sb-color-table-head) / var(--sb-color-opacity)
+		);
 	}
 }
 

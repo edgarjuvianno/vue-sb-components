@@ -1,6 +1,6 @@
 .file-input-wrapper {
 	.helper-text {
-		color: var(--sb-color-info-100);
+		color: rgb(var(--sb-color-info-100) / var(--sb-color-opacity));
 		display: block;
 		font-weight: 500;
 		margin-bottom: 1rem;
@@ -12,7 +12,9 @@
 				cursor: pointer;
 
 				.value-wrapper {
-					color: var(--sb-color-primary-font);
+					color: rgb(
+						var(--sb-color-primary-font) / var(--sb-color-opacity)
+					);
 					display: block;
 					font-size: 1rem;
 					font-weight: 500;
@@ -37,7 +39,10 @@
 						padding: 0.75rem 0;
 
 						.pill {
-							background: var(--sb-color-primary-accent-100);
+							background: rgb(
+								var(--sb-color-primary-accent-100) /
+									var(--sb-color-opacity)
+							);
 							border-radius: 6px;
 							color: #ffffff;
 							height: fit-content;
@@ -49,9 +54,15 @@
 							position: relative;
 
 							.clear {
-								background: var(--sb-color-border);
+								background: rgb(
+									var(--sb-color-border) /
+										var(--sb-color-opacity)
+								);
 								border-radius: 50%;
-								color: var(--sb-color-primary-font);
+								color: rgb(
+									var(--sb-color-primary-font) /
+										var(--sb-color-opacity)
+								);
 								cursor: pointer;
 								font-size: 0.875rem;
 								height: 14px;
@@ -109,7 +120,9 @@
 
 			.upload-progress {
 				&-percentage {
-					color: var(--sb-color-primary-font);
+					color: rgb(
+						var(--sb-color-primary-font) / var(--sb-color-opacity)
+					);
 					font-size: 0.875rem;
 					font-weight: 500;
 					position: absolute;
@@ -147,7 +160,9 @@
 		.input-wrapper {
 			.input-group {
 				svg {
-					fill: var(--sb-color-danger-100);
+					fill: rgb(
+						var(--sb-color-danger-100) / var(--sb-color-opacity)
+					);
 				}
 			}
 		}

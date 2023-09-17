@@ -3,7 +3,9 @@
 		.form-control {
 			.dropdown-input-wrapper {
 				caret-color: transparent;
-				color: var(--sb-color-primary-font);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 				cursor: pointer;
 				flex-grow: 1;
 				font-weight: 600;
@@ -27,7 +29,10 @@
 					padding: 0.75rem 0;
 
 					.pill {
-						background: var(--sb-color-primary-accent-100);
+						background: rgb(
+							var(--sb-color-primary-accent-100) /
+								var(--sb-color-opacity)
+						);
 						border-radius: 6px;
 						color: #ffffff;
 						height: fit-content;
@@ -39,9 +44,14 @@
 						position: relative;
 
 						.clear {
-							background: var(--sb-color-border);
+							background: rgb(
+								var(--sb-color-border) / var(--sb-color-opacity)
+							);
 							border-radius: 50%;
-							color: var(--sb-color-primary-font);
+							color: rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
 							cursor: pointer;
 							font-size: 0.875rem;
 							height: 14px;

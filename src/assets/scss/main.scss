@@ -1,53 +1,55 @@
 :root {
-	--sb-color-border: rgb(212, 212, 212);
-	--sb-color-table-head: rgb(238, 238, 238);
+	--sb-color-border: 212 212 212;
+	--sb-color-table-head: 238 238 238;
 
-	--sb-color-primary-font: rgb(48, 48, 48);
-	--sb-color-secondary-font: rgb(99, 99, 99);
+	--sb-color-primary-font: 48 48 48;
+	--sb-color-secondary-font: 99 99 99;
 
-	--sb-color-primary-accent-100: rgb(80, 64, 153);
-	--sb-color-primary-accent-60: rgb(110, 83, 185);
-	--sb-color-primary-accent-30: rgb(151, 78, 195);
+	--sb-color-primary-accent-100: 80 64 153;
+	--sb-color-primary-accent-60: 110 83 185;
+	--sb-color-primary-accent-30: 151 78 195;
 
-	--sb-color-success-100: rgb(55, 146, 55);
-	--sb-color-success-60: rgb(84, 180, 53);
-	--sb-color-success-30: rgb(181, 215, 202);
+	--sb-color-success-100: 55 146 55;
+	--sb-color-success-60: 84 180 53;
+	--sb-color-success-30: 181 215 202;
 
-	--sb-color-danger-100: rgb(210, 19, 18);
-	--sb-color-danger-60: rgb(237, 43, 42);
-	--sb-color-danger-30: rgb(243, 174, 174);
+	--sb-color-danger-100: 210 19 18;
+	--sb-color-danger-60: 237 43 42;
+	--sb-color-danger-30: 243 174 174;
 
-	--sb-color-default-100: rgb(82, 109, 130);
-	--sb-color-default-60: rgb(157, 178, 191);
-	--sb-color-default-30: rgb(221, 230, 237);
+	--sb-color-default-100: 82 109 130;
+	--sb-color-default-60: 157 178 191;
+	--sb-color-default-30: 221 230 237;
 
-	--sb-color-disabled-100: rgb(170, 170, 170);
-	--sb-color-disabled-60: rgb(187, 187, 187);
+	--sb-color-disabled-100: 170 170 170;
+	--sb-color-disabled-60: 187 187 187;
 
-	--sb-color-info-100: rgb(67, 154, 151);
-	--sb-color-info-60: rgb(98, 182, 183);
-	--sb-color-info-30: rgb(186, 235, 223);
+	--sb-color-info-100: 67 154 151;
+	--sb-color-info-60: 98 182 183;
+	--sb-color-info-30: 186 235 223;
 
-	--sb-color-primary-100: rgb(25, 29, 136);
-	--sb-color-primary-85: rgb(20, 80, 163);
-	--sb-color-primary-60: rgb(73, 66, 228);
-	--sb-color-primary-30: rgb(192, 199, 245);
+	--sb-color-primary-100: 25 29 136;
+	--sb-color-primary-85: 20 80 163;
+	--sb-color-primary-60: 73 66 228;
+	--sb-color-primary-30: 192 199 245;
 
-	--sb-color-warning-100: rgb(255, 177, 0);
-	--sb-color-warning-60: rgb(251, 194, 82);
-	--sb-color-warning-30: rgb(251, 235, 216);
+	--sb-color-warning-100: 255 177 0;
+	--sb-color-warning-60: 251 194 82;
+	--sb-color-warning-30: 251 235 216;
 
-	--sb-color-secondary-100: rgb(117, 117, 117);
-	--sb-color-secondary-60: rgb(178, 178, 178);
-	--sb-color-secondary-30: rgb(234, 234, 234);
-	--sb-color-secondary-20: rgb(240, 240, 240);
-	--sb-color-secondary-10: rgb(249, 249, 249);
+	--sb-color-secondary-100: 117 117 117;
+	--sb-color-secondary-60: 178 178 178;
+	--sb-color-secondary-30: 234 234 234;
+	--sb-color-secondary-20: 240 240 240;
+	--sb-color-secondary-10: 249 249 249;
+
+	--sb-color-opacity: 1;
 }
 
 body {
 	label.required {
 		span.asterisk {
-			color: var(--sb-color-danger-100);
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 		}
 	}
 

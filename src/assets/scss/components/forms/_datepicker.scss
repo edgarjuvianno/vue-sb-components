@@ -19,7 +19,7 @@
 	}
 
 	.popup-wrapper {
-		background: var(--sb-color-default-30);
+		background: rgb(var(--sb-color-default-30) / var(--sb-color-opacity));
 		border-radius: 6px;
 		box-shadow:
 			0 10px 15px -3px rgb(0 0 0 / 0.1),
@@ -57,7 +57,9 @@
 
 				.nav {
 					align-items: center;
-					background: var(--sb-color-default-60);
+					background: rgb(
+						var(--sb-color-default-60) / var(--sb-color-opacity)
+					);
 					border-radius: 50%;
 					cursor: pointer;
 					display: flex;
@@ -71,15 +73,24 @@
 					}
 
 					&:hover {
-						background: var(--sb-color-default-100);
+						background: rgb(
+							var(--sb-color-default-100) /
+								var(--sb-color-opacity)
+						);
 
 						svg {
-							fill: var(--sb-color-default-30);
+							fill: rgb(
+								var(--sb-color-default-30) /
+									var(--sb-color-opacity)
+							);
 						}
 					}
 
 					svg {
-						fill: var(--sb-color-default-100);
+						fill: rgb(
+							var(--sb-color-default-100) /
+								var(--sb-color-opacity)
+						);
 						height: 1.05rem;
 						transition: color 0.25s ease-in-out;
 					}
@@ -88,7 +99,9 @@
 
 			.current {
 				.month {
-					color: var(--sb-color-secondary-100);
+					color: rgb(
+						var(--sb-color-secondary-100) / var(--sb-color-opacity)
+					);
 					cursor: pointer;
 					font-size: 1.05rem;
 					font-weight: 400;
@@ -96,7 +109,9 @@
 				}
 
 				.year {
-					color: var(--sb-color-primary-font);
+					color: rgb(
+						var(--sb-color-primary-font) / var(--sb-color-opacity)
+					);
 					cursor: pointer;
 					font-size: 1.25rem;
 					font-weight: 400;
@@ -117,7 +132,9 @@
 
 				.date {
 					box-sizing: border-box;
-					color: var(--sb-color-secondary-font);
+					color: rgb(
+						var(--sb-color-secondary-font) / var(--sb-color-opacity)
+					);
 					cursor: pointer;
 					font-weight: 400;
 					text-align: center;
@@ -126,26 +143,37 @@
 						color 250ms ease-in-out;
 
 					&.current:not(.selected) {
-						color: var(--sb-color-primary-accent-60);
+						color: rgb(
+							var(--sb-color-primary-accent-60) /
+								var(--sb-color-opacity)
+						);
 						font-weight: 600;
 					}
 
 					&.disabled {
-						color: var(--sb-color-secondary-60);
+						color: rgb(
+							var(--sb-color-secondary-60) /
+								var(--sb-color-opacity)
+						);
 						cursor: not-allowed;
 					}
 
 					&:hover:not(.disabled) {
-						background: rgba(
-							var(--sb-color-primary-accent-60),
-							0.15
+						background: rgb(
+							var(--sb-color-primary-accent-60) / 0.15
 						);
 						border-radius: 6px;
-						color: var(--sb-color-primary-accent-60);
+						color: rgb(
+							var(--sb-color-primary-accent-60) /
+								var(--sb-color-opacity)
+						);
 					}
 
 					&.selected {
-						background: var(--sb-color-primary-accent-60);
+						background: rgb(
+							var(--sb-color-primary-accent-60) /
+								var(--sb-color-opacity)
+						);
 						border-radius: 6px;
 						color: #ffffff;
 					}
@@ -158,7 +186,9 @@
 				grid-template-columns: repeat(7, minmax(0, 1fr));
 
 				.day {
-					color: var(--sb-color-secondary-font);
+					color: rgb(
+						var(--sb-color-secondary-font) / var(--sb-color-opacity)
+					);
 					font-size: 1rem;
 					font-weight: 400;
 					text-align: center;
@@ -183,7 +213,9 @@
 				}
 
 				.separator {
-					color: var(--sb-color-secondary-100);
+					color: rgb(
+						var(--sb-color-secondary-100) / var(--sb-color-opacity)
+					);
 					font-size: 2rem;
 					font-weight: 500;
 					user-select: none;
@@ -196,7 +228,10 @@
 					svg {
 						background: transparent;
 						border-radius: 50%;
-						fill: var(--sb-color-secondary-60);
+						fill: rgb(
+							var(--sb-color-secondary-60) /
+								var(--sb-color-opacity)
+						);
 						cursor: pointer;
 						height: 2rem;
 						width: 2rem;
@@ -206,15 +241,24 @@
 							color 0.2s ease-in-out;
 
 						&:hover {
-							background: var(--sb-color-secondary-60);
-							color: var(--sb-color-secondary-100);
+							background: rgb(
+								var(--sb-color-secondary-60) /
+									var(--sb-color-opacity)
+							);
+							color: rgb(
+								var(--sb-color-secondary-100) /
+									var(--sb-color-opacity)
+							);
 						}
 					}
 
 					.value {
 						border-radius: 6px;
 						box-sizing: content-box;
-						color: var(--sb-color-primary-font);
+						color: rgb(
+							var(--sb-color-primary-font) /
+								var(--sb-color-opacity)
+						);
 						cursor: pointer;
 						font-size: 2rem;
 						font-weight: 500;
@@ -226,11 +270,13 @@
 							color 0.2s ease-in-out;
 
 						&:hover {
-							background: rgba(
-								var(--sb-color-primary-accent-60),
-								0.15
+							background: rgb(
+								var(--sb-color-primary-accent-60) / 0.15
 							);
-							color: var(--sb-color-primary-accent-60);
+							color: rgb(
+								var(--sb-color-primary-accent-60) /
+									var(--sb-color-opacity)
+							);
 						}
 					}
 				}
@@ -241,7 +287,9 @@
 		.year-list-wrapper,
 		.hour-list-wrapper,
 		.minute-list-wrapper {
-			background: var(--sb-color-default-30);
+			background: rgb(
+				var(--sb-color-default-30) / var(--sb-color-opacity)
+			);
 			display: grid;
 			grid-area: 0.75rem;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -259,7 +307,9 @@
 			.hour,
 			.minute {
 				align-items: center;
-				color: var(--sb-color-primary-font);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 				cursor: pointer;
 				display: flex;
 				font-size: 1.15rem;
@@ -273,13 +323,19 @@
 				vertical-align: middle;
 
 				&:hover {
-					background: rgba(var(--sb-color-primary-accent-60), 0.15);
+					background: rgb(var(--sb-color-primary-accent-60) / 0.15);
 					border-radius: 6px;
-					color: var(--sb-color-primary-accent-60);
+					color: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
 				}
 
 				&.selected {
-					background: var(--sb-color-primary-accent-60);
+					background: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
 					border-radius: 6px;
 					color: #ffffff;
 				}
@@ -304,7 +360,9 @@
 
 			.body {
 				.time-wrapper {
-					background: var(--sb-color-default-30);
+					background: rgb(
+						var(--sb-color-default-30) / var(--sb-color-opacity)
+					);
 					position: absolute;
 					height: calc(100% - 4rem);
 					left: 0;
@@ -373,18 +431,23 @@
 				.dates-wrapper {
 					.date {
 						&:hover:not(.disabled) {
-							background: var(--sb-color-primary-accent-60);
+							background: rgb(
+								var(--sb-color-primary-accent-60) /
+									var(--sb-color-opacity)
+							);
 							border-radius: 6px;
 							color: #ffffff;
 						}
 
 						&.in-range:not(.disabled, :hover, .selected) {
-							background: rgba(
-								var(--sb-color-primary-accent-60),
-								0.15
+							background: rgb(
+								var(--sb-color-primary-accent-60) / 0.15
 							);
 							border-radius: 6px;
-							color: var(--sb-color-primary-accent-60);
+							color: rgb(
+								var(--sb-color-primary-accent-60) /
+									var(--sb-color-opacity)
+							);
 						}
 					}
 				}

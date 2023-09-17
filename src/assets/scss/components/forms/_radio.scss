@@ -1,6 +1,6 @@
 .radio-wrapper {
 	.label {
-		color: var(--sb-color-primary-font);
+		color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		display: inline-block;
 		font-size: 1.05rem;
 		font-weight: 400;
@@ -28,8 +28,11 @@
 			}
 
 			.selector {
-				background: var(--sb-color-default-30);
-				border: 1px solid var(--sb-color-border);
+				background: rgb(
+					var(--sb-color-default-30) / var(--sb-color-opacity)
+				);
+				border: 1px solid
+					rgb(var(--sb-color-border) / var(--sb-color-opacity));
 				border-radius: 50%;
 				cursor: pointer;
 				height: 1.75rem;
@@ -51,7 +54,10 @@
 
 				&:hover {
 					&::after {
-						background: var(--sb-color-primary-accent-60);
+						background: rgb(
+							var(--sb-color-primary-accent-60) /
+								var(--sb-color-opacity)
+						);
 					}
 				}
 			}
@@ -59,13 +65,18 @@
 			&:focus:not(.disabled, .readonly) {
 				.selector {
 					&::after {
-						background: var(--sb-color-primary-accent-60);
+						background: rgb(
+							var(--sb-color-primary-accent-60) /
+								var(--sb-color-opacity)
+						);
 					}
 				}
 			}
 
 			.label {
-				color: var(--sb-color-primary-font);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 				cursor: pointer;
 				font-size: 1rem;
 				font-weight: 400;
@@ -80,10 +91,13 @@
 				}
 
 				.selector {
-					background: rgba(var(--sb-color-primary-accent-60), 0.1);
+					background: rgb(var(--sb-color-primary-accent-60) / 0.1);
 
 					&::after {
-						background: var(--sb-color-primary-accent-60);
+						background: rgb(
+							var(--sb-color-primary-accent-60) /
+								var(--sb-color-opacity)
+						);
 					}
 				}
 			}
@@ -92,8 +106,12 @@
 		&.disabled {
 			.radio {
 				.selector {
-					background: var(--sb-color-disabled-100);
-					border-color: var(--sb-color-disabled-100);
+					background: rgb(
+						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+					);
+					border-color: rgb(
+						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+					);
 					cursor: not-allowed;
 
 					&:hover {
@@ -105,7 +123,10 @@
 
 				&.selected {
 					.selector::after {
-						background: var(--sb-color-secondary-100);
+						background: rgb(
+							var(--sb-color-secondary-100) /
+								var(--sb-color-opacity)
+						);
 					}
 				}
 			}
@@ -114,7 +135,9 @@
 		&.readonly {
 			.radio {
 				.selector {
-					background: var(--sb-color-border);
+					background: rgb(
+						var(--sb-color-border) / var(--sb-color-opacity)
+					);
 
 					&:hover {
 						&::after {
@@ -125,7 +148,10 @@
 
 				&.selected {
 					.selector::after {
-						background: var(--sb-color-disabled-100);
+						background: rgb(
+							var(--sb-color-disabled-100) /
+								var(--sb-color-opacity)
+						);
 					}
 				}
 			}
@@ -134,7 +160,7 @@
 
 	&.error {
 		.label {
-			color: var(--sb-color-danger-100);
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 			font-weight: 500;
 		}
 	}
@@ -143,7 +169,7 @@
 		margin-top: 1rem;
 
 		span {
-			color: var(--sb-color-danger-100);
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 			font-weight: 500;
 		}
 	}

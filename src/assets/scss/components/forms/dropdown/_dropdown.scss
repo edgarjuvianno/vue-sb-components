@@ -1,5 +1,5 @@
 .dropdown-wrapper {
-	color: var(--sb-color-primary-font);
+	color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 	outline: 0;
 
 	.input-wrapper {
@@ -31,7 +31,7 @@
 	}
 
 	.options-wrapper {
-		background: var(--sb-color-default-30);
+		background: rgb(var(--sb-color-default-30) / var(--sb-color-opacity));
 		border-radius: 6px;
 		max-height: 15rem;
 		opacity: 0;

@@ -1,9 +1,11 @@
 @keyframes file-preview-skeleton-loading {
 	0% {
-		background-color: var(--sb-color-border);
+		background-color: rgb(var(--sb-color-border) / var(--sb-color-opacity));
 	}
 	100% {
-		background-color: var(--sb-color-table-head);
+		background-color: rgb(
+			var(--sb-color-table-head) / var(--sb-color-opacity)
+		);
 	}
 }
 
@@ -55,7 +57,9 @@
 
 			.control {
 				align-items: center;
-				background: var(--sb-color-secondary-20);
+				background: rgb(
+					var(--sb-color-secondary-20) / var(--sb-color-opacity)
+				);
 				border-radius: 8px;
 				bottom: 2rem;
 				box-shadow:
@@ -73,12 +77,17 @@
 				width: max-content;
 
 				.page-state {
-					color: var(--sb-color-secondary-100);
+					color: rgb(
+						var(--sb-color-secondary-100) / var(--sb-color-opacity)
+					);
 					font-size: 1.25rem;
 					font-weight: 500;
 
 					.current {
-						color: var(--sb-color-primary-font);
+						color: rgb(
+							var(--sb-color-primary-font) /
+								var(--sb-color-opacity)
+						);
 						font-weight: 600;
 					}
 
@@ -88,7 +97,9 @@
 				}
 
 				svg {
-					color: var(--sb-color-secondary-100);
+					color: rgb(
+						var(--sb-color-secondary-100) / var(--sb-color-opacity)
+					);
 					cursor: pointer;
 					height: 2.15rem;
 					transition: color 0.15s ease-in-out;
@@ -102,11 +113,17 @@
 					}
 
 					&:hover {
-						color: var(--sb-color-primary-accent-30);
+						color: rgb(
+							var(--sb-color-primary-accent-30) /
+								var(--sb-color-opacity)
+						);
 					}
 
 					&.disabled {
-						color: var(--sb-color-secondary-60);
+						color: rgb(
+							var(--sb-color-secondary-60) /
+								var(--sb-color-opacity)
+						);
 						pointer-events: none;
 					}
 				}

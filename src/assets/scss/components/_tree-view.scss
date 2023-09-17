@@ -1,5 +1,5 @@
 .tree-view {
-	color: var(--sb-color-secondary-font);
+	color: rgb(var(--sb-color-secondary-font) / var(--sb-color-opacity));
 	font-size: 1rem;
 	font-weight: 500;
 	line-height: 1.5;
@@ -18,8 +18,12 @@
 			transition: all 0.15s ease-in-out;
 
 			&:hover {
-				background: var(--sb-color-secondary-20);
-				color: var(--sb-color-primary-font);
+				background: rgb(
+					var(--sb-color-secondary-20) / var(--sb-color-opacity)
+				);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 			}
 
 			label {
@@ -28,19 +32,29 @@
 			}
 
 			svg.angle-right {
-				fill: var(--sb-color-secondary-60);
+				fill: rgb(
+					var(--sb-color-secondary-60) / var(--sb-color-opacity)
+				);
 				transform: rotate(0deg);
 				transition: transform 0.2s ease-in-out;
 			}
 
 			&.selected {
-				background: rgba(var(--sb-color-primary-accent-60), 0.15);
-				color: var(--sb-color-primary-accent-60);
+				background: rgb(var(--sb-color-primary-accent-60) / 0.15);
+				color: rgb(
+					var(--sb-color-primary-accent-60) / var(--sb-color-opacity)
+				);
 				font-weight: 600;
 
 				.check-wrapper {
-					background: var(--sb-color-primary-accent-60);
-					border-color: var(--sb-color-primary-accent-60);
+					background: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
+					border-color: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
 
 					span.check {
 						color: #ffffff;
@@ -57,7 +71,8 @@
 			}
 
 			.check-wrapper {
-				border: 2px solid var(--sb-color-secondary-30);
+				border: 2px solid
+					rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
 				border-radius: 6px;
 				height: 2rem;
 				position: relative;
@@ -65,7 +80,9 @@
 				width: 2rem;
 
 				span {
-					color: var(--sb-color-secondary-100);
+					color: rgb(
+						var(--sb-color-secondary-100) / var(--sb-color-opacity)
+					);
 					font-size: 3rem;
 					font-weight: 400;
 					left: 52%;
@@ -83,12 +100,21 @@
 				}
 
 				&:hover {
-					border-color: var(--sb-color-primary-accent-60);
+					border-color: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
 				}
 
 				&.all-checked {
-					background: var(--sb-color-primary-accent-60);
-					border-color: var(--sb-color-primary-accent-60);
+					background: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
+					border-color: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
 
 					span.check {
 						color: #ffffff;

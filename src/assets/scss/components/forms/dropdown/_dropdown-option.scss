@@ -1,7 +1,7 @@
 .dropdown-wrapper {
 	.options-wrapper {
 		.option {
-			color: var(--sb-color-primary-font);
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 			cursor: pointer;
 			font-weight: 300;
 			line-height: 1.5;
@@ -14,7 +14,9 @@
 			&:hover,
 			&.focus,
 			&.selected {
-				background: var(--sb-color-border);
+				background: rgb(
+					var(--sb-color-border) / var(--sb-color-opacity)
+				);
 				font-weight: 500;
 			}
 		}

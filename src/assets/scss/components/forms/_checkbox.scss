@@ -1,6 +1,6 @@
 .checkbox-wrapper {
 	.label {
-		color: var(--sb-color-primary-font);
+		color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		display: inline-block;
 		font-size: 1.05rem;
 		font-weight: 400;
@@ -29,8 +29,11 @@
 
 			.selector {
 				align-items: center;
-				background: var(--sb-color-default-30);
-				border: 1px solid var(--sb-color-border);
+				background: rgb(
+					var(--sb-color-default-30) / var(--sb-color-opacity)
+				);
+				border: 1px solid
+					rgb(var(--sb-color-border) / var(--sb-color-opacity));
 				border-radius: 6px;
 				cursor: pointer;
 				display: flex;
@@ -41,7 +44,10 @@
 				width: 1.75rem;
 
 				svg.check {
-					fill: var(--sb-color-primary-accent-60);
+					fill: rgb(
+						var(--sb-color-primary-accent-60) /
+							var(--sb-color-opacity)
+					);
 					height: 1.25rem;
 					opacity: 0;
 					top: 0;
@@ -60,7 +66,9 @@
 			}
 
 			.label {
-				color: var(--sb-color-primary-font);
+				color: rgb(
+					var(--sb-color-primary-font) / var(--sb-color-opacity)
+				);
 				cursor: pointer;
 				font-size: 1rem;
 				font-weight: 400;
@@ -75,7 +83,7 @@
 				}
 
 				.selector {
-					background: rgba(var(--sb-color-primary-accent-60), 0.15);
+					background: rgb(var(--sb-color-primary-accent-60) / 0.15);
 
 					svg.check {
 						opacity: 1;
@@ -87,8 +95,12 @@
 		&.disabled {
 			.checkbox {
 				.selector {
-					background: var(--sb-color-disabled-100);
-					border-color: var(--sb-color-disabled-100);
+					background: rgb(
+						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+					);
+					border-color: rgb(
+						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+					);
 					cursor: not-allowed;
 
 					&:hover {
@@ -102,7 +114,10 @@
 
 				&.selected {
 					.selector svg.check {
-						fill: var(--sb-color-secondary-100);
+						fill: rgb(
+							var(--sb-color-secondary-100) /
+								var(--sb-color-opacity)
+						);
 						opacity: 1;
 					}
 				}
@@ -112,7 +127,9 @@
 		&.readonly {
 			.checkbox {
 				.selector {
-					background: var(--sb-color-border);
+					background: rgb(
+						var(--sb-color-border) / var(--sb-color-opacity)
+					);
 
 					&:hover {
 						filter: brightness(1);
@@ -125,7 +142,10 @@
 
 				&.selected {
 					.selector svg.check {
-						fill: var(--sb-color-disabled-100);
+						fill: rgb(
+							var(--sb-color-disabled-100) /
+								var(--sb-color-opacity)
+						);
 						opacity: 1;
 					}
 				}
@@ -135,7 +155,7 @@
 
 	&.error {
 		.label {
-			color: var(--sb-color-danger-100);
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 			font-weight: 500;
 		}
 	}
@@ -144,7 +164,7 @@
 		margin-top: 1rem;
 
 		span {
-			color: var(--sb-color-danger-100);
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 			font-weight: 500;
 		}
 	}

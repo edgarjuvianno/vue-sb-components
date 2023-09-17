@@ -22,7 +22,9 @@
 		margin-top: 2rem;
 
 		button {
-			background: var(--sb-color-secondary-60);
+			background: rgb(
+				var(--sb-color-secondary-60) / var(--sb-color-opacity)
+			);
 			border-radius: 50%;
 			height: 0.5rem;
 			margin: 0 0.5rem;
@@ -32,11 +34,15 @@
 			width: 0.5rem;
 
 			&:hover {
-				background: var(--sb-color-secondary-100);
+				background: rgb(
+					var(--sb-color-secondary-100) / var(--sb-color-opacity)
+				);
 			}
 
 			&.active {
-				background-color: var(--sb-color-secondary-100);
+				background-color: rgb(
+					var(--sb-color-secondary-100) / var(--sb-color-opacity)
+				);
 				width: 1rem;
 			}
 		}
@@ -56,9 +62,11 @@
 		width: 100%;
 
 		.nav {
-			background: var(--sb-color-secondary-60);
+			background: rgb(
+				var(--sb-color-secondary-60) / var(--sb-color-opacity)
+			);
 			border-radius: 50%;
-			color: var(--sb-color-secondary-100);
+			color: rgb(var(--sb-color-secondary-100) / var(--sb-color-opacity));
 			cursor: pointer;
 			height: 1.5rem;
 			opacity: 0.5;
