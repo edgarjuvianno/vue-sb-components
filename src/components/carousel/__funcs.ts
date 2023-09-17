@@ -13,7 +13,7 @@ export const getActiveBreakpoint = () => {
 	const modBreakpoints: any[] = Object.keys(breakpoints).map(
 		(key: string) => ({
 			key,
-			value: Number(breakpoints[key].replace('px', '')),
+			value: breakpoints[key],
 		}),
 	)
 
