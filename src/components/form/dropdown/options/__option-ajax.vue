@@ -145,21 +145,33 @@
 								!this.serverSide?.method ||
 								this.serverSide?.method === 'GET'
 							) {
-								return new URLSearchParams(
-									additionalConfig.payload || {},
-								).toString()
+								return null
 							}
 
 							return additionalConfig.payload || {}
 						}
 
+						const getURL: () => string = () => {
+							if (this.serverSide?.url) {
+								if (
+									this.serverSide?.method === 'GET' ||
+									!this.serverSide?.method
+								) {
+									const params: string = new URLSearchParams(
+										additionalConfig.payload || {},
+									).toString()
+
+									return `${this.serverSide?.url}?${params}`
+								}
+							}
+
+							return ''
+						}
+
 						const that = this
 
 						await new Promise((resolve, reject) => {
-							xhr.open(
-								that.serverSide?.method || 'GET',
-								that.serverSide?.url || '',
-							)
+							xhr.open(that.serverSide?.method || 'GET', getURL())
 
 							xhr.onload = () => {
 								const response: any = JSON.parse(xhr.response)
