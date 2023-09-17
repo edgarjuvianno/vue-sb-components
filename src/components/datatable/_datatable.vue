@@ -176,7 +176,7 @@
 			:class="{ options: lengthChange.enabled }"
 			v-if="showFooter"
 		>
-			<div class="options-wrapper" v-if="lengthChange.enabled">
+			<div class="length-options" v-if="lengthChange.enabled">
 				<span>Rows per page</span>
 				<sb-dropdown
 					flat
@@ -356,7 +356,7 @@
 						this.localPagination.totalRow > 0 ? start + 1 : 0
 					} - ${
 						start + (this.localPagination.totalRow || 0)
-					} <span style="font-weight: 500; color: #6b7280;">of ${
+					} <span style="font-weight: 400; color: #6b7280;">of ${
 						this.localPagination.total || 0
 					}</span>`,
 				})

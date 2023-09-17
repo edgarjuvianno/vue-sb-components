@@ -183,7 +183,8 @@
 				color: rgb(
 					var(--sb-color-secondary-100) / var(--sb-color-opacity)
 				);
-				font-size: 1.25rem;
+				cursor: pointer;
+				height: 1.25rem;
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
