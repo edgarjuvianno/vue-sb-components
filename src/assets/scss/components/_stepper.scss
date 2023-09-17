@@ -119,6 +119,10 @@
 					justify-content: center;
 					transition: all 0.25s ease-in-out;
 					width: 35px;
+
+					svg {
+						height: 1.15rem;
+					}
 				}
 
 				&_divider {
@@ -246,7 +250,7 @@
 			flex-flow: row wrap;
 			justify-content: space-between;
 			margin-top: 1.5rem;
-			padding: 0 0.625rem;
+			padding: 0.5rem 0.625rem;
 
 			&.only-next {
 				justify-content: flex-end;
@@ -258,10 +262,6 @@
 				flex-direction: row;
 				flex-wrap: wrap;
 				justify-content: flex-start;
-
-				button:first-of-type {
-					margin-right: 1rem;
-				}
 			}
 		}
 	}

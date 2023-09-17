@@ -231,7 +231,6 @@
 
 <script lang="ts">
 	import { defineComponent, PropType, h } from 'vue'
-	import Axios, { AxiosError, AxiosResponse } from 'axios'
 
 	// components
 	import Dropdown from '@/components/form/dropdown/_index.vue'
@@ -495,75 +494,93 @@
 							}
 						}
 
+						const xhr: XMLHttpRequest = new XMLHttpRequest()
+
 						if (this.localAbort) {
 							this.localAbort.abort()
 						}
 
-						const abortController: AbortController =
-							new AbortController()
+						this.localAbort = xhr
 
-						this.localAbort = abortController
+						Object.keys(additionalConfig.headers).forEach(
+							(key: string) => {
+								xhr.setRequestHeader(
+									key,
+									additionalConfig.headers[key],
+								)
+							},
+						)
 
-						await Axios({
-							headers: additionalConfig.headers,
-							method: this.serverSide?.method || 'GET',
-							signal: abortController.signal,
-							url: this.serverSide?.url,
-							...((!this.serverSide?.method ||
-								this.serverSide?.method === 'GET') && {
-								params: additionalConfig.payload || {},
-							}),
-							...(this.serverSide?.method === 'POST' && {
-								data: additionalConfig.payload || {},
-							}),
-						})
-							.then((response: AxiosResponse) => {
-								if (this.onAjax) {
-									const handler: any = this.onAjax(
-										{
-											dtConfig: {
-												...this.response,
-											},
-											response: {
-												data: response.data,
-												httpResponse: {
-													code: response.status,
-													message:
-														response.statusText,
-												},
-												status: true,
-											},
-										},
-										'SUCCESS',
-									)
+						const getPayload: any = () => {
+							if (
+								!this.serverSide?.method ||
+								this.serverSide?.method === 'GET'
+							) {
+								return new URLSearchParams(
+									additionalConfig.payload || {},
+								)
+							}
 
-									this.localPagination = {
-										...this.localPagination,
-										total: handler?.total || 0,
-										totalRow: handler?.totalRow || 0,
-									}
+							return additionalConfig.payload || {}
+						}
+
+						const that = this
+
+						await new Promise((resolve, reject) => {
+							xhr.open(
+								that.serverSide?.method || 'GET',
+								that.serverSide?.url || '',
+							)
+
+							xhr.onload = () => {
+								const response: any = xhr.response
+
+								if (xhr.status !== 200) {
+									reject({
+										status: xhr.status,
+										statusText: xhr.statusText,
+										response: response,
+									})
+								} else {
+									resolve({
+										status: xhr.status,
+										statusText: xhr.statusText,
+										response: response,
+									})
 								}
+							}
 
-								this.localLoading = false
-							})
-							.catch((responseErr: AxiosError) => {
-								this.localLoading = false
+							xhr.onabort = () => {
+								const response: any = xhr.response
 
-								if (responseErr.code !== 'ERR_CANCELED') {
-									if (this.onAjax) {
-										this.onAjax(
+								reject({
+									status: xhr.status,
+									statusText: xhr.statusText,
+									response: response,
+								})
+							}
+
+							xhr.send(getPayload())
+						})
+							.catch((ajaxResult: any) => {
+								that.localLoading = false
+
+								if (ajaxResult.statusText !== 'abort') {
+									if (that.onAjax) {
+										that.onAjax(
 											{
 												dtConfig: {
-													...this.response,
+													...that.response,
 												},
 												response: {
 													data: null,
 													httpResponse: {
 														code:
-															responseErr.response
-																?.status || 500,
+															ajaxResult.status ||
+															500,
 														message:
-															responseErr.message,
+															ajaxResult.response
+																.message,
 													},
 													status: false,
 												},
@@ -572,8 +589,37 @@
 										)
 									}
 
-									this.setEmptyData()
+									that.setEmptyData()
 								}
+							})
+							.then((ajaxResult: any) => {
+								if (that.onAjax) {
+									const handler: any = that.onAjax(
+										{
+											dtConfig: {
+												...that.response,
+											},
+											response: {
+												data: ajaxResult.response,
+												httpResponse: {
+													code: ajaxResult.status,
+													message:
+														ajaxResult.statusText,
+												},
+												status: true,
+											},
+										},
+										'SUCCESS',
+									)
+
+									that.localPagination = {
+										...that.localPagination,
+										total: handler?.total || 0,
+										totalRow: handler?.totalRow || 0,
+									}
+								}
+
+								that.localLoading = false
 							})
 					} else {
 						if (this.onAjax) {

@@ -62,8 +62,9 @@
 								<sb-button
 									:color="getPrevColor"
 									:disabled="isButtonDisabled"
+									no-elevation
 									variant="text"
-									v-if="localCurrent !== 1"
+									v-if="index !== 0"
 									@click="handleNav(-1)"
 								>
 									{{ getPrevText }}
@@ -132,6 +133,7 @@
 				<sb-button
 					:color="getPrevColor"
 					:disabled="isButtonDisabled"
+					no-elevation
 					variant="text"
 					v-if="localCurrent !== 1"
 					@click="handleNav(-1)"

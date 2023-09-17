@@ -1,6 +1,6 @@
 # SANGBYTE VUE COMPONENTS
 
-This library created using [Day.js](https://day.js.org/), [Axios](https://axios-http.com/docs/intro) and [PDF.js](https://mozilla.github.io/pdf.js/).
+This library created using [Day.js](https://day.js.org/) and [PDF.js](https://mozilla.github.io/pdf.js/).
 
 ## included components:
 - Accordion

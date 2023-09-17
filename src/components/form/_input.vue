@@ -40,7 +40,7 @@
 				<template v-if="!renderInput">
 					<input
 						:type="type"
-						:tabindex="tabindex"
+						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-model="localValue"
 						v-bind="{
 							disabled,
@@ -58,7 +58,7 @@
 					<textarea
 						:class="{ readonly: readOnly }"
 						rows="6"
-						:tabindex="tabindex"
+						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-else
 						v-bind="{
 							disabled,

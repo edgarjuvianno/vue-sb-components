@@ -29,7 +29,9 @@
 			v-model="selected"
 			@click="handleOpen"
 		>
-			<component :is="getIconSVG" />
+			<template v-slot:icon>
+				<component :is="getIconSVG" />
+			</template>
 		</sb-input>
 		<div
 			class="options-wrapper"

@@ -35,6 +35,7 @@
 				fill: rgb(
 					var(--sb-color-secondary-60) / var(--sb-color-opacity)
 				);
+				height: 1.15rem;
 				transform: rotate(0deg);
 				transition: transform 0.2s ease-in-out;
 			}
@@ -83,20 +84,21 @@
 					color: rgb(
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
-					font-size: 3rem;
+					font-size: 2rem;
 					font-weight: 400;
-					left: 52%;
+					left: 55%;
 					position: absolute;
-					top: 35%;
+					top: 55%;
 					transform: translate(-50%, -50%);
-				}
-
-				span.check {
-					top: 50%;
 
 					svg {
 						height: 1.25rem;
 					}
+				}
+
+				span.check {
+					left: 50%;
+					top: 45%;
 				}
 
 				&:hover {

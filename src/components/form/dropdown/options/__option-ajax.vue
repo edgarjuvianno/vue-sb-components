@@ -17,7 +17,6 @@
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
-	import Axios, { AxiosError, AxiosResponse } from 'axios'
 
 	// funcs
 	import { renderOption } from '../__funcs'
@@ -124,36 +123,104 @@
 							}
 						}
 
+						const xhr: XMLHttpRequest = new XMLHttpRequest()
+
 						if (this.localAbort) {
 							this.localAbort.abort()
 						}
 
-						const abortController: AbortController =
-							new AbortController()
+						this.localAbort = xhr
 
-						this.localAbort = abortController
+						Object.keys(additionalConfig.headers).forEach(
+							(key: string) => {
+								xhr.setRequestHeader(
+									key,
+									additionalConfig.headers[key],
+								)
+							},
+						)
 
-						return await Axios({
-							headers: additionalConfig.headers,
-							method: this.serverSide?.method || 'GET',
-							signal: abortController.signal,
-							url: this.serverSide?.url,
-							...((!this.serverSide?.method ||
-								this.serverSide?.method === 'GET') && {
-								params: additionalConfig.payload || {},
-							}),
-							...(this.serverSide?.method === 'POST' && {
-								data: additionalConfig.payload || {},
-							}),
+						const getPayload: any = () => {
+							if (
+								!this.serverSide?.method ||
+								this.serverSide?.method === 'GET'
+							) {
+								return new URLSearchParams(
+									additionalConfig.payload || {},
+								)
+							}
+
+							return additionalConfig.payload || {}
+						}
+
+						const that = this
+
+						await new Promise((resolve, reject) => {
+							xhr.open(
+								that.serverSide?.method || 'GET',
+								that.serverSide?.url || '',
+							)
+
+							xhr.onload = () => {
+								const response: any = xhr.response
+
+								if (xhr.status !== 200) {
+									reject({
+										status: xhr.status,
+										statusText: xhr.statusText,
+										response: response,
+									})
+								} else {
+									resolve({
+										status: xhr.status,
+										statusText: xhr.statusText,
+										response: response,
+									})
+								}
+							}
+
+							xhr.onabort = () => {
+								const response: any = xhr.response
+
+								reject({
+									status: xhr.status,
+									statusText: xhr.statusText,
+									response: response,
+								})
+							}
+
+							xhr.send(getPayload())
 						})
-							.then((response: AxiosResponse) => {
+							.catch((ajaxResult: any) => {
+								this.localLoading = false
+
+								if (!this.infinite) {
+									this.localList = []
+								}
+
+								if (this.onAjax) {
+									this.onAjax(
+										{
+											data: null,
+											httpResponse: {
+												code: ajaxResult.status || 500,
+												message:
+													ajaxResult.response.message,
+											},
+											status: false,
+										},
+										'ERROR',
+									)
+								}
+							})
+							.then((ajaxResult: any) => {
 								if (this.onAjax) {
 									const handler: any = this.onAjax(
 										{
-											data: response.data,
+											data: ajaxResult.response,
 											httpResponse: {
-												code: response.status,
-												message: response.statusText,
+												code: ajaxResult.status,
+												message: ajaxResult.statusText,
 											},
 											status: true,
 										},
@@ -169,33 +236,10 @@
 										this.localList = [...handler]
 									}
 								} else {
-									this.localList = response.data
+									this.localList = ajaxResult.response
 								}
 
 								this.localLoading = false
-							})
-							.catch((responseErr: AxiosError) => {
-								this.localLoading = false
-
-								if (!this.infinite) {
-									this.localList = []
-								}
-
-								if (this.onAjax) {
-									this.onAjax(
-										{
-											data: null,
-											httpResponse: {
-												code:
-													responseErr.response
-														?.status || 500,
-												message: responseErr.message,
-											},
-											status: false,
-										},
-										'ERROR',
-									)
-								}
 							})
 					}
 				} catch (error) {
