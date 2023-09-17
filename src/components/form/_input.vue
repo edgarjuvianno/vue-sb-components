@@ -2,6 +2,7 @@
 	<div
 		class="input-wrapper"
 		:class="{ error: isError, flat: variant === 'flat' }"
+		ref="input-wrapper"
 		v-bind="{ ...$attrs }"
 	>
 		<div
@@ -208,6 +209,19 @@
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
 			},
+			handleClickOutside(event: MouseEvent) {
+				const target: HTMLElement = event.target as HTMLElement
+				const parent: HTMLElement = this.$refs['input-wrapper'] as any
+
+				if (
+					target &&
+					parent &&
+					!parent.contains(target) &&
+					!target.isSameNode(parent)
+				) {
+					this.toggleFocus(false)
+				}
+			},
 			handleErrorMessage() {
 				if (this.errorMessage) {
 					if (typeof this.errorMessage === 'string') {
@@ -271,10 +285,14 @@
 			},
 		},
 		mounted() {
-			document.addEventListener('click', () => this.toggleFocus(false))
+			document.addEventListener('click', (event: MouseEvent) =>
+				this.handleClickOutside(event),
+			)
 		},
 		unmounted() {
-			document.removeEventListener('click', () => this.toggleFocus(false))
+			document.removeEventListener('click', (event: MouseEvent) =>
+				this.handleClickOutside(event),
+			)
 		},
 	})
 </script>

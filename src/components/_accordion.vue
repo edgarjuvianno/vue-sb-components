@@ -1,5 +1,10 @@
 <template>
-	<div class="accordion" :class="{ expanded: expand }" v-bind="{ ...$attrs }">
+	<div
+		class="accordion"
+		:class="{ expanded: expand }"
+		ref="accordion"
+		v-bind="{ ...$attrs }"
+	>
 		<div
 			class="header-wrapper"
 			:class="[color]"
@@ -51,8 +56,18 @@
 			},
 		},
 		methods: {
-			handleClickOutside() {
-				if (this.expand && this.clickOutside) {
+			handleClickOutside(event: MouseEvent) {
+				const target: HTMLElement = event.target as HTMLElement
+				const parent: HTMLElement = this.$refs['accordion'] as any
+
+				if (
+					this.expand &&
+					this.clickOutside &&
+					target &&
+					parent &&
+					!parent.contains(target) &&
+					!target.isSameNode(parent)
+				) {
 					this.handleToggle(false)
 				}
 			},
@@ -61,10 +76,14 @@
 			},
 		},
 		mounted() {
-			document.addEventListener('click', this.handleClickOutside)
+			document.addEventListener('click', (event: MouseEvent) =>
+				this.handleClickOutside(event),
+			)
 		},
 		unmounted() {
-			document.removeEventListener('click', this.handleClickOutside)
+			document.removeEventListener('click', (event: MouseEvent) =>
+				this.handleClickOutside(event),
+			)
 		},
 	})
 </script>

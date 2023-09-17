@@ -3,6 +3,7 @@
 		:class="{ error: isError, range }"
 		:tabindex="!disabled && !readOnly ? 0 : -1"
 		class="datepicker-wrapper"
+		ref="datepicker-wrapper"
 		v-bind="{ ...$attrs }"
 		@blur="() => (localShow = false)"
 		@focus="() => handleOpenCalendar()"
@@ -189,6 +190,21 @@
 				}
 
 				return null
+			},
+			handleClickOutside(event: MouseEvent) {
+				const target: HTMLElement = event.target as HTMLElement
+				const parent: HTMLElement = this.$refs[
+					'datepicker-wrapper'
+				] as any
+
+				if (
+					target &&
+					parent &&
+					!parent.contains(target) &&
+					!target.isSameNode(parent)
+				) {
+					this.localShow = false
+				}
 			},
 			handleKeyDown(ev: KeyboardEvent) {
 				if (ev.key === 'Backspace') {
@@ -377,12 +393,13 @@
 
 			this.inputWrapper = inputGroup
 
-			document.addEventListener('click', () => (this.localShow = false))
+			document.addEventListener('click', (event: MouseEvent) =>
+				this.handleClickOutside(event),
+			)
 		},
 		unmounted() {
-			document.removeEventListener(
-				'click',
-				() => (this.localShow = false),
+			document.removeEventListener('click', (event: MouseEvent) =>
+				this.handleClickOutside(event),
 			)
 		},
 	})

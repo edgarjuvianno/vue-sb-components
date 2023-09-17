@@ -8,6 +8,7 @@
 			search: search || serverSide,
 		}"
 		:tabindex="!disabled && !readOnly ? 0 : -1"
+		ref="dropdown-wrapper"
 		v-bind="{ ...$attrs }"
 		@blur="handleParentBlur"
 		@focus="handleParentFocus"
@@ -359,10 +360,21 @@
 					this.handleRemoveFocus()
 				}
 			},
-			handleParentClickOutside() {
-				this.isOpen = false
+			handleParentClickOutside(event: MouseEvent) {
+				const target: HTMLElement = event.target as HTMLElement
+				const parent: HTMLElement = this.$refs[
+					'dropdown-wrapper'
+				] as any
 
-				this.handleRemoveFocus()
+				if (
+					target &&
+					parent &&
+					!parent.contains(target) &&
+					!target.isSameNode(parent)
+				) {
+					this.isOpen = false
+					this.handleRemoveFocus()
+				}
 			},
 			handleFilterList(term: string) {
 				if (this.serverSide) {
@@ -575,10 +587,14 @@
 
 			this.icon.onClick = this.handleOpen
 
-			document.addEventListener('click', this.handleParentClickOutside)
+			document.addEventListener('click', (event: MouseEvent) =>
+				this.handleParentClickOutside(event),
+			)
 		},
 		unmounted() {
-			document.removeEventListener('click', this.handleParentClickOutside)
+			document.removeEventListener('click', (event: MouseEvent) =>
+				this.handleParentClickOutside(event),
+			)
 		},
 	})
 </script>
