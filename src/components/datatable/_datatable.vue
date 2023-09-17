@@ -518,7 +518,7 @@
 							) {
 								return new URLSearchParams(
 									additionalConfig.payload || {},
-								)
+								).toString()
 							}
 
 							return additionalConfig.payload || {}
