@@ -119,15 +119,18 @@ body {
 							}
 
 							.icon:first-of-type {
-								top: 0.425rem;
+								top: 0.525rem;
 							}
 
 							.icon:last-of-type {
-								bottom: 0.625rem;
+								bottom: 0.525rem;
 							}
 						}
 
 						&.sort {
+							padding-left: 2rem;
+							padding-right: 2rem;
+
 							&.asc {
 								.sort-wrapper {
 									.icon:last-of-type {
@@ -149,6 +152,11 @@ body {
 									}
 								}
 							}
+						}
+
+						&.sort.search {
+							padding-left: 4rem;
+							padding-right: 4rem;
 						}
 
 						.action-wrapper {

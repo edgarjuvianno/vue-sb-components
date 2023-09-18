@@ -1,6 +1,6 @@
 <template>
 	<div class="datatable" v-bind="{ ...$attrs }">
-		<div class="search-wrapper" v-if="search || serverSide">
+		<div class="search-wrapper" v-if="search">
 			<sb-input
 				:icon="{
 					placement: 'append',
