@@ -25,13 +25,51 @@
 				:icon="icon"
 				:isError="isError || isErrorLocal"
 				:label="label"
-				:render-input="handleSelected"
 				v-bind="{ disabled, readOnly, required }"
 				v-model="localValue"
 				@click="() => handleOpenInput()"
 			>
 				<template v-slot:icon>
 					<component :is="iconSVG" />
+				</template>
+				<template v-slot:custom-input>
+					<template v-if="localValue && localValue.length > 0">
+						<div
+							class="value-wrapper"
+							v-if="!multi"
+							@click="(event) => viewFile && handleView(event)"
+						>
+							{{ localValue[0]?.name }}
+						</div>
+						<div class="value-wrapper" v-if="multi">
+							<div
+								class="pill"
+								v-for="(file, index) in localValue"
+								:key="`pill-${index}`"
+								@click="
+									(event) =>
+										!viewFile && handleClear(event, index)
+								"
+							>
+								<div
+									class="clear"
+									@click.stop="
+										(event) => handleClear(event, index)
+									"
+								>
+									x
+								</div>
+								<div
+									class="content"
+									@click.stop="
+										(event) => handleView(event, index)
+									"
+								>
+									<span>{{ file.name }}</span>
+								</div>
+							</div>
+						</div>
+					</template>
 				</template>
 			</sb-input>
 			<template v-if="isUploadVisible">
@@ -58,7 +96,7 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent, h, PropType } from 'vue'
+	import { defineComponent, PropType } from 'vue'
 	import { fileAsURL } from '@/components/helper/helper'
 
 	// components
@@ -282,75 +320,6 @@
 				}
 
 				return this.handleUpdateModelValue(null)
-			},
-			handleSelected() {
-				if (this.localValue && this.localValue.length > 0) {
-					if (!this.multi) {
-						return h(
-							'div',
-							{
-								class: 'value-wrapper',
-								...(this.viewFile && {
-									onClick: (ev: Event) => this.handleView(ev),
-								}),
-							},
-							this.localValue[0].name,
-						)
-					} else if (this.multi && this.viewFile) {
-						return h(
-							'div',
-							{
-								class: 'value-wrapper',
-							},
-							this.localValue.map((it: File, index: number) => {
-								return h(
-									'div',
-									{
-										class: 'pill',
-									},
-									{
-										default: () => [
-											h('div', {
-												class: 'clear',
-												innerHTML: 'x',
-												onClick: (ev: Event) =>
-													this.handleClear(ev, index),
-											}),
-											h('div', {
-												class: 'content',
-												innerHTML: `<span>${it.name}</span>`,
-												onClick: (ev: Event) =>
-													this.handleView(ev, index),
-											}),
-										],
-									},
-								)
-							}),
-						)
-					}
-
-					return h(
-						'div',
-						{
-							class: 'value-wrapper',
-						},
-						this.localValue.map((it: File, index: number) => {
-							return h('div', {
-								class: 'pill',
-								innerHTML: `
-											<div class="clear">x</div>
-											<div class="content">
-												<span>${it.name}</span>
-											</div>
-										`,
-								onClick: (ev: Event) =>
-									this.handleClear(ev, index),
-							})
-						}),
-					)
-				}
-
-				return ''
 			},
 			handleUpdateModelValue(value: any) {
 				this.localValue = value

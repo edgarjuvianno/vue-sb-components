@@ -21,7 +21,6 @@
 			:is-error="isError"
 			:label="label"
 			:placeholder="placeholder"
-			:render-input="renderInput"
 			:required="required"
 			:variant="flat ? 'flat' : 'default'"
 			ref="input-wrapper"
@@ -31,6 +30,28 @@
 		>
 			<template v-slot:icon>
 				<component :is="getIconSVG" />
+			</template>
+			<template v-slot:custom-input>
+				<plain-input
+					:multi="multi"
+					:on-delete="handleClear"
+					:opt-label="optLabel"
+					:placeholder="placeholder"
+					:selected="selected"
+					v-if="!search && !serverSide"
+				/>
+				<search-input
+					:is-open="isOpen"
+					:multi="multi"
+					:on-blur="handleRemoveFocus"
+					:on-delete="handleClear"
+					:on-filter="handleFilterList"
+					:on-focus="() => (isFocus = true)"
+					:opt-label="optLabel"
+					:placeholder="placeholder"
+					:selected="selected"
+					v-else
+				/>
 			</template>
 		</sb-input>
 		<div
@@ -69,7 +90,7 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent, h, PropType } from 'vue'
+	import { defineComponent, PropType } from 'vue'
 
 	// components
 	import AjaxOption from './options/__option-ajax.vue'
@@ -173,8 +194,10 @@
 		name: 'sb-form-dropdown',
 		components: {
 			'ajax-option': AjaxOption,
+			'plain-input': PlainInput,
 			'plain-option': PlainOption,
 			'sb-input': Input,
+			'search-input': SearchInput,
 		},
 		data() {
 			return {
@@ -455,31 +478,6 @@
 				} else if (this.isScrollBottom) {
 					this.isScrollBottom = false
 				}
-			},
-			renderInput() {
-				const html = h as any
-
-				if (!this.search && !this.serverSide) {
-					return html(PlainInput, {
-						'opt-label': this.optLabel,
-						multi: this.multi,
-						onDelete: this.handleClear,
-						placeholder: this.placeholder,
-						selected: this.selected,
-					})
-				}
-
-				return html(SearchInput, {
-					'is-open': this.isOpen,
-					'opt-label': this.optLabel,
-					multi: this.multi,
-					onBlur: this.handleRemoveFocus,
-					onDelete: this.handleClear,
-					onFilter: this.handleFilterList,
-					onFocus: () => (this.isFocus = true),
-					placeholder: this.placeholder,
-					selected: this.selected,
-				})
 			},
 			setOptionsPosition() {
 				if (this.elem) {

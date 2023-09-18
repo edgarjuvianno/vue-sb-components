@@ -37,7 +37,26 @@
 				class="form-control"
 				@click="(event) => toggleFocus(true, event)"
 			>
-				<template v-if="!renderInput">
+				<template v-if="!$slots['custom-input']">
+					<input
+						:type="'text'"
+						:tabindex="readOnly || disabled ? -1 : tabindex"
+						:data-maska="pattern"
+						v-model="localValue"
+						v-bind="{
+							disabled,
+							min,
+							max,
+							placeholder,
+							readonly: readOnly,
+						}"
+						v-maska="localBindValue"
+						v-if="type === 'text' && pattern"
+						@blur="(ev) => handleBlur(ev)"
+						@focus="(ev) => handleInputFocus(ev)"
+						@input="(ev) => handleChange(ev)"
+						@keydown="(ev) => $emit('onKeydown', ev)"
+					/>
 					<input
 						:type="type"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
@@ -48,8 +67,12 @@
 							max,
 							placeholder,
 							readonly: readOnly,
+							...(pattern && {
+								'data-maska': pattern,
+								'v-maska': localBindValue,
+							}),
 						}"
-						v-if="type !== 'textarea'"
+						v-else-if="type !== 'textarea'"
 						@blur="(ev) => handleBlur(ev)"
 						@focus="(ev) => handleInputFocus(ev)"
 						@input="(ev) => handleChange(ev)"
@@ -72,7 +95,9 @@
 						@keydown="(ev) => $emit('onKeydown', ev)"
 					/>
 				</template>
-				<component v-else :is="handleRenderInput" />
+				<template v-else>
+					<slot name="custom-input" />
+				</template>
 			</div>
 			<div class="input-border">
 				<div class="start" />
@@ -93,6 +118,7 @@
 <script lang="ts">
 	import { IIcon } from '@/interface'
 	import { defineComponent, PropType } from 'vue'
+	import { vMaska } from 'maska'
 
 	export default defineComponent({
 		emits: ['input', 'update:modelValue', 'onBlur', 'onFocus', 'onKeydown'],
@@ -135,6 +161,10 @@
 					string | number | object | null
 				>,
 			},
+			pattern: {
+				required: false,
+				type: String,
+			},
 			placeholder: {
 				required: false,
 				type: String,
@@ -142,10 +172,6 @@
 			readOnly: {
 				required: false,
 				type: Boolean,
-			},
-			renderInput: {
-				required: false,
-				type: Function,
 			},
 			required: {
 				required: false,
@@ -179,8 +205,16 @@
 			},
 		},
 		name: 'sb-form-input',
+		directives: {
+			maska: vMaska,
+		},
 		data() {
 			return {
+				localBindValue: {
+					complete: false,
+					masked: null as any,
+					unmasked: null as any,
+				},
 				isFocus: false,
 				localValue: (this.modelValue || this.value || null) as any,
 			}
@@ -203,7 +237,12 @@
 				this.$emit('onBlur', ev)
 			},
 			handleChange(ev: Event) {
-				this.$emit('update:modelValue', this.localValue)
+				this.$emit(
+					'update:modelValue',
+					this.pattern
+						? this.localBindValue.unmasked
+						: this.localValue,
+				)
 				this.$emit('input', ev)
 			},
 			handleClickIcon(ev: Event) {
@@ -243,13 +282,6 @@
 			},
 			handleMouseOverIcon(ev: Event) {
 				return this.icon?.onMouseOver && this.icon.onMouseOver(ev)
-			},
-			handleRenderInput() {
-				if (this.renderInput) {
-					return this.renderInput(this.localValue)
-				}
-
-				return null
 			},
 			toggleFocus(focus: boolean, event?: Event) {
 				if (event) {
