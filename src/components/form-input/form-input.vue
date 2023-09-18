@@ -50,7 +50,7 @@
 							placeholder,
 							readonly: readOnly,
 						}"
-						v-maska="localBindValue"
+						v-maska
 						v-if="type === 'text' && pattern"
 						@blur="(ev) => handleBlur(ev)"
 						@focus="(ev) => handleInputFocus(ev)"
@@ -67,10 +67,6 @@
 							max,
 							placeholder,
 							readonly: readOnly,
-							...(pattern && {
-								'data-maska': pattern,
-								'v-maska': localBindValue,
-							}),
 						}"
 						v-else-if="type !== 'textarea'"
 						@blur="(ev) => handleBlur(ev)"
@@ -210,11 +206,6 @@
 		},
 		data() {
 			return {
-				localBindValue: {
-					complete: false,
-					masked: null as any,
-					unmasked: null as any,
-				},
 				isFocus: false,
 				localValue: (this.modelValue || this.value || null) as any,
 			}
@@ -237,13 +228,8 @@
 				this.$emit('onBlur', ev)
 			},
 			handleChange(ev: Event) {
-				this.$emit(
-					'update:modelValue',
-					this.pattern
-						? this.localBindValue.unmasked
-						: this.localValue,
-				)
 				this.$emit('input', ev)
+				this.$emit('update:modelValue', this.localValue)
 			},
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
