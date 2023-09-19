@@ -39,7 +39,7 @@
 			>
 				<template v-if="!$slots['custom-input']">
 					<input
-						:type="'text'"
+						type="text"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						:data-maska="pattern"
 						v-model="localValue"
