@@ -101,7 +101,9 @@
 			},
 			modelValue: {
 				required: false,
-				type: Object as PropType<Date | Dayjs | Date[] | Dayjs[]>,
+				type: Object as PropType<
+					Date | Dayjs | Date[] | Dayjs[] | null
+				>,
 			},
 			placeholder: {
 				required: false,
@@ -128,7 +130,9 @@
 			},
 			value: {
 				required: false,
-				type: Object as PropType<Date | Dayjs | Date[] | Dayjs[]>,
+				type: Object as PropType<
+					Date | Dayjs | Date[] | Dayjs[] | null
+				>,
 			},
 		},
 		name: 'sb-form-date-picker',
