@@ -35,22 +35,31 @@
 			</span>
 			<div
 				class="form-control"
+				:class="[type]"
 				@click="(event) => toggleFocus(true, event)"
 			>
 				<template v-if="!$slots['custom-input']">
+					<span
+						class="pass-over"
+						ref="pass-over"
+						v-if="type === 'password'"
+					>
+						{{ getPassDots }}
+					</span>
 					<input
-						type="text"
-						:tabindex="readOnly || disabled ? -1 : tabindex"
 						:data-maska="pattern"
+						:type="getInputType"
+						:tabindex="readOnly || disabled ? -1 : tabindex"
+						v-maska
 						v-model="localValue"
 						v-bind="{
+							autocomplete,
 							disabled,
 							min,
 							max,
 							placeholder,
 							readonly: readOnly,
 						}"
-						v-maska
 						v-if="type === 'text' && pattern"
 						@blur="(ev) => handleBlur(ev)"
 						@focus="(ev) => handleInputFocus(ev)"
@@ -58,15 +67,19 @@
 						@keydown="(ev) => $emit('onKeydown', ev)"
 					/>
 					<input
-						:type="type"
+						:type="getInputType"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-model="localValue"
 						v-bind="{
+							autocomplete,
 							disabled,
 							min,
 							max,
 							placeholder,
 							readonly: readOnly,
+							...(type === 'password' && {
+								onScroll: handleInputScroll,
+							}),
 						}"
 						v-else-if="type !== 'textarea'"
 						@blur="(ev) => handleBlur(ev)"
@@ -80,6 +93,7 @@
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-else
 						v-bind="{
+							autocomplete,
 							disabled,
 							placeholder,
 							readonly: readOnly,
@@ -119,6 +133,10 @@
 	export default defineComponent({
 		emits: ['input', 'update:modelValue', 'onBlur', 'onFocus', 'onKeydown'],
 		props: {
+			autocomplete: {
+				default: 'on',
+				type: String as PropType<'off' | 'on'>,
+			},
 			disabled: {
 				required: false,
 				type: Boolean,
@@ -156,6 +174,10 @@
 				type: null as unknown as PropType<
 					string | number | object | null
 				>,
+			},
+			noSavePassword: {
+				required: false,
+				type: Boolean,
 			},
 			pattern: {
 				required: false,
@@ -211,6 +233,19 @@
 			}
 		},
 		computed: {
+			getInputType() {
+				if (this.type === 'password' && this.noSavePassword) {
+					return 'text'
+				}
+
+				return this.type
+			},
+			getPassDots() {
+				return this.localValue
+					?.split('')
+					.map(() => '•')
+					.join('')
+			},
 			isFilled() {
 				return (
 					this.localValue &&
@@ -262,6 +297,18 @@
 				this.isFocus = true
 
 				this.$emit('onFocus', ev)
+			},
+			handleInputScroll(ev: UIEvent) {
+				if (this.$refs['pass-over']) {
+					const elem: HTMLElement = this.$refs['pass-over'] as any
+					const input: HTMLInputElement = ev.target as any
+
+					elem.scrollTo({
+						left:
+							(input.scrollWidth / input.value.length) *
+							(input.selectionEnd || 0),
+					})
+				}
 			},
 			handleMouseLeaveIcon(ev: Event) {
 				return this.icon?.onMouseLeave && this.icon.onMouseLeave(ev)

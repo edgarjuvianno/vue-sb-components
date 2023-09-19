@@ -5,6 +5,7 @@
 				:icon="{
 					placement: 'append',
 				}"
+				autocomplete="off"
 				variant="flat"
 				v-model="response.term"
 				@input="handleChange"
@@ -67,6 +68,7 @@
 										>
 											<sb-input
 												:placeholder="th.label"
+												autocomplete="off"
 												variant="flat"
 												v-model="
 													response.termColumns[

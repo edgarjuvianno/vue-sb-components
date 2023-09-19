@@ -20,6 +20,7 @@
 			ref="input-wrapper"
 			type="text"
 			v-bind="{
+				autocomplete,
 				disabled,
 				required,
 				readOnly,
@@ -66,6 +67,10 @@
 			allowClear: {
 				required: false,
 				type: Boolean,
+			},
+			autocomplete: {
+				default: 'on',
+				type: String as PropType<'off' | 'on'>,
 			},
 			closeOnSelect: {
 				required: false,
