@@ -35,9 +35,16 @@
 				type: Boolean,
 			},
 			color: {
-				default: 'primary',
+				default: 'accent',
 				type: String as PropType<
-					'primary' | 'info' | 'warning' | 'success' | 'danger'
+					| 'accent'
+					| 'default'
+					| 'secondary'
+					| 'primary'
+					| 'info'
+					| 'warning'
+					| 'success'
+					| 'danger'
 				>,
 			},
 			expand: {
