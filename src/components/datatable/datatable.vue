@@ -34,6 +34,12 @@
 								v-for="(th, thIndex) in columns"
 								:class="getHeadClass(thIndex)"
 								:key="`head-th-${thIndex}`"
+								@click.stop="
+									() =>
+										columns &&
+										columns[thIndex]?.sort &&
+										handleColSort(thIndex)
+								"
 							>
 								<div class="th-items-wrapper">
 									<div
@@ -91,7 +97,7 @@
 													? 'none'
 													: 'flex',
 											}"
-											@click="
+											@click.stop="
 												handleClickColSearch(
 													thIndex,
 													isTopSearchEnabled(thIndex),
@@ -110,7 +116,7 @@
 										</span>
 										<span
 											class="sort-wrapper"
-											@click="handleColSort(thIndex)"
+											@click.stop="handleColSort(thIndex)"
 											v-if="columns[thIndex]?.sort"
 											v-show="
 												!isTopSearchEnabled(thIndex)
