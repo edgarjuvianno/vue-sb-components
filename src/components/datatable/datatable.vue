@@ -21,9 +21,9 @@
 				:class="[rowStyle, localLoading || isLoading ? 'loader' : '']"
 				ref="dt-table"
 			>
-				<template v-if="$slots.head">
+				<template v-if="$slots.header">
 					<thead>
-						<slot name="head" />
+						<slot name="header" />
 					</thead>
 				</template>
 				<template v-else-if="columns">
@@ -48,7 +48,10 @@
 										}"
 									>
 										<div class="label">
-											<slot name="th" v-bind="th">
+											<slot
+												:name="`th-${thIndex + 1}`"
+												v-bind="th"
+											>
 												{{ th.label }}
 											</slot>
 										</div>
