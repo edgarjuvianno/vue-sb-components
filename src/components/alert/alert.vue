@@ -25,7 +25,9 @@
 				{{ title }}
 			</div>
 			<div class="text">
-				{{ text }}
+				<slot name="body">
+					{{ text }}
+				</slot>
 			</div>
 			<div
 				class="alert-buttons"
