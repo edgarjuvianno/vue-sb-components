@@ -513,15 +513,6 @@
 
 						this.localAbort = xhr
 
-						Object.keys(additionalConfig.headers).forEach(
-							(key: string) => {
-								xhr.setRequestHeader(
-									key,
-									additionalConfig.headers[key],
-								)
-							},
-						)
-
 						const getPayload: any = () => {
 							if (
 								!this.serverSide?.method ||
@@ -530,7 +521,9 @@
 								return null
 							}
 
-							return additionalConfig.payload || {}
+							return JSON.stringify(
+								additionalConfig.payload || {},
+							)
 						}
 
 						const getURL: () => string = () => {
@@ -545,6 +538,8 @@
 
 									return `${this.serverSide?.url}?${params}`
 								}
+
+								return this.serverSide?.url
 							}
 
 							return ''
@@ -554,6 +549,20 @@
 
 						await new Promise((resolve, reject) => {
 							xhr.open(that.serverSide?.method || 'GET', getURL())
+
+							xhr.setRequestHeader(
+								'Content-Type',
+								'application/json;charset=UTF-8',
+							)
+
+							Object.keys(additionalConfig.headers).forEach(
+								(key: string) => {
+									xhr.setRequestHeader(
+										key,
+										additionalConfig.headers[key],
+									)
+								},
+							)
 
 							xhr.onload = () => {
 								const response: any = JSON.parse(xhr.response)

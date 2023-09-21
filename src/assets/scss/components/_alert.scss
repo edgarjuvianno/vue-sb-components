@@ -297,16 +297,13 @@
 
 	&.flat {
 		align-items: center;
+		background: #ffffff;
 		color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		display: flex;
 		justify-content: flex-start;
 		padding: 0.875rem 0;
 
 		&.success {
-			background: rgb(
-				var(--sb-color-success-30) / var(--sb-color-opacity)
-			);
-
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-success-100) / var(--sb-color-opacity)
@@ -320,11 +317,7 @@
 			}
 		}
 
-		&.default {
-			background: rgb(
-				var(--sb-color-default-30) / var(--sb-color-opacity)
-			);
-
+		&.question {
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-default-100) / var(--sb-color-opacity)
@@ -338,30 +331,7 @@
 			}
 		}
 
-		&.primary {
-			background: rgb(
-				var(--sb-color-primary-30) / var(--sb-color-opacity)
-			);
-			color: #ffffff;
-
-			.icon-wrapper {
-				border-color: rgb(
-					var(--sb-color-primary-100) / var(--sb-color-opacity)
-				);
-
-				.icon {
-					color: rgb(
-						var(--sb-color-primary-100) / var(--sb-color-opacity)
-					);
-				}
-			}
-		}
-
 		&.warning {
-			background: rgb(
-				var(--sb-color-warning-30) / var(--sb-color-opacity)
-			);
-
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-warning-100) / var(--sb-color-opacity)
@@ -375,11 +345,7 @@
 			}
 		}
 
-		&.danger {
-			background: rgb(
-				var(--sb-color-danger-30) / var(--sb-color-opacity)
-			);
-
+		&.error {
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-danger-100) / var(--sb-color-opacity)
@@ -394,8 +360,6 @@
 		}
 
 		&.info {
-			background: rgb(var(--sb-color-info-30) / var(--sb-color-opacity));
-
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-info-100) / var(--sb-color-opacity)
@@ -422,6 +386,7 @@
 			.icon {
 				svg {
 					height: 1.25rem;
+					margin-bottom: 0.15rem;
 				}
 			}
 		}

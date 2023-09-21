@@ -8,8 +8,8 @@
 	<div
 		class="alert"
 		:class="[
+			icon,
 			!show ? 'hide' : 'show',
-			color,
 			`x_${positionX}`,
 			`y_${positionY}`,
 			variant,
@@ -80,17 +80,6 @@
 			cancelButton: {
 				required: false,
 				type: Object as PropType<IAlertButton>,
-			},
-			color: {
-				default: 'default',
-				type: String as PropType<
-					| 'default'
-					| 'primary'
-					| 'info'
-					| 'warning'
-					| 'success'
-					| 'danger'
-				>,
 			},
 			confirmButton: {
 				required: false,
