@@ -11,7 +11,6 @@
 		<sb-input
 			:error-message="errorMessage"
 			:focus="localShow"
-			:icon="icon"
 			:is-error="isError"
 			:label="label"
 			:placeholder="placeholder"
@@ -24,11 +23,14 @@
 				disabled,
 				required,
 				readOnly,
+				...(!noIcon && {
+					icon,
+				}),
 			}"
 			@on-focus="() => handleOpenCalendar()"
 			@on-keydown="handleKeyDown"
 		>
-			<template v-slot:icon>
+			<template v-slot:icon v-if="!noIcon">
 				<component :is="getIcon" />
 			</template>
 		</sb-input>
@@ -109,6 +111,10 @@
 				type: Object as PropType<
 					Date | Dayjs | Date[] | Dayjs[] | null
 				>,
+			},
+			noIcon: {
+				required: false,
+				type: Boolean,
 			},
 			placeholder: {
 				required: false,

@@ -97,12 +97,12 @@
 				}
 
 				svg {
-					color: rgb(
+					fill: rgb(
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
 					cursor: pointer;
 					height: 2.15rem;
-					transition: color 0.15s ease-in-out;
+					transition: fill 0.15s ease-in-out;
 
 					&:first-of-type {
 						margin-right: 1.5rem;
