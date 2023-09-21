@@ -414,8 +414,8 @@
 
 				return `${minute < 10 ? '0' : ''}${minute}`
 			},
-			getMonthText(month: number, isSort = false) {
-				if (isSort) {
+			getMonthText(month: number, isShort = false) {
+				if (isShort) {
 					const months: string[] = DayJS.monthsShort()
 
 					return months[month]
