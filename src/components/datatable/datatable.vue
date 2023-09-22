@@ -147,7 +147,7 @@
 					</tbody>
 				</template>
 				<template v-else-if="list">
-					<tbody>
+					<tbody v-if="list.length > 0">
 						<tr
 							v-for="(tr, trIndex) in list"
 							:key="`body-tr-${trIndex}`"
@@ -161,6 +161,16 @@
 							>
 								{{ tr }}
 							</slot>
+						</tr>
+					</tbody>
+					<tbody v-else>
+						<tr>
+							<td colspan="100%">
+								<div class="no-results">
+									<img alt="dt-no-results" :src="noResults" />
+									<div>No Results Found...</div>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</template>
@@ -242,6 +252,7 @@
 
 <script lang="ts">
 	import { defineComponent, PropType, h } from 'vue'
+	import noResults from '@/assets/no-results.svg'
 
 	// components
 	import Dropdown from '@/components/form-dropdown/form-dropdown.vue'
@@ -413,6 +424,9 @@
 			},
 			isColSearchTop() {
 				return this.columnSearchPlacement === 'top'
+			},
+			noResults() {
+				return noResults
 			},
 			showColumnSearch() {
 				return [...(this.columns || [])].some(

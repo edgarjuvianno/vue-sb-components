@@ -69,7 +69,7 @@
 			},
 			modelValue: {
 				required: false,
-				type: Object as PropType<ICheckItem | null>,
+				type: Object as PropType<ICheckItem[] | null>,
 			},
 			readOnly: {
 				required: false,
@@ -81,13 +81,15 @@
 			},
 			value: {
 				required: false,
-				type: Object as PropType<ICheckItem>,
+				type: Object as PropType<ICheckItem[] | null>,
 			},
 		},
 		name: 'sb-form-checkbox-input',
 		data() {
 			return {
-				selected: (this.modelValue || this.value || []) as ICheckItem[],
+				selected: (this.modelValue || this.value || null) as
+					| ICheckItem[]
+					| null,
 			}
 		},
 		computed: {
@@ -151,6 +153,28 @@
 				}
 
 				return false
+			},
+		},
+		watch: {
+			modelValue: {
+				deep: true,
+				handler(newValue: ICheckItem[] | null) {
+					if (newValue) {
+						this.selected = [...newValue]
+					} else {
+						this.selected = null
+					}
+				},
+			},
+			value: {
+				deep: true,
+				handler(newValue: ICheckItem[] | null) {
+					if (newValue) {
+						this.selected = [...newValue]
+					} else {
+						this.selected = null
+					}
+				},
 			},
 		},
 	})

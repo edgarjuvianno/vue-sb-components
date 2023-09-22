@@ -76,13 +76,15 @@
 			},
 			value: {
 				required: false,
-				type: Object as PropType<IRadioItem>,
+				type: Object as PropType<IRadioItem | null>,
 			},
 		},
 		name: 'sb-form-radio-input',
 		data() {
 			return {
-				selected: (this.modelValue || this.value || null) as IRadioItem,
+				selected: (this.modelValue ||
+					this.value ||
+					null) as IRadioItem | null,
 			}
 		},
 		methods: {
@@ -119,6 +121,28 @@
 				}
 
 				return false
+			},
+		},
+		watch: {
+			modelValue: {
+				deep: true,
+				handler(newValue: IRadioItem | null) {
+					if (newValue) {
+						this.selected = { ...newValue }
+					} else {
+						this.selected = null
+					}
+				},
+			},
+			value: {
+				deep: true,
+				handler(newValue: IRadioItem | null) {
+					if (newValue) {
+						this.selected = { ...newValue }
+					} else {
+						this.selected = null
+					}
+				},
 			},
 		},
 	})
