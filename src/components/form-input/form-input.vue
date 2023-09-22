@@ -35,17 +35,10 @@
 			</span>
 			<div
 				class="form-control"
-				:class="[type]"
+				:class="[type, noSavePassword && 'no-save-password']"
 				@click="(event) => toggleFocus(true, event)"
 			>
 				<template v-if="!$slots['custom-input']">
-					<span
-						class="pass-over"
-						ref="pass-over"
-						v-if="type === 'password'"
-					>
-						{{ getPassDots }}
-					</span>
 					<input
 						:data-maska="pattern"
 						:type="getInputType"
@@ -239,12 +232,6 @@
 				}
 
 				return this.type
-			},
-			getPassDots() {
-				return this.localValue
-					?.split('')
-					.map(() => '•')
-					.join('')
 			},
 			isFilled() {
 				return (
