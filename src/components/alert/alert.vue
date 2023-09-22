@@ -53,10 +53,7 @@
 				</sb-button>
 			</div>
 		</div>
-		<div
-			class="close-wrapper"
-			v-if="localDuration < 0 && variant !== 'big'"
-		>
+		<div class="close-wrapper" v-if="duration < 0 && variant !== 'big'">
 			<div class="x-mark" @click="doClose()">
 				<component :is="iconXMark" />
 			</div>
@@ -124,11 +121,6 @@
 		components: {
 			'sb-button': Button,
 		},
-		data() {
-			return {
-				localDuration: 3000,
-			}
-		},
 		computed: {
 			getIcon() {
 				switch (this.icon) {
@@ -154,12 +146,6 @@
 			},
 		},
 		watch: {
-			duration: {
-				handler(value: number) {
-					this.localDuration = value
-				},
-				immediate: true,
-			},
 			show(value: boolean) {
 				if (this.variant === 'big') {
 					if (value) {
@@ -173,10 +159,10 @@
 					}
 				}
 
-				if (value && this.localDuration > 0) {
+				if (value && this.duration > 0) {
 					setTimeout(() => {
 						this.$emit('close')
-					}, this.localDuration)
+					}, this.duration)
 				}
 			},
 		},

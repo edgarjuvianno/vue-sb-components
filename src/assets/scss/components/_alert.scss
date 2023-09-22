@@ -298,12 +298,17 @@
 	&.flat {
 		align-items: center;
 		background: #ffffff;
+		border: 1.5px solid #ffffff;
 		color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		display: flex;
 		justify-content: flex-start;
 		padding: 0.875rem 0;
 
 		&.success {
+			border-color: rgb(
+				var(--sb-color-success-30) / var(--sb-color-opacity)
+			);
+
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-success-100) / var(--sb-color-opacity)
@@ -318,6 +323,10 @@
 		}
 
 		&.question {
+			border-color: rgb(
+				var(--sb-color-default-30) / var(--sb-color-opacity)
+			);
+
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-default-100) / var(--sb-color-opacity)
@@ -332,6 +341,10 @@
 		}
 
 		&.warning {
+			border-color: rgb(
+				var(--sb-color-warning-30) / var(--sb-color-opacity)
+			);
+
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-warning-100) / var(--sb-color-opacity)
@@ -346,6 +359,10 @@
 		}
 
 		&.error {
+			border-color: rgb(
+				var(--sb-color-danger-30) / var(--sb-color-opacity)
+			);
+
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-danger-100) / var(--sb-color-opacity)
@@ -360,6 +377,10 @@
 		}
 
 		&.info {
+			border-color: rgb(
+				var(--sb-color-info-30) / var(--sb-color-opacity)
+			);
+
 			.icon-wrapper {
 				border-color: rgb(
 					var(--sb-color-info-100) / var(--sb-color-opacity)
