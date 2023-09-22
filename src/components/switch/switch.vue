@@ -33,7 +33,7 @@
 	}
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue'],
+		emits: ['change'],
 		props: {
 			active: {
 				required: true,
@@ -98,9 +98,13 @@
 				this.localActive = !this.localActive
 
 				this.$nextTick(() => {
-					this.$emit('update:modelValue', this.localActive)
 					this.$emit('change', this.localActive)
 				})
+			},
+		},
+		watch: {
+			active(newValue: boolean) {
+				this.localActive = newValue
 			},
 		},
 	})
