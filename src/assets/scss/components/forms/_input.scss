@@ -1,5 +1,5 @@
 @font-face {
-	font-family: 'dotsfont';
+	font-family: 'sbSPCfontY';
 	src: url('./dotsfont/dotsfont.eot');
 	src:
 		url('./dotsfont/dotsfont.eot?#iefix') format('embedded-opentype'),
@@ -158,7 +158,7 @@
 
 			&.password.no-save-password {
 				input {
-					font-family: 'dotsfont' !important;
+					font-family: 'sbSPCfontY';
 				}
 			}
 		}

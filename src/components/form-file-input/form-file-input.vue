@@ -298,7 +298,7 @@
 				}
 			},
 			handleSelectFile(ev: any) {
-				if (ev.target.value || this.multi) {
+				if (ev.target?.value) {
 					const files: File[] = ev.target.files
 
 					if (this.doValidateFiles(files)) {
@@ -433,4 +433,3 @@
 <style lang="scss">
 	@import '../../assets/scss/components/forms/_file-input.scss';
 </style>
-@/components/helper/helper

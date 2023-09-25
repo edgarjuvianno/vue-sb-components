@@ -568,6 +568,10 @@
 						);
 					}
 				}
+
+				&.loading {
+					border-color: transparent;
+				}
 			}
 		}
 

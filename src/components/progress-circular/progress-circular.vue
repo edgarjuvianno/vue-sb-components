@@ -37,10 +37,6 @@
 
 	export default defineComponent({
 		props: {
-			borderWidth: {
-				required: false,
-				type: Number,
-			},
 			color: {
 				default: 'accent',
 				type: String as PropType<

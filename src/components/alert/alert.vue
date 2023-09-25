@@ -17,7 +17,13 @@
 	>
 		<div class="icon-wrapper" v-if="icon">
 			<div class="icon" :class="[icon]">
-				<component :is="getIcon" />
+				<component :is="getIcon" v-if="icon !== 'loading'" />
+				<sb-circular-progress
+					indeterminate
+					color="accent"
+					:size="96"
+					v-else-if="icon === 'loading' && variant === 'big'"
+				/>
 			</div>
 		</div>
 		<div class="text-wrapper">
@@ -66,6 +72,7 @@
 
 	// components
 	import Button from '@/components/button/button.vue'
+	import ProgressCircular from '@/components/progress-circular/progress-circular.vue'
 
 	// icons
 	import { check, info, question, warning, xMark } from '@/assets/icons'
@@ -89,7 +96,12 @@
 			icon: {
 				required: false,
 				type: String as PropType<
-					'success' | 'error' | 'info' | 'warning' | 'question'
+					| 'success'
+					| 'error'
+					| 'info'
+					| 'warning'
+					| 'question'
+					| 'loading'
 				>,
 			},
 			positionX: {
@@ -120,6 +132,7 @@
 		name: 'sb-alert',
 		components: {
 			'sb-button': Button,
+			'sb-circular-progress': ProgressCircular,
 		},
 		computed: {
 			getIcon() {

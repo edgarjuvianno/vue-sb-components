@@ -187,3 +187,13 @@ export interface ITreeItem {
 	label: string
 	value?: any
 }
+
+export interface ISwitchColor {
+	background: string
+	toggle: string
+}
+
+export interface ISwitchLabel {
+	active: string
+	notActive: string
+}

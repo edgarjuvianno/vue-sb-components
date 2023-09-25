@@ -2,7 +2,7 @@
 	<div
 		class="switch-wrapper"
 		v-bind="{ ...$attrs }"
-		:class="{ label, active: localActive }"
+		:class="{ label, active: localActive, 'no-elevation': noElevation }"
 		:style="getStyle"
 		@click.stop="handleToggle"
 	>
@@ -21,16 +21,7 @@
 <script lang="ts">
 	import { PropType, defineComponent } from 'vue'
 	import { hexToRgb } from '@/components/helper/helper'
-
-	export interface ISwitchColor {
-		background: string
-		toggle: string
-	}
-
-	export interface ISwitchLabel {
-		active: string
-		notActive: string
-	}
+	import { ISwitchColor, ISwitchLabel } from '@/interface'
 
 	export default defineComponent({
 		emits: ['change'],

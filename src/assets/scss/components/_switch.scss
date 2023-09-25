@@ -2,6 +2,9 @@
 	align-items: center;
 	background: rgb(var(--sb-color-secondary-60) / var(--sb-color-opacity));
 	border-radius: 20px;
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.1),
+		0 4px 6px -4px rgb(0 0 0 / 0.1);
 	cursor: pointer;
 	display: flex;
 	height: 32px;
@@ -9,6 +12,10 @@
 	position: relative;
 	transition: background 0.15s ease-in-out;
 	width: calc(var(--sb-switch-width) + 32px);
+
+	.no-elevation {
+		box-shadow: none;
+	}
 
 	div.active {
 		color: rgb(var(--sb-color-secondary-20) / var(--sb-color-opacity));
@@ -73,13 +80,10 @@
 
 		.toggle {
 			background: rgb(var(--sb-switch-toggle) / var(--sb-color-opacity));
-			border-radius: 6px;
-			left: calc(var(--sb-switch-width) + 5px);
-			width: 10px;
+			left: calc(var(--sb-switch-width) + 0px);
 
 			.circle {
-				height: 0;
-				width: 0;
+				background: rgb(var(--sb-switch-bg) / var(--sb-color-opacity));
 			}
 		}
 	}
@@ -87,7 +91,7 @@
 	&.label {
 		&.active {
 			.toggle {
-				left: calc(var(--sb-switch-width) + 8px);
+				left: calc(var(--sb-switch-width) + 3px);
 			}
 		}
 	}
