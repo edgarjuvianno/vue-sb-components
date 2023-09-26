@@ -361,6 +361,19 @@
 			.label,
 			.form-control {
 				color: rgb(var(--sb-color-border) / var(--sb-color-opacity));
+
+				input,
+				textarea {
+					color: rgb(
+						var(--sb-color-secondary-60) / var(--sb-color-opacity)
+					);
+				}
+
+				> * {
+					color: rgb(
+						var(--sb-color-secondary-60) / var(--sb-color-opacity)
+					);
+				}
 			}
 		}
 	}

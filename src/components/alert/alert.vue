@@ -155,7 +155,9 @@
 		},
 		methods: {
 			doClose(action?: string) {
-				this.$emit('close', action)
+				if (this.icon !== 'loading') {
+					this.$emit('close', action)
+				}
 			},
 		},
 		watch: {

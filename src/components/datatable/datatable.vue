@@ -167,7 +167,7 @@
 						<tr>
 							<td colspan="100%">
 								<div class="no-results">
-									<img alt="dt-no-results" :src="noResults" />
+									<sb-svg-no-results />
 									<div>No Results Found...</div>
 								</div>
 							</td>
@@ -252,11 +252,11 @@
 
 <script lang="ts">
 	import { defineComponent, PropType, h } from 'vue'
-	import noResults from '@/assets/no-results.svg'
 
 	// components
 	import Dropdown from '@/components/form-dropdown/form-dropdown.vue'
 	import Input from '@/components/form-input/form-input.vue'
+	import SVGNoResults from './no-results.vue'
 	import TableLoader from '@/components/table-loader/table-loader.vue'
 
 	// icons
@@ -340,6 +340,7 @@
 		components: {
 			'sb-dropdown': Dropdown,
 			'sb-input': Input,
+			'sb-svg-no-results': SVGNoResults,
 			'sb-table-loader': TableLoader,
 		},
 		data() {
@@ -424,9 +425,6 @@
 			},
 			isColSearchTop() {
 				return this.columnSearchPlacement === 'top'
-			},
-			noResults() {
-				return noResults
 			},
 			showColumnSearch() {
 				return [...(this.columns || [])].some(
