@@ -2,7 +2,8 @@
 	.helper-text {
 		color: rgb(var(--sb-color-info-100) / var(--sb-color-opacity));
 		display: block;
-		font-weight: 500;
+		font-size: 0.9375rem;
+		font-weight: 400;
 		margin-bottom: 1rem;
 	}
 
@@ -15,14 +16,13 @@
 					color: rgb(
 						var(--sb-color-primary-font) / var(--sb-color-opacity)
 					);
-					display: block;
+					display: inline-block;
 					font-size: 1rem;
-					font-weight: 500;
+					font-weight: 400;
 					line-height: 1.5;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
-					width: 100%;
 				}
 			}
 		}
@@ -35,7 +35,9 @@
 						caret-color: unset;
 						display: flex;
 						flex-flow: row wrap;
+						gap: 1rem 1.5rem;
 						justify-content: flex-start;
+						overflow: unset;
 						padding: 0.75rem 0;
 
 						.pill {
@@ -46,9 +48,8 @@
 							border-radius: 6px;
 							color: #ffffff;
 							height: fit-content;
-							font-size: 0.875rem;
+							font-size: 1rem;
 							line-height: 1.5;
-							margin: 0.25rem 0.45rem;
 							max-width: 10rem;
 							padding: 0.15rem 0.5rem;
 							position: relative;
@@ -66,7 +67,7 @@
 								cursor: pointer;
 								font-size: 0.875rem;
 								height: 14px;
-								line-height: 1;
+								line-height: 12px;
 								position: absolute;
 								right: -0.65rem;
 								text-align: center;
@@ -124,7 +125,7 @@
 						var(--sb-color-primary-font) / var(--sb-color-opacity)
 					);
 					font-size: 0.875rem;
-					font-weight: 500;
+					font-weight: 400;
 					position: absolute;
 					right: 0.5rem;
 					top: 50%;

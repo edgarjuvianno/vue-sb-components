@@ -1,7 +1,7 @@
 .tree-view {
 	color: rgb(var(--sb-color-secondary-font) / var(--sb-color-opacity));
-	font-size: 1rem;
-	font-weight: 500;
+	font-size: 0.9375rem;
+	font-weight: 400;
 	line-height: 1.5;
 
 	.tree-view-item {
@@ -35,7 +35,7 @@
 				fill: rgb(
 					var(--sb-color-secondary-60) / var(--sb-color-opacity)
 				);
-				height: 1.15rem;
+				height: 1rem;
 				transform: rotate(0deg);
 				transition: transform 0.2s ease-in-out;
 			}
@@ -45,7 +45,7 @@
 				color: rgb(
 					var(--sb-color-primary-accent-60) / var(--sb-color-opacity)
 				);
-				font-weight: 600;
+				font-weight: 500;
 
 				.check-wrapper {
 					background: rgb(
@@ -75,16 +75,16 @@
 				border: 2px solid
 					rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
 				border-radius: 6px;
-				height: 2rem;
+				height: 1.75rem;
 				position: relative;
 				transition: all 0.25s ease-in-out;
-				width: 2rem;
+				width: 1.75rem;
 
 				span {
 					color: rgb(
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
-					font-size: 2rem;
+					font-size: 1.875rem;
 					font-weight: 400;
 					left: 55%;
 					position: absolute;
@@ -92,7 +92,7 @@
 					transform: translate(-50%, -50%);
 
 					svg {
-						height: 1.25rem;
+						height: 1rem;
 					}
 				}
 

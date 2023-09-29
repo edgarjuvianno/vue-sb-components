@@ -24,6 +24,7 @@
 		box-shadow:
 			0 10px 15px -3px rgb(0 0 0 / 0.1),
 			0 4px 6px -4px rgb(0 0 0 / 0.1);
+		font-size: 0.875rem;
 		max-width: 25rem;
 		min-width: 20rem;
 		overflow: hidden;
@@ -39,7 +40,7 @@
 				width: 100%;
 
 				svg {
-					height: 1.5rem;
+					height: 1rem;
 				}
 			}
 		}
@@ -63,10 +64,10 @@
 					border-radius: 50%;
 					cursor: pointer;
 					display: flex;
-					height: 2rem;
+					height: 1.75rem;
 					justify-content: center;
 					transition: background 0.15s ease-in-out;
-					width: 2rem;
+					width: 1.75rem;
 
 					&:last-of-type {
 						margin-left: 0.5rem;
@@ -91,7 +92,7 @@
 							var(--sb-color-default-100) /
 								var(--sb-color-opacity)
 						);
-						height: 1.05rem;
+						height: 0.875rem;
 						transition: fill 0.25s ease-in-out;
 					}
 				}
@@ -103,7 +104,7 @@
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
 					cursor: pointer;
-					font-size: 1.05rem;
+					font-size: 0.875rem;
 					font-weight: 400;
 					text-align: center;
 				}
@@ -113,7 +114,7 @@
 						var(--sb-color-primary-font) / var(--sb-color-opacity)
 					);
 					cursor: pointer;
-					font-size: 1.25rem;
+					font-size: 0.9375rem;
 					font-weight: 400;
 					line-height: 1;
 					text-align: center;
@@ -148,7 +149,7 @@
 							var(--sb-color-primary-accent-60) /
 								var(--sb-color-opacity)
 						);
-						font-weight: 600;
+						font-weight: 500;
 					}
 
 					&.disabled {
@@ -188,7 +189,7 @@
 					color: rgb(
 						var(--sb-color-secondary-font) / var(--sb-color-opacity)
 					);
-					font-size: 1rem;
+					font-size: 0.875rem;
 					font-weight: 400;
 					text-align: center;
 					text-transform: uppercase;
@@ -215,7 +216,7 @@
 					color: rgb(
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
-					font-size: 2rem;
+					font-size: 1.75rem;
 					font-weight: 500;
 					user-select: none;
 				}
@@ -232,8 +233,8 @@
 								var(--sb-color-opacity)
 						);
 						cursor: pointer;
-						height: 2rem;
-						width: 2rem;
+						height: 1.75rem;
+						width: 1.75rem;
 						padding: 0.25rem;
 						transition:
 							background 0.15s ease-in-out,
@@ -259,7 +260,7 @@
 								var(--sb-color-opacity)
 						);
 						cursor: pointer;
-						font-size: 2rem;
+						font-size: 1.75rem;
 						font-weight: 500;
 						margin: 0.5rem 0;
 						padding: 0 0.5rem;
@@ -312,7 +313,7 @@
 				);
 				cursor: pointer;
 				display: flex;
-				font-size: 1.15rem;
+				font-size: 0.9375rem;
 				font-weight: 400;
 				justify-content: center;
 				padding: 0.5rem 0;
@@ -353,7 +354,7 @@
 			.year-list-wrapper,
 			.hour-list-wrapper,
 			.minute-list-wrapper {
-				height: calc(100% - 4rem);
+				height: calc(100% - 3rem);
 			}
 
 			.body {
@@ -362,7 +363,7 @@
 						var(--sb-color-default-30) / var(--sb-color-opacity)
 					);
 					position: absolute;
-					height: calc(100% - 4rem);
+					height: calc(100% - 3rem);
 					left: 0;
 					top: -100%;
 					transition: top 0.25s ease-in-out;

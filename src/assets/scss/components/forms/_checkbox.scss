@@ -2,7 +2,7 @@
 	.label {
 		color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 		display: inline-block;
-		font-size: 1.05rem;
+		font-size: 1rem;
 		font-weight: 400;
 		line-height: 1.5;
 		margin-bottom: 1rem;
@@ -48,7 +48,7 @@
 						var(--sb-color-primary-accent-60) /
 							var(--sb-color-opacity)
 					);
-					height: 1.25rem;
+					height: 1rem;
 					opacity: 0;
 					top: 0;
 					transition: opacity 0.15s ease-in-out;
@@ -165,6 +165,7 @@
 
 		span {
 			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
+			font-size: 1rem;
 			font-weight: 500;
 		}
 	}

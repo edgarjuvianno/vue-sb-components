@@ -61,15 +61,13 @@
 					const isTop: boolean =
 						document.body.getBoundingClientRect().height -
 							(elemContentRect.height + elemContentRect.y) <=
-						elemTooltipRect.height + 14
+						elemTooltipRect.height + 6
 
 					if (isTop) {
 						this.rect = {
 							left: `${tooltipLeft < 0 ? 6 : tooltipLeft}px`,
 							top: `${
-								elemContentRect.top -
-								elemContentRect.height -
-								14
+								elemContentRect.top - elemContentRect.height - 6
 							}px`,
 						}
 
@@ -78,9 +76,7 @@
 						this.rect = {
 							left: `${tooltipLeft < 0 ? 6 : tooltipLeft}px`,
 							top: `${
-								elemContentRect.top +
-								elemContentRect.height +
-								14
+								elemContentRect.top + elemContentRect.height + 6
 							}px`,
 						}
 

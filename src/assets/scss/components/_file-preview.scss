@@ -80,15 +80,15 @@
 					color: rgb(
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
-					font-size: 1.25rem;
-					font-weight: 500;
+					font-size: 0.9375rem;
+					font-weight: 400;
 
 					.current {
 						color: rgb(
 							var(--sb-color-primary-font) /
 								var(--sb-color-opacity)
 						);
-						font-weight: 600;
+						font-weight: 500;
 					}
 
 					span:nth-child(2) {
@@ -101,7 +101,7 @@
 						var(--sb-color-secondary-100) / var(--sb-color-opacity)
 					);
 					cursor: pointer;
-					height: 2.15rem;
+					height: 1rem;
 					transition: fill 0.15s ease-in-out;
 
 					&:first-of-type {

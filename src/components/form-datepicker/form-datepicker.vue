@@ -411,6 +411,8 @@
 			document.addEventListener('click', (event: MouseEvent) =>
 				this.handleClickOutside(event),
 			)
+
+			this.setLocalValue(this.localValue)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>

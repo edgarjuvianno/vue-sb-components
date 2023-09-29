@@ -400,13 +400,13 @@
 			border-radius: 50%;
 			display: flex;
 			justify-content: center;
-			height: 2rem;
+			height: 1.75rem;
 			margin-left: 1.25rem;
-			width: 2rem;
+			width: 1.75rem;
 
 			.icon {
 				svg {
-					height: 1.25rem;
+					height: 1.15rem;
 					margin-bottom: 0.15rem;
 				}
 			}
@@ -433,7 +433,7 @@
 				transition: all 0.15s ease-in-out;
 
 				svg {
-					height: 1.35rem;
+					height: 1rem;
 				}
 
 				&:hover {
@@ -594,7 +594,7 @@
 				color: rgb(
 					var(--sb-color-secondary-font) / var(--sb-color-opacity)
 				);
-				font-size: 1.15rem;
+				font-size: 1rem;
 				font-weight: 400;
 				line-height: 1.5;
 				text-align: center;
@@ -604,7 +604,7 @@
 				color: rgb(
 					var(--sb-color-primary-font) / var(--sb-color-opacity)
 				);
-				font-size: 1.3rem;
+				font-size: 1.15rem;
 				font-weight: 500;
 				line-height: 1.5;
 				margin-bottom: 1rem;
