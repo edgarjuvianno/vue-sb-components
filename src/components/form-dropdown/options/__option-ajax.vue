@@ -17,13 +17,13 @@
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
+	import { IServerSide, IServerSideHandler } from '@/interface'
 
 	// funcs
 	import { renderOption } from '../__funcs'
 
 	// components
 	import Circular from '@/components/progress-circular/progress-circular.vue'
-	import { IServerSide, IServerSideHandler } from '@/interface'
 
 	export default defineComponent({
 		emits: {
@@ -167,10 +167,12 @@
 						await new Promise((resolve, reject) => {
 							xhr.open(that.serverSide?.method || 'GET', getURL())
 
-							xhr.setRequestHeader(
-								'Content-Type',
-								'application/json;charset=UTF-8',
-							)
+							if (that.serverSide?.method === 'POST') {
+								xhr.setRequestHeader(
+									'Content-Type',
+									'application/json;charset=UTF-8',
+								)
+							}
 
 							Object.keys(additionalConfig.headers).forEach(
 								(key: string) => {
@@ -297,10 +299,10 @@
 						this.localPage = 0
 
 						this.$nextTick(() => this.handleAjax())
-					} else if (!newValue && oldValue) {
-						if (this.localAbort) {
-							this.localAbort.abort()
-						}
+					}
+
+					if (this.localAbort) {
+						this.localAbort.abort()
 					}
 				},
 				immediate: true,

@@ -206,7 +206,7 @@
 
 				return null
 			},
-			handleClickOutside(event: MouseEvent) {
+			handleClickOutsideDatepicker(event: MouseEvent) {
 				const target: HTMLElement = event.target as HTMLElement
 				const parent: HTMLElement = this.$refs[
 					'datepicker-wrapper'
@@ -409,14 +409,14 @@
 			this.inputWrapper = inputGroup
 
 			document.addEventListener('click', (event: MouseEvent) =>
-				this.handleClickOutside(event),
+				this.handleClickOutsideDatepicker(event),
 			)
 
 			this.setLocalValue(this.localValue)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>
-				this.handleClickOutside(event),
+				this.handleClickOutsideDatepicker(event),
 			)
 		},
 	})

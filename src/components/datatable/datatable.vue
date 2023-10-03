@@ -562,10 +562,12 @@
 						await new Promise((resolve, reject) => {
 							xhr.open(that.serverSide?.method || 'GET', getURL())
 
-							xhr.setRequestHeader(
-								'Content-Type',
-								'application/json;charset=UTF-8',
-							)
+							if (that.serverSide?.method === 'POST') {
+								xhr.setRequestHeader(
+									'Content-Type',
+									'application/json;charset=UTF-8',
+								)
+							}
 
 							Object.keys(additionalConfig.headers).forEach(
 								(key: string) => {

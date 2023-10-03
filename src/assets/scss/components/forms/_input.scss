@@ -46,12 +46,23 @@
 				border-top: 1px solid
 					rgb(var(--sb-color-border) / var(--sb-color-opacity));
 				box-sizing: border-box;
+				max-width: calc(100% - 2.5rem);
 
 				&-label {
 					color: transparent;
-					font-size: calc(1rem * 0.9);
-					padding: 0 0.25rem;
+					display: flex;
+					font-size: 1rem;
+					font-weight: 500;
 					margin: 0;
+					padding: 0;
+					transform: scale(0.95);
+
+					> span:first-of-type {
+						flex: 1;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
 				}
 			}
 
@@ -79,7 +90,7 @@
 
 		.label {
 			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
-			display: inline-block;
+			display: flex;
 			font-size: 1rem;
 			font-weight: 400;
 			left: 0.75rem;
@@ -91,7 +102,6 @@
 			padding: 0 0.25rem;
 			position: absolute;
 			top: 18px;
-			text-overflow: ellipsis;
 			transform: translate(0, 0) scale(1);
 			transform-origin: left top;
 			transition:
@@ -99,7 +109,13 @@
 				transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 			user-select: none;
-			white-space: nowrap;
+
+			> span:first-of-type {
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 		}
 
 		.form-control {
@@ -159,13 +175,16 @@
 					font-family: 'sbSPCfontY';
 				}
 			}
+
+			&.right {
+				input,
+				textarea {
+					text-align: right;
+				}
+			}
 		}
 
 		&.icon {
-			.label {
-				max-width: calc(100% - 3.5rem);
-			}
-
 			&_append {
 				.form-control {
 					padding-right: 2.5rem;
@@ -193,6 +212,16 @@
 
 		&.icon_append,
 		&.icon_prepend {
+			.label {
+				max-width: calc(100% - 3rem);
+			}
+
+			.input-border {
+				.notch {
+					max-width: calc(100% - 3.5rem);
+				}
+			}
+
 			.icon {
 				color: rgb(
 					var(--sb-color-secondary-100) / var(--sb-color-opacity)
@@ -242,7 +271,8 @@
 				color: rgb(
 					var(--sb-color-primary-100) / var(--sb-color-opacity)
 				);
-				transform: translate(0, -26px) scale(0.9);
+				font-weight: 500;
+				transform: translate(0, -26px) scale(0.95);
 			}
 
 			.form-control {
@@ -315,7 +345,8 @@
 				color: rgb(
 					var(--sb-color-secondary-font) / var(--sb-color-opacity)
 				);
-				transform: translate(0, -26px) scale(0.9);
+				font-weight: 500;
+				transform: translate(0, -26px) scale(0.95);
 			}
 
 			.form-control {
@@ -452,7 +483,7 @@
 			&.focus,
 			&.filled {
 				.label {
-					transform: translate(0, -19px) scale(0.9);
+					transform: translate(0, -19px) scale(0.95);
 				}
 			}
 		}

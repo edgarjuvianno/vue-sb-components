@@ -47,9 +47,11 @@ body {
 	}
 
 	.datatable {
+		border-color: rgb(var(--sb-color-border) / var(--sb-color-opacity));
+
 		.table-wrapper {
-			border: 1px solid
-				rgb(var(--sb-color-border) / var(--sb-color-opacity));
+			border: 1px solid;
+			border-color: inherit;
 			border-radius: 6px;
 
 			&.table-responsive {

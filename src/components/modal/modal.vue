@@ -1,14 +1,14 @@
 <template>
 	<div
 		class="modal-mask"
-		@click="doClose()"
 		:class="{ hide: !show, show }"
 		:id="id || ''"
 		v-bind="{ ...$attrs }"
 	>
+		<div class="backdrop" @click.stop="doClose()" />
 		<div class="modal-wrapper">
-			<div class="modal-container" :class="container" @click.stop="">
-				<button v-if="showX" class="x-mark" @click="doClose()">
+			<div class="modal-container" :class="container">
+				<button v-if="showX" class="x-mark" @click.stop="doClose()">
 					<component :is="xMark" />
 				</button>
 				<div class="modal-content">

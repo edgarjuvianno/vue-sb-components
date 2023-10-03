@@ -1,27 +1,50 @@
-.card {
-	background: #ffffff;
-	border-color: rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
-	border-radius: 6px;
-	border-width: 1px;
-	box-shadow:
-		0 4px 6px -1px rgb(0 0 0 / 0.1),
-		0 2px 4px -2px rgb(0 0 0 / 0.1);
-	color: var(--sb-color-primary-font-100);
-	overflow: hidden;
+.card-wrapper {
+	.card {
+		background: #ffffff;
+		border-color: rgb(
+			var(--sb-color-secondary-30) / var(--sb-color-opacity)
+		);
+		border-radius: 6px;
+		border-width: 1px;
+		box-shadow:
+			0 4px 6px -1px rgb(0 0 0 / 0.1),
+			0 2px 4px -2px rgb(0 0 0 / 0.1);
+		color: var(--sb-color-primary-font-100);
 
-	.header {
-		background: rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
-		font-weight: 500;
-		padding: 1rem 1.5rem;
+		.header {
+			background: rgb(
+				var(--sb-color-secondary-30) / var(--sb-color-opacity)
+			);
+			border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
+			font-weight: 500;
+			padding: 1rem 1.5rem;
+		}
+
+		.body {
+			height: 100%;
+			padding: 2rem 1.5rem;
+			width: 100%;
+		}
+
+		.footer {
+			padding: 1.5rem 1rem;
+		}
+
+		&.error {
+			border-color: rgb(
+				var(--sb-color-danger-100) / var(--sb-color-opacity)
+			);
+		}
 	}
 
-	.body {
-		height: 100%;
-		padding: 2rem 1.5rem;
-		width: 100%;
-	}
+	.error-wrapper {
+		margin-top: 0.5rem;
 
-	.footer {
-		padding: 1.5rem 1rem;
+		span {
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
+			font-size: 1rem;
+			font-weight: 500;
+		}
 	}
 }

@@ -63,7 +63,7 @@
 			},
 		},
 		methods: {
-			handleClickOutside(event: MouseEvent) {
+			handleClickOutsideAccordion(event: MouseEvent) {
 				const target: HTMLElement = event.target as HTMLElement
 				const parent: HTMLElement = this.$refs['accordion'] as any
 
@@ -84,12 +84,12 @@
 		},
 		mounted() {
 			document.addEventListener('click', (event: MouseEvent) =>
-				this.handleClickOutside(event),
+				this.handleClickOutsideAccordion(event),
 			)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>
-				this.handleClickOutside(event),
+				this.handleClickOutsideAccordion(event),
 			)
 		},
 	})

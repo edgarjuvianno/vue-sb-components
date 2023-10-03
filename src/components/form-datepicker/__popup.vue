@@ -927,24 +927,23 @@
 								DOMRect.width > popupWrapper.width ||
 								DOMRect.width < popupWrapper.width
 							) {
-								return (
-									(DOMRect.width - popupWrapper.width) / 2 +
-									DOMRect.left
-								)
+								return (DOMRect.width - popupWrapper.width) / 2
 							}
 
-							return DOMRect.left
+							return 0
 						}
 
 						if (isTop) {
 							this.popupStyles = {
 								left: `${left()}px`,
-								top: `${DOMRect.top - popupWrapper.height}px`,
+								top: `${
+									0 - DOMRect.height - popupWrapper.height
+								}px`,
 							}
 						} else {
 							this.popupStyles = {
 								left: `${left()}px`,
-								top: `${DOMRect.top + DOMRect.height}px`,
+								top: `${DOMRect.height}px`,
 							}
 						}
 

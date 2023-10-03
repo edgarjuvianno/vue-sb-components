@@ -1,11 +1,6 @@
 @keyframes file-preview-skeleton-loading {
-	0% {
-		background-color: rgb(var(--sb-color-border) / var(--sb-color-opacity));
-	}
-	100% {
-		background-color: rgb(
-			var(--sb-color-table-head) / var(--sb-color-opacity)
-		);
+	50% {
+		opacity: 0.5;
 	}
 }
 
@@ -17,8 +12,9 @@
 		width: 100%;
 
 		.skeleton {
-			animation: file-preview-skeleton-loading 1s linear infinite
-				alternate;
+			animation: file-preview-skeleton-loading 2s
+				cubic-bezier(0.4, 0, 0.6, 1) infinite;
+			background-color: rgb(var(--sb-color-secondary-30)) / 1;
 			border-radius: 6px;
 			height: 100%;
 			width: 100%;

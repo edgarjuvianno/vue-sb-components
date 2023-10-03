@@ -1,6 +1,7 @@
 .dropdown-wrapper {
 	color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 	outline: 0;
+	position: relative;
 
 	.input-wrapper {
 		.input-group {
@@ -31,13 +32,15 @@
 	}
 
 	.options-wrapper {
-		background: rgb(var(--sb-color-default-30) / var(--sb-color-opacity));
+		background: rgb(var(--sb-color-secondary-10) / var(--sb-color-opacity));
+		border: 1px solid
+			rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
 		border-radius: 6px;
 		max-height: 15rem;
 		opacity: 0;
 		overflow-y: auto;
 		padding: 0;
-		position: fixed;
+		position: absolute;
 		transition: opacity 0.3s ease-in-out;
 		width: 100%;
 		z-index: -100;

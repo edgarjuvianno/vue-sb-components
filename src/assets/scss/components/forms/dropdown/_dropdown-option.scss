@@ -15,8 +15,9 @@
 			&.focus,
 			&.selected {
 				background: rgb(
-					var(--sb-color-border) / var(--sb-color-opacity)
+					var(--sb-color-primary-accent-100) / var(--sb-color-opacity)
 				);
+				color: #ffffff;
 				font-weight: 400;
 			}
 		}

@@ -8,6 +8,9 @@
 	>
 		<span v-html="renderOption(opt)"></span>
 	</div>
+	<div class="loading-wrapper" v-if="isLoading">
+		<sb-circular indeterminate :size="36" />
+	</div>
 </template>
 
 <script lang="ts">
@@ -16,11 +19,18 @@
 	// funcs
 	import { renderOption } from '../__funcs'
 
+	// components
+	import Circular from '@/components/progress-circular/progress-circular.vue'
+
 	export default defineComponent({
 		emits: {
 			onSelect: (_selected: any) => true,
 		},
 		props: {
+			isLoading: {
+				required: false,
+				type: Boolean,
+			},
 			list: {
 				required: true,
 				type: Object as PropType<any[]>,
@@ -39,6 +49,9 @@
 			},
 		},
 		name: 'sb-form-dropdown-option-plain',
+		components: {
+			'sb-circular': Circular,
+		},
 		methods: {
 			doSelect(opt: any) {
 				if (!this.isSelected(opt)) {

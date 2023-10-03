@@ -27,7 +27,7 @@
 }
 
 .modal-mask {
-	background: rgba(0, 0, 0, 0.15);
+	background: transparent;
 	height: 100%;
 	left: 0;
 	position: fixed;
@@ -38,6 +38,16 @@
 	align-items: baseline;
 	backdrop-filter: blur(3px);
 	color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
+
+	.backdrop {
+		background: rgba(0, 0, 0, 0.15);
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		z-index: 11;
+	}
 
 	.modal-wrapper {
 		z-index: 12;
@@ -68,7 +78,6 @@
 			}
 
 			.modal-content {
-				overflow-y: auto;
 				max-height: 80vh;
 
 				@media screen and (max-width: 768px) {

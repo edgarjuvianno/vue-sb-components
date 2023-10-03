@@ -58,12 +58,17 @@
 			class="options-wrapper"
 			:style="optWrapperStyles"
 			@scroll="
-				(ev) => serverSide && infinite && isOpen && onScrollBottom(ev)
+				(ev) =>
+					(serverSide || search) &&
+					infinite &&
+					isOpen &&
+					onScrollBottom(ev)
 			"
 			ref="options-wrapper"
 			v-if="isOpen"
 		>
 			<plain-option
+				:is-loading="isLoading"
 				:list="localList"
 				:multi="multi"
 				:optLabel="optLabel"
@@ -104,7 +109,7 @@
 	import { IIcon, IServerSide, IServerSideHandler } from '@/interface'
 
 	export default defineComponent({
-		emits: ['update:modelValue', 'change', 'input'],
+		emits: ['update:modelValue', 'change', 'input', 'onClose', 'onOpen'],
 		props: {
 			allowClear: {
 				required: false,
@@ -134,6 +139,10 @@
 				required: false,
 				type: Boolean,
 			},
+			isLoading: {
+				required: false,
+				type: Boolean,
+			},
 			label: {
 				required: false,
 				type: String,
@@ -160,6 +169,12 @@
 						_type: string | 'BEFORE SEND' | 'ERROR' | 'SUCCESS',
 						_isLoadMore?: boolean,
 					) => void
+				>,
+			},
+			onPopulateList: {
+				required: false,
+				type: Function as PropType<
+					(_term: string, _isLoadMore?: boolean) => void
 				>,
 			},
 			optLabel: {
@@ -353,66 +368,24 @@
 					this.selected = null
 				}
 			},
-			handleListChange(list: any[]) {
-				this.localList = [...list]
-			},
-			handleParentFocus() {
-				if (this.search || this.serverSide) {
-					const self: Element = this.$el as Element
-					const inputs: HTMLCollectionOf<HTMLInputElement> =
-						self.getElementsByTagName('input')
-
-					if (inputs?.length > 0) {
-						const input: HTMLInputElement | null = inputs.item(0)
-
-						input?.focus()
-					}
-				}
-
-				this.isFocus = true
-
-				this.handleOpen()
-			},
-			handleParentBlur(event: FocusEvent) {
-				const self: Element = event.target as Element
-				const target: Element = event.relatedTarget as Element
-
-				if (!self.contains(target)) {
-					this.isOpen = false
-
-					this.handleRemoveFocus()
-				}
-			},
-			handleParentClickOutside(event: MouseEvent) {
-				const target: HTMLElement = event.target as HTMLElement
-				const parent: HTMLElement = this.$refs[
-					'dropdown-wrapper'
-				] as any
-
-				if (
-					target &&
-					parent &&
-					!parent.contains(target) &&
-					!target.isSameNode(parent)
-				) {
-					this.isOpen = false
-					this.handleRemoveFocus()
-				}
-			},
 			handleFilterList(term: string) {
-				if (this.serverSide) {
-					this.localTerm = term
-				} else {
-					term = term.replace(/\s/g, '').toLowerCase()
+				this.localTerm = term
 
-					this.localList = [...(this.list || [])].filter(
-						(it: any) => {
-							const stringData: string =
-								JSON.stringify(it).toLowerCase()
+				if (!this.serverSide) {
+					if (this.onPopulateList && this.isOpen) {
+						this.onPopulateList(term)
+					} else {
+						term = term.replace(/\s/g, '').toLowerCase()
 
-							return stringData.indexOf(term) > -1
-						},
-					)
+						this.localList = [...(this.list || [])].filter(
+							(it: any) => {
+								const stringData: string =
+									JSON.stringify(it).toLowerCase()
+
+								return stringData.indexOf(term) > -1
+							},
+						)
+					}
 				}
 			},
 			handleKeyEvent(event: KeyboardEvent) {
@@ -447,6 +420,9 @@
 					this.handleRemoveFocus()
 				}
 			},
+			handleListChange(list: any[]) {
+				this.localList = [...list]
+			},
 			handleOpen() {
 				if (!this.readOnly && !this.disabled && !this.isOpen) {
 					this.isOpen = true
@@ -455,6 +431,49 @@
 						this.setOptionsPosition()
 					})
 				}
+			},
+			handleParentBlur(event: FocusEvent) {
+				const self: Element = event.target as Element
+				const target: Element = event.relatedTarget as Element
+
+				if (!self.contains(target)) {
+					this.isOpen = false
+
+					this.handleRemoveFocus()
+				}
+			},
+			handleParentClickOutside(event: MouseEvent) {
+				const target: HTMLElement = event.target as HTMLElement
+				const parent: HTMLElement = this.$refs[
+					'dropdown-wrapper'
+				] as any
+
+				if (
+					target &&
+					parent &&
+					!parent.contains(target) &&
+					!target.isSameNode(parent)
+				) {
+					this.isOpen = false
+					this.handleRemoveFocus()
+				}
+			},
+			handleParentFocus() {
+				if (this.search || this.serverSide) {
+					const self: Element = this.$el as Element
+					const inputs: HTMLCollectionOf<HTMLInputElement> =
+						self.getElementsByTagName('input')
+
+					if (inputs?.length > 0) {
+						const input: HTMLInputElement | null = inputs.item(0)
+
+						input?.focus()
+					}
+				}
+
+				this.isFocus = true
+
+				this.handleOpen()
 			},
 			handleRemoveFocus() {
 				this.isFocus = false
@@ -475,6 +494,10 @@
 
 				if (scrollTop + offsetHeight + 20 >= scrollHeight) {
 					this.isScrollBottom = true
+
+					if (this.onPopulateList) {
+						this.onPopulateList(this.localTerm || '', true)
+					}
 				} else if (this.isScrollBottom) {
 					this.isScrollBottom = false
 				}
@@ -493,15 +516,17 @@
 
 					if (isTop) {
 						return (this.optWrapperStyles = {
-							left: `${DOMRect.left}px`,
-							top: `${DOMRect.top - optionsWrapper.height}px`,
+							left: '0',
+							top: `${
+								0 - DOMRect.height - optionsWrapper.height
+							}px`,
 							width: `${DOMRect.width}px`,
 						})
 					}
 
 					return (this.optWrapperStyles = {
-						left: `${DOMRect.left}px`,
-						top: `${DOMRect.top + DOMRect.height}px`,
+						left: '0',
+						top: `${DOMRect.height}px`,
 						width: `${DOMRect.width}px`,
 					})
 				}
@@ -510,6 +535,8 @@
 		watch: {
 			isOpen(newValue: boolean) {
 				if (!newValue) {
+					this.$emit('onClose')
+
 					this.activeOption = -1
 
 					setTimeout(() => {
@@ -523,12 +550,16 @@
 					if (this.search) {
 						if (this.multi) {
 							this.termMulti = null
-							this.handleFilterList('')
 						} else {
 							this.termSingle = null
-							this.handleFilterList('')
 						}
 					}
+
+					if (!this.onPopulateList && this.search) {
+						this.handleFilterList('')
+					}
+				} else {
+					this.$emit('onOpen')
 				}
 			},
 			list: {

@@ -35,7 +35,7 @@
 			</span>
 			<div
 				class="form-control"
-				:class="[type, noSavePassword && 'no-save-password']"
+				:class="[textAlign, type, noSavePassword && 'no-save-password']"
 				@click="(event) => toggleFocus(true, event)"
 			>
 				<template v-if="!$slots['custom-input']">
@@ -43,7 +43,7 @@
 						:data-maska="pattern"
 						:type="getInputType"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
-						v-maska
+						v-maska:[getMaskaOption]
 						v-model="localValue"
 						v-bind="{
 							autocomplete,
@@ -53,7 +53,7 @@
 							placeholder,
 							readonly: readOnly,
 						}"
-						v-if="type === 'text' && pattern"
+						v-if="type === 'text' && (pattern || maskaOptions)"
 						@blur="(ev) => handleBlur(ev)"
 						@focus="(ev) => handleInputFocus(ev)"
 						@input="(ev) => handleChange(ev)"
@@ -106,7 +106,8 @@
 				<div class="start" />
 				<div class="notch">
 					<label class="notch-label" v-if="label">
-						{{ label }}{{ required ? '*' : '' }}
+						<span>{{ label }}</span>
+						<span class="asterisk" v-if="required">*</span>
 					</label>
 				</div>
 				<div class="end" />
@@ -154,6 +155,10 @@
 				required: false,
 				type: String,
 			},
+			maskaOptions: {
+				required: false,
+				type: Object as PropType<Record<string, any>>,
+			},
 			max: {
 				required: false,
 				type: [Number, String],
@@ -191,6 +196,10 @@
 			tabindex: {
 				required: false,
 				type: Number,
+			},
+			textAlign: {
+				default: 'left',
+				type: String as PropType<'left' | 'right'>,
 			},
 			type: {
 				default: 'text',
@@ -233,6 +242,13 @@
 
 				return this.type
 			},
+			getMaskaOption() {
+				if (this.maskaOptions) {
+					return this.maskaOptions
+				}
+
+				return {}
+			},
 			isFilled() {
 				return (
 					this.localValue &&
@@ -256,7 +272,7 @@
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
 			},
-			handleClickOutside(event: MouseEvent) {
+			handleClickOutsideInput(event: MouseEvent) {
 				const target: HTMLElement = event.target as HTMLElement
 				const parent: HTMLElement = this.$refs['input-wrapper'] as any
 
@@ -338,12 +354,12 @@
 		},
 		mounted() {
 			document.addEventListener('click', (event: MouseEvent) =>
-				this.handleClickOutside(event),
+				this.handleClickOutsideInput(event),
 			)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>
-				this.handleClickOutside(event),
+				this.handleClickOutsideInput(event),
 			)
 		},
 	})
