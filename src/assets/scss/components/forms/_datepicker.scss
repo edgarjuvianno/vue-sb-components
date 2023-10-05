@@ -42,22 +42,24 @@
 			display: flex;
 
 			button {
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
 				flex: 1;
-
-				&:first-of-type {
-					border-bottom-right-radius: 0;
-					border-top-left-radius: 0;
-					border-top-right-radius: 0;
-				}
-
-				&:last-of-type {
-					border-bottom-left-radius: 0;
-					border-top-left-radius: 0;
-					border-top-right-radius: 0;
-				}
 
 				svg {
 					height: 1rem;
+				}
+			}
+
+			&.two-button {
+				button {
+					&:first-of-type {
+						border-bottom-right-radius: 0;
+					}
+
+					&:last-of-type {
+						border-bottom-left-radius: 0;
+					}
 				}
 			}
 		}

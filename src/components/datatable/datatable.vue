@@ -18,7 +18,12 @@
 		<div class="table-wrapper table-responsive">
 			<table
 				class="sb-table"
-				:class="[rowStyle, localLoading || isLoading ? 'loader' : '']"
+				:class="[
+					rowStyle,
+					localLoading || isLoading ? 'loader' : '',
+					isColSearch ? 'with-col-search' : '',
+					isColSort ? 'with-col-sort' : '',
+				]"
 				ref="dt-table"
 			>
 				<template v-if="$slots.header">
@@ -423,8 +428,22 @@
 			iconXMark() {
 				return xMark()
 			},
+			isColSearch() {
+				if (this.columns) {
+					return this.columns.some((it: IDTColumn) => it.search)
+				}
+
+				return false
+			},
 			isColSearchTop() {
 				return this.columnSearchPlacement === 'top'
+			},
+			isColSort() {
+				if (this.columns) {
+					return this.columns.some((it: IDTColumn) => it.sort)
+				}
+
+				return false
 			},
 			showColumnSearch() {
 				return [...(this.columns || [])].some(

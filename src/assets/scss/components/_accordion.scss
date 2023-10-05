@@ -1,3 +1,12 @@
+@keyframes accordion-slide {
+	0% {
+		overflow: hidden;
+	}
+	100% {
+		overflow: unset;
+	}
+}
+
 .accordion {
 	border-radius: 6px;
 	box-shadow:
@@ -71,7 +80,7 @@
 			right: 1rem;
 			top: 50%;
 			transform: translateY(-50%) rotate(0deg);
-			transition: transform 0.25s ease-in-out;
+			transition: transform 0.15s ease-in-out;
 		}
 	}
 
@@ -81,7 +90,7 @@
 		font-weight: 500;
 		max-height: 0;
 		overflow: hidden;
-		transition: max-height 0.5s ease-in-out;
+		transition: max-height 0.35s ease-in-out;
 
 		.content {
 			padding: 0.75rem 1rem;
@@ -89,11 +98,18 @@
 	}
 
 	&.expanded {
+		animation: accordion-slide 400ms linear;
+		overflow: unset;
+
 		.content-wrapper {
 			max-height: 100vh;
+			overflow: unset;
 		}
 
 		.header-wrapper {
+			border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
+
 			svg {
 				transform: translateY(-50%) rotate(-180deg);
 			}

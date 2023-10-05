@@ -132,8 +132,6 @@ body {
 
 						&.sort {
 							cursor: pointer;
-							padding-left: 2rem;
-							padding-right: 2rem;
 
 							&.asc {
 								.sort-wrapper {
@@ -156,11 +154,6 @@ body {
 									}
 								}
 							}
-						}
-
-						&.sort.search {
-							padding-left: 4rem;
-							padding-right: 4rem;
 						}
 
 						.action-wrapper {
@@ -201,6 +194,35 @@ body {
 							font-size: 0.9375rem;
 							font-weight: 500;
 							text-align: center;
+						}
+					}
+				}
+
+				&.with-col-sort,
+				&.with-col-search {
+					thead {
+						th {
+							padding-right: 2rem;
+						}
+					}
+
+					tbody {
+						td {
+							padding-right: 2rem;
+						}
+					}
+				}
+
+				&.with-col-sort.with-col-search {
+					thead {
+						th {
+							padding-right: 4rem;
+						}
+					}
+
+					tbody {
+						td {
+							padding-right: 4rem;
 						}
 					}
 				}
