@@ -179,7 +179,13 @@
 				</div>
 			</template>
 		</div>
-		<div class="footer" v-if="!closeOnSelect || type === 'datetime'">
+		<div
+			class="footer"
+			:class="{
+				'two-button': !closeOnSelect && type === 'datetime',
+			}"
+			v-if="!closeOnSelect || type === 'datetime'"
+		>
 			<sb-button
 				no-elevation
 				color="secondary"
