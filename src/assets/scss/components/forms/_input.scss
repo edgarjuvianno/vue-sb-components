@@ -51,11 +51,10 @@
 				&-label {
 					color: transparent;
 					display: flex;
-					font-size: 1rem;
+					font-size: 0.95rem;
 					font-weight: 500;
 					margin: 0;
-					padding: 0;
-					transform: scale(0.95);
+					padding: 0 0.5rem 0 0;
 
 					> span:first-of-type {
 						flex: 1;
@@ -153,7 +152,9 @@
 
 				&::placeholder {
 					color: transparent;
+					font-size: 0.9375rem;
 					font-style: oblique;
+					font-weight: 400;
 				}
 			}
 
@@ -166,8 +167,9 @@
 
 			.placeholder {
 				color: transparent;
-				font-weight: 400;
+				font-size: 0.9375rem;
 				font-style: oblique;
+				font-weight: 400;
 			}
 
 			&.password.no-save-password {

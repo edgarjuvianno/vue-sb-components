@@ -184,6 +184,7 @@ export interface IRadioItem {
 
 export interface ITreeItem {
 	children?: ITreeItem[]
+	expanded?: boolean
 	label: string
 	value?: any
 }

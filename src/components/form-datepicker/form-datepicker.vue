@@ -35,6 +35,7 @@
 			</template>
 		</sb-input>
 		<sb-datepicker-popup
+			:close-on-select="closeOnSelect"
 			:input-wrapper="inputWrapper"
 			:show="localShow"
 			:value="localValue"
@@ -46,6 +47,7 @@
 			}"
 			@on-change="handleOnChange"
 			@on-change-time="handleOnChangeTime"
+			@on-save="handleOnSave"
 		/>
 	</div>
 </template>
@@ -131,6 +133,10 @@
 			required: {
 				required: false,
 				type: Boolean,
+			},
+			saveText: {
+				required: false,
+				type: String,
 			},
 			type: {
 				default: 'date',
@@ -221,6 +227,37 @@
 					this.localShow = false
 				}
 			},
+			handleGenerateString() {
+				if (!this.range) {
+					if (this.localValue) {
+						if (this.format) {
+							this.valueString = this.localValue.format(
+								this.format,
+							)
+						} else {
+							this.valueString = this.localValue.format(
+								this.getDefaultFormat(),
+							)
+						}
+					}
+				} else {
+					const values: Dayjs[] = [...this.localValue]
+
+					if (values) {
+						if (this.format) {
+							this.valueString = values
+								.map((it: Dayjs) => it.format(this.format))
+								.join(' - ')
+						} else {
+							this.valueString = values
+								.map((it: Dayjs) =>
+									it.format(this.getDefaultFormat()),
+								)
+								.join(' - ')
+						}
+					}
+				}
+			},
 			handleKeyDown(ev: KeyboardEvent) {
 				if (ev.key === 'Backspace') {
 					this.handleUpdateModelValue(null)
@@ -237,7 +274,7 @@
 				if (!this.range) {
 					this.handleUpdateModelValue(value)
 				} else {
-					if (!this.localValue || this.localValue?.length > 1) {
+					if (!this.localValue) {
 						this.localValue = [value]
 					} else {
 						const tempValues: Dayjs[] = [...this.localValue, value]
@@ -259,6 +296,17 @@
 
 				this.$nextTick(() => this.handleRangeUpdateModelValue())
 			},
+			handleOnSave() {
+				this.localShow = false
+
+				this.$nextTick(() => {
+					this.handleGenerateString()
+
+					this.$emit('update:modelValue', this.localValue)
+					this.$emit('input', this.localValue)
+					this.$emit('change', this.localValue)
+				})
+			},
 			handleOpenCalendar() {
 				if (!this.disabled && !this.readOnly) {
 					const self: Element = this.$el as Element
@@ -277,50 +325,30 @@
 			handleUpdateModelValue(value: any) {
 				this.localValue = value
 
-				if (value) {
-					if (this.format) {
-						this.valueString = value.format(this.format)
-					} else {
-						this.valueString = value.format(this.getDefaultFormat())
-					}
-				}
-
 				if (this.closeOnSelect) {
 					this.localShow = false
-				}
 
-				this.$nextTick(() => {
-					this.$emit('update:modelValue', this.localValue)
-					this.$emit('input', this.localValue)
-					this.$emit('change', this.localValue)
-				})
+					this.$nextTick(() => {
+						this.handleGenerateString()
+
+						this.$emit('update:modelValue', this.localValue)
+						this.$emit('input', this.localValue)
+						this.$emit('change', this.localValue)
+					})
+				}
 			},
 			handleRangeUpdateModelValue() {
-				const values: Dayjs[] = [...this.localValue]
-
-				if (values) {
-					if (this.format) {
-						this.valueString = values
-							.map((it: Dayjs) => it.format(this.format))
-							.join(' - ')
-					} else {
-						this.valueString = values
-							.map((it: Dayjs) =>
-								it.format(this.getDefaultFormat()),
-							)
-							.join(' - ')
-					}
-				}
-
 				if (this.closeOnSelect) {
 					this.localShow = false
-				}
 
-				this.$nextTick(() => {
-					this.$emit('update:modelValue', this.localValue)
-					this.$emit('input', this.localValue)
-					this.$emit('change', this.localValue)
-				})
+					this.$nextTick(() => {
+						this.handleGenerateString()
+
+						this.$emit('update:modelValue', this.localValue)
+						this.$emit('input', this.localValue)
+						this.$emit('change', this.localValue)
+					})
+				}
 			},
 			setLocalValue(value: any) {
 				if (!value || value?.length < 1) {

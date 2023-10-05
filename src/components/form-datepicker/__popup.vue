@@ -7,6 +7,7 @@
 			range ? 'range' : '',
 			show ? 'show' : '',
 			type === 'time' ? 'time-only' : '',
+			!closeOnSelect ? 'with-save' : '',
 		]"
 		ref="popup-wrapper"
 		:style="popupStyles"
@@ -178,14 +179,27 @@
 				</div>
 			</template>
 		</div>
-		<div class="footer" v-if="type === 'datetime'">
+		<div class="footer" v-if="!closeOnSelect || type === 'datetime'">
 			<sb-button
-				color="accent"
+				no-elevation
+				color="secondary"
 				tabindex="-1"
 				variant="text"
 				@click="handleFooterClick"
+				v-if="type === 'datetime'"
 			>
 				<component :is="getFooterIcon" />
+			</sb-button>
+			<sb-button
+				:disabled="isSaveDisabled"
+				no-elevation
+				color="accent"
+				tabindex="-1"
+				variant="text"
+				@click="handleSave"
+				v-if="!closeOnSelect"
+			>
+				{{ saveText || 'Save' }}
 			</sb-button>
 		</div>
 	</div>
@@ -235,8 +249,12 @@
 	}
 
 	export default defineComponent({
-		emits: ['onChange', 'onChangeTime'],
+		emits: ['onChange', 'onChangeTime', 'onSave'],
 		props: {
+			closeOnSelect: {
+				required: false,
+				type: Boolean,
+			},
 			inputWrapper: {
 				required: false,
 				type: Object,
@@ -252,6 +270,10 @@
 			range: {
 				required: false,
 				type: Boolean,
+			},
+			saveText: {
+				required: false,
+				type: String,
 			},
 			show: {
 				required: true,
@@ -385,6 +407,15 @@
 			},
 			iconAngleUp() {
 				return angleUp()
+			},
+			isSaveDisabled() {
+				if (this.range) {
+					const value: Dayjs[] | null = this.value as Dayjs[] | null
+
+					return !value || (value && value?.length < 2)
+				}
+
+				return false
 			},
 		},
 		methods: {
@@ -635,60 +666,36 @@
 			handleNavYear(inc: number) {
 				this.popupCurrentValue.year += inc
 			},
+			handleSave() {
+				if (this.type === 'time') {
+					this.setModelValueTime()
+				} else if (this.type === 'month') {
+					const properDate: string = getProperDateFormat(
+						1,
+						this.popupCurrentValue.month + 1,
+						DayJS().year(),
+					)
+
+					this.$emit('onChange', DayJS(properDate))
+				} else if (this.type === 'year') {
+					const properDate: string = getProperDateFormat(
+						1,
+						1,
+						this.popupCurrentValue.year,
+					)
+
+					this.$emit('onChange', DayJS(properDate))
+				} else {
+					this.setModelValueDate(this.popupCurrentValue.date)
+				}
+
+				this.$emit('onSave')
+			},
 			handleSelectDate({ disabled, value }: IDate) {
 				if (!disabled && !this.isDateDisabled(value)) {
 					this.popupCurrentValue.date = value
 
-					const properDate: string = getProperDateFormat(
-						value,
-						this.popupCurrentValue.month + 1,
-						this.popupCurrentValue.year,
-					)
-
-					if (this.type === 'datetime') {
-						if (!this.range) {
-							const hour: number = this.popupCurrentValue
-								.hour as number
-							const minute: number = this.popupCurrentValue
-								.minute as number
-
-							const properTime: string = getProperTimeFormat(
-								hour,
-								minute,
-							)
-
-							this.$emit(
-								'onChange',
-								DayJS(`${properDate} ${properTime}`),
-							)
-						} else {
-							const pos: number =
-								!this.value ||
-								(this.value &&
-									(this.value as Dayjs[]).length > 1)
-									? 0
-									: 1
-
-							const hour: number = (
-								this.popupCurrentValue.hour as number[]
-							)[pos]
-							const minute: number = (
-								this.popupCurrentValue.minute as number[]
-							)[pos]
-
-							const properTime: string = getProperTimeFormat(
-								hour,
-								minute,
-							)
-
-							this.$emit(
-								'onChange',
-								DayJS(`${properDate} ${properTime}`),
-							)
-						}
-					} else {
-						this.$emit('onChange', DayJS(properDate))
-					}
+					this.setModelValueDate(value)
 				}
 			},
 			handleShowHourList(pos: number) {
@@ -861,6 +868,57 @@
 			},
 			isYearSelected(year: number) {
 				return this.popupCurrentValue.year === year
+			},
+			setModelValueDate(date: number) {
+				const properDate: string = getProperDateFormat(
+					date,
+					this.popupCurrentValue.month + 1,
+					this.popupCurrentValue.year,
+				)
+
+				if (this.type === 'datetime') {
+					if (!this.range) {
+						const hour: number = this.popupCurrentValue
+							.hour as number
+						const minute: number = this.popupCurrentValue
+							.minute as number
+
+						const properTime: string = getProperTimeFormat(
+							hour,
+							minute,
+						)
+
+						this.$emit(
+							'onChange',
+							DayJS(`${properDate} ${properTime}`),
+						)
+					} else {
+						const pos: number =
+							!this.value ||
+							(this.value && (this.value as Dayjs[]).length > 1)
+								? 0
+								: 1
+
+						const hour: number = (
+							this.popupCurrentValue.hour as number[]
+						)[pos]
+						const minute: number = (
+							this.popupCurrentValue.minute as number[]
+						)[pos]
+
+						const properTime: string = getProperTimeFormat(
+							hour,
+							minute,
+						)
+
+						this.$emit(
+							'onChange',
+							DayJS(`${properDate} ${properTime}`),
+						)
+					}
+				} else {
+					this.$emit('onChange', DayJS(properDate))
+				}
 			},
 			setModelValueTime() {
 				if (!this.range) {
