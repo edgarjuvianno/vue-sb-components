@@ -10,6 +10,7 @@
 				:multi="multi"
 				:selected="localSelected"
 				@on-deselect="handleDeselect"
+				@on-expand="handleItemExpand"
 				@on-select="handleSelect"
 			/>
 		</ul>
@@ -24,7 +25,7 @@
 	import { ITreeItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['onChange'],
+		emits: ['onChange', 'onExpand'],
 		props: {
 			check: {
 				required: false,
@@ -104,6 +105,9 @@
 				this.$nextTick(() => {
 					this.handleChange()
 				})
+			},
+			handleItemExpand(item: ITreeItem, isExpand: boolean) {
+				this.$emit('onExpand', item, isExpand)
 			},
 			handleSelect(item: ITreeItem | ITreeItem[]) {
 				if (Array.isArray(item)) {

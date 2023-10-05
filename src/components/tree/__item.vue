@@ -17,8 +17,10 @@
 						<component :is="iconCheck" />
 					</span>
 				</div>
-				<label @click.stop="() => handleClick(item)">
-					{{ item.label }}
+				<label
+					@click.stop="() => handleClick(item)"
+					v-html="item.label"
+				>
 				</label>
 			</div>
 		</template>
@@ -26,12 +28,13 @@
 			<div
 				class="label-wrapper"
 				@click="
-					() => (check && multi ? handleCheck(item) : toggleExpand())
+					() =>
+						check && multi ? handleCheck(item) : toggleExpand(item)
 				"
 			>
 				<component
 					:is="iconAngleRight"
-					@click.stop="() => toggleExpand()"
+					@click.stop="() => toggleExpand(item)"
 				/>
 				<div
 					class="check-wrapper"
@@ -43,18 +46,19 @@
 					</span>
 					<span v-else-if="isPartialChecked(item)">-</span>
 				</div>
-				<label>{{ item.label }}</label>
+				<label v-html="item.label"></label>
 			</div>
 			<ul>
 				<sb-tree-view-item
 					v-for="(it, index) in item.children"
 					:check="check"
-					:expanded="it.children && localExpand"
+					:expanded="it.children && !!expanded"
 					:item="it"
 					:key="`item-${index}`"
 					:multi="multi"
 					:selected="selected"
 					@on-deselect="handleEmitDeselect"
+					@on-expand="handleEmitExpand"
 					@on-select="handleEmitSelect"
 				/>
 			</ul>
@@ -73,7 +77,7 @@
 	import { ITreeItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['onDeselect', 'onSelect'],
+		emits: ['onDeselect', 'onSelect', 'onExpand'],
 		props: {
 			check: {
 				required: false,
@@ -99,7 +103,7 @@
 		name: 'sb-tree-view-item',
 		data() {
 			return {
-				localExpand: !!this.expanded,
+				localExpand: !!this.expanded || !!this.item.expanded,
 			}
 		},
 		computed: {
@@ -113,6 +117,9 @@
 		methods: {
 			handleEmitDeselect(item: ITreeItem | ITreeItem[]) {
 				this.$emit('onDeselect', item)
+			},
+			handleEmitExpand(item: ITreeItem, isExpanded: boolean) {
+				this.$emit('onExpand', item, isExpanded)
 			},
 			handleEmitSelect(item: ITreeItem | ITreeItem[]) {
 				this.$emit('onSelect', item)
@@ -167,7 +174,8 @@
 			isSelected(item: ITreeItem) {
 				return isSelected(item, this.selected)
 			},
-			toggleExpand() {
+			toggleExpand(item: ITreeItem) {
+				this.handleEmitExpand(item, !this.localExpand)
 				this.localExpand = !this.localExpand
 			},
 		},

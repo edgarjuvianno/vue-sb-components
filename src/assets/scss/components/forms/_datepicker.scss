@@ -39,8 +39,22 @@
 		}
 
 		.footer {
+			display: flex;
+
 			button {
-				width: 100%;
+				flex: 1;
+
+				&:first-of-type {
+					border-bottom-right-radius: 0;
+					border-top-left-radius: 0;
+					border-top-right-radius: 0;
+				}
+
+				&:last-of-type {
+					border-bottom-left-radius: 0;
+					border-top-left-radius: 0;
+					border-top-right-radius: 0;
+				}
 
 				svg {
 					height: 1rem;
@@ -218,10 +232,13 @@
 					text-align: center;
 
 					svg {
-						background: transparent;
+						background: rgb(
+							var(--sb-color-primary-accent-30) /
+								var(--sb-color-opacity)
+						);
 						border-radius: 50%;
 						fill: rgb(
-							var(--sb-color-secondary-60) /
+							var(--sb-color-primary-accent-100) /
 								var(--sb-color-opacity)
 						);
 						cursor: pointer;
@@ -234,13 +251,10 @@
 
 						&:hover {
 							background: rgb(
-								var(--sb-color-secondary-60) /
+								var(--sb-color-primary-accent-60) /
 									var(--sb-color-opacity)
 							);
-							color: rgb(
-								var(--sb-color-secondary-100) /
-									var(--sb-color-opacity)
-							);
+							fill: #ffffff;
 						}
 					}
 
@@ -345,7 +359,7 @@
 			.body {
 				.time-wrapper {
 					background: rgb(
-						var(--sb-color-default-30) / var(--sb-color-opacity)
+						var(--sb-color-secondary-10) / var(--sb-color-opacity)
 					);
 					position: absolute;
 					height: calc(100% - 3rem);
@@ -354,6 +368,15 @@
 					transition: top 0.25s ease-in-out;
 					width: 100%;
 				}
+			}
+		}
+
+		&.with-save {
+			.month-list-wrapper,
+			.year-list-wrapper,
+			.hour-list-wrapper,
+			.minute-list-wrapper {
+				height: calc(100% - 3rem);
 			}
 		}
 

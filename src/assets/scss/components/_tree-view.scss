@@ -134,7 +134,7 @@
 			}
 
 			&.expanded {
-				.label-wrapper {
+				> .label-wrapper {
 					svg.angle-right {
 						transform: rotate(90deg);
 					}
