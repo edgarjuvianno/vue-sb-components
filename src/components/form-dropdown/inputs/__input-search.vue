@@ -1,5 +1,5 @@
 <template>
-	<div class="dropdown-input-wrapper search" :class="{ multi }">
+	<div class="dropdown-input-wrapper search" :class="{ multi, selected }">
 		<template v-if="!multi">
 			<div class="content">
 				<span v-html="renderOption(selected)" />

@@ -25,6 +25,17 @@
 					white-space: nowrap;
 				}
 			}
+
+			&.readonly,
+			&.disabled {
+				.form-control {
+					.value-wrapper {
+						color: rgb(
+							var(--sb-color-border) / var(--sb-color-opacity)
+						);
+					}
+				}
+			}
 		}
 
 		&.multi {

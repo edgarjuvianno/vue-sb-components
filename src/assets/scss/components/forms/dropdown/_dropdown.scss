@@ -20,6 +20,12 @@
 					transition: unset;
 				}
 			}
+
+			&.disabled {
+				.form-control {
+					cursor: not-allowed;
+				}
+			}
 		}
 	}
 

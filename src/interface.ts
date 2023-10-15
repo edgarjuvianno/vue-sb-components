@@ -198,3 +198,18 @@ export interface ISwitchLabel {
 	active: string
 	notActive: string
 }
+
+export interface IDTLanguage {
+	noResult?: string
+	perPage?: string
+}
+
+export interface IMaskaOptions {
+	eager?: boolean
+	mask?: string | string[] | Function
+	tokens?: any
+	tokensReplace?: any
+	postProcess?: Function
+	preProcess?: Function
+	reversed?: boolean
+}

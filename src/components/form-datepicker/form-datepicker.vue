@@ -274,20 +274,23 @@
 				if (!this.range) {
 					this.handleUpdateModelValue(value)
 				} else {
-					if (!this.localValue) {
-						this.localValue = [value]
-					} else {
-						const tempValues: Dayjs[] = [...this.localValue, value]
-						const sortedValues: Dayjs[] = sortDateRange(tempValues)
+					const tempValues: () => Dayjs[] = () => {
+						if (this.localValue && this.localValue.length === 1) {
+							return [...this.localValue, value]
+						}
 
-						this.localValue = sortedValues
-
-						this.$nextTick(() => {
-							if (this.localValue.length > 1) {
-								this.handleRangeUpdateModelValue()
-							}
-						})
+						return [value]
 					}
+
+					const sortedValues: Dayjs[] = sortDateRange(tempValues())
+
+					this.localValue = [...sortedValues]
+
+					this.$nextTick(() => {
+						if (this.localValue.length > 1) {
+							this.handleRangeUpdateModelValue()
+						}
+					})
 				}
 			},
 			handleOnChangeTime(value: Dayjs[]) {

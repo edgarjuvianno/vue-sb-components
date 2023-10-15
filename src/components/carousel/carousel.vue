@@ -630,6 +630,7 @@
 				handler() {
 					this.handleInitCards()
 				},
+				immediate: true,
 			},
 		},
 		mounted() {

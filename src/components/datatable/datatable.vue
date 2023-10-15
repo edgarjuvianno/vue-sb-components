@@ -173,7 +173,11 @@
 							<td colspan="100%">
 								<div class="no-results">
 									<sb-svg-no-results />
-									<div>No Results Found...</div>
+									<div
+										v-if="language?.noResult"
+										v-html="language?.noResult"
+									></div>
+									<div v-else>No Results Found...</div>
 								</div>
 							</td>
 						</tr>
@@ -203,7 +207,11 @@
 			v-if="showFooter"
 		>
 			<div class="length-options" v-if="lengthChange.enabled">
-				<span>Rows per page</span>
+				<span
+					v-if="language?.perPage"
+					v-html="language?.perPage"
+				></span>
+				<span v-else>Rows per page</span>
 				<sb-dropdown
 					flat
 					:list="getLengthOptions"
@@ -276,6 +284,7 @@
 	import {
 		IDTChangeResponse,
 		IDTColumn,
+		IDTLanguage,
 		IDTServerSideHandler,
 		IDTSort,
 		ILengthChange,
@@ -303,6 +312,10 @@
 			isLoading: {
 				required: false,
 				type: Boolean,
+			},
+			language: {
+				required: false,
+				type: Object as PropType<IDTLanguage>,
 			},
 			lengthChange: {
 				default: () => ({
@@ -949,6 +962,11 @@
 				},
 				immediate: true,
 			},
+		},
+		unmounted() {
+			if (this.localAbort) {
+				this.localAbort.abort()
+			}
 		},
 	})
 </script>

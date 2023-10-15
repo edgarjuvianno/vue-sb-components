@@ -59,7 +59,7 @@ body .sb-hidden {
 	display: none;
 }
 
-body .sb-overflow-hidden {
+body.sb-overflow-hidden {
 	overflow: hidden;
 }
 
