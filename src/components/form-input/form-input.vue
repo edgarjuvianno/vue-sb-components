@@ -40,10 +40,9 @@
 			>
 				<template v-if="!$slots['custom-input']">
 					<input
-						:data-maska="pattern"
 						:type="getInputType"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
-						v-maska:[getMaskaOption]
+						v-maska:[getMaskaOptions]
 						v-model="localValue"
 						v-bind="{
 							autocomplete,
@@ -120,7 +119,7 @@
 </template>
 
 <script lang="ts">
-	import { IIcon } from '@/interface'
+	import { IIcon, IMaskaOptions } from '@/interface'
 	import { defineComponent, PropType } from 'vue'
 	import { vMaska } from 'maska'
 
@@ -157,7 +156,7 @@
 			},
 			maskaOptions: {
 				required: false,
-				type: Object as PropType<Record<string, any>>,
+				type: Object as PropType<IMaskaOptions>,
 			},
 			max: {
 				required: false,
@@ -242,12 +241,15 @@
 
 				return this.type
 			},
-			getMaskaOption() {
-				if (this.maskaOptions) {
-					return this.maskaOptions
+			getMaskaOptions() {
+				return {
+					...(this.pattern && {
+						mask: this.pattern,
+					}),
+					...(this.maskaOptions && {
+						...this.maskaOptions,
+					}),
 				}
-
-				return {}
 			},
 			isFilled() {
 				return (

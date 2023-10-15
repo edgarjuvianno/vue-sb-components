@@ -203,7 +203,9 @@
 			},
 			value: {
 				required: false,
-				type: Object,
+				type: Object as PropType<
+					Record<string, any> | Record<string, any>[] | null
+				>,
 			},
 		},
 		name: 'sb-form-dropdown',
@@ -283,6 +285,8 @@
 				}
 
 				this.$nextTick(() => {
+					this.handleUpdateModel()
+
 					if (this.closeOnSelect && !this.multi) {
 						this.isOpen = false
 
@@ -341,20 +345,26 @@
 				}
 			},
 			handleClear(index?: number) {
-				if (typeof index !== 'undefined') {
-					const tempSelected: any[] = [...this.selected]
-					tempSelected.splice(index, 1)
-
-					this.selected = [...tempSelected]
-				} else if (this.search || this.serverSide) {
-					if (this.multi) {
+				if (!this.readOnly && !this.disabled) {
+					if (typeof index !== 'undefined') {
 						const tempSelected: any[] = [...this.selected]
-						tempSelected.pop()
+						tempSelected.splice(index, 1)
 
 						this.selected = [...tempSelected]
-					} else {
-						this.selected = null
+					} else if (this.search || this.serverSide) {
+						if (this.multi) {
+							const tempSelected: any[] = [...this.selected]
+							tempSelected.pop()
+
+							this.selected = [...tempSelected]
+						} else {
+							this.selected = null
+						}
 					}
+
+					this.$nextTick(() => {
+						this.handleUpdateModel()
+					})
 				}
 			},
 			handleClickIcon() {
@@ -366,6 +376,10 @@
 							this.selected.length > 0))
 				) {
 					this.selected = null
+
+					this.$nextTick(() => {
+						this.handleUpdateModel()
+					})
 				}
 			},
 			handleFilterList(term: string) {
@@ -489,6 +503,17 @@
 					input?.blur()
 				}
 			},
+			handleUpdateModel() {
+				if (this.multi) {
+					this.$nextTick(() => {
+						this.setOptionsPosition()
+					})
+				}
+
+				this.$emit('update:modelValue', this.selected)
+				this.$emit('input', this.selected)
+				this.$emit('change', this.selected)
+			},
 			onScrollBottom(e: any) {
 				const { scrollTop, offsetHeight, scrollHeight }: any = e.target
 
@@ -570,20 +595,17 @@
 				},
 				immediate: true,
 			},
-			selected: {
+			modelValue: {
 				deep: true,
-				handler() {
-					if (this.multi) {
-						this.$nextTick(() => {
-							this.setOptionsPosition()
-						})
-					}
-
-					this.$emit('update:modelValue', this.selected)
-					this.$emit('input', this.selected)
-					this.$emit('change', this.selected)
+				handler(newValue: any) {
+					this.selected = newValue
 				},
-				immediate: false,
+			},
+			value: {
+				deep: true,
+				handler(newValue: any) {
+					this.selected = newValue
+				},
 			},
 		},
 		mounted() {

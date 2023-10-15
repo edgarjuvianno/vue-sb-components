@@ -402,9 +402,7 @@
 			}
 		}
 
-		&-contained,
-		&-outlined,
-		&-text {
+		&-contained {
 			&:disabled {
 				background: rgb(
 					var(--sb-color-disabled-100) / var(--sb-color-opacity)
@@ -412,6 +410,27 @@
 				border-color: rgb(
 					var(--sb-color-disabled-100) / var(--sb-color-opacity)
 				);
+				color: rgb(
+					var(--sb-color-secondary-100) / var(--sb-color-opacity)
+				);
+				cursor: not-allowed;
+			}
+		}
+
+		&-outlined {
+			&:disabled {
+				border-color: rgb(
+					var(--sb-color-disabled-100) / var(--sb-color-opacity)
+				);
+				color: rgb(
+					var(--sb-color-secondary-100) / var(--sb-color-opacity)
+				);
+				cursor: not-allowed;
+			}
+		}
+
+		&-text {
+			&:disabled {
 				color: rgb(
 					var(--sb-color-secondary-100) / var(--sb-color-opacity)
 				);

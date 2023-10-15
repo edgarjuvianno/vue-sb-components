@@ -15,6 +15,17 @@
 				}
 			}
 		}
+
+		&.readonly,
+		&.disabled {
+			.form-control {
+				.dropdown-input-wrapper {
+					color: rgb(
+						var(--sb-color-border) / var(--sb-color-opacity)
+					);
+				}
+			}
+		}
 	}
 
 	&.multi {
@@ -98,6 +109,23 @@
 						caret-color: auto;
 						flex: 1;
 						outline: 0;
+					}
+
+					&.selected {
+						&:not(.multi) {
+							.content {
+								flex-basis: 70%;
+								overflow: hidden;
+
+								span {
+									display: block;
+									overflow: hidden;
+									text-overflow: ellipsis;
+									white-space: nowrap;
+									width: 100%;
+								}
+							}
+						}
 					}
 				}
 			}

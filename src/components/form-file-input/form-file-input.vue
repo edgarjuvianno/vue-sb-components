@@ -25,11 +25,19 @@
 				:icon="icon"
 				:isError="isError || isErrorLocal"
 				:label="label"
-				v-bind="{ disabled, readOnly, required }"
+				v-bind="{
+					disabled,
+					readOnly,
+					required,
+					...(!readOnly &&
+						!disabled && {
+							icon,
+						}),
+				}"
 				v-model="localValue"
 				@click="() => handleOpenInput()"
 			>
-				<template v-slot:icon>
+				<template v-slot:icon v-if="!readOnly && !disabled">
 					<component :is="iconSVG" />
 				</template>
 				<template v-slot:custom-input>
@@ -260,32 +268,36 @@
 				return true
 			},
 			handleClear(ev: Event, index: number) {
-				ev.stopPropagation()
-				const tempValues: File[] = [...this.localValue]
-				tempValues.splice(index, 1)
+				if (!this.readOnly && !this.disabled) {
+					ev.stopPropagation()
+					const tempValues: File[] = [...this.localValue]
+					tempValues.splice(index, 1)
 
-				if (tempValues.length < 1) {
-					;(this.$refs['input-file'] as any).value = null
+					if (tempValues.length < 1) {
+						;(this.$refs['input-file'] as any).value = null
+					}
+
+					this.handleUpdateModelValue([...tempValues])
 				}
-
-				this.handleUpdateModelValue([...tempValues])
 			},
 			handleClickIcon(ev: Event) {
 				ev.stopPropagation()
 
-				if (
-					this.allowClear &&
-					this.localValue &&
-					this.localValue.length > 0
-				) {
-					if (this.uploadState?.status === 'ERROR') {
-						this.$emit('onRetry', this.localValue)
+				if (!this.readOnly && !this.disabled) {
+					if (
+						this.allowClear &&
+						this.localValue &&
+						this.localValue.length > 0
+					) {
+						if (this.uploadState?.status === 'ERROR') {
+							this.$emit('onRetry', this.localValue)
+						} else {
+							;(this.$refs['input-file'] as any).value = null
+							this.handleUpdateModelValue(null)
+						}
 					} else {
-						;(this.$refs['input-file'] as any).value = null
-						this.handleUpdateModelValue(null)
+						this.handleOpenInput()
 					}
-				} else {
-					this.handleOpenInput()
 				}
 			},
 			handleOpenInput() {

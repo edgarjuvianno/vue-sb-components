@@ -692,7 +692,13 @@
 
 					this.$emit('onChange', DayJS(properDate))
 				} else {
-					this.setModelValueDate(this.popupCurrentValue.date)
+					if (
+						!this.range ||
+						(this.range &&
+							(!this.value || (this.value as Dayjs[]).length < 2))
+					) {
+						this.setModelValueDate(this.popupCurrentValue.date)
+					}
 				}
 
 				this.$emit('onSave')

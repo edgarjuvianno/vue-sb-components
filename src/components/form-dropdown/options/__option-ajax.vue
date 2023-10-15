@@ -328,6 +328,11 @@
 				},
 			},
 		},
+		unmounted() {
+			if (this.localAbort) {
+				this.localAbort.abort()
+			}
+		},
 	})
 </script>
 
