@@ -124,6 +124,10 @@
 
 						const xhr: XMLHttpRequest = new XMLHttpRequest()
 
+						if (this.serverSide?.options?.withCredential) {
+							xhr.withCredentials = true
+						}
+
 						if (this.localAbort) {
 							this.localAbort.abort()
 						}
@@ -184,15 +188,17 @@
 							)
 
 							xhr.onload = () => {
-								const response: any = JSON.parse(xhr.response)
-
 								if (xhr.status !== 200) {
 									reject({
 										status: xhr.status,
 										statusText: xhr.statusText,
-										response: response,
+										response: xhr.response,
 									})
 								} else {
+									const response: any = JSON.parse(
+										xhr.response,
+									)
+
 									resolve({
 										status: xhr.status,
 										statusText: xhr.statusText,
@@ -202,7 +208,7 @@
 							}
 
 							xhr.onabort = () => {
-								const response: any = JSON.parse(xhr.response)
+								const response: any = xhr.response
 
 								reject({
 									status: xhr.status,
@@ -213,28 +219,6 @@
 
 							xhr.send(getPayload())
 						})
-							.catch((ajaxResult: any) => {
-								this.localLoading = false
-
-								if (!this.infinite) {
-									this.localList = []
-								}
-
-								if (this.onAjax) {
-									this.onAjax(
-										{
-											data: null,
-											httpResponse: {
-												code: ajaxResult.status || 500,
-												message:
-													ajaxResult.response.message,
-											},
-											status: false,
-										},
-										'ERROR',
-									)
-								}
-							})
 							.then((ajaxResult: any) => {
 								if (this.onAjax) {
 									const handler: any = this.onAjax(
@@ -262,6 +246,28 @@
 								}
 
 								this.localLoading = false
+							})
+							.catch((ajaxResult: any) => {
+								this.localLoading = false
+
+								if (!this.infinite) {
+									this.localList = []
+								}
+
+								if (this.onAjax) {
+									this.onAjax(
+										{
+											data: null,
+											httpResponse: {
+												code: ajaxResult.status || 500,
+												message:
+													ajaxResult.response.message,
+											},
+											status: false,
+										},
+										'ERROR',
+									)
+								}
 							})
 					}
 				} catch (error) {

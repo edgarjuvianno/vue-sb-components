@@ -116,9 +116,11 @@ body {
 							width: 1rem;
 
 							.icon {
+								height: 0.875rem;
 								left: 50%;
 								position: absolute;
 								transform: translateX(-50%);
+								width: 0.875rem;
 							}
 
 							.icon:first-of-type {

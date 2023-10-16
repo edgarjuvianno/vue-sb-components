@@ -551,6 +551,10 @@
 
 						const xhr: XMLHttpRequest = new XMLHttpRequest()
 
+						if (this.serverSide?.options?.withCredential) {
+							xhr.withCredentials = true
+						}
+
 						if (this.localAbort) {
 							this.localAbort.abort()
 						}
@@ -611,15 +615,17 @@
 							)
 
 							xhr.onload = () => {
-								const response: any = JSON.parse(xhr.response)
-
 								if (xhr.status !== 200) {
 									reject({
 										status: xhr.status,
 										statusText: xhr.statusText,
-										response: response,
+										response: xhr.response,
 									})
 								} else {
+									const response: any = JSON.parse(
+										xhr.response,
+									)
+
 									resolve({
 										status: xhr.status,
 										statusText: xhr.statusText,
@@ -629,7 +635,7 @@
 							}
 
 							xhr.onabort = () => {
-								const response: any = JSON.parse(xhr.response)
+								const response: any = xhr.response
 
 								reject({
 									status: xhr.status,
@@ -640,6 +646,35 @@
 
 							xhr.send(getPayload())
 						})
+							.then((ajaxResult: any) => {
+								if (that.onAjax) {
+									const handler: any = that.onAjax(
+										{
+											dtConfig: {
+												...that.response,
+											},
+											response: {
+												data: ajaxResult.response,
+												httpResponse: {
+													code: ajaxResult.status,
+													message:
+														ajaxResult.statusText,
+												},
+												status: true,
+											},
+										},
+										'SUCCESS',
+									)
+
+									that.localPagination = {
+										...that.localPagination,
+										total: handler?.total || 0,
+										totalRow: handler?.totalRow || 0,
+									}
+								}
+
+								that.localLoading = false
+							})
 							.catch((ajaxResult: any) => {
 								that.localLoading = false
 
@@ -669,35 +704,6 @@
 
 									that.setEmptyData()
 								}
-							})
-							.then((ajaxResult: any) => {
-								if (that.onAjax) {
-									const handler: any = that.onAjax(
-										{
-											dtConfig: {
-												...that.response,
-											},
-											response: {
-												data: ajaxResult.response,
-												httpResponse: {
-													code: ajaxResult.status,
-													message:
-														ajaxResult.statusText,
-												},
-												status: true,
-											},
-										},
-										'SUCCESS',
-									)
-
-									that.localPagination = {
-										...that.localPagination,
-										total: handler?.total || 0,
-										totalRow: handler?.totalRow || 0,
-									}
-								}
-
-								that.localLoading = false
 							})
 					} else {
 						if (this.onAjax) {
