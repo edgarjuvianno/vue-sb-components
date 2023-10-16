@@ -1,10 +1,5 @@
 import { ICSSVariables } from '@/interface'
 
-export const fileAsURL = (file: any, type: string) => {
-	const blob = new Blob([file], { type })
-	return window.URL.createObjectURL(blob)
-}
-
 export const hexToRgb: (hex: string) => string | null = (hex: string) => {
 	const regex: RegExpExecArray | null =
 		/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)

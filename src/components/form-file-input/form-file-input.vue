@@ -96,19 +96,12 @@
 			</template>
 		</div>
 	</div>
-	<sb-file-preview
-		v-bind="{ ...fileView }"
-		@close="() => (fileView.show = false)"
-		v-if="viewFile"
-	/>
 </template>
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
-	import { fileAsURL } from '@/components/helper/helper'
 
 	// components
-	import FilePreview from '@/components/file-preview/file-preview.vue'
 	import Input from '@/components/form-input/form-input.vue'
 	import ProgressBar from '@/components/progress-bar/progress-bar.vue'
 
@@ -117,7 +110,13 @@
 	import { IIcon, IUploadState } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue', 'onError', 'onRetry'],
+		emits: [
+			'change',
+			'update:modelValue',
+			'onError',
+			'onRetry',
+			'onViewFile',
+		],
 		props: {
 			allowClear: {
 				required: false,
@@ -186,18 +185,12 @@
 		},
 		name: 'sb-form-file-input',
 		components: {
-			'sb-file-preview': FilePreview,
 			'sb-input': Input,
 			'sb-progress-bar': ProgressBar,
 		},
 		data() {
 			return {
 				errorMessageLocal: null as string | null,
-				fileView: {
-					show: false,
-					src: null,
-					type: 'image',
-				} as any,
 				icon: {
 					onClick: null as any,
 					onMouseLeave: null as any,
@@ -344,34 +337,13 @@
 			handleView(ev: Event, index?: number) {
 				ev.stopPropagation()
 
-				if (this.fileView.src) {
-					window.URL.revokeObjectURL(this.fileView.src)
-				}
-
 				const file: File =
 					this.localValue[typeof index !== 'undefined' ? index : 0]
 
-				let fileType: any = ''
-
-				if (file.type.indexOf('image') > -1) {
-					fileType = 'image'
-				} else if (file.type.indexOf('pdf') > -1) {
-					fileType = 'pdf'
-				} else if (file.type.indexOf('video') > -1) {
-					fileType = 'video'
-				} else if (file.type.indexOf('audio') > -1) {
-					fileType = 'audio'
-				}
-
-				if (fileType !== '') {
-					const uri: string = fileAsURL(file, file.type)
-
-					this.fileView = {
-						show: true,
-						src: uri,
-						type: fileType,
-					}
-				}
+				this.$emit('onViewFile', {
+					file,
+					type: file.type,
+				})
 			},
 			isFormatValid(files: File[]) {
 				const tempFiles: any[] = [...files]
