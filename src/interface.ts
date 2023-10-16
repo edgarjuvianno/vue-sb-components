@@ -12,6 +12,7 @@ export interface IAJAXResponse {
 export interface IServerSideOptions {
 	headers?: any
 	payload?: any
+	withCredential?: boolean
 }
 
 export interface IServerSide {
