@@ -46,11 +46,11 @@
 		position: absolute;
 		top: 0;
 		width: 100%;
-		z-index: 11;
+		z-index: 1050;
 	}
 
 	.modal-wrapper {
-		z-index: 12;
+		z-index: 1051;
 
 		.modal-container {
 			margin: 0px auto;
@@ -131,7 +131,7 @@
 
 	&.show {
 		animation: modal-fade-in 0.15s;
-		z-index: 11;
+		z-index: 1050;
 
 		.modal-wrapper {
 			animation: modal-slide-up 0.8s linear;

@@ -269,7 +269,7 @@
 
 	&.show {
 		animation: alert-fade-in 0.15s;
-		z-index: 30;
+		z-index: 1060;
 	}
 
 	&.hide {
@@ -289,7 +289,7 @@
 	display: block;
 	overflow: hidden;
 	position: fixed;
-	z-index: 9999;
+	z-index: 1061;
 
 	.backdrop {
 		display: none;
