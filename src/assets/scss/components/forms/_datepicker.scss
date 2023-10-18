@@ -32,7 +32,7 @@
 		min-width: 20rem;
 		overflow: hidden;
 		position: absolute;
-		z-index: 100;
+		z-index: 10;
 
 		@media screen and (max-width: 600px) {
 			max-width: calc(100vw - 3rem);
