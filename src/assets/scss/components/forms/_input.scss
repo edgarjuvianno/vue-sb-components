@@ -160,8 +160,8 @@
 
 			textarea {
 				height: unset;
+				margin: 1rem 0;
 				min-height: calc(56px - 0.3rem);
-				padding-top: 1rem;
 				resize: none;
 			}
 
@@ -275,6 +275,12 @@
 				);
 				font-weight: 500;
 				transform: translate(0, -26px) scale(0.95);
+
+				span {
+					color: rgb(
+						var(--sb-color-primary-100) / var(--sb-color-opacity)
+					);
+				}
 			}
 
 			.form-control {
@@ -349,6 +355,12 @@
 				);
 				font-weight: 500;
 				transform: translate(0, -26px) scale(0.95);
+
+				span {
+					color: rgb(
+						var(--sb-color-secondary-font) / var(--sb-color-opacity)
+					);
+				}
 			}
 
 			.form-control {
@@ -405,6 +417,14 @@
 					);
 				}
 			}
+
+			.label {
+				span {
+					color: rgb(
+						var(--sb-color-border) / var(--sb-color-opacity)
+					);
+				}
+			}
 		}
 	}
 
@@ -424,6 +444,12 @@
 				color: rgb(
 					var(--sb-color-danger-100) / var(--sb-color-opacity)
 				);
+
+				span {
+					color: rgb(
+						var(--sb-color-danger-100) / var(--sb-color-opacity)
+					);
+				}
 			}
 
 			.input-border {
