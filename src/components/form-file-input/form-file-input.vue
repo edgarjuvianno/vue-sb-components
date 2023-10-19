@@ -317,10 +317,11 @@
 						return this.handleUpdateModelValue([...files])
 					}
 				} else if (
-					!ev.target.value &&
+					!ev.target?.value &&
 					this.errorMessageLocal &&
 					this.errorMessageLocal !== ''
 				) {
+					this.isErrorLocal = false
 					this.errorMessageLocal = null
 				}
 
