@@ -5,7 +5,35 @@
 }
 
 .file-preview-wrapper {
-	width: 100%;
+	width: 50rem;
+
+	&.pdf {
+		width: 60rem;
+	}
+
+	@media screen and (max-width: 1024px) {
+		width: 40rem;
+
+		&.pdf {
+			width: 50rem;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		width: 70vw;
+
+		&.pdf {
+			width: 80vw;
+		}
+	}
+
+	@media screen and (max-width: 425px) {
+		width: 80vw;
+
+		&.pdf {
+			width: 90vw;
+		}
+	}
 
 	.loading {
 		height: 50vh;

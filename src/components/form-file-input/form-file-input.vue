@@ -21,9 +21,9 @@
 			/>
 			<sb-input
 				:class="{ multi }"
-				:errorMessage="errorMessageLocal || errorMessage"
+				:errorMessage="errorMessage"
 				:icon="icon"
-				:isError="isError || isErrorLocal"
+				:isError="isError"
 				:label="label"
 				v-bind="{
 					disabled,
@@ -190,7 +190,6 @@
 		},
 		data() {
 			return {
-				errorMessageLocal: null as string | null,
 				icon: {
 					onClick: null as any,
 					onMouseLeave: null as any,
@@ -198,7 +197,6 @@
 					placement: 'append',
 				} as IIcon,
 				iconSVG: null as any,
-				isErrorLocal: false,
 				localValue: (this.modelValue || this.value || null) as any,
 			}
 		},
@@ -237,22 +235,17 @@
 		},
 		methods: {
 			doValidateFiles(files?: File[]) {
-				this.isErrorLocal = false
-				this.errorMessageLocal = null
-
 				const tempFiles: File[] = files || this.localValue
 
 				if (!this.isFormatValid(tempFiles)) {
-					this.isErrorLocal = true
-					this.errorMessageLocal = `Format yang didukung: ${this.getHumanFormats}`
-
-					this.$emit('onError', 'INVALID FORMAT')
+					this.$emit(
+						'onError',
+						'INVALID FORMAT',
+						this.getHumanFormats,
+					)
 
 					return false
 				} else if (this.maxSize && !this.isSizeValid(tempFiles)) {
-					this.isErrorLocal = true
-					this.errorMessageLocal = `Ukuran Berkas maksimum ${this.maxSize}MB`
-
 					this.$emit('onError', 'INVALID SIZE')
 
 					return false
@@ -316,13 +309,6 @@
 
 						return this.handleUpdateModelValue([...files])
 					}
-				} else if (
-					!ev.target?.value &&
-					this.errorMessageLocal &&
-					this.errorMessageLocal !== ''
-				) {
-					this.isErrorLocal = false
-					this.errorMessageLocal = null
 				}
 
 				return this.handleUpdateModelValue(null)
