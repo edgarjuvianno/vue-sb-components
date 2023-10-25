@@ -1,6 +1,10 @@
 <template>
 	<sb-modal
-		:container="type === 'pdf' ? 'x-large' : 'large'"
+		class="file-preview-modal"
+		container="fit-content"
+		:class="{
+			type,
+		}"
 		:show="show"
 		@close="handleClose"
 		v-bind="{ ...$attrs }"
@@ -189,7 +193,9 @@
 												)
 
 												if (index === numPages - 1) {
-													that.isLoading = false
+													setTimeout(() => {
+														that.isLoading = false
+													}, 300)
 												}
 											})
 									})
@@ -227,6 +233,6 @@
 	})
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	@import '../../assets/scss/components/_file-preview.scss';
 </style>

@@ -43,6 +43,7 @@
 				max,
 				min,
 				range,
+				saveText,
 				type,
 			}"
 			@on-change="handleOnChange"

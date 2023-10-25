@@ -276,7 +276,7 @@
 				font-weight: 500;
 				transform: translate(0, -26px) scale(0.95);
 
-				span {
+				span:not(.asterisk) {
 					color: rgb(
 						var(--sb-color-primary-100) / var(--sb-color-opacity)
 					);
@@ -350,16 +350,22 @@
 			}
 
 			.label {
-				color: rgb(
-					var(--sb-color-secondary-font) / var(--sb-color-opacity)
-				);
-				font-weight: 500;
 				transform: translate(0, -26px) scale(0.95);
+			}
 
-				span {
+			&:not(.readonly, .disabled) {
+				.label {
 					color: rgb(
 						var(--sb-color-secondary-font) / var(--sb-color-opacity)
 					);
+					font-weight: 500;
+
+					span:not(.asterisk) {
+						color: rgb(
+							var(--sb-color-secondary-font) /
+								var(--sb-color-opacity)
+						);
+					}
 				}
 			}
 

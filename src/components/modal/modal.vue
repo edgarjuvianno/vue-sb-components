@@ -29,9 +29,9 @@
 		emits: ['close'],
 		props: {
 			container: {
-				default: 'medium',
+				default: 'fit-content',
 				type: String as PropType<
-					'x-large' | 'large' | 'medium' | 'small'
+					'x-large' | 'large' | 'medium' | 'small' | 'fit-content'
 				>,
 			},
 			id: {
