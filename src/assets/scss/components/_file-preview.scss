@@ -42,7 +42,7 @@
 		.skeleton {
 			animation: file-preview-skeleton-loading 2s
 				cubic-bezier(0.4, 0, 0.6, 1) infinite;
-			background-color: rgb(var(--sb-color-secondary-30)) / 1;
+			background-color: rgb(var(--sb-color-secondary-30) / 1);
 			border-radius: 6px;
 			height: 100%;
 			width: 100%;
