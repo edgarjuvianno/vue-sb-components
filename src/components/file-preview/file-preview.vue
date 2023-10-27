@@ -37,16 +37,32 @@
 				<template v-if="type === 'pdf'">
 					<canvas class="sb-hidden" ref="pdf-canvas" />
 					<div class="pdf-viewer">
-						<div class="image-wrapper">
+						<div
+							class="image-wrapper"
+							ref="pdf-images-wrapper"
+							v-bind="{
+								...(pdfDisplayType === 'scroll' && {
+									onscroll: handlePdfScroll,
+								}),
+							}"
+						>
 							<img
 								v-for="(img, idx) in localPdf.pages"
 								:key="`pdf-img-${idx}`"
+								:ref="`pdf-img-${idx}`"
 								:src="img"
 								:style="{
-									display:
-										localPdf.currentPage - 1 !== idx
-											? 'none'
-											: '',
+									...(pdfDisplayType === 'pagination' && {
+										display:
+											localPdf.currentPage - 1 !== idx
+												? 'none'
+												: '',
+									}),
+								}"
+								v-bind="{
+									...(idx === localPdf.pages.length - 1 && {
+										onload: handleLoadSrc,
+									}),
 								}"
 							/>
 						</div>
@@ -55,7 +71,7 @@
 								class="icon"
 								:class="{ disabled: localPdf.currentPage < 2 }"
 								:is="angleLeft"
-								@click="() => (localPdf.currentPage -= 1)"
+								@click="handleControlClick(-1)"
 							/>
 							<div class="page-state">
 								<span class="current">
@@ -74,7 +90,7 @@
 										localPdf.pages.length,
 								}"
 								:is="angleRight"
-								@click="() => (localPdf.currentPage += 1)"
+								@click="handleControlClick(1)"
 							/>
 						</div>
 					</div>
@@ -112,6 +128,10 @@
 	export default defineComponent({
 		emits: ['close'],
 		props: {
+			pdfDisplayType: {
+				default: 'pagination',
+				type: String as PropType<'pagination' | 'scroll'>,
+			},
 			show: {
 				required: true,
 				type: Boolean,
@@ -153,6 +173,19 @@
 				this.localSrc = null
 				this.$emit('close')
 			},
+			handleControlClick(num: number) {
+				const finalPage = this.localPdf.currentPage + num
+
+				if (this.pdfDisplayType === 'scroll') {
+					const elem: any = this.$refs[`pdf-img-${finalPage - 1}`]
+
+					if (elem[0]) {
+						elem[0].scrollIntoView({ behavior: 'smooth' })
+					}
+				} else {
+					this.localPdf.currentPage = finalPage
+				}
+			},
 			handleLoadSrc() {
 				setTimeout(() => {
 					this.isLoading = false
@@ -191,12 +224,6 @@
 												that.localPdf.pages.push(
 													canvas.toDataURL(),
 												)
-
-												if (index === numPages - 1) {
-													setTimeout(() => {
-														that.isLoading = false
-													}, 300)
-												}
 											})
 									})
 							}
@@ -207,6 +234,35 @@
 
 						console.error(reason)
 					})
+			},
+			handlePdfScroll() {
+				const pages: any[] = [...this.localPdf.pages]
+
+				for (let idx = 0; idx < pages.length; idx++) {
+					const elem: any = this.$refs[`pdf-img-${idx}`]
+					const isVisible: boolean = this.isInViewPort(elem)
+
+					if (isVisible) {
+						this.localPdf.currentPage = idx + 1
+					} else {
+						break
+					}
+				}
+			},
+			isInViewPort(elem: any) {
+				const parent: any = this.$refs['pdf-images-wrapper']
+
+				if (elem[0] && parent) {
+					const elemHeight: number = elem[0].clientHeight
+					const elemPosition: number = elem[0].offsetTop
+
+					const scrollPosition: number =
+						parent.scrollTop + parent.clientHeight
+
+					return elemHeight * 0.55 + elemPosition <= scrollPosition
+				}
+
+				return false
 			},
 		},
 		watch: {
