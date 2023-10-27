@@ -2,12 +2,20 @@
 	<div
 		class="file-input-wrapper"
 		:class="{
+			'on-drag': onDragOver,
 			'upload-error': uploadState?.status === 'ERROR',
 			uploaded: uploadState?.status === 'SUCCESS',
 			uploading: isUploadVisible,
 		}"
 		v-bind="{ ...$attrs }"
+		@dragenter.prevent="handleDragEnter"
+		@dragleave.prevent="handleDragLeave"
+		@dragover.prevent="handleDragEnter"
+		@drop.prevent="handleDropFile"
 	>
+		<div class="drag-overlay" v-if="onDragOver">
+			<div class="text">{{ getOnDragText }}</div>
+		</div>
 		<label class="helper-text" v-if="helperText">
 			{{ helperText }}
 		</label>
@@ -162,6 +170,10 @@
 				required: false,
 				type: Boolean,
 			},
+			onDragText: {
+				required: false,
+				type: String,
+			},
 			readOnly: {
 				required: false,
 				type: Boolean,
@@ -198,6 +210,8 @@
 				} as IIcon,
 				iconSVG: null as any,
 				localValue: (this.modelValue || this.value || null) as any,
+				onDragOver: false,
+				onDragTimeout: null as any,
 			}
 		},
 		computed: {
@@ -219,6 +233,13 @@
 				return this.format
 					.map((it: string) => `*${it || ''}`)
 					.join(', ')
+			},
+			getOnDragText() {
+				if (this.onDragText) {
+					return this.onDragText
+				}
+
+				return 'Drag and drop your files here'
 			},
 			getProgressColor() {
 				if (this.uploadState?.status === 'ERROR') {
@@ -283,6 +304,37 @@
 						}
 					} else {
 						this.handleOpenInput()
+					}
+				}
+			},
+			handleDragEnter() {
+				this.onDragOver = true
+
+				if (this.onDragTimeout) {
+					clearTimeout(this.onDragTimeout)
+				}
+			},
+			handleDragLeave() {
+				this.onDragTimeout = setTimeout(() => {
+					this.onDragOver = false
+				}, 50)
+			},
+			handleDropFile(ev: DragEvent) {
+				this.handleDragLeave()
+
+				if (ev.dataTransfer?.files) {
+					const files: File[] = ev.dataTransfer
+						.files as unknown as File[]
+
+					if (this.doValidateFiles(files)) {
+						if (this.multi) {
+							return this.handleUpdateModelValue([
+								...(this.localValue || []),
+								...files,
+							])
+						}
+
+						return this.handleUpdateModelValue([...files])
 					}
 				}
 			},
@@ -363,6 +415,33 @@
 		},
 		mounted() {
 			this.icon.onClick = this.handleClickIcon
+
+			const events: string[] = [
+				'dragenter',
+				'dragover',
+				'dragleave',
+				'drop',
+			]
+
+			events.forEach((eventName: string) => {
+				document.body.addEventListener(eventName, (e: Event) =>
+					e.preventDefault(),
+				)
+			})
+		},
+		unmounted() {
+			const events: string[] = [
+				'dragenter',
+				'dragover',
+				'dragleave',
+				'drop',
+			]
+
+			events.forEach((eventName: string) => {
+				document.body.removeEventListener(eventName, (e: Event) =>
+					e.preventDefault(),
+				)
+			})
 		},
 		watch: {
 			localValue: {
