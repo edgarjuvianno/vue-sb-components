@@ -9,6 +9,7 @@
 				cursor: pointer;
 				flex-grow: 1;
 				font-weight: 400;
+				width: 100%;
 
 				input.input {
 					height: 100%;
@@ -114,7 +115,7 @@
 					&.selected {
 						&:not(.multi) {
 							.content {
-								flex-basis: 70%;
+								max-width: 95%;
 								overflow: hidden;
 
 								span {

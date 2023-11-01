@@ -15,6 +15,7 @@
 				@focus="handleFocus"
 				@keydown="(ev) => handleSearchSelected(ev)"
 				@keyup="(ev) => handleSearchInput(ev)"
+				v-if="!disabled && !readOnly"
 			/>
 		</template>
 		<template v-else>
@@ -40,6 +41,7 @@
 				@focus="handleFocus"
 				@keydown="(ev) => handleSearchSelected(ev)"
 				@keyup="(ev) => handleSearchInput(ev)"
+				v-if="!disabled && !readOnly"
 			/>
 		</template>
 	</div>
@@ -56,6 +58,10 @@
 			onBlur: () => true,
 		},
 		props: {
+			disabled: {
+				required: false,
+				type: Boolean,
+			},
 			isOpen: {
 				required: true,
 				type: Boolean,
@@ -87,6 +93,10 @@
 			placeholder: {
 				required: false,
 				type: String,
+			},
+			readOnly: {
+				required: false,
+				type: Boolean,
 			},
 			selected: {
 				required: false,
