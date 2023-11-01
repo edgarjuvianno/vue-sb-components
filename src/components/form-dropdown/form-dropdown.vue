@@ -50,6 +50,10 @@
 					:opt-label="optLabel"
 					:placeholder="placeholder"
 					:selected="selected"
+					v-bind="{
+						disabled,
+						readOnly,
+					}"
 					v-else
 				/>
 			</template>

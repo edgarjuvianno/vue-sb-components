@@ -369,6 +369,21 @@
 				}
 			}
 
+			&.focus:not(.readonly, .disabled) {
+				.label {
+					color: rgb(
+						var(--sb-color-primary-100) / var(--sb-color-opacity)
+					);
+
+					span:not(.asterisk) {
+						color: rgb(
+							var(--sb-color-primary-100) /
+								var(--sb-color-opacity)
+						);
+					}
+				}
+			}
+
 			.form-control {
 				input,
 				textarea {
@@ -428,6 +443,15 @@
 				span {
 					color: rgb(
 						var(--sb-color-border) / var(--sb-color-opacity)
+					);
+				}
+			}
+
+			&.icon_append,
+			&.icon_prepend {
+				.icon {
+					color: rgb(
+						var(--sb-color-secondary-60) / var(--sb-color-opacity)
 					);
 				}
 			}
