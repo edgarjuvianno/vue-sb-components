@@ -1,7 +1,7 @@
 {
   "author": "Edgar Juvianno S",
   "name": "@edgarjuvianno/vue-sb-components",
-  "version": "1.2.88",
+  "version": "1.2.92",
   "type": "module",
   "files": [
     "dist"
