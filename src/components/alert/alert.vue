@@ -8,6 +8,7 @@
 	<div
 		class="alert"
 		:class="[
+			customClass,
 			icon,
 			!show ? 'hide' : 'show',
 			`x_${positionX}`,
@@ -15,7 +16,7 @@
 			variant,
 		]"
 	>
-		<div class="icon-wrapper" v-if="icon">
+		<div class="icon-wrapper" v-if="icon && !$slots.icon">
 			<div class="icon" :class="[icon]">
 				<component :is="getIcon" v-if="icon !== 'loading'" />
 				<sb-circular-progress
@@ -25,6 +26,9 @@
 					v-else-if="icon === 'loading' && variant === 'big'"
 				/>
 			</div>
+		</div>
+		<div class="icon-wrapper icon-slot" v-if="$slots.icon">
+			<slot name="icon" />
 		</div>
 		<div class="text-wrapper">
 			<div class="title" v-if="variant === 'big'">
@@ -88,6 +92,10 @@
 			confirmButton: {
 				required: false,
 				type: Object as PropType<IAlertButton>,
+			},
+			customClass: {
+				required: false,
+				type: String,
 			},
 			duration: {
 				required: true,

@@ -281,7 +281,7 @@
 
 .alert {
 	background: #ffffff;
-	border-radius: 6px;
+	border-radius: 8px;
 	box-shadow:
 		0 10px 15px -3px rgb(0 0 0 / 0.1),
 		0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -481,9 +481,10 @@
 	}
 
 	&.big {
+		border-radius: 10px;
 		left: 50%;
-		max-width: 30rem;
-		min-width: 25rem;
+		max-width: 25rem;
+		min-width: 20rem;
 		padding: 0 1.5rem;
 		top: 50%;
 		transform: translate(-50%, -50%);
@@ -582,7 +583,7 @@
 				align-items: center;
 				display: flex;
 				justify-content: center;
-				margin-top: 3rem;
+				margin-top: 2rem;
 
 				button {
 					margin: 0 0.5rem;
