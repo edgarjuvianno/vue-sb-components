@@ -546,9 +546,7 @@
 					if (isTop) {
 						return (this.optWrapperStyles = {
 							left: '0',
-							top: `${
-								0 - DOMRect.height - optionsWrapper.height
-							}px`,
+							top: `${0 - 6 - optionsWrapper.height}px`,
 							width: `${DOMRect.width}px`,
 						})
 					}
@@ -592,12 +590,21 @@
 				}
 			},
 			list: {
+				deep: true,
 				handler(newValue: any[]) {
 					if (newValue) {
 						this.localList = [...newValue]
 					}
 				},
 				immediate: true,
+			},
+			localList: {
+				deep: true,
+				handler() {
+					this.$nextTick(() => {
+						this.setOptionsPosition()
+					})
+				},
 			},
 			modelValue: {
 				deep: true,

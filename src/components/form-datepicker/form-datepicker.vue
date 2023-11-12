@@ -414,6 +414,16 @@
 						(this.localValue && this.localValue.length < 2))
 				) {
 					this.localValue = null
+				} else if (!newValue) {
+					const self: Element = this.$el as Element
+					const inputs: HTMLCollectionOf<HTMLInputElement> =
+						self.getElementsByTagName('input')
+
+					if (inputs?.length > 0) {
+						const input: HTMLInputElement | null = inputs.item(0)
+
+						input?.blur()
+					}
 				}
 			},
 			modelValue: {

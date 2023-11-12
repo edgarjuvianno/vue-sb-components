@@ -252,14 +252,26 @@
 				}
 			},
 			isFilled() {
-				return (
-					this.localValue &&
-					((typeof this.localValue === 'string' &&
-						this.localValue !== '') ||
-						this.localValue.length > 0 ||
-						Object.keys(this.localValue).length > 0 ||
-						this.localValue > 0)
-				)
+				if (this.type === 'number') {
+					return this.localValue !== null
+				}
+
+				if (
+					this.localValue !== null &&
+					typeof this.localValue !== 'undefined'
+				) {
+					if (this.type !== 'number') {
+						return (
+							this.localValue !== '' ||
+							this.localValue?.length ||
+							Object.keys(this.localValue).length > 0
+						)
+					}
+
+					return true
+				}
+
+				return false
 			},
 		},
 		methods: {

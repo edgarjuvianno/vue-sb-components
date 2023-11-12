@@ -1006,9 +1006,7 @@
 						if (isTop) {
 							this.popupStyles = {
 								left: `${left()}px`,
-								top: `${
-									0 - DOMRect.height - popupWrapper.height
-								}px`,
+								top: `${0 - 6 - popupWrapper.height}px`,
 							}
 						} else {
 							this.popupStyles = {
