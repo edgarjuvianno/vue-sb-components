@@ -1,0 +1,116 @@
+.input-wrapper.number {
+	.input-group {
+		.label {
+			max-width: calc(100% - 3rem);
+		}
+
+		.input-border {
+			.notch {
+				max-width: calc(100% - 3.5rem);
+			}
+		}
+
+		&.icon_prepend {
+			label {
+				max-width: calc(100% - 6rem);
+			}
+
+			.input-border {
+				.notch {
+					max-width: calc(100% - 6.5rem);
+				}
+			}
+		}
+
+		.button-wrapper {
+			border: 1px solid
+				rgb(var(--sb-color-border) / var(--sb-color-opacity));
+			border-radius: 4px;
+			height: calc(100% - 0.5rem);
+			opacity: 0;
+			overflow: hidden;
+			position: absolute;
+			right: 0.25rem;
+			top: 0.25rem;
+			transition:
+				border-color 0.15s ease-in-out,
+				opacity 0.15s ease-in-out;
+			width: 1.5rem;
+
+			.button {
+				align-items: center;
+				background: transparent;
+				color: rgb(
+					var(--sb-color-secondary-font) / var(--sb-color-opacity)
+				);
+				cursor: pointer;
+				display: flex;
+				height: 50%;
+				justify-content: center;
+				transition:
+					background 0.15s ease-in-out,
+					border-color 0.15s ease-in-out,
+					color 0.15s ease-in-out;
+
+				svg {
+					height: 0.75rem;
+					width: 0.75rem;
+				}
+
+				&:first-of-type {
+					border-bottom: 0.5px solid
+						rgb(var(--sb-color-border) / var(--sb-color-opacity));
+
+					&:hover {
+						border-color: transparent;
+					}
+
+					svg {
+						margin-top: 0.35rem;
+					}
+				}
+
+				&:last-of-type {
+					border-top: 0.5px solid
+						rgb(var(--sb-color-border) / var(--sb-color-opacity));
+
+					&:hover {
+						border-color: transparent;
+					}
+
+					svg {
+						margin-bottom: 0.35rem;
+					}
+				}
+
+				&:hover {
+					background: rgb(var(--sb-color-primary-60) / 0.6);
+					color: rgb(
+						var(--sb-color-secondary-10) / var(--sb-color-opacity)
+					);
+				}
+			}
+
+			&:hover {
+				border-color: rgb(var(--sb-color-primary-60) / 0.5);
+
+				.button {
+					border-color: rgb(var(--sb-color-primary-60) / 0.5);
+				}
+			}
+		}
+
+		&:not(.readonly, .disabled) {
+			&.focus,
+			&:hover {
+				.button-wrapper {
+					opacity: 1;
+				}
+			}
+		}
+
+		.form-control {
+			padding-right: 2.5rem;
+		}
+	}
+}

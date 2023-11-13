@@ -281,6 +281,7 @@
 		sortUp,
 		xMark,
 	} from '@/assets/icons'
+
 	import {
 		IDTChangeResponse,
 		IDTColumn,
