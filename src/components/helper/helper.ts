@@ -15,6 +15,31 @@ export const hexToRgb: (hex: string) => string | null = (hex: string) => {
 	return null
 }
 
+export const parseLocaleNumber: (
+	value: string,
+	locale: 'en-US' | 'id-ID',
+) => number = (value: string, locale: 'en-US' | 'id-ID') => {
+	if (typeof value === 'undefined' || value === null) {
+		return value
+	}
+
+	value = value.replace(/Rp|\$|\s|&nbsp;/g, '')
+
+	const thousandSeparator: string = Intl.NumberFormat(locale)
+		.format(11111)
+		.replace(/\p{Number}/gu, '')
+
+	const decimalSeparator: string = Intl.NumberFormat(locale)
+		.format(1.1)
+		.replace(/\p{Number}/gu, '')
+
+	return parseFloat(
+		value
+			.replace(new RegExp('\\' + thousandSeparator, 'g'), '')
+			.replace(new RegExp('\\' + decimalSeparator), '.'),
+	)
+}
+
 export const setCSSVariables = ({
 	borderColor,
 	dangerColor,

@@ -1,13 +1,3 @@
-@font-face {
-	font-family: 'sbSPCfontY';
-	src: url('./dotsfont/dotsfont.eot');
-	src:
-		url('./dotsfont/dotsfont.eot?#iefix') format('embedded-opentype'),
-		url('./dotsfont/dotsfont.woff') format('woff'),
-		url('./dotsfont/dotsfont.ttf') format('truetype'),
-		url('./dotsfont/dotsfont.svg#dotsfontregular') format('svg');
-}
-
 .input-wrapper {
 	border-radius: 6px;
 	display: block;
@@ -176,12 +166,6 @@
 				font-weight: 400;
 			}
 
-			&.password.no-save-password {
-				input {
-					font-family: 'sbSPCfontY';
-				}
-			}
-
 			&.right {
 				input,
 				textarea {
@@ -202,10 +186,6 @@
 			}
 
 			&_prepend {
-				.label {
-					left: 2.5rem;
-				}
-
 				.form-control {
 					padding-left: 2.5rem;
 				}
@@ -345,7 +325,6 @@
 
 		&.readonly,
 		&.disabled {
-			.label,
 			.form-control {
 				color: rgb(
 					var(--sb-color-secondary-60) / var(--sb-color-opacity)
@@ -366,7 +345,11 @@
 			}
 
 			.label {
-				span {
+				color: rgb(
+					var(--sb-color-secondary-60) / var(--sb-color-opacity)
+				);
+
+				.asterisk {
 					color: rgb(
 						var(--sb-color-secondary-60) / var(--sb-color-opacity)
 					);
@@ -380,6 +363,18 @@
 						var(--sb-color-secondary-60) / var(--sb-color-opacity)
 					);
 				}
+			}
+		}
+
+		&.icon_prepend {
+			.input-border {
+				.notch {
+					border-top: 0;
+				}
+			}
+
+			.label {
+				transform: translate(0, -26px) scale(0.95);
 			}
 		}
 
@@ -452,6 +447,12 @@
 				color: rgb(
 					var(--sb-color-danger-100) / var(--sb-color-opacity)
 				);
+
+				.asterisk {
+					color: rgb(
+						var(--sb-color-danger-100) / var(--sb-color-opacity)
+					);
+				}
 			}
 
 			.input-border {
@@ -512,6 +513,12 @@
 
 			&.focus,
 			&.filled {
+				.label {
+					transform: translate(0, -19px) scale(0.95);
+				}
+			}
+
+			&.icon_prepend {
 				.label {
 					transform: translate(0, -19px) scale(0.95);
 				}

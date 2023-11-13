@@ -175,7 +175,7 @@ export interface IIcon {
 	onClick?: (_ev: Event) => void
 	onMouseOver?: (_ev: Event) => void
 	onMouseLeave?: (_ev: Event) => void
-	placement: string | 'append' | 'prepend'
+	placement?: string | 'append' | 'prepend'
 }
 
 export interface IRadioItem {

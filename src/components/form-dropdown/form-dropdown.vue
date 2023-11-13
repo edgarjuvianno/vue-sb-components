@@ -536,26 +536,28 @@
 					const DOMRect: DOMRect = this.elem.getBoundingClientRect()
 					const optionsWrapper: DOMRect = (
 						this.$refs['options-wrapper'] as any
-					).getBoundingClientRect()
+					)?.getBoundingClientRect()
 
-					const isTop: boolean =
-						document.body.getBoundingClientRect().height -
-							(DOMRect.height + DOMRect.y) <=
-						optionsWrapper.height
+					if (optionsWrapper) {
+						const isTop: boolean =
+							document.body.getBoundingClientRect().height -
+								(DOMRect.height + DOMRect.y) <=
+							optionsWrapper.height
 
-					if (isTop) {
+						if (isTop) {
+							return (this.optWrapperStyles = {
+								left: '0',
+								top: `${0 - 6 - optionsWrapper.height}px`,
+								width: `${DOMRect.width}px`,
+							})
+						}
+
 						return (this.optWrapperStyles = {
 							left: '0',
-							top: `${0 - 6 - optionsWrapper.height}px`,
+							top: `${DOMRect.height}px`,
 							width: `${DOMRect.width}px`,
 						})
 					}
-
-					return (this.optWrapperStyles = {
-						left: '0',
-						top: `${DOMRect.height}px`,
-						width: `${DOMRect.width}px`,
-					})
 				}
 			},
 		},

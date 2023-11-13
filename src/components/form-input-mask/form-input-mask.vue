@@ -13,7 +13,6 @@
 				focus: focus || isFocus,
 				icon_append: icon?.placement === 'append',
 				icon_prepend: icon?.placement === 'prepend',
-				['multi-line']: type === 'textarea',
 				readonly: readOnly,
 			}"
 		>
@@ -35,50 +34,25 @@
 			</span>
 			<div
 				class="form-control"
-				:class="[textAlign, type, noSavePassword && 'no-save-password']"
+				:class="['text', textAlign]"
 				@click="(event) => toggleFocus(true, event)"
 			>
-				<template v-if="!$slots['custom-input']">
-					<input
-						:type="getInputType"
-						:tabindex="readOnly || disabled ? -1 : tabindex"
-						v-model="localValue"
-						v-bind="{
-							autocomplete,
-							disabled,
-							min,
-							max,
-							placeholder,
-							step,
-							readonly: readOnly,
-						}"
-						v-if="type !== 'textarea'"
-						@blur="(ev) => handleBlur(ev)"
-						@focus="(ev) => handleInputFocus(ev)"
-						@input="(ev) => handleChange(ev)"
-						@keydown="(ev) => $emit('keydown', ev)"
-					/>
-					<textarea
-						:class="{ readonly: readOnly }"
-						rows="6"
-						:tabindex="readOnly || disabled ? -1 : tabindex"
-						v-else
-						v-bind="{
-							autocomplete,
-							disabled,
-							placeholder,
-							readonly: readOnly,
-						}"
-						v-model="localValue"
-						@blur="(ev) => handleBlur(ev)"
-						@focus="(ev) => handleInputFocus(ev)"
-						@input="(ev) => handleChange(ev)"
-						@keydown="(ev) => $emit('keydown', ev)"
-					/>
-				</template>
-				<template v-else>
-					<slot name="custom-input" />
-				</template>
+				<input
+					:tabindex="readOnly || disabled ? -1 : tabindex"
+					type="text"
+					v-maska:[getMaskaOptions]
+					v-model="localValue"
+					v-bind="{
+						autocomplete,
+						disabled,
+						placeholder,
+						readonly: readOnly,
+					}"
+					@blur="(ev) => handleBlur(ev)"
+					@focus="(ev) => handleInputFocus(ev)"
+					@input="(ev) => handleChange(ev)"
+					@keydown="(ev) => $emit('keydown', ev)"
+				/>
 			</div>
 			<div class="input-border">
 				<div class="start" />
@@ -98,8 +72,9 @@
 </template>
 
 <script lang="ts">
-	import { IIcon } from '@/interface'
+	import { IIcon, IMaskaOptions } from '@/interface'
 	import { defineComponent, PropType } from 'vue'
+	import { vMaska } from 'maska'
 
 	export default defineComponent({
 		emits: ['input', 'update:modelValue', 'blur', 'focus', 'keydown'],
@@ -132,13 +107,9 @@
 				required: false,
 				type: String,
 			},
-			max: {
+			maskaOptions: {
 				required: false,
-				type: [Number, String],
-			},
-			min: {
-				required: false,
-				type: [Number, String],
+				type: Object as PropType<IMaskaOptions>,
 			},
 			modelValue: {
 				required: false,
@@ -146,9 +117,9 @@
 					string | number | object | null
 				>,
 			},
-			noSavePassword: {
+			pattern: {
 				required: false,
-				type: Boolean,
+				type: String,
 			},
 			placeholder: {
 				required: false,
@@ -162,10 +133,6 @@
 				required: false,
 				type: Boolean,
 			},
-			step: {
-				required: false,
-				type: Number,
-			},
 			tabindex: {
 				required: false,
 				type: Number,
@@ -173,17 +140,6 @@
 			textAlign: {
 				default: 'left',
 				type: String as PropType<'left' | 'right'>,
-			},
-			type: {
-				default: 'text',
-				type: String as PropType<
-					| string
-					| 'text'
-					| 'number'
-					| 'textarea'
-					| 'password'
-					| 'email'
-				>,
 			},
 			value: {
 				required: false,
@@ -198,6 +154,9 @@
 			},
 		},
 		name: 'sb-form-input',
+		directives: {
+			maska: vMaska,
+		},
 		data() {
 			return {
 				isFocus: false,
@@ -205,30 +164,21 @@
 			}
 		},
 		computed: {
-			getInputType() {
-				if (this.type === 'password' && this.noSavePassword) {
-					return 'text'
+			getMaskaOptions() {
+				return {
+					...(this.pattern && {
+						mask: this.pattern,
+					}),
+					...(this.maskaOptions && {
+						...this.maskaOptions,
+					}),
 				}
-
-				return this.type
 			},
 			isFilled() {
-				if (
-					this.localValue !== null &&
-					typeof this.localValue !== 'undefined'
-				) {
-					if (this.type !== 'number') {
-						return (
-							this.localValue !== '' ||
-							this.localValue?.length ||
-							Object.keys(this.localValue).length > 0
-						)
-					}
-
-					return true
-				}
-
-				return false
+				return (
+					this.localValue &&
+					(this.localValue !== '' || this.localValue.length)
+				)
 			},
 		},
 		methods: {
@@ -281,8 +231,7 @@
 			toggleFocus(focus: boolean, event?: Event) {
 				if (event) {
 					const target: any = event.target
-					const inputs: any[] =
-						target?.querySelectorAll('input, textarea')
+					const inputs: any[] = target?.querySelectorAll('input')
 
 					if (inputs.length > 0) {
 						const input: any = inputs[0]
@@ -299,13 +248,11 @@
 				this.isFocus = newValue
 			},
 			modelValue: {
-				deep: true,
 				handler(newValue: any) {
 					this.localValue = newValue
 				},
 			},
 			value: {
-				deep: true,
 				handler(newValue: any) {
 					this.localValue = newValue
 				},
@@ -326,5 +273,4 @@
 
 <style lang="scss">
 	@import '../../assets/scss/components/forms/_input.scss';
-	@import '../../assets/scss/components/forms/_input-password.scss';
 </style>

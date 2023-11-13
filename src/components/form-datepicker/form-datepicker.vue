@@ -27,8 +27,8 @@
 					icon,
 				}),
 			}"
-			@on-focus="() => handleOpenCalendar()"
-			@on-keydown="handleKeyDown"
+			@focus="() => handleOpenCalendar()"
+			@keydown="handleKeyDown"
 		>
 			<template v-slot:icon v-if="!noIcon">
 				<component :is="getIcon" />
