@@ -34,6 +34,12 @@ module.exports = {
 				caughtErrorsIgnorePattern: '^_',
 			},
 		],
+		'vue/no-unused-properties': [
+			'error',
+			{
+				groups: ['computed', 'data', 'methods', 'props'],
+			}
+		],
 		'prettier/prettier': 'error',
 		'vue/html-indent': ['error', 'tab', {}],
 		'vue/html-self-closing': 'off',

@@ -121,7 +121,6 @@
 			return {
 				autoplayInterval: null as any,
 				cardWidth: 0 as number,
-				cards: [] as any,
 				cardsDisplay: [] as any,
 				carouselWrapper: null as any,
 				currentBreakpoint: 'lg' as string,
@@ -129,7 +128,6 @@
 				endDrag: -1 as number,
 				isDrag: false,
 				sliderStyle: [] as any,
-				slotObserver: null as any,
 				startDrag: -1 as number,
 			}
 		},

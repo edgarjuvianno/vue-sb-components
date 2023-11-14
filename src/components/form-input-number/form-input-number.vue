@@ -52,6 +52,7 @@
 					@input="(ev) => handleChange(ev)"
 					@keydown="(ev) => handleKeydown(ev)"
 					@change="(ev) => handleInputChange(ev)"
+					@paste="handlePaste"
 				/>
 			</div>
 			<div class="button-wrapper">
@@ -283,6 +284,13 @@
 
 						return val || ''
 					},
+					preProcess: (val: any) => {
+						if (String(val).split(/[.,]/g)[0] === '') {
+							return ''
+						}
+
+						return String(val).replace(/[^0-9,.-]/gi, '')
+					},
 				}
 			},
 			iconSortDown() {
@@ -319,16 +327,22 @@
 				masked = String(masked)
 
 				if (!this.withLocale) {
-					if (masked.split('.')[1] === '') {
+					if (
+						masked.split('.')[0] !== '' &&
+						masked.split('.')[1] === ''
+					) {
 						return Number('-')
 					}
 
 					return Number(masked)
 				} else if (
 					(this.numberLocale === 'en-US' &&
+						masked.split('.')[0] !== '' &&
 						masked.split('.')[1] === '') ||
 					(this.numberLocale === 'id-ID' &&
-						masked.split(',')[1] === '')
+						masked.split(',')[0] !== '' &&
+						masked.split(',')[1] === '') ||
+					masked === '-'
 				) {
 					return Number('-')
 				}
@@ -343,9 +357,8 @@
 
 				;(ev as any).target.value = Number.isNaN(realValue)
 					? this.localValue
-					: realValue
+					: Number(realValue)
 
-				this.$emit('update:modelValue', realValue)
 				this.$emit('blur', ev)
 			},
 			handleChange(ev: Event) {
@@ -437,10 +450,15 @@
 				return ''
 			},
 			handleInputChange(ev: Event) {
+				const realValue: number | null = this.getRealValue(
+					this.localValue,
+				)
+
 				if (
+					realValue !== null &&
 					typeof this.max !== 'undefined' &&
-					!Number.isNaN(Number(this.localValue)) &&
-					Number(this.localValue) > this.max
+					!Number.isNaN(realValue) &&
+					realValue > this.max
 				) {
 					;(ev as any).target.value = this.max
 
@@ -448,9 +466,10 @@
 					this.$emit('update:modelValue', this.max)
 					this.$emit('change', ev)
 				} else if (
+					realValue !== null &&
 					typeof this.min !== 'undefined' &&
-					!Number.isNaN(Number(this.localValue)) &&
-					Number(this.localValue) < this.min
+					!Number.isNaN(realValue) &&
+					realValue < this.min
 				) {
 					;(ev as any).target.value = this.min
 
@@ -458,15 +477,10 @@
 					this.$emit('update:modelValue', this.min)
 					this.$emit('change', ev)
 				} else {
-					const realValue: number | null = this.getRealValue(
-						this.localValue,
-					)
-
 					;(ev as any).target.value = Number.isNaN(realValue)
 						? this.localValue
 						: realValue
 
-					this.$emit('update:modelValue', realValue)
 					this.$emit('change', ev)
 				}
 			},
@@ -476,7 +490,13 @@
 				this.$emit('focus', ev)
 			},
 			handleKeydown(ev: KeyboardEvent) {
-				if (ev.key === 'ArrowUp') {
+				if (
+					!this.maxDecimalPlaces &&
+					(ev.key === ',' || ev.key === '.')
+				) {
+					ev.preventDefault()
+					ev.stopPropagation()
+				} else if (ev.key === 'ArrowUp') {
 					ev.preventDefault()
 					ev.stopPropagation()
 
@@ -486,6 +506,43 @@
 					ev.stopPropagation()
 
 					this.handleClickStep(this.step * -1)
+				} else if (
+					this.maxDecimalPlaces &&
+					this.withLocale &&
+					(ev.key === ',' || ev.key === '.')
+				) {
+					const currentValue: any = String(this.localValue)
+
+					if (currentValue) {
+						const target: any = ev.target as any
+						const startSelection: number = target.selectionStart
+						const endSelection: number = target.selectionEnd
+
+						if (this.numberLocale === 'en-US' && ev.key === ',') {
+							ev.preventDefault()
+							ev.stopPropagation()
+
+							this.localValue = `${currentValue.substr(
+								0,
+								startSelection,
+							)}.${currentValue.substr(endSelection)}`
+
+							target.selectionEnd = endSelection + 1
+						} else if (
+							this.numberLocale === 'id-ID' &&
+							ev.key === '.'
+						) {
+							ev.preventDefault()
+							ev.stopPropagation()
+
+							this.localValue = `${currentValue.substr(
+								0,
+								startSelection,
+							)},${currentValue.substr(endSelection)}`
+
+							target.selectionEnd = endSelection + 1
+						}
+					}
 				}
 
 				this.$emit('keydown', ev)
@@ -496,11 +553,32 @@
 			handleMouseOverIcon(ev: Event) {
 				return this.icon?.onMouseOver && this.icon.onMouseOver(ev)
 			},
-			handleValuePropID(value: any) {
-				this.localValue = Intl.NumberFormat(this.numberLocale, {
-					maximumFractionDigits: this.maxDecimalPlaces,
-					minimumFractionDigits: 0,
-				}).format(Number(value))
+			handlePaste(ev: ClipboardEvent) {
+				const clipboardData: any =
+					ev.clipboardData || (window as any).clipboardData
+
+				const pastedData: any = clipboardData.getData('Text')
+
+				if (!/^-?\d*[.,]?\d*$/.test(pastedData)) {
+					ev.preventDefault()
+				}
+			},
+			handleValueProp(value: any) {
+				if (
+					value &&
+					typeof value !== 'undefined' &&
+					String(value) !== '' &&
+					this.withLocale &&
+					this.numberLocale === 'id-ID' &&
+					!Number.isNaN(Number(value))
+				) {
+					this.localValue = Intl.NumberFormat(this.numberLocale, {
+						maximumFractionDigits: this.maxDecimalPlaces,
+						minimumFractionDigits: 0,
+					}).format(Number(value))
+				} else {
+					this.localValue = value
+				}
 			},
 			toggleFocus(focus: boolean, event?: Event) {
 				if (event) {
@@ -523,28 +601,12 @@
 			},
 			modelValue: {
 				handler(newValue: any) {
-					if (
-						this.withLocale &&
-						this.numberLocale === 'id-ID' &&
-						typeof newValue === 'number'
-					) {
-						this.handleValuePropID(newValue)
-					} else {
-						this.localValue = newValue
-					}
+					this.handleValueProp(newValue)
 				},
 			},
 			value: {
 				handler(newValue: any) {
-					if (
-						this.withLocale &&
-						this.numberLocale === 'id-ID' &&
-						typeof newValue === 'number'
-					) {
-						this.handleValuePropID(newValue)
-					} else {
-						this.localValue = newValue
-					}
+					this.handleValueProp(newValue)
 				},
 			},
 		},
