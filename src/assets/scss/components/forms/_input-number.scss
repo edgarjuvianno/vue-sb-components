@@ -22,6 +22,11 @@
 			}
 		}
 
+		.form-control {
+			padding-right: 1rem;
+			transition: padding-right 0.15s ease-in-out;
+		}
+
 		.button-wrapper {
 			border: 1px solid
 				rgb(var(--sb-color-border) / var(--sb-color-opacity));
@@ -34,7 +39,7 @@
 			top: 0.25rem;
 			transition:
 				border-color 0.15s ease-in-out,
-				opacity 0.15s ease-in-out;
+				opacity 0.15s ease-in;
 			width: 1.5rem;
 
 			.button {
@@ -106,11 +111,11 @@
 				.button-wrapper {
 					opacity: 1;
 				}
-			}
-		}
 
-		.form-control {
-			padding-right: 2.5rem;
+				.form-control {
+					padding-right: 2.5rem;
+				}
+			}
 		}
 	}
 }

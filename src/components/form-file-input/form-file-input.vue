@@ -134,10 +134,6 @@
 				required: false,
 				type: Boolean,
 			},
-			errorHandler: {
-				required: false,
-				type: Function as PropType<(_value: any) => void>,
-			},
 			errorMessage: {
 				required: false,
 				type: [String, Function],

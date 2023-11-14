@@ -276,7 +276,7 @@
 			}
 
 			.label {
-				transform: translate(0, -26px) scale(0.95);
+				transform: translate(0, -2.1rem) scale(0.95);
 			}
 
 			&:not(.readonly, .disabled) {
@@ -374,7 +374,7 @@
 			}
 
 			.label {
-				transform: translate(0, -26px) scale(0.95);
+				transform: translate(0, -2.1rem) scale(0.95);
 			}
 		}
 
@@ -400,7 +400,7 @@
 					var(--sb-color-primary-100) / var(--sb-color-opacity)
 				);
 				font-weight: 500;
-				transform: translate(0, -26px) scale(0.95);
+				transform: translate(0, -2.1rem) scale(0.95);
 			}
 
 			.form-control {
@@ -514,13 +514,13 @@
 			&.focus,
 			&.filled {
 				.label {
-					transform: translate(0, -19px) scale(0.95);
+					transform: translate(0, -1.6rem) scale(0.95);
 				}
 			}
 
 			&.icon_prepend {
 				.label {
-					transform: translate(0, -19px) scale(0.95);
+					transform: translate(0, -1.6rem) scale(0.95);
 				}
 			}
 		}
