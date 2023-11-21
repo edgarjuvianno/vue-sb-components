@@ -17,6 +17,25 @@
 	}
 }
 
+@keyframes modal-slide-up-mobile {
+	0% {
+		transform: translateY(75vh);
+		animation-timing-function: ease-out;
+	}
+	60% {
+		transform: translateY(2.5vh);
+		animation-timing-function: ease-in;
+	}
+	80% {
+		transform: translateY(10vh);
+		animation-timing-function: ease-out;
+	}
+	100% {
+		transform: translateY(5vh);
+		animation-timing-function: ease-in;
+	}
+}
+
 @keyframes modal-fade-in {
 	0% {
 		opacity: 0;
@@ -65,7 +84,7 @@
 			.x-mark {
 				color: #9ca3af;
 				position: absolute;
-				right: 0.5rem;
+				right: 0.75rem;
 				top: 0.5rem;
 
 				svg {
@@ -81,7 +100,7 @@
 				max-height: 80vh;
 
 				@media screen and (max-width: 768px) {
-					max-height: 90vh;
+					max-height: 85vh;
 				}
 			}
 		}
@@ -149,6 +168,11 @@
 		.modal-wrapper {
 			animation: modal-slide-up 0.8s linear;
 			transform: translateY(10vh);
+
+			@media screen and (max-width: 768px) {
+				animation: modal-slide-up-mobile 0.8s linear;
+				transform: translateY(5vh);
+			}
 		}
 	}
 }

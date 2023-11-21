@@ -1,5 +1,5 @@
 export interface IHTTPResponse {
-	code: number
+	code: number | string
 	message: string
 }
 
@@ -40,6 +40,7 @@ export interface IChartData {
 export interface ICSSColors {
 	100?: string
 	85?: string
+	80?: string
 	60?: string
 	30?: string
 	20?: string
@@ -203,6 +204,7 @@ export interface ISwitchLabel {
 export interface IDTLanguage {
 	noResult?: string
 	perPage?: string
+	result?: (start: number, end: number, total: number) => string
 }
 
 export interface IMaskaOptions {

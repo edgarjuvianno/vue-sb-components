@@ -565,7 +565,7 @@
 			},
 			handleValueProp(value: any) {
 				if (
-					value &&
+					value !== null &&
 					typeof value !== 'undefined' &&
 					String(value) !== '' &&
 					this.withLocale &&
