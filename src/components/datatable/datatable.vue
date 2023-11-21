@@ -224,18 +224,31 @@
 				v-if="pagination?.enabled || serverSide"
 			>
 				<div class="count-wrapper">
-					<component :is="getCounter"></component>
+					<div
+						v-html="getLanguageResult"
+						v-if="language?.result"
+					></div>
+					<component :is="getCounter" v-else></component>
 				</div>
 				<div class="arrow-wrapper">
-					<component
+					<div
+						:class="{ disabled: localPagination.current < 1 }"
 						@click="
 							() =>
 								handlePaginate(-1, localPagination.current < 1)
 						"
-						:is="iconAngleLeft"
-						:class="{ disabled: localPagination.current < 1 }"
-					/>
-					<component
+					>
+						<component :is="iconAngleLeft" />
+					</div>
+					<div
+						:class="{
+							disabled:
+								localPagination.current + 1 ===
+								Math.ceil(
+									localPagination.total /
+										localPagination.length,
+								),
+						}"
 						@click="
 							() =>
 								handlePaginate(
@@ -247,16 +260,9 @@
 										),
 								)
 						"
-						:is="iconAngleRight"
-						:class="{
-							disabled:
-								localPagination.current + 1 ===
-								Math.ceil(
-									localPagination.total /
-										localPagination.length,
-								),
-						}"
-					/>
+					>
+						<component :is="iconAngleRight" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -402,6 +408,26 @@
 					}</span>`,
 				})
 			},
+			getLanguageResult() {
+				if (this.language?.result) {
+					const tempStart: number =
+						(this.localPagination.current || 0) *
+						(this.localPagination.length || 0)
+					const start: number =
+						this.localPagination.totalRow > 0 ? tempStart + 1 : 0
+
+					const end: number =
+						tempStart + (this.localPagination.totalRow || 0)
+
+					return this.language.result(
+						start,
+						end,
+						this.localPagination.total || 0,
+					)
+				}
+
+				return null
+			},
 			getLengthOptions() {
 				if (this.lengthChange.enabled) {
 					if (
@@ -465,7 +491,11 @@
 				)
 			},
 			showFooter() {
-				return this.pagination?.enabled || this.lengthChange.enabled
+				return (
+					(this.pagination?.enabled || this.lengthChange.enabled) &&
+					!this.localLoading &&
+					!this.isLoading
+				)
 			},
 		},
 		methods: {
@@ -636,12 +666,12 @@
 							}
 
 							xhr.onabort = () => {
-								const response: any = xhr.response
-
 								reject({
-									status: xhr.status,
-									statusText: xhr.statusText,
-									response: response,
+									status: 'ERR_ABORTED',
+									statusText: 'ERR_ABORTED',
+									response: {
+										message: 'ERR_ABORTED',
+									},
 								})
 							}
 
@@ -679,32 +709,30 @@
 							.catch((ajaxResult: any) => {
 								that.localLoading = false
 
-								if (ajaxResult.statusText !== 'abort') {
-									if (that.onAjax) {
-										that.onAjax(
-											{
-												dtConfig: {
-													...that.response,
-												},
-												response: {
-													data: null,
-													httpResponse: {
-														code:
-															ajaxResult.status ||
-															500,
-														message:
-															ajaxResult.response
-																.message,
-													},
-													status: false,
-												},
+								if (that.onAjax) {
+									that.onAjax(
+										{
+											dtConfig: {
+												...that.response,
 											},
-											'ERROR',
-										)
-									}
-
-									that.setEmptyData()
+											response: {
+												data: null,
+												httpResponse: {
+													code:
+														ajaxResult.status ||
+														500,
+													message:
+														ajaxResult.response
+															?.message,
+												},
+												status: false,
+											},
+										},
+										'ERROR',
+									)
 								}
+
+								that.setEmptyData()
 							})
 					} else {
 						if (this.onAjax) {

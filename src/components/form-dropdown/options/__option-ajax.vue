@@ -208,12 +208,12 @@
 							}
 
 							xhr.onabort = () => {
-								const response: any = xhr.response
-
 								reject({
-									status: xhr.status,
-									statusText: xhr.statusText,
-									response: response,
+									status: 'ERR_ABORTED',
+									statusText: 'ERR_ABORTED',
+									response: {
+										message: 'ERR_ABORTED',
+									},
 								})
 							}
 
