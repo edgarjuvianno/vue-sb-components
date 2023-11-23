@@ -9,10 +9,23 @@
 				cursor: pointer;
 				flex-grow: 1;
 				font-weight: 400;
+				position: relative;
 				width: 100%;
 
 				input.input {
 					height: 100%;
+				}
+
+				&.plain {
+					input.dummy {
+						bottom: 0;
+						box-sizing: border-box;
+						left: 0;
+						opacity: 0;
+						pointer-events: none;
+						position: absolute;
+						width: 100%;
+					}
 				}
 			}
 		}

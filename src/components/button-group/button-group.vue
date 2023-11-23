@@ -2,6 +2,7 @@
 	<div class="btn-group" :class="[color, orientation]" v-bind="{ ...$attrs }">
 		<button
 			class="btn"
+			type="button"
 			:class="[
 				`btn-${variant}`,
 				size,

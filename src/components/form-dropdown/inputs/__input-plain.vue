@@ -1,5 +1,6 @@
 <template>
 	<div class="dropdown-input-wrapper plain" :class="{ multi }">
+		<input class="dummy" tabindex="-1" type="text" />
 		<template v-if="renderEmpty">
 			<span class="placeholder">{{ placeholder || '&nbsp;' }}</span>
 		</template>

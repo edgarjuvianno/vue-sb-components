@@ -63,6 +63,7 @@
 									:color="getPrevColor"
 									:disabled="isButtonDisabled"
 									no-elevation
+									type="button"
 									variant="text"
 									v-if="index !== 0"
 									@click="handleNav(-1)"
@@ -73,6 +74,7 @@
 									<sb-button
 										:disabled="isButtonDisabled"
 										color="secondary"
+										type="button"
 										variant="text"
 										v-if="
 											localItems[localCurrent - 1]
@@ -83,6 +85,7 @@
 										{{ getSkipText }}
 									</sb-button>
 									<sb-button
+										type="button"
 										:color="getNextColor"
 										:disabled="isNextDisabled"
 										@click="handleNav(1)"
@@ -134,6 +137,7 @@
 					:color="getPrevColor"
 					:disabled="isButtonDisabled"
 					no-elevation
+					type="button"
 					variant="text"
 					v-if="localCurrent !== 1"
 					@click="handleNav(-1)"
@@ -144,6 +148,7 @@
 					<sb-button
 						:disabled="isButtonDisabled"
 						color="secondary"
+						type="button"
 						variant="text"
 						v-if="localItems[localCurrent - 1].optional"
 						@click="handleNav(1, true)"
@@ -151,6 +156,7 @@
 						{{ getSkipText }}
 					</sb-button>
 					<sb-button
+						type="button"
 						:color="getNextColor"
 						:disabled="isNextDisabled"
 						@click="handleNav(1)"

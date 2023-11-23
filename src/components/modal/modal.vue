@@ -8,7 +8,12 @@
 		<div class="backdrop" @click.stop="doClose()" />
 		<div class="modal-wrapper">
 			<div class="modal-container" :class="container">
-				<button v-if="showX" class="x-mark" @click.stop="doClose()">
+				<button
+					v-if="showX"
+					class="x-mark"
+					type="button"
+					@click.stop="doClose()"
+				>
 					<component :is="xMark" />
 				</button>
 				<div class="modal-content">

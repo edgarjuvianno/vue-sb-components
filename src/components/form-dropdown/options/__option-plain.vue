@@ -4,7 +4,7 @@
 		:class="{ selected: isSelected(opt) }"
 		:key="opt"
 		v-for="opt in list"
-		@click="doSelect(opt)"
+		@click.stop="doSelect(opt)"
 	>
 		<span v-html="renderOption(opt)"></span>
 	</div>
