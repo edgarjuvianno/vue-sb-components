@@ -52,6 +52,7 @@
 		</div>
 		<div class="dots-wrapper" v-if="isDotsEnabled">
 			<button
+				type="button"
 				:class="{
 					active: currentPage - 1 === index,
 				}"

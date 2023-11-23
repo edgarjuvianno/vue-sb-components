@@ -46,6 +46,7 @@
 				<sb-button
 					v-if="cancelButton"
 					no-elevation
+					type="button"
 					:color="cancelButton.color || 'default'"
 					:variant="cancelButton.variant || 'contained'"
 					@click.stop="doClose('cancel')"
@@ -55,6 +56,7 @@
 				<sb-button
 					v-if="confirmButton"
 					no-elevation
+					type="button"
 					:color="confirmButton.color || 'primary'"
 					:variant="confirmButton.variant || 'contained'"
 					@click.stop="doClose('confirm')"

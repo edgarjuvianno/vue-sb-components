@@ -58,43 +58,49 @@
 				/>
 			</template>
 		</sb-input>
-		<div
-			class="options-wrapper"
-			:style="optWrapperStyles"
-			@scroll="
-				(ev) =>
-					(serverSide || search) &&
-					infinite &&
-					isOpen &&
-					onScrollBottom(ev)
-			"
-			ref="options-wrapper"
-			v-if="isOpen"
-		>
-			<plain-option
-				:is-loading="isLoading"
-				:list="localList"
-				:multi="multi"
-				:optLabel="optLabel"
-				:selected="selected"
-				@on-select="doSelect"
-				v-if="!serverSide"
-			/>
-			<ajax-option
-				:is-open="isOpen"
-				:multi="multi"
-				:on-ajax="handleAjax"
-				:optLabel="optLabel"
-				:selected="selected"
-				:server-side="serverSide"
-				:term="localTerm"
-				:infinite="infinite"
-				:is-scroll-bottom="isScrollBottom"
-				@on-list-change="handleListChange"
-				@on-select="doSelect"
-				v-else
-			/>
-		</div>
+		<Teleport to="body">
+			<div
+				class="sb-dropdown-options-wrapper"
+				:class="{
+					multi,
+					expanded: isOpen,
+				}"
+				:style="optWrapperStyles"
+				@scroll="
+					(ev) =>
+						(serverSide || search) &&
+						infinite &&
+						isOpen &&
+						onScrollBottom(ev)
+				"
+				ref="options-wrapper"
+				v-if="isOpen"
+			>
+				<plain-option
+					:is-loading="isLoading"
+					:list="localList"
+					:multi="multi"
+					:optLabel="optLabel"
+					:selected="selected"
+					@on-select="doSelect"
+					v-if="!serverSide"
+				/>
+				<ajax-option
+					:is-open="isOpen"
+					:multi="multi"
+					:on-ajax="handleAjax"
+					:optLabel="optLabel"
+					:selected="selected"
+					:server-side="serverSide"
+					:term="localTerm"
+					:infinite="infinite"
+					:is-scroll-bottom="isScrollBottom"
+					@on-list-change="handleListChange"
+					@on-select="doSelect"
+					v-else
+				/>
+			</div>
+		</Teleport>
 	</div>
 </template>
 
@@ -462,31 +468,34 @@
 			},
 			handleParentClickOutside(event: MouseEvent) {
 				const target: HTMLElement = event.target as HTMLElement
-				const parent: HTMLElement = this.$refs[
+				const dropdown: HTMLElement = this.$refs[
 					'dropdown-wrapper'
+				] as any
+				const optionsWrapper: HTMLElement = this.$refs[
+					'options-wrapper'
 				] as any
 
 				if (
 					target &&
 					parent &&
-					!parent.contains(target) &&
-					!target.isSameNode(parent)
+					optionsWrapper &&
+					!dropdown.contains(target) &&
+					!optionsWrapper.contains(target) &&
+					!target.isSameNode(dropdown)
 				) {
 					this.isOpen = false
 					this.handleRemoveFocus()
 				}
 			},
 			handleParentFocus() {
-				if (this.search || this.serverSide) {
-					const self: Element = this.$el as Element
-					const inputs: HTMLCollectionOf<HTMLInputElement> =
-						self.getElementsByTagName('input')
+				const self: Element = this.$el as Element
+				const inputs: HTMLCollectionOf<HTMLInputElement> =
+					self.getElementsByTagName('input')
 
-					if (inputs?.length > 0) {
-						const input: HTMLInputElement | null = inputs.item(0)
+				if (inputs?.length > 0) {
+					const input: HTMLInputElement | null = inputs.item(0)
 
-						input?.focus()
-					}
+					input?.focus()
 				}
 
 				this.isFocus = true
@@ -546,15 +555,17 @@
 
 						if (isTop) {
 							return (this.optWrapperStyles = {
-								left: '0',
-								top: `${0 - 6 - optionsWrapper.height}px`,
+								left: `${DOMRect.x}px`,
+								top: `${
+									DOMRect.y - 6 - optionsWrapper.height
+								}px`,
 								width: `${DOMRect.width}px`,
 							})
 						}
 
 						return (this.optWrapperStyles = {
-							left: '0',
-							top: `${DOMRect.height}px`,
+							left: `${DOMRect.x}px`,
+							top: `${DOMRect.y + DOMRect.height}px`,
 							width: `${DOMRect.width}px`,
 						})
 					}

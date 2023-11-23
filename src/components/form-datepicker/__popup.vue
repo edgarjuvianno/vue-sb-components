@@ -1,214 +1,218 @@
 <template>
-	<div
-		class="popup-wrapper"
-		:class="[
-			`container-${localShowContainer}`,
-			type,
-			range ? 'range' : '',
-			show ? 'show' : '',
-			type === 'time' ? 'time-only' : '',
-			!closeOnSelect ? 'with-save' : '',
-		]"
-		ref="popup-wrapper"
-		:style="popupStyles"
-		v-if="show"
-	>
+	<Teleport to="body">
 		<div
-			class="month-list-wrapper"
-			v-if="type !== 'time' && type !== 'year'"
+			class="sb-datepicker-popup-wrapper"
+			:class="[
+				`container-${localShowContainer}`,
+				type,
+				range ? 'range' : '',
+				show ? 'show' : '',
+				type === 'time' ? 'time-only' : '',
+				!closeOnSelect ? 'with-save' : '',
+			]"
+			ref="popup-wrapper"
+			:style="popupStyles"
+			v-if="show"
 		>
 			<div
-				class="month"
-				:class="{
-					selected: isMonthSelected(month),
-				}"
-				:key="`month-${i}`"
-				v-for="(month, i) in [...Array(12).keys()]"
-				@click.stop="handleClickMonth(month)"
+				class="month-list-wrapper"
+				v-if="type !== 'time' && type !== 'year'"
 			>
-				{{ getMonthText(month, true) }}
+				<div
+					class="month"
+					:class="{
+						selected: isMonthSelected(month),
+					}"
+					:key="`month-${i}`"
+					v-for="(month, i) in [...Array(12).keys()]"
+					@click.stop="handleClickMonth(month)"
+				>
+					{{ getMonthText(month, true) }}
+				</div>
 			</div>
-		</div>
-		<div
-			class="year-list-wrapper"
-			v-if="type !== 'time' && type !== 'month'"
-		>
 			<div
-				class="year"
-				:class="{
-					selected: isYearSelected(year),
-				}"
-				:key="`year-${i}`"
-				:ref="`year-${year}`"
-				v-for="(year, i) in getYears"
-				@click.stop="handleClickYear(year)"
+				class="year-list-wrapper"
+				v-if="type !== 'time' && type !== 'month'"
 			>
-				{{ year }}
-			</div>
-		</div>
-		<template v-if="type === 'time' || type === 'datetime'">
-			<div class="hour-list-wrapper">
 				<div
-					class="hour"
+					class="year"
 					:class="{
-						selected: isHourSelected(hour),
+						selected: isYearSelected(year),
 					}"
-					:key="`hour-${i}`"
-					:ref="`hour-${hour}`"
-					v-for="(hour, i) in [...Array(24).keys()]"
-					@click.stop="handleClickHour(hour)"
+					:key="`year-${i}`"
+					:ref="`year-${year}`"
+					v-for="(year, i) in getYears"
+					@click.stop="handleClickYear(year)"
 				>
-					{{ `${hour < 10 ? '0' : ''}${hour}` }}
+					{{ year }}
 				</div>
 			</div>
-			<div class="minute-list-wrapper">
-				<div
-					class="minute"
-					:class="{
-						selected: isMinuteSelected(minute),
-					}"
-					:key="`minute-${i}`"
-					:ref="`minute-${minute}`"
-					v-for="(minute, i) in [...Array(60).keys()]"
-					@click.stop="handleClickMinute(minute)"
-				>
-					{{ `${minute < 10 ? '0' : ''}${minute}` }}
-				</div>
-			</div>
-		</template>
-		<div
-			class="header"
-			v-if="type !== 'time' && type !== 'month' && type !== 'year'"
-		>
-			<div class="nav-wrapper">
-				<div class="nav" @click.stop="handleNavYear(-1)">
-					<component :is="iconAngleDoubleLeft" />
-				</div>
-				<div class="nav" @click.stop="handleNavMonth(-1)">
-					<component :is="iconAngleLeft" />
-				</div>
-			</div>
-			<div class="current">
-				<div class="year" @click.stop="handleShowYearList">
-					{{ popupCurrentValue.year }}
-				</div>
-				<div class="month" @click.stop="handleShowMonthList">
-					{{ getMonthText(popupCurrentValue.month) }}
-				</div>
-			</div>
-			<div class="nav-wrapper">
-				<div class="nav" @click.stop="handleNavMonth(1)">
-					<component :is="iconAngleRight" />
-				</div>
-				<div class="nav" @click.stop="handleNavYear(1)">
-					<component :is="iconAngleDoubleRight" />
-				</div>
-			</div>
-		</div>
-		<div class="body" v-if="type !== 'month' && type !== 'year'">
-			<template v-if="type !== 'time'">
-				<div class="days-wrapper">
+			<template v-if="type === 'time' || type === 'datetime'">
+				<div class="hour-list-wrapper">
 					<div
-						class="day"
-						v-for="(item, i) in getDays"
-						:key="`day-${i}`"
-					>
-						{{ item }}
-					</div>
-				</div>
-				<div class="dates-wrapper">
-					<div
-						class="date"
+						class="hour"
 						:class="{
-							'in-range': isDateInRange(item),
-							current: isCurrentDate(item),
-							disabled:
-								item.disabled || isDateDisabled(item.value),
-							selected: isDateSelected(item),
+							selected: isHourSelected(hour),
 						}"
-						:key="`date-${i}`"
-						v-for="(item, i) in getDates"
-						@click.stop="handleSelectDate(item)"
-						@mouseover="handleDateMouseover(item)"
+						:key="`hour-${i}`"
+						:ref="`hour-${hour}`"
+						v-for="(hour, i) in [...Array(24).keys()]"
+						@click.stop="handleClickHour(hour)"
 					>
-						{{ item.value }}
+						{{ `${hour < 10 ? '0' : ''}${hour}` }}
 					</div>
 				</div>
-			</template>
-			<template v-if="type !== 'date'">
-				<div class="time-wrapper">
+				<div class="minute-list-wrapper">
 					<div
-						class="time"
-						:key="`time-picker-${i}`"
-						v-for="(_item, i) in !range ? [0] : [0, 1]"
+						class="minute"
+						:class="{
+							selected: isMinuteSelected(minute),
+						}"
+						:key="`minute-${i}`"
+						:ref="`minute-${minute}`"
+						v-for="(minute, i) in [...Array(60).keys()]"
+						@click.stop="handleClickMinute(minute)"
 					>
-						<div class="value-wrapper">
-							<component
-								:is="iconAngleUp"
-								@click="handleNavTime(1, 'hour', i)"
-							/>
-							<div
-								class="value"
-								@click.stop="handleShowHourList(i)"
-							>
-								{{ getDisplayTimeHour(i) }}
-							</div>
-							<component
-								:is="iconAngleDown"
-								@click="handleNavTime(-1, 'hour', i)"
-							/>
-						</div>
-						<div class="separator">:</div>
-						<div class="value-wrapper">
-							<component
-								:is="iconAngleUp"
-								@click="handleNavTime(1, 'minute', i)"
-							/>
-							<div
-								class="value"
-								@click.stop="handleShowMinuteList(i)"
-							>
-								{{ getDisplayTimeMinute(i) }}
-							</div>
-							<component
-								:is="iconAngleDown"
-								@click="handleNavTime(-1, 'minute', i)"
-							/>
-						</div>
+						{{ `${minute < 10 ? '0' : ''}${minute}` }}
 					</div>
 				</div>
 			</template>
-		</div>
-		<div
-			class="footer"
-			:class="{
-				'two-button': !closeOnSelect && type === 'datetime',
-			}"
-			v-if="!closeOnSelect || type === 'datetime'"
-		>
-			<sb-button
-				no-elevation
-				color="secondary"
-				tabindex="-1"
-				variant="text"
-				@click="handleFooterClick"
-				v-if="type === 'datetime'"
+			<div
+				class="header"
+				v-if="type !== 'time' && type !== 'month' && type !== 'year'"
 			>
-				<component :is="getFooterIcon" />
-			</sb-button>
-			<sb-button
-				:disabled="isSaveDisabled"
-				no-elevation
-				color="accent"
-				tabindex="-1"
-				variant="text"
-				@click="handleSave"
-				v-if="!closeOnSelect"
+				<div class="nav-wrapper">
+					<div class="nav" @click.stop="handleNavYear(-1)">
+						<component :is="iconAngleDoubleLeft" />
+					</div>
+					<div class="nav" @click.stop="handleNavMonth(-1)">
+						<component :is="iconAngleLeft" />
+					</div>
+				</div>
+				<div class="current">
+					<div class="year" @click.stop="handleShowYearList">
+						{{ popupCurrentValue.year }}
+					</div>
+					<div class="month" @click.stop="handleShowMonthList">
+						{{ getMonthText(popupCurrentValue.month) }}
+					</div>
+				</div>
+				<div class="nav-wrapper">
+					<div class="nav" @click.stop="handleNavMonth(1)">
+						<component :is="iconAngleRight" />
+					</div>
+					<div class="nav" @click.stop="handleNavYear(1)">
+						<component :is="iconAngleDoubleRight" />
+					</div>
+				</div>
+			</div>
+			<div class="body" v-if="type !== 'month' && type !== 'year'">
+				<template v-if="type !== 'time'">
+					<div class="days-wrapper">
+						<div
+							class="day"
+							v-for="(item, i) in getDays"
+							:key="`day-${i}`"
+						>
+							{{ item }}
+						</div>
+					</div>
+					<div class="dates-wrapper">
+						<div
+							class="date"
+							:class="{
+								'in-range': isDateInRange(item),
+								current: isCurrentDate(item),
+								disabled:
+									item.disabled || isDateDisabled(item.value),
+								selected: isDateSelected(item),
+							}"
+							:key="`date-${i}`"
+							v-for="(item, i) in getDates"
+							@click.stop="handleSelectDate(item)"
+							@mouseover="handleDateMouseover(item)"
+						>
+							{{ item.value }}
+						</div>
+					</div>
+				</template>
+				<template v-if="type !== 'date'">
+					<div class="time-wrapper">
+						<div
+							class="time"
+							:key="`time-picker-${i}`"
+							v-for="(_item, i) in !range ? [0] : [0, 1]"
+						>
+							<div class="value-wrapper">
+								<component
+									:is="iconAngleUp"
+									@click="handleNavTime(1, 'hour', i)"
+								/>
+								<div
+									class="value"
+									@click.stop="handleShowHourList(i)"
+								>
+									{{ getDisplayTimeHour(i) }}
+								</div>
+								<component
+									:is="iconAngleDown"
+									@click="handleNavTime(-1, 'hour', i)"
+								/>
+							</div>
+							<div class="separator">:</div>
+							<div class="value-wrapper">
+								<component
+									:is="iconAngleUp"
+									@click="handleNavTime(1, 'minute', i)"
+								/>
+								<div
+									class="value"
+									@click.stop="handleShowMinuteList(i)"
+								>
+									{{ getDisplayTimeMinute(i) }}
+								</div>
+								<component
+									:is="iconAngleDown"
+									@click="handleNavTime(-1, 'minute', i)"
+								/>
+							</div>
+						</div>
+					</div>
+				</template>
+			</div>
+			<div
+				class="footer"
+				:class="{
+					'two-button': !closeOnSelect && type === 'datetime',
+				}"
+				v-if="!closeOnSelect || type === 'datetime'"
 			>
-				{{ saveText || 'Save' }}
-			</sb-button>
+				<sb-button
+					no-elevation
+					color="secondary"
+					tabindex="-1"
+					type="button"
+					variant="text"
+					@click="handleFooterClick"
+					v-if="type === 'datetime'"
+				>
+					<component :is="getFooterIcon" />
+				</sb-button>
+				<sb-button
+					:disabled="isSaveDisabled"
+					no-elevation
+					color="accent"
+					tabindex="-1"
+					type="button"
+					variant="text"
+					@click="handleSave"
+					v-if="!closeOnSelect"
+				>
+					{{ saveText || 'Save' }}
+				</sb-button>
+			</div>
 		</div>
-	</div>
+	</Teleport>
 </template>
 
 <script lang="ts">
@@ -997,21 +1001,24 @@
 								DOMRect.width > popupWrapper.width ||
 								DOMRect.width < popupWrapper.width
 							) {
-								return (DOMRect.width - popupWrapper.width) / 2
+								return (
+									DOMRect.x +
+									(DOMRect.width - popupWrapper.width) / 2
+								)
 							}
 
-							return 0
+							return DOMRect.x
 						}
 
 						if (isTop) {
 							this.popupStyles = {
 								left: `${left()}px`,
-								top: `${0 - 6 - popupWrapper.height}px`,
+								top: `${DOMRect.y - 6 - popupWrapper.height}px`,
 							}
 						} else {
 							this.popupStyles = {
 								left: `${left()}px`,
-								top: `${DOMRect.height}px`,
+								top: `${DOMRect.y + DOMRect.height}px`,
 							}
 						}
 
