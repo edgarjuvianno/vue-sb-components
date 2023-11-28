@@ -499,6 +499,11 @@
 			},
 		},
 		methods: {
+			doRefresh() {
+				if (this.serverSide) {
+					this.handleAJAX()
+				}
+			},
 			getHeadClass(index: number) {
 				const classes: any[] = [
 					this.response.sort?.column === index &&
@@ -988,21 +993,16 @@
 					})
 				},
 			},
-			serverSide: {
-				deep: true,
-				handler(newValue: IServerSide) {
-					if (newValue) {
-						this.handleAJAX()
-					}
-				},
-				immediate: true,
-			},
+		},
+		mounted() {
+			this.handleAJAX()
 		},
 		unmounted() {
 			if (this.localAbort) {
 				this.localAbort.abort()
 			}
 		},
+		expose: ['doRefresh'],
 	})
 </script>
 

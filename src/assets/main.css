@@ -12,10 +12,12 @@
 	--sb-color-success-100: 55 146 55;
 	--sb-color-success-60: 84 180 53;
 	--sb-color-success-30: 181 215 202;
+	--sb-color-success-10: 246 253 250;
 
 	--sb-color-danger-100: 210 19 18;
 	--sb-color-danger-60: 237 43 42;
 	--sb-color-danger-30: 243 174 174;
+	--sb-color-danger-10: 255 235 235;
 
 	--sb-color-default-100: 82 109 130;
 	--sb-color-default-60: 157 178 191;
@@ -27,6 +29,7 @@
 	--sb-color-info-100: 67 154 151;
 	--sb-color-info-60: 98 182 183;
 	--sb-color-info-30: 186 235 223;
+	--sb-color-info-10: 247 255 253;
 
 	--sb-color-primary-100: 25 29 136;
 	--sb-color-primary-85: 20 80 163;
@@ -36,6 +39,7 @@
 	--sb-color-warning-100: 255 177 0;
 	--sb-color-warning-60: 251 194 82;
 	--sb-color-warning-30: 251 235 216;
+	--sb-color-warning-10: 255 249 243;
 
 	--sb-color-secondary-100: 117 117 117;
 	--sb-color-secondary-80: 142 142 142;

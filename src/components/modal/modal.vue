@@ -1,27 +1,30 @@
 <template>
-	<div
-		class="modal-mask"
-		:class="{ hide: !show, show }"
-		:id="id || ''"
-		v-bind="{ ...$attrs }"
-	>
-		<div class="backdrop" @click.stop="doClose()" />
-		<div class="modal-wrapper">
-			<div class="modal-container" :class="container">
-				<button
-					v-if="showX"
-					class="x-mark"
-					type="button"
-					@click.stop="doClose()"
-				>
-					<component :is="xMark" />
-				</button>
-				<div class="modal-content">
-					<slot />
+	<Teleport to="body">
+		<div
+			class="modal-mask"
+			:class="maskClasses"
+			:id="id || ''"
+			v-bind="{ ...$attrs }"
+			v-if="localShow"
+		>
+			<div class="backdrop" @click.stop="doClose()" />
+			<div class="modal-wrapper">
+				<div class="modal-container" :class="container">
+					<button
+						v-if="showX"
+						class="x-mark"
+						type="button"
+						@click.stop="doClose()"
+					>
+						<component :is="xMark" />
+					</button>
+					<div class="modal-content">
+						<slot />
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</Teleport>
 </template>
 
 <script lang="ts">
@@ -53,6 +56,12 @@
 			},
 		},
 		name: 'sb-modal',
+		data() {
+			return {
+				localShow: false,
+				maskClasses: ['hide'] as string[],
+			}
+		},
 		computed: {
 			xMark() {
 				return xMark()
@@ -71,18 +80,29 @@
 
 				this.$emit('close')
 			},
+			handleShow(value: boolean) {
+				if (value) {
+					this.localShow = true
+					this.maskClasses = ['show']
+
+					document
+						?.querySelector('body')
+						?.classList?.add('sb-overflow-hidden')
+				} else {
+					this.maskClasses = ['hide']
+
+					setTimeout(() => {
+						this.localShow = false
+						document
+							?.querySelector('body')
+							?.classList?.remove('sb-overflow-hidden')
+					}, 250)
+				}
+			},
 		},
 		watch: {
 			show(value: boolean) {
-				if (value) {
-					return document
-						?.querySelector('body')
-						?.classList?.add('sb-overflow-hidden')
-				}
-
-				return document
-					?.querySelector('body')
-					?.classList?.remove('sb-overflow-hidden')
+				this.handleShow(value)
 			},
 			showX: {
 				handler(value: boolean) {

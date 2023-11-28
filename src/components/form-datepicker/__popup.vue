@@ -1136,5 +1136,8 @@
 				immediate: true,
 			},
 		},
+		mounted() {
+			this.setPopupPosition()
+		},
 	})
 </script>
