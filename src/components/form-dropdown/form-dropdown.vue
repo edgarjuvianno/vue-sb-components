@@ -579,14 +579,6 @@
 
 					this.activeOption = -1
 
-					setTimeout(() => {
-						this.optWrapperStyles = {
-							...this.optWrapperStyles,
-							left: '0',
-							top: '0',
-						}
-					}, 300)
-
 					if (this.search) {
 						if (this.multi) {
 							this.termMulti = null
@@ -644,12 +636,7 @@
 			}
 
 			if (this.elem) {
-				const DOMRect: DOMRect = this.elem.getBoundingClientRect()
-
-				this.optWrapperStyles = {
-					...this.optWrapperStyles,
-					width: `${DOMRect.width}px`,
-				}
+				this.setOptionsPosition()
 			}
 
 			this.icon.onClick = this.handleOpen
