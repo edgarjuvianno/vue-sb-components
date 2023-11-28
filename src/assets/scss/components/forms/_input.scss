@@ -7,47 +7,37 @@
 		position: relative;
 
 		.input-border {
-			align-items: stretch;
+			border: 1px solid
+				rgb(var(--sb-color-border) / var(--sb-color-opacity));
 			border-radius: 6px;
 			display: flex;
-			height: 100%;
-			left: 0;
+			inset: -5px 0 0 0;
+			overflow: hidden;
+			padding: 0 1rem;
 			pointer-events: none;
 			position: absolute;
-			top: 0;
+			transition:
+				border-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				border-width 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 			width: 100%;
 
-			.start {
-				border-bottom-left-radius: 6px;
-				border-top-left-radius: 6px;
-				border-bottom: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				border-left: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				border-right: 0;
-				border-top: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				box-sizing: border-box;
-				width: 0.75rem;
-			}
-
 			.notch {
-				border-bottom: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				border-left: 0;
-				border-right: 0;
-				border-top: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				box-sizing: border-box;
-				max-width: calc(100% - 2.5rem);
+				display: block;
+				float: unset;
+				height: 0.9rem;
+				margin-left: -5px;
+				max-width: 0.01px;
+				overflow: hidden;
+				visibility: hidden;
 
-				&-label {
+				.notch-label {
 					color: transparent;
 					display: flex;
-					font-size: 0.95rem;
+					font-size: 0.9rem;
 					font-weight: 500;
 					margin: 0;
-					padding: 0 0.5rem 0 0;
+					opacity: 0;
+					padding: 0 5px;
 
 					> span:first-of-type {
 						flex: 1;
@@ -55,29 +45,11 @@
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
+
+					&.no-label {
+						padding: 0;
+					}
 				}
-			}
-
-			.end {
-				border-bottom-right-radius: 6px;
-				border-top-right-radius: 6px;
-				border-bottom: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				border-left: 0;
-				border-right: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				border-top: 1px solid
-					rgb(var(--sb-color-border) / var(--sb-color-opacity));
-				box-sizing: border-box;
-				flex: 1;
-			}
-
-			.start,
-			.notch,
-			.end {
-				transition:
-					border-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
-					border-width 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 			}
 		}
 
@@ -86,13 +58,13 @@
 			display: flex;
 			font-size: 1rem;
 			font-weight: 400;
-			left: 0.75rem;
+			left: calc(1rem + 2px);
 			line-height: 1.5;
 			margin-bottom: 0;
 			max-width: calc(100% - 2rem);
 			overflow: hidden;
 			pointer-events: none;
-			padding: 0 0.25rem;
+			padding: 0;
 			position: absolute;
 			top: 18px;
 			transform: translate(0, 0) scale(1);
@@ -126,7 +98,7 @@
 			line-height: 1.5;
 			outline: 0;
 			min-height: 56px;
-			padding: 0.15rem 1rem;
+			padding: 1rem;
 			transition: all 0.15s ease-in-out;
 			width: 100%;
 
@@ -135,7 +107,7 @@
 				background: transparent;
 				color: transparent;
 				flex-grow: 1;
-				height: calc(56px - 0.3rem);
+				height: calc(56px - 2rem);
 				padding: 0;
 				width: 100%;
 
@@ -154,8 +126,7 @@
 
 			textarea {
 				height: unset;
-				margin: 1rem 0;
-				min-height: calc(56px - 0.3rem);
+				min-height: calc(56px - 2rem);
 				resize: none;
 			}
 
@@ -202,12 +173,6 @@
 				max-width: calc(100% - 3rem);
 			}
 
-			.input-border {
-				.notch {
-					max-width: calc(100% - 3.5rem);
-				}
-			}
-
 			.icon {
 				color: rgb(
 					var(--sb-color-secondary-100) / var(--sb-color-opacity)
@@ -239,22 +204,7 @@
 		&:hover:not(.readonly, .disabled),
 		&.focus:not(.readonly, .disabled) {
 			.input-border {
-				.start {
-					border-bottom-width: 2px;
-					border-left-width: 2px;
-					border-top-width: 2px;
-				}
-
-				.notch {
-					border-bottom-width: 2px;
-					border-top-width: 2px;
-				}
-
-				.end {
-					border-bottom-width: 2px;
-					border-right-width: 2px;
-					border-top-width: 2px;
-				}
+				border-width: 2px;
 			}
 		}
 
@@ -262,21 +212,25 @@
 			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 
 			.input-border {
-				.start,
-				.notch,
-				.end {
-					border-color: rgb(
-						var(--sb-color-border) / var(--sb-color-opacity)
-					);
-				}
+				border-color: rgb(
+					var(--sb-color-border) / var(--sb-color-opacity)
+				);
 
 				.notch {
-					border-top: 0;
+					max-width: calc(100% - 2.5rem);
+				}
+			}
+
+			&.icon_append {
+				.input-border {
+					.notch {
+						max-width: calc(100% - 3.5rem);
+					}
 				}
 			}
 
 			.label {
-				transform: translate(0, -2.1rem) scale(0.95);
+				transform: translate(0, -2rem) scale(0.9);
 			}
 
 			&:not(.readonly, .disabled) {
@@ -369,12 +323,12 @@
 		&.icon_prepend {
 			.input-border {
 				.notch {
-					border-top: 0;
+					max-width: calc(100% - 2.5rem);
 				}
 			}
 
 			.label {
-				transform: translate(0, -2.1rem) scale(0.95);
+				transform: translate(0, -2rem) scale(0.9);
 			}
 		}
 
@@ -382,16 +336,20 @@
 			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
 
 			.input-border {
-				.start,
-				.notch,
-				.end {
-					border-color: rgb(
-						var(--sb-color-primary-85) / var(--sb-color-opacity)
-					);
-				}
+				border-color: rgb(
+					var(--sb-color-primary-85) / var(--sb-color-opacity)
+				);
 
 				.notch {
-					border-top: 0;
+					max-width: calc(100% - 2.5rem);
+				}
+			}
+
+			&.icon_append {
+				.input-border {
+					.notch {
+						max-width: calc(100% - 3.5rem);
+					}
 				}
 			}
 
@@ -400,7 +358,7 @@
 					var(--sb-color-primary-100) / var(--sb-color-opacity)
 				);
 				font-weight: 500;
-				transform: translate(0, -2.1rem) scale(0.95);
+				transform: translate(0, -2rem) scale(0.9);
 			}
 
 			.form-control {
@@ -456,30 +414,9 @@
 			}
 
 			.input-border {
-				.start,
-				.notch,
-				.end {
-					border-color: rgb(
-						var(--sb-color-danger-100) / var(--sb-color-opacity)
-					);
-				}
-
-				.start {
-					border-bottom-width: 1px;
-					border-left-width: 1px;
-					border-top-width: 1px;
-				}
-
-				.notch {
-					border-bottom-width: 1px;
-					border-top-width: 1px;
-				}
-
-				.end {
-					border-bottom-width: 1px;
-					border-right-width: 1px;
-					border-top-width: 1px;
-				}
+				border-color: rgb(
+					var(--sb-color-danger-100) / var(--sb-color-opacity)
+				);
 			}
 		}
 
@@ -496,14 +433,16 @@
 		.input-group {
 			.form-control {
 				min-height: 40px;
+				padding: 0.5rem 1rem;
 
 				input,
 				textarea {
-					height: calc(40px - 0.3rem);
+					height: calc(40px - 1rem);
 				}
 
 				textarea {
-					min-height: calc(40px - 0.3rem);
+					height: unset;
+					min-height: calc(40px - 1rem);
 				}
 			}
 
@@ -514,13 +453,13 @@
 			&.focus,
 			&.filled {
 				.label {
-					transform: translate(0, -1.6rem) scale(0.95);
+					transform: translate(0, -1.5rem) scale(0.9);
 				}
 			}
 
 			&.icon_prepend {
 				.label {
-					transform: translate(0, -1.6rem) scale(0.95);
+					transform: translate(0, -1.5rem) scale(0.9);
 				}
 			}
 		}

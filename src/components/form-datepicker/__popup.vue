@@ -811,26 +811,37 @@
 				return false
 			},
 			isDateInRange({ value }: IDate) {
-				if (this.value && this.range && this.lastHoverDate) {
-					const properDate: string = getProperDateFormat(
-						value,
-						this.popupCurrentValue.month + 1,
-						this.popupCurrentValue.year,
-					)
+				if (this.value && this.range) {
+					const currentValue: Dayjs[] = [...(this.value as Dayjs[])]
 
-					const tempValues: Dayjs[] = [
-						...(this.value as Dayjs[]),
-						this.lastHoverDate,
-					]
+					const tempValues: () => Dayjs[] = () => {
+						if (currentValue.length > 1) {
+							return currentValue
+						} else if (this.lastHoverDate) {
+							return [...currentValue, this.lastHoverDate]
+						}
 
-					const sortedValues: Dayjs[] = sortDateRange(tempValues)
+						return []
+					}
 
-					const currentDate: Dayjs = DayJS(properDate)
+					if (this.lastHoverDate || currentValue.length > 1) {
+						const properDate: string = getProperDateFormat(
+							value,
+							this.popupCurrentValue.month + 1,
+							this.popupCurrentValue.year,
+						)
 
-					return (
-						currentDate.unix() >= sortedValues[0].unix() &&
-						currentDate.unix() <= sortedValues[1].unix()
-					)
+						const sortedValues: Dayjs[] = sortDateRange(
+							tempValues(),
+						)
+
+						const currentDate: Dayjs = DayJS(properDate)
+
+						return (
+							currentDate.unix() >= sortedValues[0].unix() &&
+							currentDate.unix() <= sortedValues[1].unix()
+						)
+					}
 				}
 
 				return false

@@ -80,16 +80,20 @@
 					<slot name="custom-input" />
 				</template>
 			</div>
-			<div class="input-border">
-				<div class="start" />
-				<div class="notch">
-					<label class="notch-label" v-if="label">
-						<span>{{ label }}</span>
-						<span class="asterisk" v-if="required">*</span>
-					</label>
-				</div>
-				<div class="end" />
-			</div>
+			<fieldset class="input-border">
+				<legend class="notch">
+					<span
+						class="notch-label"
+						:class="{ 'no-label': !label || label === '' }"
+					>
+						<template v-if="label && label !== ''">
+							<span>{{ label }}</span>
+							<span class="asterisk" v-if="required">*</span>
+						</template>
+						<template v-else>&ZeroWidthSpace;</template>
+					</span>
+				</legend>
+			</fieldset>
 		</div>
 		<div class="error-wrapper" v-if="isError && errorMessage">
 			<span v-html="handleErrorMessage()"></span>
