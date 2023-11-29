@@ -4,21 +4,9 @@
 			max-width: calc(100% - 3rem);
 		}
 
-		.input-border {
-			.notch {
-				max-width: calc(100% - 3.5rem);
-			}
-		}
-
 		&.icon_prepend {
 			label {
 				max-width: calc(100% - 6rem);
-			}
-
-			.input-border {
-				.notch {
-					max-width: calc(100% - 6.5rem);
-				}
 			}
 		}
 
@@ -114,6 +102,23 @@
 
 				.form-control {
 					padding-right: 2.5rem;
+				}
+			}
+		}
+
+		&.filled,
+		&.focus:not(.readonly, .disabled) {
+			.input-border {
+				.notch {
+					max-width: calc(100% - 3.5rem);
+				}
+			}
+
+			&.icon_prepend {
+				.input-border {
+					.notch {
+						max-width: calc(100% - 6.5rem);
+					}
 				}
 			}
 		}
