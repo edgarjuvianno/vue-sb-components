@@ -97,7 +97,7 @@
 	import { vMaska } from 'maska'
 
 	// helper
-	import { parseLocaleNumber } from '@/components/helper/helper'
+	import { parseLocaleNumber } from '@/utils/helper'
 
 	// icons
 	import { sortDown, sortUp } from '@/assets/icons'
