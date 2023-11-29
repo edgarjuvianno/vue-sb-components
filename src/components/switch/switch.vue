@@ -20,7 +20,7 @@
 
 <script lang="ts">
 	import { PropType, defineComponent } from 'vue'
-	import { hexToRgb } from '@/components/helper/helper'
+	import { hexToRgb } from '@/utils/helper'
 	import { ISwitchColor, ISwitchLabel } from '@/interface'
 
 	export default defineComponent({

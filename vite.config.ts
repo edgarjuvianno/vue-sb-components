@@ -7,15 +7,9 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const files = fs
 	.readdirSync('./src/components')
-	.filter((it) => it.indexOf('.ts') < 0)
+	.filter((it) => it.indexOf('.ts') < 0 && it !== 'helper')
 
 const components = files.reduce((obj, component) => {
-	if (component === 'helper') {
-		obj[component] = `src/components/${component}/${component}.ts`
-
-		return obj
-	}
-
 	obj[component] = `src/components/${component}/${component}.vue`
 
 	return obj
@@ -27,14 +21,26 @@ export default () => {
 		build: {
 			cssCodeSplit: true,
 			lib: {
-				entry: { ...components },
+				entry: { ...components, main: 'src/main.ts' },
 				formats: ['es'],
 			},
 			rollupOptions: {
 				external: ['vue'],
 				output: {
-					entryFileNames: `components/[name]/[name].js`,
-					assetFileNames: `components/[name]/[name].[ext]`,
+					entryFileNames: (info: any) => {
+						if (info.name === 'main') {
+							return 'main.js'
+						}
+
+						return `components/[name]/[name].js`
+					},
+					assetFileNames: (info: any) => {
+						if (info.name === 'main') {
+							return 'main.[ext]'
+						}
+
+						return `components/[name]/[name].[ext]`
+					},
 					globals: {
 						vue: 'Vue',
 					},
@@ -44,26 +50,12 @@ export default () => {
 		plugins: [
 			vue(),
 			dts({
-				entryRoot: './src/components',
+				entryRoot: './src',
 				cleanVueFileName: true,
-				outDir: 'dist/components',
+				outDir: 'dist',
 			}),
 			viteStaticCopy({
 				targets: [
-					{
-						src: 'src/main.ts',
-						dest: '',
-						rename: 'main.d.ts',
-						transform: (contents) =>
-							contents.toString().replace(/.vue/g, ''),
-					},
-					{
-						src: 'src/main.ts',
-						dest: '',
-						rename: 'main.js',
-						transform: (contents) =>
-							contents.toString().replace(/.vue/g, ''),
-					},
 					{
 						src: 'src/interface.ts',
 						dest: '',
