@@ -12,6 +12,7 @@ This library created using [Day.js](https://day.js.org/), [Maska](https://behold
 - Card
 - Carousel
 - Circular Progress
+- Color Picker
 - Datatable
 - File Preview
 - Modal
@@ -25,4 +26,6 @@ This library created using [Day.js](https://day.js.org/), [Maska](https://behold
 - Checkkbox
 - File Input
 - Input
+- Input Mask
+- Input Number (w/ or w/o localization)
 - Radio
