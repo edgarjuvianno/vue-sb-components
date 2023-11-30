@@ -2,9 +2,9 @@
 	<template v-if="!localLoading || infinite">
 		<div
 			class="option"
-			:class="{ selected: isSelected(opt) }"
+			:class="{ focus: activeOption === idx, selected: isSelected(opt) }"
 			:key="opt"
-			v-for="opt in localList"
+			v-for="(opt, idx) in localList"
 			@click.stop="doSelect(opt)"
 		>
 			<span v-html="renderOption(opt)"></span>
@@ -34,6 +34,10 @@
 			onSelect: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
+			activeOption: {
+				required: true,
+				type: Number,
+			},
 			infinite: {
 				required: false,
 				type: Boolean,

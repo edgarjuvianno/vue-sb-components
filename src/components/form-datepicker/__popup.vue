@@ -244,6 +244,9 @@
 		clock,
 	} from '@/assets/icons'
 
+	// utils
+	import { recursiveSearchScrollParent } from '@/utils/helper'
+
 	interface IDate {
 		disabled?: boolean
 		value: number
@@ -264,6 +267,10 @@
 			closeOnSelect: {
 				required: false,
 				type: Boolean,
+			},
+			datepickerElem: {
+				required: false,
+				type: Object as PropType<HTMLElement>,
 			},
 			inputWrapper: {
 				required: false,
@@ -315,6 +322,7 @@
 					| 'month-list'
 					| 'hour-list'
 					| 'minute-list',
+				parentWithScroll: null as HTMLElement | null,
 				popupCurrentValue: {
 					date: 0,
 					hour: 0,
@@ -675,6 +683,32 @@
 			},
 			handleNavYear(inc: number) {
 				this.popupCurrentValue.year += inc
+			},
+			handleParentScroll(isOpen: boolean) {
+				const parentWithScroll: HTMLElement | null =
+					recursiveSearchScrollParent(this.$el)
+
+				if (this.parentWithScroll) {
+					this.parentWithScroll.removeEventListener('scroll', () => {
+						this.setPopupPosition()
+					})
+				}
+
+				if (parentWithScroll) {
+					if (isOpen) {
+						parentWithScroll.addEventListener('scroll', () => {
+							this.setPopupPosition()
+						})
+					} else {
+						parentWithScroll.removeEventListener('scroll', () => {
+							this.setPopupPosition()
+						})
+					}
+				}
+
+				this.$nextTick(() => {
+					this.parentWithScroll = parentWithScroll
+				})
 			},
 			handleSave() {
 				if (this.type === 'time') {
@@ -1117,6 +1151,8 @@
 		},
 		watch: {
 			show(newValue: boolean, oldValue: boolean) {
+				this.handleParentScroll(newValue)
+
 				if (oldValue && !newValue) {
 					this.setPopupValue()
 
@@ -1149,6 +1185,17 @@
 		},
 		mounted() {
 			this.setPopupPosition()
+
+			this.parentWithScroll = recursiveSearchScrollParent(
+				this.datepickerElem as HTMLElement,
+			)
+		},
+		unmounted() {
+			if (this.parentWithScroll) {
+				this.parentWithScroll.removeEventListener('scroll', () => {
+					this.setPopupPosition()
+				})
+			}
 		},
 	})
 </script>

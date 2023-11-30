@@ -7,6 +7,7 @@
 			expanded: isOpen,
 			search: search || serverSide,
 		}"
+		:data-target="`dropdown-${$.uid}`"
 		:tabindex="!disabled && !readOnly ? 0 : -1"
 		ref="dropdown-wrapper"
 		v-bind="{ ...$attrs }"
@@ -65,6 +66,7 @@
 					multi,
 					expanded: isOpen,
 				}"
+				:data-target="`options-${$.uid}`"
 				:style="optWrapperStyles"
 				@scroll="
 					(ev) =>
@@ -77,6 +79,7 @@
 				v-if="isOpen"
 			>
 				<plain-option
+					:active-option="activeOption"
 					:is-loading="isLoading"
 					:list="localList"
 					:multi="multi"
@@ -89,6 +92,7 @@
 					v-if="!serverSide"
 				/>
 				<ajax-option
+					:active-option="activeOption"
 					:is-open="isOpen"
 					:multi="multi"
 					:on-ajax="handleAjax"
@@ -123,6 +127,9 @@
 	// icons
 	import { angleDown, xMark } from '@/assets/icons'
 	import { IIcon, IServerSide, IServerSideHandler } from '@/interface'
+
+	// utils
+	import { recursiveSearchScrollParent } from '@/utils/helper'
 
 	export default defineComponent({
 		emits: ['update:modelValue', 'change', 'input', 'onClose', 'onOpen'],
@@ -254,6 +261,7 @@
 					width: '0',
 				},
 				isScrollBottom: false,
+				parentWithScroll: null as HTMLElement | any,
 				selected: (this.modelValue || this.value || null) as any,
 				termMulti: null as any,
 				termSingle: null as any,
@@ -334,42 +342,35 @@
 				return null
 			},
 			handleArrowEvent(inc: number, event: KeyboardEvent) {
-				event.preventDefault()
+				if (this.isOpen) {
+					event.preventDefault()
 
-				const self: Element = this.$el as Element
-				const childs: HTMLCollection = self.children
+					const optionsWrapper: Element | null =
+						document.querySelector(
+							`[data-target="options-${this.$.uid}"]`,
+						)
 
-				const optionsWrapper: Element | undefined = Array.from(
-					childs,
-				).find((it: Element) =>
-					it.classList.contains('options-wrapper'),
-				)
+					if (optionsWrapper) {
+						const options: HTMLCollection = optionsWrapper.children
 
-				if (optionsWrapper) {
-					const options: HTMLCollection = optionsWrapper.children
-					const pastOptionIndex: number = this.activeOption
-					let targetOptIndex: number = this.activeOption + inc
+						let targetOptIndex: number = this.activeOption + inc
 
-					if (this.activeOption < 1 && targetOptIndex < 0) {
-						targetOptIndex = options.length - 1
-					} else if (
-						this.activeOption === options.length - 1 &&
-						targetOptIndex > options.length - 1
-					) {
-						targetOptIndex = 0
+						if (this.activeOption < 1 && targetOptIndex < 0) {
+							targetOptIndex = options.length - 1
+						} else if (
+							this.activeOption === options.length - 1 &&
+							targetOptIndex > options.length - 1
+						) {
+							targetOptIndex = 0
+						}
+
+						const targetOption: Element | null =
+							options.item(targetOptIndex)
+
+						;(targetOption as HTMLElement)?.scrollIntoView(false)
+
+						this.activeOption = targetOptIndex
 					}
-
-					const pastOption: Element | null =
-						options.item(pastOptionIndex)
-
-					const targetOption: Element | null =
-						options.item(targetOptIndex)
-
-					;(pastOption as HTMLElement)?.classList?.remove('focus')
-					;(targetOption as HTMLElement)?.classList?.add('focus')
-					;(targetOption as HTMLElement)?.scrollIntoView(false)
-
-					this.activeOption = targetOptIndex
 				}
 			},
 			handleClear(index?: number) {
@@ -440,21 +441,26 @@
 
 					this.$nextTick(() => this.handleArrowEvent(inc, event))
 				} else if (event.key === 'Enter') {
-					event.preventDefault()
-					event.stopPropagation()
+					if (this.isOpen) {
+						event.preventDefault()
+						event.stopPropagation()
 
-					const self: Element = this.$el as Element
-					const options: HTMLCollection =
-						self.getElementsByClassName('option')
+						const options: NodeListOf<Element> =
+							document.querySelectorAll(
+								`[data-target="options-${this.$.uid}"] .option`,
+							)
 
-					const activeOption: number = Array.from(options).findIndex(
-						(it: Element) =>
-							it.classList.contains('focus') &&
-							!it.classList.contains('selected'),
-					)
+						const activeOption: number = Array.from(
+							options,
+						).findIndex(
+							(it: Element) =>
+								it.classList.contains('focus') &&
+								!it.classList.contains('selected'),
+						)
 
-					if (activeOption > -1) {
-						this.doSelect(this.localList[activeOption])
+						if (activeOption > -1) {
+							this.doSelect(this.localList[activeOption])
+						}
 					}
 				} else if (event.key === 'Escape' || event.key === 'Tab') {
 					this.isOpen = false
@@ -519,6 +525,32 @@
 				this.isFocus = true
 
 				this.handleOpen()
+			},
+			handleParentScroll(isOpen: boolean) {
+				const parentWithScroll: HTMLElement | null =
+					recursiveSearchScrollParent(this.$el)
+
+				if (this.parentWithScroll) {
+					this.parentWithScroll.removeEventListener('scroll', () => {
+						this.setOptionsPosition()
+					})
+				}
+
+				if (parentWithScroll) {
+					if (isOpen) {
+						parentWithScroll.addEventListener('scroll', () => {
+							this.setOptionsPosition()
+						})
+					} else {
+						parentWithScroll.removeEventListener('scroll', () => {
+							this.setOptionsPosition()
+						})
+					}
+				}
+
+				this.$nextTick(() => {
+					this.parentWithScroll = parentWithScroll
+				})
 			},
 			handleRemoveFocus() {
 				this.isFocus = false
@@ -592,6 +624,8 @@
 		},
 		watch: {
 			isOpen(newValue: boolean) {
+				this.handleParentScroll(newValue)
+
 				if (!newValue) {
 					this.$emit('onClose')
 
@@ -662,11 +696,19 @@
 			document.addEventListener('click', (event: MouseEvent) =>
 				this.handleParentClickOutside(event),
 			)
+
+			this.parentWithScroll = recursiveSearchScrollParent(this.$el)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>
 				this.handleParentClickOutside(event),
 			)
+
+			if (this.parentWithScroll) {
+				this.parentWithScroll.removeEventListener('scroll', () => {
+					this.setOptionsPosition()
+				})
+			}
 		},
 	})
 </script>

@@ -40,6 +40,18 @@ export const parseLocaleNumber: (
 	)
 }
 
+export const recursiveSearchScrollParent: (
+	target: HTMLElement,
+) => HTMLElement | null = (target: HTMLElement) => {
+	if (!target) {
+		return null
+	} else if (target.scrollHeight > target.clientHeight) {
+		return target
+	}
+
+	return recursiveSearchScrollParent(target.parentNode as HTMLElement)
+}
+
 export const setCSSVariables = ({
 	borderColor,
 	dangerColor,
