@@ -1,15 +1,12 @@
 <template>
 	<sb-modal
-		class="file-preview-modal"
 		container="fit-content"
-		:class="{
-			type,
-		}"
+		id="file-preview-modal"
 		:show="show"
 		@close="handleClose"
 		v-bind="{ ...$attrs }"
 	>
-		<div class="file-preview-wrapper">
+		<div class="file-preview-wrapper" :class="[type]">
 			<div class="loading" v-if="isLoading">
 				<div class="skeleton" />
 			</div>

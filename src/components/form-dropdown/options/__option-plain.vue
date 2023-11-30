@@ -8,6 +8,9 @@
 	>
 		<span v-html="renderOption(opt)"></span>
 	</div>
+	<div class="no-result" v-if="!isLoading && !list.length">
+		{{ noResultText }}
+	</div>
 	<div class="loading-wrapper" v-if="isLoading">
 		<sb-circular indeterminate :size="36" />
 	</div>
@@ -24,7 +27,7 @@
 
 	export default defineComponent({
 		emits: {
-			onSelect: (_selected: any) => true,
+			onSelect: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
 			isLoading: {
@@ -38,6 +41,10 @@
 			multi: {
 				required: false,
 				type: Boolean,
+			},
+			noResultText: {
+				default: 'No Results Found...',
+				type: String,
 			},
 			optLabel: {
 				required: true,
@@ -54,8 +61,8 @@
 		},
 		methods: {
 			doSelect(opt: any) {
-				if (!this.isSelected(opt)) {
-					this.$emit('onSelect', opt)
+				if (!this.isLoading) {
+					this.$emit('onSelect', opt, this.isSelected(opt))
 				}
 			},
 			isSelected(opt: any) {

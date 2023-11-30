@@ -82,6 +82,9 @@
 					:multi="multi"
 					:optLabel="optLabel"
 					:selected="selected"
+					v-bind="{
+						noResultText,
+					}"
 					@on-select="doSelect"
 					v-if="!serverSide"
 				/>
@@ -95,6 +98,9 @@
 					:term="localTerm"
 					:infinite="infinite"
 					:is-scroll-bottom="isScrollBottom"
+					v-bind="{
+						noResultText,
+					}"
 					@on-list-change="handleListChange"
 					@on-select="doSelect"
 					v-else
@@ -170,6 +176,10 @@
 			multi: {
 				required: false,
 				type: Boolean,
+			},
+			noResultText: {
+				default: 'No Results Found...',
+				type: String,
 			},
 			onAjax: {
 				required: false,
@@ -283,26 +293,34 @@
 			},
 		},
 		methods: {
-			doSelect(opt: any) {
-				if (this.multi) {
-					if (this.selected) {
-						this.selected = [...this.selected, opt]
-					} else {
-						this.selected = [opt]
-					}
-				} else {
-					this.selected = opt
-				}
-
-				this.$nextTick(() => {
-					this.handleUpdateModel()
-
+			doSelect(opt: any, isSelected?: boolean) {
+				if (isSelected) {
 					if (this.closeOnSelect && !this.multi) {
 						this.isOpen = false
 
 						this.handleRemoveFocus()
 					}
-				})
+				} else {
+					if (this.multi) {
+						if (this.selected) {
+							this.selected = [...this.selected, opt]
+						} else {
+							this.selected = [opt]
+						}
+					} else {
+						this.selected = opt
+					}
+
+					this.$nextTick(() => {
+						this.handleUpdateModel()
+
+						if (this.closeOnSelect && !this.multi) {
+							this.isOpen = false
+
+							this.handleRemoveFocus()
+						}
+					})
+				}
 			},
 			handleAjax(
 				resp: IServerSideHandler,
