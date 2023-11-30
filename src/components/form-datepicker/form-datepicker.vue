@@ -35,6 +35,7 @@
 			</template>
 		</sb-input>
 		<sb-datepicker-popup
+			:datepicker-elem="datepickerWrapper"
 			:close-on-select="closeOnSelect"
 			:input-wrapper="inputWrapper"
 			:show="localShow"
@@ -160,6 +161,7 @@
 		},
 		data() {
 			return {
+				datepickerWrapper: null as any,
 				icon: {
 					onClick: null as any,
 					placement: 'append',
@@ -455,6 +457,7 @@
 			)
 
 			this.setLocalValue(this.localValue)
+			this.datepickerWrapper = this.$el
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>

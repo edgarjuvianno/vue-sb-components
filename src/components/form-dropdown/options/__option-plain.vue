@@ -1,9 +1,9 @@
 <template>
 	<div
 		class="option"
-		:class="{ selected: isSelected(opt) }"
+		:class="{ focus: activeOption === idx, selected: isSelected(opt) }"
 		:key="opt"
-		v-for="opt in list"
+		v-for="(opt, idx) in list"
 		@click.stop="doSelect(opt)"
 	>
 		<span v-html="renderOption(opt)"></span>
@@ -30,6 +30,10 @@
 			onSelect: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
+			activeOption: {
+				required: true,
+				type: Number,
+			},
 			isLoading: {
 				required: false,
 				type: Boolean,

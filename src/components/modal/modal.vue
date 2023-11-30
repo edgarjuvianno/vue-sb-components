@@ -68,19 +68,26 @@
 		},
 		methods: {
 			doClose() {
-				if (this.id) {
-					const modal: HTMLDivElement | null = document.querySelector(
-						`#${this.id}`,
-					)
+				if (this.localShow) {
+					if (this.id) {
+						const modal: HTMLDivElement | null =
+							document.querySelector(`#${this.id}`)
 
-					modal?.classList.remove('show')
-					modal?.classList.add('hide')
+						modal?.classList.remove('show')
+						modal?.classList.add('hide')
+					}
+
+					this.$emit('close')
 				}
-
-				this.$emit('close')
 			},
 			handleShow(value: boolean) {
 				if (value) {
+					document.addEventListener('keydown', (e: KeyboardEvent) => {
+						if (e.key === 'Escape') {
+							this.doClose()
+						}
+					})
+
 					this.localShow = true
 					this.maskClasses = ['show']
 
@@ -88,6 +95,15 @@
 						?.querySelector('body')
 						?.classList?.add('sb-overflow-hidden')
 				} else {
+					document.removeEventListener(
+						'keydown',
+						(e: KeyboardEvent) => {
+							if (e.key === 'Escape') {
+								this.doClose()
+							}
+						},
+					)
+
 					this.maskClasses = ['hide']
 
 					setTimeout(() => {
@@ -102,30 +118,6 @@
 		watch: {
 			show(value: boolean) {
 				this.handleShow(value)
-			},
-			showX: {
-				handler(value: boolean) {
-					if (value) {
-						return document.addEventListener(
-							'keydown',
-							(e: KeyboardEvent) => {
-								if (e.key === 'Escape') {
-									this.doClose()
-								}
-							},
-						)
-					}
-
-					return document.removeEventListener(
-						'keydown',
-						(e: KeyboardEvent) => {
-							if (e.key === 'Escape') {
-								this.doClose()
-							}
-						},
-					)
-				},
-				immediate: true,
 			},
 		},
 	})
