@@ -10,6 +10,9 @@
 			<span v-html="renderOption(opt)"></span>
 		</div>
 	</template>
+	<div class="no-result" v-if="!localLoading && !localList.length">
+		{{ noResultText }}
+	</div>
 	<div class="loading-wrapper" v-if="localLoading">
 		<sb-circular indeterminate :size="36" />
 	</div>
@@ -28,7 +31,7 @@
 	export default defineComponent({
 		emits: {
 			onListChange: (_list: any[]) => true,
-			onSelect: (_selected: any) => true,
+			onSelect: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
 			infinite: {
@@ -46,6 +49,10 @@
 			multi: {
 				required: false,
 				type: Boolean,
+			},
+			noResultText: {
+				default: 'No Results Found...',
+				type: String,
 			},
 			onAjax: {
 				required: false,
@@ -88,8 +95,8 @@
 		},
 		methods: {
 			doSelect(opt: any) {
-				if (!this.isSelected(opt)) {
-					this.$emit('onSelect', opt)
+				if (!this.localLoading) {
+					this.$emit('onSelect', opt, this.isSelected(opt))
 				}
 			},
 			async handleAjax() {

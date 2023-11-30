@@ -1,8 +1,7 @@
 <template>
 	<Teleport to="body">
 		<div
-			class="modal-mask"
-			:class="maskClasses"
+			:class="[...maskClasses, 'modal-mask']"
 			:id="id || ''"
 			v-bind="{ ...$attrs }"
 			v-if="localShow"
