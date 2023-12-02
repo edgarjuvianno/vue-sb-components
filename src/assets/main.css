@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
 	--sb-color-border: 212 212 212;
 	--sb-color-table-head: 238 238 238;
@@ -7,7 +9,7 @@
 
 	--sb-color-primary-accent-100: 80 64 153;
 	--sb-color-primary-accent-60: 110 83 185;
-	--sb-color-primary-accent-30: 151 78 195;
+	--sb-color-primary-accent-30: 180 107 223;
 
 	--sb-color-success-100: 55 146 55;
 	--sb-color-success-60: 84 180 53;
@@ -51,6 +53,15 @@
 	--sb-color-opacity: 1;
 }
 
+html {
+	font-size: 13px;
+}
+
+body * {
+	font-family: 'Poppins', sans-serif;
+	letter-spacing: 0.01rem;
+}
+
 body label.required span.asterisk {
 	color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
 }
@@ -61,25 +72,25 @@ body svg.sb-icon {
 }
 
 body .sb-hidden {
-	display: none;
+	display: none !important;
 }
 
 body.sb-overflow-hidden {
-	overflow: hidden;
+	overflow: hidden !important;
 }
 
 body .sb-whitespace-nowrap {
-	white-space: nowrap;
+	white-space: nowrap !important;
 }
 
 body .sb-cursor-pointer {
-	cursor: pointer;
+	cursor: pointer !important;
 }
 
 body .sb-w-full {
-	width: 100%;
+	width: 100% !important;
 }
 
 body .sb-relative {
-	position: relative;
+	position: relative !important;
 }

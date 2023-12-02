@@ -10,7 +10,7 @@
 			<div class="label-wrapper" :class="{ selected: isSelected(item) }">
 				<div
 					class="check-wrapper"
-					v-if="check"
+					v-if="checkBox"
 					@click.stop="() => handleClick(item)"
 				>
 					<span class="check" v-if="isSelected(item)">
@@ -29,7 +29,9 @@
 				class="label-wrapper"
 				@click="
 					() =>
-						check && multi ? handleCheck(item) : toggleExpand(item)
+						checkBox && multi
+							? handleCheck(item)
+							: toggleExpand(item)
 				"
 			>
 				<component
@@ -39,7 +41,7 @@
 				<div
 					class="check-wrapper"
 					:class="{ 'all-checked': isAllChecked(item) }"
-					v-if="check && multi"
+					v-if="checkBox && multi"
 				>
 					<span class="check" v-if="isAllChecked(item)">
 						<component :is="iconCheck" />
@@ -51,15 +53,15 @@
 			<ul>
 				<sb-tree-view-item
 					v-for="(it, index) in item.children"
-					:check="check"
+					:check-box="checkBox"
 					:expanded="it.children && !!expanded"
 					:item="it"
 					:key="`item-${index}`"
 					:multi="multi"
 					:selected="selected"
-					@on-deselect="handleEmitDeselect"
-					@on-expand="handleEmitExpand"
-					@on-select="handleEmitSelect"
+					@deselect="handleEmitDeselect"
+					@expand="handleEmitExpand"
+					@select="handleEmitSelect"
 				/>
 			</ul>
 		</template>
@@ -77,9 +79,9 @@
 	import { ITreeItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['onDeselect', 'onSelect', 'onExpand'],
+		emits: ['deselect', 'select', 'expand'],
 		props: {
-			check: {
+			checkBox: {
 				required: false,
 				type: Boolean,
 			},
@@ -116,13 +118,13 @@
 		},
 		methods: {
 			handleEmitDeselect(item: ITreeItem | ITreeItem[]) {
-				this.$emit('onDeselect', item)
+				this.$emit('deselect', item)
 			},
 			handleEmitExpand(item: ITreeItem, isExpanded: boolean) {
-				this.$emit('onExpand', item, isExpanded)
+				this.$emit('expand', item, isExpanded)
 			},
 			handleEmitSelect(item: ITreeItem | ITreeItem[]) {
-				this.$emit('onSelect', item)
+				this.$emit('select', item)
 			},
 			handleCheck(item: ITreeItem) {
 				if (item.children) {

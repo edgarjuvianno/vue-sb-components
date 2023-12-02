@@ -10,8 +10,8 @@
 	>
 		<sb-input
 			:error-message="errorMessage"
-			:focus="localShow"
 			:is-error="isError"
+			:is-focus="localShow"
 			:label="label"
 			:placeholder="placeholder"
 			:tabindex="-1"
@@ -19,7 +19,6 @@
 			ref="input-wrapper"
 			type="text"
 			v-bind="{
-				autocomplete,
 				disabled,
 				required,
 				readOnly,
@@ -30,7 +29,7 @@
 			@focus="() => handleOpenCalendar()"
 			@keydown="handleKeyDown"
 		>
-			<template v-slot:icon v-if="!noIcon">
+			<template v-slot:icon-slot v-if="!noIcon">
 				<component :is="getIcon" />
 			</template>
 		</sb-input>
@@ -47,9 +46,9 @@
 				saveText,
 				type,
 			}"
-			@on-change="handleOnChange"
-			@on-change-time="handleOnChangeTime"
-			@on-save="handleOnSave"
+			@change="handleOnChange"
+			@change-time="handleOnChangeTime"
+			@save="handleOnSave"
 		/>
 	</div>
 </template>
@@ -73,10 +72,6 @@
 			allowClear: {
 				required: false,
 				type: Boolean,
-			},
-			autocomplete: {
-				default: 'on',
-				type: String as PropType<'off' | 'on'>,
 			},
 			closeOnSelect: {
 				required: false,

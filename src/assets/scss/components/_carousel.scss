@@ -10,6 +10,12 @@
 	}
 }
 
+@keyframes carousel-skeleton-loading {
+	50% {
+		opacity: 0.5;
+	}
+}
+
 .carousel-wrapper {
 	overflow: hidden;
 	position: relative;
@@ -21,17 +27,20 @@
 		justify-content: center;
 		margin-top: 2rem;
 
-		button {
+		.button {
 			background: rgb(
 				var(--sb-color-secondary-60) / var(--sb-color-opacity)
 			);
+			border: 0;
 			border-radius: 50%;
-			height: 0.5rem;
+			cursor: pointer;
+			height: 8px;
 			margin: 0 0.5rem;
+			outline: 0;
 			transition:
 				background-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				width 450ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-			width: 0.5rem;
+			width: 8px;
 
 			&:hover {
 				background: rgb(
@@ -44,7 +53,7 @@
 					var(--sb-color-secondary-100) / var(--sb-color-opacity)
 				);
 				border-radius: 20px;
-				width: 1rem;
+				width: 16px;
 			}
 		}
 	}
@@ -133,5 +142,15 @@
 				}
 			}
 		}
+	}
+
+	.carousel-loader {
+		animation: carousel-skeleton-loading 2s cubic-bezier(0.4, 0, 0.6, 1)
+			infinite;
+		background-color: rgb(var(--sb-color-secondary-30) / 1);
+		border-radius: 6px;
+		display: block;
+		min-height: 15rem;
+		width: 100%;
 	}
 }

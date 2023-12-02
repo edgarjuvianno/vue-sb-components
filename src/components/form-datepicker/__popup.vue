@@ -144,37 +144,45 @@
 							v-for="(_item, i) in !range ? [0] : [0, 1]"
 						>
 							<div class="value-wrapper">
-								<component
-									:is="iconAngleUp"
-									@click="handleNavTime(1, 'hour', i)"
-								/>
+								<div class="time-nav">
+									<component
+										:is="iconAngleUp"
+										@click="handleNavTime(1, 'hour', i)"
+									/>
+								</div>
 								<div
 									class="value"
 									@click.stop="handleShowHourList(i)"
 								>
 									{{ getDisplayTimeHour(i) }}
 								</div>
-								<component
-									:is="iconAngleDown"
-									@click="handleNavTime(-1, 'hour', i)"
-								/>
+								<div class="time-nav down">
+									<component
+										:is="iconAngleDown"
+										@click="handleNavTime(-1, 'hour', i)"
+									/>
+								</div>
 							</div>
 							<div class="separator">:</div>
 							<div class="value-wrapper">
-								<component
-									:is="iconAngleUp"
-									@click="handleNavTime(1, 'minute', i)"
-								/>
+								<div class="time-nav">
+									<component
+										:is="iconAngleUp"
+										@click="handleNavTime(1, 'minute', i)"
+									/>
+								</div>
 								<div
 									class="value"
 									@click.stop="handleShowMinuteList(i)"
 								>
 									{{ getDisplayTimeMinute(i) }}
 								</div>
-								<component
-									:is="iconAngleDown"
-									@click="handleNavTime(-1, 'minute', i)"
-								/>
+								<div class="time-nav down">
+									<component
+										:is="iconAngleDown"
+										@click="handleNavTime(-1, 'minute', i)"
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -189,11 +197,12 @@
 			>
 				<sb-button
 					no-elevation
+					class="button-time"
 					color="secondary"
 					tabindex="-1"
 					type="button"
 					variant="text"
-					@click="handleFooterClick"
+					@click.stop="handleFooterClick"
 					v-if="type === 'datetime'"
 				>
 					<component :is="getFooterIcon" />
@@ -205,7 +214,7 @@
 					tabindex="-1"
 					type="button"
 					variant="text"
-					@click="handleSave"
+					@click.stop="handleSave"
 					v-if="!closeOnSelect"
 				>
 					{{ saveText || 'Save' }}
@@ -262,7 +271,7 @@
 	}
 
 	export default defineComponent({
-		emits: ['onChange', 'onChangeTime', 'onSave'],
+		emits: ['change', 'changeTime', 'save'],
 		props: {
 			closeOnSelect: {
 				required: false,
@@ -517,7 +526,7 @@
 							DayJS().year(),
 						)
 
-						this.$emit('onChange', DayJS(properDate))
+						this.$emit('change', DayJS(properDate))
 					}
 				})
 			},
@@ -534,7 +543,7 @@
 							this.popupCurrentValue.year,
 						)
 
-						this.$emit('onChange', DayJS(properDate))
+						this.$emit('change', DayJS(properDate))
 					}
 				})
 			},
@@ -720,7 +729,7 @@
 						DayJS().year(),
 					)
 
-					this.$emit('onChange', DayJS(properDate))
+					this.$emit('change', DayJS(properDate))
 				} else if (this.type === 'year') {
 					const properDate: string = getProperDateFormat(
 						1,
@@ -728,7 +737,7 @@
 						this.popupCurrentValue.year,
 					)
 
-					this.$emit('onChange', DayJS(properDate))
+					this.$emit('change', DayJS(properDate))
 				} else {
 					if (
 						!this.range ||
@@ -739,7 +748,7 @@
 					}
 				}
 
-				this.$emit('onSave')
+				this.$emit('save')
 			},
 			handleSelectDate({ disabled, value }: IDate) {
 				if (!disabled && !this.isDateDisabled(value)) {
@@ -950,7 +959,7 @@
 						)
 
 						this.$emit(
-							'onChange',
+							'change',
 							DayJS(`${properDate} ${properTime}`),
 						)
 					} else {
@@ -973,12 +982,12 @@
 						)
 
 						this.$emit(
-							'onChange',
+							'change',
 							DayJS(`${properDate} ${properTime}`),
 						)
 					}
 				} else {
-					this.$emit('onChange', DayJS(properDate))
+					this.$emit('change', DayJS(properDate))
 				}
 			},
 			setModelValueTime() {
@@ -993,7 +1002,7 @@
 						'YYYY-MM-DD',
 					)} ${properTime}`
 
-					this.$emit('onChange', DayJS(rawValue))
+					this.$emit('change', DayJS(rawValue))
 				} else {
 					const currentDates: Dayjs[] = (this.value as Dayjs[]) || [
 						DayJS(),
@@ -1022,7 +1031,7 @@
 						},
 					)
 
-					this.$emit('onChangeTime', modDates)
+					this.$emit('changeTime', modDates)
 				}
 			},
 			setPopupPosition() {

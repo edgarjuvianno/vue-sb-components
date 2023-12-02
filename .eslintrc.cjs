@@ -3,13 +3,7 @@
 
 module.exports = {
 	root: true,
-	extends: [
-		'plugin:vue/vue3-essential',
-		'eslint:recommended',
-		'@vue/eslint-config-typescript',
-		'@vue/eslint-config-prettier/skip-formatting',
-		'prettier',
-	],
+	extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/eslint-config-typescript', '@vue/eslint-config-prettier/skip-formatting', 'prettier', 'plugin:storybook/recommended', 'plugin:storybook/recommended', 'plugin:storybook/recommended'],
 	parserOptions: {
 		ecmaVersion: 'latest',
 	},

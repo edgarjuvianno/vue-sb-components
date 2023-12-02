@@ -20,15 +20,15 @@
 			transition:
 				border-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				border-width 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-			width: 100%;
 
 			.notch {
 				display: block;
 				float: unset;
 				height: 0.9rem;
-				margin-left: -5px;
+				margin-left: -6px;
 				max-width: 0.01px;
 				overflow: hidden;
+				padding: 0;
 				transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 				visibility: hidden;
 
@@ -61,18 +61,19 @@
 			font-size: 1rem;
 			font-weight: 400;
 			left: calc(1rem + 2px);
-			line-height: 1.5;
+			line-height: 1;
 			margin-bottom: 0;
 			max-width: calc(100% - 2rem);
 			overflow: hidden;
 			pointer-events: none;
 			padding: 0;
 			position: absolute;
-			top: 18px;
-			transform: translate(0, 0) scale(1);
+			top: 50%;
+			transform: translate(0, -50%) scale(1);
 			transform-origin: left top;
 			transition:
 				color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				top 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 			user-select: none;
@@ -107,9 +108,11 @@
 			input,
 			textarea {
 				background: transparent;
+				border: 0;
 				color: transparent;
 				flex-grow: 1;
 				height: calc(56px - 2rem);
+				outline: 0;
 				padding: 0;
 				width: 100%;
 
@@ -176,10 +179,13 @@
 			}
 
 			.icon {
+				align-items: center;
 				color: rgb(
 					var(--sb-color-secondary-100) / var(--sb-color-opacity)
 				);
 				cursor: pointer;
+				display: flex;
+				justify-content: center;
 				position: absolute;
 				top: 50%;
 				transform: translateY(-50%);
@@ -219,20 +225,21 @@
 				);
 
 				.notch {
-					max-width: calc(100% - 2.5rem);
+					max-width: calc(100% - 2rem);
 				}
 			}
 
 			&.icon_append {
 				.input-border {
 					.notch {
-						max-width: calc(100% - 3.5rem);
+						max-width: calc(100% - 3rem);
 					}
 				}
 			}
 
 			.label {
-				transform: translate(0, -2rem) scale(0.9);
+				top: -0.4rem;
+				transform: translate(0, 0) scale(0.9);
 			}
 
 			&:not(.readonly, .disabled) {
@@ -325,12 +332,13 @@
 		&.icon_prepend {
 			.input-border {
 				.notch {
-					max-width: calc(100% - 2.5rem);
+					max-width: calc(100% - 2rem);
 				}
 			}
 
 			.label {
-				transform: translate(0, -2rem) scale(0.9);
+				top: -0.4rem;
+				transform: translate(0, 0) scale(0.9);
 			}
 		}
 
@@ -343,14 +351,14 @@
 				);
 
 				.notch {
-					max-width: calc(100% - 2.5rem);
+					max-width: calc(100% - 2rem);
 				}
 			}
 
 			&.icon_append {
 				.input-border {
 					.notch {
-						max-width: calc(100% - 3.5rem);
+						max-width: calc(100% - 3rem);
 					}
 				}
 			}
@@ -360,7 +368,8 @@
 					var(--sb-color-primary-100) / var(--sb-color-opacity)
 				);
 				font-weight: 500;
-				transform: translate(0, -2rem) scale(0.9);
+				top: -0.4rem;
+				transform: translate(0, 0) scale(0.9);
 			}
 
 			.form-control {
@@ -455,13 +464,15 @@
 			&.focus,
 			&.filled {
 				.label {
-					transform: translate(0, -1.5rem) scale(0.9);
+					top: -0.4rem;
+					transform: translate(0, 0) scale(0.9);
 				}
 			}
 
 			&.icon_prepend {
 				.label {
-					transform: translate(0, -1.5rem) scale(0.9);
+					top: -0.4rem;
+					transform: translate(0, 0) scale(0.9);
 				}
 			}
 		}

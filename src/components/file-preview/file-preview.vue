@@ -39,7 +39,7 @@
 							ref="pdf-images-wrapper"
 							v-bind="{
 								...(pdfDisplayType === 'scroll' && {
-									onscroll: handlePdfScroll,
+									onScroll: handlePdfScroll,
 								}),
 							}"
 						>
@@ -58,7 +58,7 @@
 								}"
 								v-bind="{
 									...(idx === localPdf.pages.length - 1 && {
-										onload: handleLoadSrc,
+										onLoad: handleLoadSrc,
 									}),
 								}"
 							/>

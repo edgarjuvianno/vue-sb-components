@@ -3,15 +3,15 @@
 		<ul>
 			<sb-tree-item
 				v-for="(item, index) in list"
-				:check="check"
+				:check-box="checkBox"
 				:expanded="expanded"
 				:item="item"
 				:key="`item-${index}`"
 				:multi="multi"
 				:selected="localSelected"
-				@on-deselect="handleDeselect"
-				@on-expand="handleItemExpand"
-				@on-select="handleSelect"
+				@deselect="handleDeselect"
+				@expand="handleItemExpand"
+				@select="handleSelect"
 			/>
 		</ul>
 	</div>
@@ -25,9 +25,9 @@
 	import { ITreeItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['onChange', 'onExpand'],
+		emits: ['change', 'expand'],
 		props: {
-			check: {
+			checkBox: {
 				required: false,
 				type: Boolean,
 			},
@@ -60,10 +60,10 @@
 		methods: {
 			handleChange() {
 				if (this.multi) {
-					this.$emit('onChange', Object.values(this.localSelected))
+					this.$emit('change', Object.values(this.localSelected))
 				} else {
 					this.$emit(
-						'onChange',
+						'change',
 						Object.values(this.localSelected)[0] || null,
 					)
 				}
@@ -107,7 +107,7 @@
 				})
 			},
 			handleItemExpand(item: ITreeItem, isExpand: boolean) {
-				this.$emit('onExpand', item, isExpand)
+				this.$emit('expand', item, isExpand)
 			},
 			handleSelect(item: ITreeItem | ITreeItem[]) {
 				if (Array.isArray(item)) {

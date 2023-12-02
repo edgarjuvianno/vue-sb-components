@@ -1,3 +1,5 @@
+import { IResponsive } from '@/interface'
+
 export const getActiveBreakpoint = () => {
 	const breakpoints: Record<any, any> = {
 		xs: 300,
@@ -38,9 +40,12 @@ export const numbersInRange: (start: number, stop: number) => number[] = (
 	)
 }
 
-export const numbersMedian: (array: number[]) => number = (array: number[]) => {
-	const mid = Math.floor(array.length / 2)
-	const nums = [...array].sort((a, b) => a - b)
+export const sortBreakpoints: (responsives: IResponsive[]) => IResponsive[] = (
+	responsives: IResponsive[],
+) => {
+	const sorted: IResponsive[] = [...responsives].sort(
+		(a: IResponsive, b: IResponsive) => a.breakpoint - b.breakpoint,
+	)
 
-	return array.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2
+	return sorted
 }

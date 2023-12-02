@@ -555,9 +555,13 @@
 			.close-wrapper {
 				align-items: center;
 				cursor: pointer;
+				display: flex;
+				justify-content: center;
 
 				.x-mark {
-					margin-top: -0.35rem;
+					align-items: inherit;
+					display: flex;
+					justify-content: inherit;
 					transition: all 0.15s ease-in-out;
 
 					svg {

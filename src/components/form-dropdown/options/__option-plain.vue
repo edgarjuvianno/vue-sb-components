@@ -27,7 +27,7 @@
 
 	export default defineComponent({
 		emits: {
-			onSelect: (_option: any, _isSelected?: boolean) => true,
+			select: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
 			activeOption: {
@@ -66,7 +66,7 @@
 		methods: {
 			doSelect(opt: any) {
 				if (!this.isLoading) {
-					this.$emit('onSelect', opt, this.isSelected(opt))
+					this.$emit('select', opt, this.isSelected(opt))
 				}
 			},
 			isSelected(opt: any) {

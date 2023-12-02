@@ -10,7 +10,7 @@
 			:class="{
 				disabled,
 				filled: isFilled,
-				focus: focus || isFocus,
+				focus: isFocus || localIsFocus,
 				icon_append: icon?.placement === 'append',
 				icon_prepend: icon?.placement === 'prepend',
 				readonly: readOnly,
@@ -30,7 +30,7 @@
 				@mouseover="handleMouseOverIcon"
 				@mouseleave="handleMouseLeaveIcon"
 			>
-				<slot name="icon" />
+				<slot name="icon-slot" />
 			</span>
 			<div
 				class="form-control"
@@ -95,15 +95,15 @@
 				required: false,
 				type: [String, Function],
 			},
-			focus: {
-				required: false,
-				type: Boolean,
-			},
 			icon: {
 				required: false,
 				type: Object as PropType<IIcon>,
 			},
 			isError: {
+				required: false,
+				type: Boolean,
+			},
+			isFocus: {
 				required: false,
 				type: Boolean,
 			},
@@ -163,7 +163,7 @@
 		},
 		data() {
 			return {
-				isFocus: false,
+				localIsFocus: false,
 				localValue: (this.modelValue || this.value || null) as any,
 			}
 		},
@@ -187,7 +187,7 @@
 		},
 		methods: {
 			handleBlur(ev: Event) {
-				this.isFocus = false
+				this.localIsFocus = false
 				this.$emit('blur', ev)
 			},
 			handleChange(ev: Event) {
@@ -222,7 +222,7 @@
 				return ''
 			},
 			handleInputFocus(ev: Event) {
-				this.isFocus = true
+				this.localIsFocus = true
 
 				this.$emit('focus', ev)
 			},
@@ -244,12 +244,12 @@
 					}
 				}
 
-				this.isFocus = focus
+				this.localIsFocus = focus
 			},
 		},
 		watch: {
-			focus(newValue: boolean) {
-				this.isFocus = newValue
+			isFocus(newValue: boolean) {
+				this.localIsFocus = newValue
 			},
 			modelValue: {
 				handler(newValue: any) {

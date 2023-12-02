@@ -17,9 +17,9 @@
 	>
 		<sb-input
 			:error-message="errorMessage"
-			:focus="isFocus"
 			:icon="getIcon"
 			:is-error="isError"
+			:is-focus="isFocus"
 			:label="label"
 			:placeholder="placeholder"
 			:required="required"
@@ -27,9 +27,9 @@
 			ref="input-wrapper"
 			v-bind="{ disabled, readOnly }"
 			v-model="selected"
-			@click="handleOpen"
+			@click.stop="handleOpen"
 		>
-			<template v-slot:icon>
+			<template v-slot:icon-slot>
 				<component :is="getIconSVG" />
 			</template>
 			<template v-slot:custom-input>
@@ -88,7 +88,7 @@
 					v-bind="{
 						noResultText,
 					}"
-					@on-select="doSelect"
+					@select="doSelect"
 					v-if="!serverSide"
 				/>
 				<ajax-option
@@ -105,8 +105,8 @@
 					v-bind="{
 						noResultText,
 					}"
-					@on-list-change="handleListChange"
-					@on-select="doSelect"
+					@list-change="handleListChange"
+					@select="doSelect"
 					v-else
 				/>
 			</div>
@@ -132,7 +132,7 @@
 	import { recursiveSearchScrollParent } from '@/utils/helper'
 
 	export default defineComponent({
-		emits: ['update:modelValue', 'change', 'input', 'onClose', 'onOpen'],
+		emits: ['update:modelValue', 'change', 'input', 'close', 'open'],
 		props: {
 			allowClear: {
 				required: false,
@@ -627,7 +627,7 @@
 				this.handleParentScroll(newValue)
 
 				if (!newValue) {
-					this.$emit('onClose')
+					this.$emit('close')
 
 					this.activeOption = -1
 
@@ -643,7 +643,7 @@
 						this.handleFilterList('')
 					}
 				} else {
-					this.$emit('onOpen')
+					this.$emit('open')
 				}
 			},
 			list: {
