@@ -30,7 +30,13 @@
 						/>
 						<span v-else>{{ index + 1 }}</span>
 					</div>
-					<div class="header-step-label-wrapper" v-if="!mobile">
+					<div
+						:class="{
+							error: isError(item.rules),
+						}"
+						class="header-step-label-wrapper"
+						v-if="!mobile"
+					>
 						<div>{{ item.title }}</div>
 						<div v-if="item.subtitle">{{ item.subtitle }}</div>
 					</div>
@@ -47,11 +53,12 @@
 									:ref="`body-content-${index + 1}`"
 								>
 									<slot
-										:name="`step-${index + 1}`"
+										name="step"
 										v-bind="{
 											...item,
 											index: index + 1,
 										}"
+										v-if="localCurrent === index + 1"
 									/>
 								</div>
 							</div>
@@ -73,9 +80,10 @@
 								<div class="action-buttons">
 									<sb-button
 										:disabled="isButtonDisabled"
+										no-elevation
 										color="secondary"
 										type="button"
-										variant="text"
+										variant="outlined"
 										v-if="
 											localItems[localCurrent - 1]
 												.optional
@@ -111,23 +119,24 @@
 		</div>
 		<template v-if="type === 'horizontal'">
 			<div class="stepper-body">
-				<div
-					class="stepper-body-content"
+				<template
 					:key="`body-content-${index}`"
-					:ref="`body-content-${index + 1}`"
-					:style="[
-						localCurrent !== index + 1 ? 'display: none;' : '',
-					]"
 					v-for="(item, index) in localItems"
 				>
-					<slot
-						:name="`step-${index + 1}`"
-						v-bind="{
-							...item,
-							index: index + 1,
-						}"
-					/>
-				</div>
+					<div
+						:ref="`body-content-${index + 1}`"
+						class="stepper-body-content"
+						v-if="localCurrent === index + 1"
+					>
+						<slot
+							name="step"
+							v-bind="{
+								...item,
+								index: index + 1,
+							}"
+						/>
+					</div>
+				</template>
 			</div>
 			<div
 				class="stepper-footer"
@@ -147,9 +156,10 @@
 				<div class="action-buttons">
 					<sb-button
 						:disabled="isButtonDisabled"
+						no-elevation
 						color="secondary"
 						type="button"
-						variant="text"
+						variant="outlined"
 						v-if="localItems[localCurrent - 1].optional"
 						@click="handleNav(1, true)"
 					>
@@ -180,7 +190,7 @@
 	import { IStepperItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['onFinish', 'update:modelValue'],
+		emits: ['change', 'finish', 'update:modelValue'],
 		props: {
 			alternateTitle: {
 				required: false,
@@ -271,8 +281,9 @@
 			doNavigate(inc: number) {
 				if (this.localCurrent + inc <= this.items.length) {
 					this.$emit('update:modelValue', this.localCurrent + inc)
+					this.$emit('change', this.localCurrent + inc)
 				} else if (this.localCurrent === this.items.length) {
-					this.$emit('onFinish')
+					this.$emit('finish')
 				}
 			},
 			async handleClickHead(index: number) {
@@ -287,6 +298,7 @@
 					const target: number = this.localCurrent + inc
 
 					if (
+						this.localItems[target - 1] &&
 						this.localItems[target - 1].optional &&
 						this.localItems[target - 1].isSkip
 					) {
@@ -308,47 +320,6 @@
 					} else {
 						this.doNavigate(inc)
 					}
-				}
-			},
-			handleSlide(index: number, inc: number) {
-				const currentEl: any = this.$refs[`body-content-${index}`]
-				const targetEl: any = this.$refs[`body-content-${index + inc}`]
-
-				if (
-					currentEl &&
-					targetEl &&
-					currentEl.length > 0 &&
-					targetEl.length > 0
-				) {
-					if (inc < 0) {
-						currentEl[0].classList.add(
-							'slide-right-from-zero',
-							'sb-whitespace-nowrap',
-							'sb-overflow-hidden',
-						)
-						targetEl[0].classList.add('slide-right')
-					} else {
-						currentEl[0].classList.add(
-							'slide-left-from-zero',
-							'sb-whitespace-nowrap',
-							'sb-overflow-hidden',
-						)
-						targetEl[0].classList.add('slide-left')
-					}
-
-					setTimeout(() => {
-						currentEl[0].classList.remove(
-							'sb-whitespace-nowrap',
-							'sb-overflow-hidden',
-							'slide-left-from-zero',
-							'slide-right-from-zero',
-						)
-
-						targetEl[0].classList.remove(
-							'slide-left',
-							'slide-right',
-						)
-					}, 550)
 				}
 			},
 			isError(rules?: (() => boolean)[]) {
@@ -375,11 +346,7 @@
 				immediate: true,
 			},
 			modelValue: {
-				handler(newValue: number, oldValue: number) {
-					if (oldValue && this.type !== 'vertical') {
-						this.handleSlide(this.localCurrent, newValue - oldValue)
-					}
-
+				handler(newValue: number) {
 					this.localCurrent = newValue
 				},
 				immediate: true,

@@ -53,6 +53,12 @@ body {
 					}
 				}
 			}
+
+			button.button-time {
+				align-items: center;
+				display: flex;
+				justify-content: center;
+			}
 		}
 
 		.header {
@@ -227,33 +233,53 @@ body {
 				}
 
 				.value-wrapper {
+					align-items: center;
+					display: flex;
+					flex-flow: column;
+					flex-wrap: wrap;
+					gap: 1rem;
+					justify-content: center;
 					padding: 0 0.5rem;
-					text-align: center;
 
-					svg {
+					.time-nav {
+						align-items: center;
 						background: rgb(
 							var(--sb-color-primary-accent-30) /
 								var(--sb-color-opacity)
 						);
 						border-radius: 50%;
-						fill: rgb(
-							var(--sb-color-primary-accent-100) /
-								var(--sb-color-opacity)
-						);
 						cursor: pointer;
-						height: 1.75rem;
-						width: 1.75rem;
-						padding: 0.25rem;
-						transition:
-							background 0.15s ease-in-out,
-							fill 0.2s ease-in-out;
+						display: flex;
+						height: 1.5rem;
+						justify-content: center;
+						padding: 0.35rem;
+						transition: background 0.15s ease-in-out;
+						width: 1.5rem;
+
+						svg {
+							fill: rgb(
+								var(--sb-color-primary-accent-100) /
+									var(--sb-color-opacity)
+							);
+							height: 1.5rem;
+							transition: fill 0.2s ease-in-out;
+						}
 
 						&:hover {
 							background: rgb(
 								var(--sb-color-primary-accent-60) /
 									var(--sb-color-opacity)
 							);
-							fill: #ffffff;
+
+							svg {
+								fill: #ffffff;
+							}
+						}
+
+						&.down {
+							svg {
+								margin-top: 0.25rem;
+							}
 						}
 					}
 
@@ -267,7 +293,6 @@ body {
 						cursor: pointer;
 						font-size: 1.75rem;
 						font-weight: 500;
-						margin: 0.5rem 0;
 						padding: 0 0.5rem;
 						text-align: center;
 						transition:
@@ -303,9 +328,9 @@ body {
 			left: 0;
 			overflow-y: scroll;
 			padding: 1rem;
+			right: 0;
 			top: -100%;
 			transition: top 0.25s ease-in-out;
-			width: 100%;
 
 			.month,
 			.year,
@@ -353,6 +378,12 @@ body {
 			.hour-list-wrapper,
 			.minute-list-wrapper {
 				height: calc(100% - 3rem);
+				margin-bottom: 1rem;
+				padding-bottom: 0;
+			}
+
+			.year-list-wrapper {
+				padding-bottom: 0;
 			}
 
 			.body {
@@ -375,7 +406,7 @@ body {
 			.year-list-wrapper,
 			.hour-list-wrapper,
 			.minute-list-wrapper {
-				height: calc(100% - 3rem);
+				height: calc(100% - 3.5rem);
 			}
 		}
 
@@ -422,7 +453,7 @@ body {
 
 		&.year {
 			.year-list-wrapper {
-				max-height: 20rem;
+				max-height: 12rem;
 				position: relative;
 				top: unset;
 			}

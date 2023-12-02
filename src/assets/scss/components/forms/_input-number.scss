@@ -110,14 +110,14 @@
 		&.focus:not(.readonly, .disabled) {
 			.input-border {
 				.notch {
-					max-width: calc(100% - 3.5rem);
+					max-width: calc(100% - 3rem);
 				}
 			}
 
 			&.icon_prepend {
 				.input-border {
 					.notch {
-						max-width: calc(100% - 6.5rem);
+						max-width: calc(100% - 6rem);
 					}
 				}
 			}

@@ -30,8 +30,8 @@
 
 	export default defineComponent({
 		emits: {
-			onListChange: (_list: any[]) => true,
-			onSelect: (_option: any, _isSelected?: boolean) => true,
+			listChange: (_list: any[]) => true,
+			select: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
 			activeOption: {
@@ -100,7 +100,7 @@
 		methods: {
 			doSelect(opt: any) {
 				if (!this.localLoading) {
-					this.$emit('onSelect', opt, this.isSelected(opt))
+					this.$emit('select', opt, this.isSelected(opt))
 				}
 			},
 			async handleAjax() {
@@ -332,7 +332,7 @@
 				}
 			},
 			localList(newValue: any[]) {
-				this.$emit('onListChange', newValue)
+				this.$emit('listChange', newValue)
 			},
 			term: {
 				handler() {

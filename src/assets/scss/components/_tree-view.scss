@@ -4,6 +4,15 @@
 	font-weight: 400;
 	line-height: 1.5;
 
+	ul {
+		list-style: none;
+
+		&:first-of-type {
+			margin: 0;
+			padding-left: 0;
+		}
+	}
+
 	.tree-view-item {
 		padding: 0.15rem;
 
@@ -75,10 +84,10 @@
 				border: 2px solid
 					rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
 				border-radius: 6px;
-				height: 1.75rem;
+				height: 1.5rem;
 				position: relative;
 				transition: all 0.25s ease-in-out;
-				width: 1.75rem;
+				width: 1.5rem;
 
 				span {
 					color: rgb(
@@ -86,19 +95,19 @@
 					);
 					font-size: 1.875rem;
 					font-weight: 400;
-					left: 55%;
+					left: 53%;
 					position: absolute;
-					top: 55%;
+					top: 40%;
 					transform: translate(-50%, -50%);
-
-					svg {
-						height: 1rem;
-					}
 				}
 
 				span.check {
 					left: 50%;
-					top: 45%;
+					top: 42.5%;
+
+					svg {
+						height: 1rem;
+					}
 				}
 
 				&:hover {

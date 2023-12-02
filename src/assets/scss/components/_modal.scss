@@ -132,7 +132,11 @@
 			position: relative;
 
 			.x-mark {
+				background: transparent;
+				border: 0;
 				color: #9ca3af;
+				cursor: pointer;
+				outline: 0;
 				position: absolute;
 				right: 0.75rem;
 				top: 0.5rem;

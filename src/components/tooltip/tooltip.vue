@@ -11,6 +11,7 @@
 	<div
 		@mouseleave="toggleShow(false)"
 		@mouseover="toggleShow(true)"
+		class="content-wrapper"
 		ref="content-wrapper"
 	>
 		<slot />

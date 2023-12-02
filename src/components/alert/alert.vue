@@ -22,7 +22,7 @@
 					variant,
 				]"
 			>
-				<div class="icon-wrapper" v-if="icon && !$slots.icon">
+				<div class="icon-wrapper" v-if="icon && !$slots['custom-icon']">
 					<div class="icon" :class="[icon]">
 						<component :is="getIcon" v-if="icon !== 'loading'" />
 						<sb-circular-progress
@@ -33,8 +33,11 @@
 						/>
 					</div>
 				</div>
-				<div class="icon-wrapper icon-slot" v-if="$slots.icon">
-					<slot name="icon" />
+				<div
+					class="icon-wrapper icon-slot"
+					v-if="$slots['custom-icon']"
+				>
+					<slot name="custom-icon" />
 				</div>
 				<div class="text-wrapper">
 					<div class="title" v-if="variant === 'big'">

@@ -45,7 +45,7 @@
 				v-model="localValue"
 				@click="() => handleOpenInput()"
 			>
-				<template v-slot:icon v-if="!readOnly && !disabled">
+				<template v-slot:icon-slot v-if="!readOnly && !disabled">
 					<component :is="iconSVG" />
 				</template>
 				<template v-slot:custom-input>
@@ -118,13 +118,7 @@
 	import { IIcon, IUploadState } from '@/interface'
 
 	export default defineComponent({
-		emits: [
-			'change',
-			'update:modelValue',
-			'onError',
-			'onRetry',
-			'onViewFile',
-		],
+		emits: ['change', 'update:modelValue', 'error', 'retry', 'previewFile'],
 		props: {
 			allowClear: {
 				required: false,
@@ -255,15 +249,11 @@
 				const tempFiles: File[] = files || this.localValue
 
 				if (!this.isFormatValid(tempFiles)) {
-					this.$emit(
-						'onError',
-						'INVALID FORMAT',
-						this.getHumanFormats,
-					)
+					this.$emit('error', 'INVALID FORMAT', this.getHumanFormats)
 
 					return false
 				} else if (this.maxSize && !this.isSizeValid(tempFiles)) {
-					this.$emit('onError', 'INVALID SIZE')
+					this.$emit('error', 'INVALID SIZE')
 
 					return false
 				}
@@ -293,7 +283,7 @@
 						this.localValue.length > 0
 					) {
 						if (this.uploadState?.status === 'ERROR') {
-							this.$emit('onRetry', this.localValue)
+							this.$emit('retry', this.localValue)
 						} else {
 							;(this.$refs['input-file'] as any).value = null
 							this.handleUpdateModelValue(null)
@@ -375,7 +365,7 @@
 				const file: File =
 					this.localValue[typeof index !== 'undefined' ? index : 0]
 
-				this.$emit('onViewFile', {
+				this.$emit('previewFile', {
 					file,
 					type: file.type,
 				})

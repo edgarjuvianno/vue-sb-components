@@ -10,8 +10,8 @@
 			:class="{
 				disabled,
 				filled: isFilled,
-				focus: focus || isFocus,
-				icon_prepend: !!icon || $slots.icon,
+				focus: isFocus || localIsFocus,
+				icon_prepend: !!icon || !!$slots['icon-slot'],
 				readonly: readOnly,
 			}"
 		>
@@ -24,12 +24,12 @@
 					'sb-cursor-pointer': icon?.onClick,
 				}"
 				class="icon"
-				v-if="!!icon || $slots.icon"
+				v-if="!!icon || !!$slots['icon-slot']"
 				@click.stop="handleClickIcon"
 				@mouseover="handleMouseOverIcon"
 				@mouseleave="handleMouseLeaveIcon"
 			>
-				<slot name="icon" />
+				<slot name="icon-slot" />
 			</span>
 			<div
 				class="form-control"
@@ -124,10 +124,6 @@
 				required: false,
 				type: [String, Function],
 			},
-			focus: {
-				required: false,
-				type: Boolean,
-			},
 			icon: {
 				required: false,
 				type: Object as PropType<IIcon>,
@@ -137,6 +133,10 @@
 				type: String,
 			},
 			isError: {
+				required: false,
+				type: Boolean,
+			},
+			isFocus: {
 				required: false,
 				type: Boolean,
 			},
@@ -208,7 +208,7 @@
 		},
 		data() {
 			return {
-				isFocus: false,
+				localIsFocus: false,
 				isInvalidNumber: false,
 				localValue: (this.modelValue || this.value || null) as any,
 			}
@@ -354,7 +354,7 @@
 				return parseLocaleNumber(masked, this.numberLocale)
 			},
 			handleBlur(ev: Event) {
-				this.isFocus = false
+				this.localIsFocus = false
 				const realValue: number | null = this.getRealValue(
 					this.localValue,
 				)
@@ -489,7 +489,7 @@
 				}
 			},
 			handleInputFocus(ev: Event) {
-				this.isFocus = true
+				this.localIsFocus = true
 
 				this.$emit('focus', ev)
 			},
@@ -596,12 +596,12 @@
 					}
 				}
 
-				this.isFocus = focus
+				this.localIsFocus = focus
 			},
 		},
 		watch: {
-			focus(newValue: boolean) {
-				this.isFocus = newValue
+			isFocus(newValue: boolean) {
+				this.localIsFocus = newValue
 			},
 			modelValue: {
 				handler(newValue: any) {

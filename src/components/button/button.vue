@@ -58,10 +58,6 @@
 				default: false,
 				type: Boolean,
 			},
-			modal: {
-				required: false,
-				type: String,
-			},
 			noElevation: {
 				required: false,
 				type: Boolean,
@@ -93,15 +89,6 @@
 				setTimeout(() => {
 					this.isClicked = false
 				}, 350)
-
-				if (this.modal) {
-					const modal: HTMLDivElement | null = document.querySelector(
-						`#${this.modal}`,
-					)
-
-					modal?.classList.remove('hide')
-					modal?.classList.add('show')
-				}
 
 				this.$emit('click', event)
 			},

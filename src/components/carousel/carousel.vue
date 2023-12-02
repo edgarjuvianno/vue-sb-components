@@ -1,66 +1,68 @@
 <template>
 	<div class="carousel-wrapper" ref="carousel-wrapper" v-bind="{ ...$attrs }">
-		<div class="slider-wrapper" :class="{ centered }">
-			<component
-				class="nav"
-				:class="{ 'sb-hidden': !isInfinite && currentPage < 2 }"
-				:is="iconAngleLeft"
-				@click="handleNav(-1)"
-				v-if="currentBreakpoint !== 'xs' && arrow"
-			/>
-			<component
-				class="nav"
-				:class="{
-					'sb-hidden': !isInfinite && currentPage === getDots.length,
-				}"
-				:is="iconAngleRight"
-				@click="handleNav(1)"
-				v-if="currentBreakpoint !== 'xs' && arrow"
-			/>
-			<div
-				draggable="true"
-				class="slider"
-				ref="slider"
-				:class="{
-					centered,
-					grabbing: isDrag,
-				}"
-				:style="sliderStyle"
-				@mousedown="(event) => handleDragStart(event)"
-				@mousemove="(event) => handleDrag(event)"
-				@mouseup="(event) => handleDragEnd(event)"
-				@touchstart="(event) => handleDragStart(event)"
-				@touchmove="(event) => handleDrag(event)"
-				@touchend="(event) => handleDragEnd(event)"
-			>
-				<template v-if="list">
-					<div
-						class="card"
-						:class="{
-							active: isCardActive(index),
-							center: centered && isCardCenter(index),
-						}"
-						:key="`card-${index}`"
-						v-for="(card, index) in cardsDisplay"
-					>
-						<slot name="card" v-bind="{ data: card }">
-							{{ card }}
-						</slot>
-					</div>
-				</template>
+		<template v-if="isMounted">
+			<div class="slider-wrapper">
+				<component
+					class="nav"
+					:class="{ 'sb-hidden': !isInfinite && currentPage < 2 }"
+					:is="iconAngleLeft"
+					@click="handleNav(-1)"
+					v-if="!isSmallScreen && arrow"
+				/>
+				<component
+					class="nav"
+					:class="{
+						'sb-hidden':
+							!isInfinite && currentPage === localDots.length,
+					}"
+					:is="iconAngleRight"
+					@click="handleNav(1)"
+					v-if="!isSmallScreen && arrow"
+				/>
+				<div
+					draggable="true"
+					class="slider"
+					ref="slider"
+					:class="{
+						grabbing: isDrag,
+					}"
+					:style="sliderStyle"
+					@mousedown="(event) => handleDragStart(event)"
+					@mousemove="(event) => handleDrag(event)"
+					@mouseup="(event) => handleDragEnd(event)"
+					@touchstart="(event) => handleDragStart(event)"
+					@touchmove="(event) => handleDrag(event)"
+					@touchend="(event) => handleDragEnd(event)"
+				>
+					<template v-if="list">
+						<div
+							class="card"
+							:class="{
+								active: isCardActive(index),
+							}"
+							:key="`card-${index}`"
+							v-for="(card, index) in cardsDisplay"
+						>
+							<slot name="card" v-bind="{ data: card }">
+								{{ card }}
+							</slot>
+						</div>
+					</template>
+				</div>
 			</div>
-		</div>
-		<div class="dots-wrapper" v-if="isDotsEnabled">
-			<button
-				type="button"
-				:class="{
-					active: currentPage - 1 === index,
-				}"
-				:key="dot"
-				v-for="(dot, index) in getDots"
-				@click="handleDot(index + 1)"
-			/>
-		</div>
+			<div class="dots-wrapper" v-if="isDotsEnabled">
+				<div
+					class="button"
+					:class="{
+						active: currentPage - 1 === index,
+					}"
+					:key="dot"
+					v-for="(dot, index) in localDots"
+					@click="handleDot(index + 1)"
+				></div>
+			</div>
+		</template>
+		<div class="carousel-loader" v-else></div>
 	</div>
 </template>
 
@@ -68,11 +70,7 @@
 	import { defineComponent, PropType } from 'vue'
 
 	// funcs
-	import {
-		getActiveBreakpoint,
-		numbersInRange,
-		numbersMedian,
-	} from './__funcs'
+	import { numbersInRange, sortBreakpoints } from './__funcs'
 
 	// icons
 	import { angleLeft, angleRight } from '@/assets/icons'
@@ -91,10 +89,6 @@
 			cardsToShow: {
 				default: 1,
 				type: Number,
-			},
-			centered: {
-				required: false,
-				type: Boolean,
 			},
 			dots: {
 				default: true,
@@ -124,22 +118,18 @@
 				cardWidth: 0 as number,
 				cardsDisplay: [] as any,
 				carouselWrapper: null as any,
-				currentBreakpoint: 'lg' as string,
 				currentPage: 1,
 				endDrag: -1 as number,
 				isDrag: false,
+				isMounted: false,
+				isSmallScreen: false,
+				localDots: [] as any[],
+				localResponsives: [] as IResponsive[],
 				sliderStyle: [] as any,
 				startDrag: -1 as number,
 			}
 		},
 		computed: {
-			getDots() {
-				return Array.from(
-					Array(
-						Math.ceil(this.list.length / this.getCardsToShow()),
-					).keys(),
-				)
-			},
 			iconAngleLeft() {
 				return angleLeft()
 			},
@@ -147,11 +137,11 @@
 				return angleRight()
 			},
 			isDotsEnabled() {
-				if (this.responsive) {
+				if (this.responsive && typeof window !== 'undefined') {
 					const setting: IResponsive | undefined =
-						this.responsive.find(
+						this.localResponsives.find(
 							(it: IResponsive) =>
-								it.breakpoint === this.currentBreakpoint,
+								it.breakpoint === window.innerWidth,
 						)
 
 					if (setting) {
@@ -162,11 +152,11 @@
 				return this.dots
 			},
 			isInfinite() {
-				if (this.responsive) {
+				if (this.responsive && typeof window !== 'undefined') {
 					const setting: IResponsive | undefined =
-						this.responsive.find(
+						this.localResponsives.find(
 							(it: IResponsive) =>
-								it.breakpoint === this.currentBreakpoint,
+								it.breakpoint === window.innerWidth,
 						)
 
 					if (setting) {
@@ -179,11 +169,11 @@
 		},
 		methods: {
 			getCardsToShow() {
-				if (this.responsive) {
+				if (this.responsive && typeof window !== 'undefined') {
 					const setting: IResponsive | undefined =
-						this.responsive.find(
+						this.localResponsives.find(
 							(it: IResponsive) =>
-								it.breakpoint === this.currentBreakpoint,
+								it.breakpoint >= window.innerWidth,
 						)
 
 					if (setting) {
@@ -229,7 +219,7 @@
 					if (this.startDrag > this.endDrag) {
 						if (
 							(!this.isInfinite &&
-								this.currentPage < this.getDots.length) ||
+								this.currentPage < this.localDots.length) ||
 							this.isInfinite
 						) {
 							this.handleNav(1)
@@ -262,53 +252,58 @@
 				this.isDrag = true
 			},
 			handleInitCards() {
-				this.modifyCards()
-				this.setCurrentBreakpoint()
-
-				this.$nextTick(() => {
-					this.setSliderStyles()
+				if (typeof window !== 'undefined') {
+					this.modifyCards()
 
 					this.$nextTick(() => {
-						if (
-							this.$refs['slider'] &&
-							this.isInfinite &&
-							this.carouselWrapper
-						) {
-							const wrapperWidth: number =
-								this.carouselWrapper.getBoundingClientRect()
-									.width
+						this.localDots = Array.from(
+							Array(
+								Math.ceil(
+									this.list.length / this.getCardsToShow(),
+								),
+							).keys(),
+						)
 
-							if (!this.centered) {
+						this.setSliderStyles()
+
+						this.$nextTick(() => {
+							if (
+								this.$refs['slider'] &&
+								this.isInfinite &&
+								this.carouselWrapper
+							) {
+								const wrapperWidth: number =
+									this.carouselWrapper.getBoundingClientRect()
+										.width
+
 								const scrollTravel: number = wrapperWidth + 16
 
 								;(this.$refs['slider'] as any)?.scrollTo({
 									left: scrollTravel,
 								})
-							} else {
-								const scrollTravel: number =
-									wrapperWidth - 40 - this.cardWidth / 2
-
-								;(this.$refs['slider'] as any)?.scrollTo({
-									left: scrollTravel,
-								})
 							}
-						}
+						})
 					})
-				})
+				}
 			},
 			handleNav(inc: number) {
 				if (!this.isInfinite) {
-					this.currentPage += inc
+					if (
+						(inc < 0 && this.currentPage > 1) ||
+						(inc > 0 && this.currentPage < this.list.length)
+					) {
+						this.currentPage += inc
 
-					this.$nextTick(() => {
-						this.handleScrollBasic()
-					})
+						this.$nextTick(() => {
+							this.handleScrollBasic()
+						})
+					}
 				} else {
 					if (inc < 0 && this.currentPage < 2) {
-						this.currentPage = this.getDots.length
+						this.currentPage = this.localDots.length
 					} else if (
 						inc > 0 &&
-						this.currentPage === this.getDots.length
+						this.currentPage === this.localDots.length
 					) {
 						this.currentPage = 1
 					} else {
@@ -351,81 +346,36 @@
 
 					if (inc < 0) {
 						this.$nextTick(() => {
-							if (this.centered) {
-								;(this.$refs['slider'] as any)?.scrollTo({
-									left:
-										currentScroll +
-										wrapperWidth -
-										40 -
-										this.cardWidth,
-								})
+							;(this.$refs['slider'] as any)?.scrollTo({
+								left:
+									currentScroll + wrapperWidth + scrollTravel,
+							})
 
-								setTimeout(() => {
-									;(this.$refs['slider'] as any)?.scrollTo({
-										behavior: 'smooth',
-										left:
-											wrapperWidth -
-											40 -
-											this.cardWidth / 2,
-									})
-								}, 50)
-							} else {
+							setTimeout(() => {
 								;(this.$refs['slider'] as any)?.scrollTo({
-									left:
-										currentScroll +
-										wrapperWidth +
-										scrollTravel,
+									behavior: 'smooth',
+									left: scrollTravel,
 								})
-
-								setTimeout(() => {
-									;(this.$refs['slider'] as any)?.scrollTo({
-										behavior: 'smooth',
-										left: scrollTravel,
-									})
-								}, 50)
-							}
+							}, 50)
 						})
 					} else {
 						this.$nextTick(() => {
-							if (this.centered) {
-								;(this.$refs['slider'] as any)?.scrollTo({
-									left: this.cardWidth / 2,
-								})
+							;(this.$refs['slider'] as any)?.scrollTo({
+								left: 0,
+							})
 
-								setTimeout(() => {
-									;(this.$refs['slider'] as any)?.scrollTo({
-										behavior: 'smooth',
-										left:
-											wrapperWidth -
-											40 -
-											this.cardWidth / 2,
-									})
-								}, 50)
-							} else {
+							setTimeout(() => {
 								;(this.$refs['slider'] as any)?.scrollTo({
-									left: 0,
+									behavior: 'smooth',
+									left: scrollTravel,
 								})
-
-								setTimeout(() => {
-									;(this.$refs['slider'] as any)?.scrollTo({
-										behavior: 'smooth',
-										left: scrollTravel,
-									})
-								}, 50)
-							}
+							}, 50)
 						})
 					}
 				}
 			},
 			isCardActive(index: number) {
 				if (this.isInfinite) {
-					if (this.centered) {
-						return (
-							index >= this.getCardsToShow() + 1 &&
-							index < this.getCardsToShow() * 2 + 1
-						)
-					}
-
 					return (
 						index >= this.getCardsToShow() &&
 						index < this.getCardsToShow() * 2
@@ -437,25 +387,6 @@
 					index < this.currentPage * this.getCardsToShow()
 				)
 			},
-			isCardCenter(index: number) {
-				const numbers: number[] = numbersInRange(
-					1,
-					this.getCardsToShow(),
-				)
-
-				const median: number = numbersMedian(numbers)
-
-				if (median % 1) {
-					const centers: number[] = [
-						Math.floor(median),
-						Math.ceil(median),
-					]
-
-					return centers.indexOf(index % this.getCardsToShow()) > -1
-				}
-
-				return median === index % this.getCardsToShow()
-			},
 			modifyCards() {
 				if (this.isInfinite) {
 					const prependIndexes: () => number[] = () => {
@@ -463,25 +394,10 @@
 						let end: number = 0
 
 						if (this.currentPage < 2) {
-							if (this.centered) {
-								start =
-									(this.getDots.length - 1) *
-										this.getCardsToShow() -
-									1
-								end =
-									this.getDots.length * this.getCardsToShow()
-							} else {
-								start =
-									(this.getDots.length - 1) *
-									this.getCardsToShow()
-								end =
-									this.getDots.length * this.getCardsToShow()
-							}
-						} else if (this.centered) {
 							start =
-								(this.currentPage - 2) * this.getCardsToShow() -
-								1
-							end = (this.currentPage - 1) * this.getCardsToShow()
+								(this.localDots.length - 1) *
+								this.getCardsToShow()
+							end = this.localDots.length * this.getCardsToShow()
 						} else {
 							start =
 								(this.currentPage - 2) * this.getCardsToShow()
@@ -509,19 +425,9 @@
 						let start: number = 0
 						let end: number = 0
 
-						if (this.currentPage === this.getDots.length) {
-							if (this.centered) {
-								start = 0
-								end = this.getCardsToShow() + 1
-							} else {
-								start = 0
-								end = this.getCardsToShow()
-							}
-						} else if (this.centered) {
-							start = this.currentPage * this.getCardsToShow()
-							end =
-								(this.currentPage + 1) * this.getCardsToShow() +
-								1
+						if (this.currentPage === this.localDots.length) {
+							start = 0
+							end = this.getCardsToShow()
 						} else {
 							start = this.currentPage * this.getCardsToShow()
 							end = (this.currentPage + 1) * this.getCardsToShow()
@@ -561,38 +467,20 @@
 
 				return (this.cardsDisplay = [...this.list])
 			},
-			setCurrentBreakpoint() {
-				const currentBreakpoint: any = getActiveBreakpoint()
-
-				this.currentBreakpoint = currentBreakpoint
-			},
 			setSliderStyles() {
 				const cardsToShow: number = this.getCardsToShow()
 				const wrapperWidth: number | undefined =
 					this.carouselWrapper?.getBoundingClientRect()?.width
 
 				if (wrapperWidth) {
-					if (this.centered) {
-						this.sliderStyle = [
-							`grid-auto-columns: calc((100% - ${
-								(cardsToShow + 1) * 16
-							}px) / ${cardsToShow + 1})`,
-						]
+					this.sliderStyle = [
+						`grid-auto-columns: calc((100% - ${
+							(cardsToShow - 1) * 16
+						}px) / ${cardsToShow})`,
+					]
 
-						this.cardWidth =
-							(wrapperWidth - (cardsToShow + 1) * 16) /
-							(cardsToShow + 1)
-					} else {
-						this.sliderStyle = [
-							`grid-auto-columns: calc((100% - ${
-								(cardsToShow - 1) * 16
-							}px) / ${cardsToShow})`,
-						]
-
-						this.cardWidth =
-							(wrapperWidth - (cardsToShow - 1) * 16) /
-							cardsToShow
-					}
+					this.cardWidth =
+						(wrapperWidth - (cardsToShow - 1) * 16) / cardsToShow
 				}
 			},
 		},
@@ -622,24 +510,38 @@
 				handler() {
 					this.handleInitCards()
 				},
-				immediate: true,
 			},
 			responsive: {
 				deep: true,
-				handler() {
-					this.handleInitCards()
+				handler(newValue: IResponsive[] | null | undefined) {
+					if (newValue) {
+						this.localResponsives = [...sortBreakpoints(newValue)]
+					} else {
+						this.localResponsives = []
+					}
 				},
 				immediate: true,
 			},
 		},
 		mounted() {
+			this.isMounted = true
+
+			if (window.innerWidth <= 600) {
+				this.isSmallScreen = true
+			}
+
 			if (this.$refs['carousel-wrapper']) {
 				this.carouselWrapper = this.$refs['carousel-wrapper'] as any
 			}
 
+			this.$nextTick(() => {
+				this.handleInitCards()
+			})
+
 			window.addEventListener('resize', this.handleResize)
 		},
 		unmounted() {
+			this.isMounted = false
 			window.removeEventListener('resize', this.handleResize)
 		},
 	})

@@ -10,7 +10,7 @@
 				v-model="response.term"
 				@input="handleChange"
 			>
-				<template v-slot:icon>
+				<template v-slot:icon-slot>
 					<component :is="iconMagnifyingGlass" />
 				</template>
 			</sb-input>
@@ -142,10 +142,14 @@
 						</tr>
 					</thead>
 				</template>
-				<sb-table-loader
-					:rowCount="response.length"
-					v-if="localLoading || isLoading"
-				/>
+				<template v-if="localLoading || isLoading">
+					<tbody>
+						<sb-table-loader
+							:rowCount="response.length"
+							v-if="localLoading || isLoading"
+						/>
+					</tbody>
+				</template>
 				<template v-else-if="$slots.body">
 					<tbody>
 						<slot name="body" />
@@ -161,6 +165,7 @@
 								name="tr"
 								v-bind="{
 									...tr,
+									dtConfig: response,
 									index: trIndex,
 								}"
 							>
@@ -301,7 +306,7 @@
 
 	export default defineComponent({
 		emits: {
-			onChange: (_resp: IDTChangeResponse) => true,
+			change: (_resp: IDTChangeResponse) => true,
 		},
 		props: {
 			columnSearchPlacement: {
@@ -515,7 +520,6 @@
 						...classes,
 						this.columns[index]?.alignHead &&
 							`text-${this.columns[index]?.alignHead}`,
-						this.columns[index]?.hidden ? 'sb-hidden' : '',
 						this.columns[index]?.sort ? 'sort' : '',
 						this.columns[index]?.search && this.isColSearchTop
 							? 'search'
@@ -791,7 +795,7 @@
 					this.handleAJAX()
 				}
 
-				this.$emit('onChange', this.getModdedResponse())
+				this.$emit('change', this.getModdedResponse())
 			},
 			handleClickColSearch(index: number, isClose = false) {
 				this.colSearchState = [...this.colSearchState].map(
@@ -827,7 +831,7 @@
 						this.handleAJAX()
 					}
 
-					this.$emit('onChange', this.getModdedResponse())
+					this.$emit('change', this.getModdedResponse())
 				}
 			},
 			handleColSort(column: number) {
@@ -989,7 +993,7 @@
 							this.handleAJAX()
 						}
 
-						this.$emit('onChange', this.getModdedResponse())
+						this.$emit('change', this.getModdedResponse())
 					})
 				},
 			},

@@ -108,7 +108,7 @@ export interface IResponsiveSettings {
 }
 
 export interface IResponsive {
-	breakpoint: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
+	breakpoint: number
 	settings: IResponsiveSettings
 }
 
@@ -132,8 +132,6 @@ export interface IDTChangeResponse {
 
 export interface IDTColumn {
 	alignHead?: string | 'center' | 'left' | 'right'
-	alignBody?: string | 'center' | 'left' | 'right'
-	hidden?: boolean
 	label: string
 	name?: string
 	search?: boolean
