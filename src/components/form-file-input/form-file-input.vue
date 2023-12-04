@@ -62,7 +62,7 @@
 								class="pill"
 								v-for="(file, index) in localValue"
 								:key="`pill-${index}`"
-								@click="
+								@click.stop="
 									(event) =>
 										!viewFile && handleClear(event, index)
 								"
