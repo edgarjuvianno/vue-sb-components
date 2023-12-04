@@ -79,7 +79,11 @@
 	import { ITreeItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['deselect', 'select', 'expand'],
+		emits: {
+			deselect: (_item: ITreeItem | ITreeItem[]) => true,
+			expand: (_item: ITreeItem, _isExpanded: boolean) => true,
+			select: (_item: ITreeItem | ITreeItem[]) => true,
+		},
 		props: {
 			checkBox: {
 				required: false,

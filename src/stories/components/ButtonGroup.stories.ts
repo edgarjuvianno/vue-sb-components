@@ -7,11 +7,6 @@ const meta = {
 	component: ButtonGroup,
 	tags: ['autodocs'],
 	argTypes: {
-		click: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Button clicked',
-		},
 		color: {
 			control: 'select',
 			description: 'Button Group color',
@@ -29,6 +24,18 @@ const meta = {
 		list: {
 			control: 'object',
 			description: 'Button Group list',
+		},
+		onClick: {
+			action: 'click',
+			control: false,
+			description: 'Fired when Button clicked',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(index: number) => void',
+				},
+			},
+			type: 'function',
 		},
 		orientation: {
 			control: 'select',
@@ -67,6 +74,13 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['click'],
+			},
+		},
+	},
 	render: (args) => ({
 		components: { ButtonGroup },
 		setup() {

@@ -45,7 +45,11 @@
 	import { ICheckItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue', 'input'],
+		emits: {
+			'update:modelValue': (_selected: ICheckItem[] | null) => true,
+			change: (_selected: ICheckItem[] | null) => true,
+			input: (_selected: ICheckItem[] | null) => true,
+		},
 		props: {
 			disabled: {
 				required: false,

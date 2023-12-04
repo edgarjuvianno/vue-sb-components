@@ -190,7 +190,11 @@
 	import { IStepperItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change', 'finish', 'update:modelValue'],
+		emits: {
+			'update:modelValue': (_active: number) => true,
+			change: (_active: number) => true,
+			finish: () => true,
+		},
 		props: {
 			alternateTitle: {
 				required: false,

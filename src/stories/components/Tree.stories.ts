@@ -10,19 +10,9 @@ const meta = {
 	component: Tree,
 	tags: ['autodocs'],
 	argTypes: {
-		change: {
-			action: 'change',
-			control: false,
-			description: 'Tree will fire this event when user select items',
-		},
 		checkBox: {
 			control: 'boolean',
 			description: 'Show Check Box on each item',
-		},
-		expand: {
-			action: 'change',
-			control: false,
-			description: 'Tree will fire this event when Tree items expanded',
 		},
 		expanded: {
 			control: 'boolean',
@@ -35,6 +25,31 @@ const meta = {
 		multi: {
 			control: 'boolean',
 			description: 'Multiple select Tree item',
+		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'Tree will fire this event when user select items',
+			table: {
+				category: 'events',
+				type: {
+					summary:
+						'(selected: ITreeItem | ITreeItem[] | null) => void',
+				},
+			},
+			type: 'function',
+		},
+		onExpand: {
+			action: 'change',
+			control: false,
+			description: 'Tree will fire this event when Tree items expanded',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(item: ITreeItem, isExpanded: boolean) => void',
+				},
+			},
+			type: 'function',
 		},
 		selected: {
 			control: 'object',
@@ -97,6 +112,13 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change', 'expand'],
+			},
+		},
+	},
 } satisfies Meta<typeof Tree>
 
 export default meta

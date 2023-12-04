@@ -10,27 +10,21 @@ const meta = {
 	component: NumberInput,
 	tags: ['autodocs'],
 	argTypes: {
-		'icon-slot': {
-			description: 'Input icon slot',
-		},
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: number | string | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		autocomplete: {
 			control: 'text',
 			description: 'Is Input autocomplete on/off',
-		},
-		blur: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when on blur',
-		},
-		change: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when input value changed',
 		},
 		disabled: {
 			control: 'boolean',
@@ -40,20 +34,10 @@ const meta = {
 			control: 'text',
 			description: 'Input error message',
 		},
-		focus: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when on focus',
-		},
 		icon: {
 			control: 'object',
 			description:
 				'Input Icon configurations. Placement for this input only "prepend"',
-		},
-		input: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when input value changed',
 		},
 		invalidNumberMessage: {
 			control: 'text',
@@ -66,11 +50,6 @@ const meta = {
 		isFocus: {
 			control: 'boolean',
 			description: 'Trigger input focus',
-		},
-		keydown: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when on keydown',
 		},
 		label: {
 			control: 'text',
@@ -89,13 +68,73 @@ const meta = {
 			description: 'Input min value',
 		},
 		modelValue: {
-			control: 'text',
+			control: 'number',
 			description: 'Input value',
 		},
 		numberLocale: {
 			control: 'select',
 			description: 'Number locale only work if prop "withLocale" exist',
 			options: ['en-US', 'id-ID'],
+		},
+		onBlur: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when on blur',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onFocus: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when on focus',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onInput: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onKeydown: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when on keydown',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: Event) => void',
+				},
+			},
+			type: 'function',
 		},
 		placeholder: {
 			control: 'text',
@@ -123,7 +162,7 @@ const meta = {
 			options: ['left', 'right'],
 		},
 		value: {
-			control: 'text',
+			control: 'number',
 			description: 'Input value',
 		},
 		variant: {
@@ -142,9 +181,9 @@ const meta = {
 	},
 	decorators: [
 		(story, ctx) => {
-			delete (ctx.args as any).change
-			delete (ctx.args as any).input
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any).onChange
+			delete (ctx.args as any).onInput
+			delete (ctx.args as any)['onUpdate:modelValue']
 			;(ctx.args as any).onInput = (event: any) => {
 				const value: any = event.target.value
 				// eslint-disable-next-line no-underscore-dangle
@@ -160,6 +199,32 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: [
+					'blur',
+					'change',
+					'focus',
+					'input',
+					'keydown',
+					'update:modelValue',
+				],
+			},
+		},
+		slots: {
+			'icon-slot': {
+				description: 'Input icon slot',
+			},
+		},
+	},
+	render: (args) => ({
+		components: { NumberInput },
+		setup() {
+			return { args }
+		},
+		template: '<NumberInput v-bind="args" />',
+	}),
 } satisfies Meta<typeof NumberInput>
 
 export default meta

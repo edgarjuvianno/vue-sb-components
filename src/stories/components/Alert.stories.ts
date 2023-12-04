@@ -14,11 +14,6 @@ const meta = {
 			control: 'object',
 			description: 'Cancel Button configurations only for variant "big"',
 		},
-		close: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Alert will close',
-		},
 		confirmButton: {
 			control: 'object',
 			description: 'Confirm Button configurations only for variant "big"',
@@ -46,6 +41,18 @@ const meta = {
 				'question',
 				'loading',
 			],
+		},
+		onClose: {
+			action: 'click',
+			control: false,
+			description: 'Fired when Alert will close',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(action?: "cancel" | "confirm") => void',
+				},
+			},
+			type: 'function',
 		},
 		positionX: {
 			control: 'select',
@@ -99,6 +106,11 @@ const meta = {
 		},
 	],
 	parameters: {
+		docs: {
+			controls: {
+				exclude: ['close'],
+			},
+		},
 		slots: {
 			'custom-icon': {
 				description: 'Pass this slot for custom icon',

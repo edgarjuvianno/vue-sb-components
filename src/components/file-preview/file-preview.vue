@@ -123,7 +123,9 @@
 	import { angleLeft, angleRight } from '@/assets/icons'
 
 	export default defineComponent({
-		emits: ['close'],
+		emits: {
+			close: () => true,
+		},
 		props: {
 			pdfDisplayType: {
 				default: 'pagination',

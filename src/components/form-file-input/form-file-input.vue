@@ -115,10 +115,19 @@
 
 	// icons
 	import { arrowUpFromBracket, rotate, xMark } from '@/assets/icons'
-	import { IIcon, IUploadState } from '@/interface'
+	import { IIcon, IPreviewFile, IUploadState } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue', 'error', 'retry', 'previewFile'],
+		emits: {
+			'update:modelValue': (_value: File[] | null) => true,
+			change: (_value: File[] | null) => true,
+			error: (
+				_errorType: 'INVALID FORMAT' | 'INVALID SIZE',
+				_format?: string,
+			) => true,
+			retry: (_value: File[] | null) => true,
+			previewFile: (_preview: IPreviewFile) => true,
+		},
 		props: {
 			allowClear: {
 				required: false,
@@ -162,7 +171,7 @@
 			},
 			onDragText: {
 				required: false,
-				type: String,
+				type: String as PropType<string | null>,
 			},
 			readOnly: {
 				required: false,

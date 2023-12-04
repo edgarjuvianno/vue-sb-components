@@ -10,15 +10,17 @@ const meta = {
 	component: Radio,
 	tags: ['autodocs'],
 	argTypes: {
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'This event fired when users select items',
-		},
-		change: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when users select items',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: IRadioItem | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		disabled: {
 			control: 'boolean',
@@ -27,11 +29,6 @@ const meta = {
 		errorMessage: {
 			control: 'text',
 			description: 'Radio Button error message',
-		},
-		input: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when users select items',
 		},
 		isError: {
 			control: 'boolean',
@@ -48,6 +45,30 @@ const meta = {
 		modelValue: {
 			control: 'object',
 			description: 'Radio Button selected value',
+		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when users select items',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: IRadioItem | null) => void',
+				},
+			},
+			type: 'function',
+		},
+		onInput: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when users select items',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: IRadioItem | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		readOnly: {
 			control: 'boolean',
@@ -82,9 +103,9 @@ const meta = {
 	},
 	decorators: [
 		(story, ctx) => {
-			delete (ctx.args as any).change
-			delete (ctx.args as any).input
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any).onChange
+			delete (ctx.args as any).onInput
+			delete (ctx.args as any)['onUpdate:modelValue']
 			;(ctx.args as any).onChange = (selected: IRadioItem) => {
 				// eslint-disable-next-line no-underscore-dangle
 				const channel = (window as any)
@@ -99,6 +120,13 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change', 'input', 'update:modelValue'],
+			},
+		},
+	},
 } satisfies Meta<typeof Radio>
 
 export default meta

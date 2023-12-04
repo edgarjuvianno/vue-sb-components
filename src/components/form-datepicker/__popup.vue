@@ -271,7 +271,11 @@
 	}
 
 	export default defineComponent({
-		emits: ['change', 'changeTime', 'save'],
+		emits: {
+			change: (_selected: Dayjs | Dayjs[]) => true,
+			changeTime: (_selected: Dayjs[]) => true,
+			save: () => true,
+		},
 		props: {
 			closeOnSelect: {
 				required: false,

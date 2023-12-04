@@ -504,6 +504,9 @@
 			},
 		},
 		methods: {
+			/**
+			 * Trigger Datatable refresh data (only Server Side)
+			 */
 			doRefresh() {
 				if (this.serverSide) {
 					this.handleAJAX()

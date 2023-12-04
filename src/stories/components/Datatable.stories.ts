@@ -60,12 +60,6 @@ const meta = {
 	component: Datatable,
 	tags: ['autodocs'],
 	argTypes: {
-		change: {
-			action: 'change',
-			control: false,
-			description:
-				'Datatable will fire this event on pagination change, row length change, column search input, search bar input, ',
-		},
 		columnSearchPlacement: {
 			control: 'select',
 			description:
@@ -80,9 +74,6 @@ const meta = {
 			control: 'object',
 			description:
 				'Datatable default column sort. This props works only if props "columns" exist',
-		},
-		doRefresh: {
-			description: 'Trigger Datatable refresh data (only Server Side)',
 		},
 		isLoading: {
 			control: 'boolean',
@@ -106,6 +97,19 @@ const meta = {
 			control: false,
 			description: 'Intercept Datatable on Ajax event (Server Side only)',
 		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description:
+				'Datatable will fire this event on pagination change, row length change, column search input, search bar input',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(data: IDTChangeResponse) => void',
+				},
+			},
+			type: 'function',
+		},
 		pagination: {
 			control: 'object',
 			description: 'Datatable pagination configurations',
@@ -126,6 +130,11 @@ const meta = {
 	},
 	args: {},
 	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change'],
+			},
+		},
 		slots: {
 			'`th-${thIndex + 1}`': {
 				description:

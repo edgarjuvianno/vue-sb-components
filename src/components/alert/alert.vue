@@ -101,7 +101,9 @@
 	import { IAlertButton } from '@/interface'
 
 	export default defineComponent({
-		emits: ['close'],
+		emits: {
+			close: (_action?: string) => true,
+		},
 		props: {
 			cancelButton: {
 				required: false,

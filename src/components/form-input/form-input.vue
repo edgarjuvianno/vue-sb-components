@@ -17,7 +17,11 @@
 				readonly: readOnly,
 			}"
 		>
-			<label class="label" :class="{ required }" v-if="label">
+			<label
+				class="label"
+				:class="{ required, multiline: type === 'textarea' }"
+				v-if="label"
+			>
 				<span>{{ label }}</span>
 				<span class="asterisk" v-if="required">*</span>
 			</label>
@@ -106,7 +110,13 @@
 	import { defineComponent, PropType } from 'vue'
 
 	export default defineComponent({
-		emits: ['input', 'update:modelValue', 'blur', 'focus', 'keydown'],
+		emits: {
+			'update:modelValue': (_value: any) => true,
+			blur: (_event: Event) => true,
+			focus: (_event: Event) => true,
+			input: (_event: Event) => true,
+			keydown: (_event: Event) => true,
+		},
 		props: {
 			autocomplete: {
 				default: 'on',

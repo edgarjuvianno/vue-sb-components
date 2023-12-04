@@ -33,7 +33,9 @@
 	import { xMark } from '@/assets/icons'
 
 	export default defineComponent({
-		emits: ['close'],
+		emits: {
+			close: () => true,
+		},
 		props: {
 			container: {
 				default: 'fit-content',

@@ -103,14 +103,14 @@
 	import { sortDown, sortUp } from '@/assets/icons'
 
 	export default defineComponent({
-		emits: [
-			'change',
-			'input',
-			'update:modelValue',
-			'blur',
-			'focus',
-			'keydown',
-		],
+		emits: {
+			'update:modelValue': (_value: number | string | null) => true,
+			blur: (_event: Event) => true,
+			change: (_event: Event) => true,
+			focus: (_event: Event) => true,
+			input: (_event: Event) => true,
+			keydown: (_event: Event) => true,
+		},
 		props: {
 			autocomplete: {
 				default: 'on',

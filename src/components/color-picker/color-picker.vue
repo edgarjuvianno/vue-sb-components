@@ -22,7 +22,10 @@
 	import { defineComponent, PropType } from 'vue'
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue'],
+		emits: {
+			'update:modelValue': (_selected: string | null) => true,
+			change: (_selected: string | null) => true,
+		},
 		props: {
 			label: {
 				required: false,

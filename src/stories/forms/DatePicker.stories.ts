@@ -10,19 +10,21 @@ const meta = {
 	component: Datepicker,
 	tags: ['autodocs'],
 	argTypes: {
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: Dayjs | Dayjs[] | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		allowClear: {
 			control: 'boolean',
 			description: 'Clear input value',
-		},
-		change: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when input value changed',
 		},
 		closeOnSelect: {
 			control: 'boolean',
@@ -39,11 +41,6 @@ const meta = {
 		format: {
 			control: 'text',
 			description: 'Valid date format. Example: YYYY-MM-DD HH:mm:ss',
-		},
-		input: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when input value changed',
 		},
 		isError: {
 			control: 'boolean',
@@ -68,6 +65,30 @@ const meta = {
 		noIcon: {
 			control: 'boolean',
 			description: 'Hide input icon',
+		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: Dayjs | Dayjs[] | null) => void',
+				},
+			},
+			type: 'function',
+		},
+		onInput: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: Dayjs | Dayjs[] | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		placeholder: {
 			control: 'text',
@@ -105,9 +126,9 @@ const meta = {
 	},
 	decorators: [
 		(story, ctx) => {
-			delete (ctx.args as any).change
-			delete (ctx.args as any).input
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any).onChange
+			delete (ctx.args as any).onInput
+			delete (ctx.args as any)['onUpdate:modelValue']
 			;(ctx.args as any).onChange = (value: Dayjs) => {
 				// eslint-disable-next-line no-underscore-dangle
 				const channel = (window as any)
@@ -122,6 +143,13 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change', 'input', 'update:modelValue'],
+			},
+		},
+	},
 	render: (args) => ({
 		components: { Datepicker },
 		setup() {

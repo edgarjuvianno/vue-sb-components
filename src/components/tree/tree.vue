@@ -25,7 +25,10 @@
 	import { ITreeItem } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change', 'expand'],
+		emits: {
+			change: (_selected: ITreeItem | ITreeItem[] | null) => true,
+			expand: (_item: ITreeItem, _isExpanded: boolean) => true,
+		},
 		props: {
 			checkBox: {
 				required: false,
@@ -45,7 +48,7 @@
 			},
 			selected: {
 				required: false,
-				type: Object as PropType<ITreeItem[] | ITreeItem>,
+				type: Object as PropType<ITreeItem[] | ITreeItem | null>,
 			},
 		},
 		name: 'sb-tree-view',
@@ -64,7 +67,8 @@
 				} else {
 					this.$emit(
 						'change',
-						Object.values(this.localSelected)[0] || null,
+						(Object.values(this.localSelected)[0] as ITreeItem) ||
+							null,
 					)
 				}
 			},

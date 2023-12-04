@@ -132,7 +132,13 @@
 	import { recursiveSearchScrollParent } from '@/utils/helper'
 
 	export default defineComponent({
-		emits: ['update:modelValue', 'change', 'input', 'close', 'open'],
+		emits: {
+			'update:modelValue': (_selected: any) => true,
+			change: (_selected: any) => true,
+			close: () => true,
+			input: (_selected: any) => true,
+			open: () => true,
+		},
 		props: {
 			allowClear: {
 				required: false,

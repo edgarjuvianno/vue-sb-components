@@ -40,7 +40,11 @@
 	import { defineComponent, PropType } from 'vue'
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue', 'input'],
+		emits: {
+			'update:modelValue': (_selected: IRadioItem | null) => true,
+			change: (_selected: IRadioItem | null) => true,
+			input: (_selected: IRadioItem | null) => true,
+		},
 		props: {
 			disabled: {
 				required: false,

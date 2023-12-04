@@ -9,28 +9,25 @@ const meta = {
 	component: FileInput,
 	tags: ['autodocs'],
 	argTypes: {
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: File[] | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		allowClear: {
 			control: 'boolean',
 			description: 'Clear input value',
 		},
-		change: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when input value changed',
-		},
 		disabled: {
 			control: 'boolean',
 			description: 'Is Input disabled',
-		},
-		error: {
-			action: 'change',
-			control: false,
-			description: 'Fire when File validation error',
 		},
 		errorMessage: {
 			control: 'text',
@@ -60,14 +57,58 @@ const meta = {
 			control: 'boolean',
 			description: 'Multiple upload files',
 		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: File[] | null) => void',
+				},
+			},
+			type: 'function',
+		},
 		onDragText: {
 			control: 'text',
 			description: 'On-drag File drop area text',
 		},
-		previewFile: {
+		onError: {
+			action: 'change',
+			control: false,
+			description: 'Fire when File validation error',
+			table: {
+				category: 'events',
+				type: {
+					summary:
+						'(errorType: "INVALID FORMAT" | "INVALID SIZE", format?: string) => void',
+				},
+			},
+			type: 'function',
+		},
+		onPreviewFile: {
 			action: 'click',
 			control: false,
 			description: 'Fire when users click on file name to view file',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(preview: IPreviewFile) => void',
+				},
+			},
+			type: 'function',
+		},
+		onRetry: {
+			action: 'click',
+			control: false,
+			description: 'Fire when File upload state error',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: File[] | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		readOnly: {
 			control: 'boolean',
@@ -76,11 +117,6 @@ const meta = {
 		required: {
 			control: 'boolean',
 			description: 'Is Input required',
-		},
-		retry: {
-			action: 'click',
-			control: false,
-			description: 'Fire when File upload state error',
 		},
 		value: {
 			control: 'array',
@@ -99,9 +135,9 @@ const meta = {
 	},
 	decorators: [
 		(story, ctx) => {
-			delete (ctx.args as any).change
-			delete (ctx.args as any).input
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any).onChange
+			delete (ctx.args as any).onInput
+			delete (ctx.args as any)['onUpdate:modelValue']
 			;(ctx.args as any).onChange = (value: any) => {
 				// eslint-disable-next-line no-underscore-dangle
 				const channel = (window as any)
@@ -116,6 +152,19 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: [
+					'change',
+					'error',
+					'previewFile',
+					'retry',
+					'update:modelValue',
+				],
+			},
+		},
+	},
 } satisfies Meta<typeof FileInput>
 
 export default meta

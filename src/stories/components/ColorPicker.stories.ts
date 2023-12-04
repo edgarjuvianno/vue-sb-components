@@ -7,15 +7,17 @@ const meta = {
 	component: ColorPicker,
 	tags: ['autodocs'],
 	argTypes: {
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'Fired when picker value changed',
-		},
-		change: {
-			action: 'change',
-			control: false,
-			description: 'Fired when picker value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: string | null) => void',
+				},
+			},
+			type: 'function',
 		},
 		label: {
 			control: 'text',
@@ -29,6 +31,18 @@ const meta = {
 			control: 'text',
 			description: 'Selected color in hex',
 		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'Fired when picker value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: string | null) => void',
+				},
+			},
+			type: 'function',
+		},
 		value: {
 			control: 'text',
 			description: 'Selected color in hex',
@@ -36,6 +50,13 @@ const meta = {
 	},
 	args: {
 		list: [],
+	},
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change', 'update:modelValue'],
+			},
+		},
 	},
 	render: (args) => ({
 		components: { ColorPicker },

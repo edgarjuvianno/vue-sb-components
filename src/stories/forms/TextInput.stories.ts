@@ -10,23 +10,21 @@ const meta = {
 	component: TextInput,
 	tags: ['autodocs'],
 	argTypes: {
-		'custom-input': {
-			description: 'Input custom input slot',
-			template: '',
-		},
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(value: any) => void',
+				},
+			},
+			type: 'function',
 		},
 		autocomplete: {
 			control: 'text',
 			description: 'Is Input autocomplete on/off',
-		},
-		blur: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when on blur',
 		},
 		disabled: {
 			control: 'boolean',
@@ -36,19 +34,9 @@ const meta = {
 			control: 'text',
 			description: 'Input error message',
 		},
-		focus: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when on focus',
-		},
 		icon: {
 			control: 'object',
 			description: 'Input Icon configurations',
-		},
-		input: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when input value changed',
 		},
 		isError: {
 			control: 'boolean',
@@ -57,11 +45,6 @@ const meta = {
 		isFocus: {
 			control: 'boolean',
 			description: 'Trigger input focus',
-		},
-		keydown: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when on keydown',
 		},
 		label: {
 			control: 'text',
@@ -83,6 +66,54 @@ const meta = {
 			control: 'boolean',
 			description:
 				'Custom Input for type "password". Use this if you do not want browser to prompt "save password" dialog',
+		},
+		onBlur: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when on blur',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(event: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onFocus: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when on focus',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(event: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onInput: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when input value changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(event: Event) => void',
+				},
+			},
+			type: 'function',
+		},
+		onKeydown: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when on keydown',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(event: Event) => void',
+				},
+			},
+			type: 'function',
 		},
 		placeholder: {
 			control: 'text',
@@ -131,9 +162,9 @@ const meta = {
 	},
 	decorators: [
 		(story, ctx) => {
-			delete (ctx.args as any).change
-			delete (ctx.args as any).input
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any).onChange
+			delete (ctx.args as any).onInput
+			delete (ctx.args as any)['onUpdate:modelValue']
 			;(ctx.args as any).onInput = (event: any) => {
 				const value: any = event.target.value
 				// eslint-disable-next-line no-underscore-dangle
@@ -150,12 +181,33 @@ const meta = {
 		},
 	],
 	parameters: {
+		docs: {
+			controls: {
+				exclude: [
+					'blur',
+					'focus',
+					'input',
+					'keydown',
+					'update:modelValue',
+				],
+			},
+		},
 		slots: {
+			'custom-input': {
+				description: 'Input custom input slot',
+			},
 			'icon-slot': {
 				description: 'Input icon slot',
 			},
 		},
 	},
+	render: (args) => ({
+		components: { TextInput },
+		setup() {
+			return { args }
+		},
+		template: '<TextInput v-bind="args" />',
+	}),
 } satisfies Meta<typeof TextInput>
 
 export default meta

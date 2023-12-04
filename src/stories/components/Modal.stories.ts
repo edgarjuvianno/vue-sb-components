@@ -10,11 +10,6 @@ const meta = {
 	component: Modal,
 	tags: ['autodocs'],
 	argTypes: {
-		close: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Modal will close',
-		},
 		container: {
 			control: 'select',
 			description: 'Set modal size',
@@ -23,6 +18,18 @@ const meta = {
 		id: {
 			control: 'text',
 			description: 'Set Modal id',
+		},
+		onClose: {
+			action: 'click',
+			control: false,
+			description: 'Fired when Modal will close',
+			table: {
+				category: 'events',
+				type: {
+					summary: '() => void',
+				},
+			},
+			type: 'function',
 		},
 		show: {
 			control: 'boolean',
@@ -56,6 +63,11 @@ const meta = {
 		},
 	],
 	parameters: {
+		docs: {
+			controls: {
+				exclude: ['close'],
+			},
+		},
 		slots: {
 			default: {
 				description: 'Modal Default Slot',

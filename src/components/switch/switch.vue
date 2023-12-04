@@ -24,7 +24,9 @@
 	import { ISwitchColor, ISwitchLabel } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change'],
+		emits: {
+			change: (_isActive: boolean) => true,
+		},
 		props: {
 			active: {
 				required: true,

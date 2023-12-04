@@ -2,7 +2,7 @@
   "author": "Edgar Juvianno S",
   "name": "@edgarjuvianno/vue-sb-components",
   "homepage": "http://edgarjuvianno.github.io/vue-sb-components",
-  "version": "1.4.51",
+  "version": "1.4.53",
   "type": "module",
   "files": [
     "dist"
@@ -15,9 +15,10 @@
     "build": "run-s lint type-check vite-build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
+    "type-check-storybook": "vue-tsc --noEmit -p ./src/stories/tsconfig.json --composite false",
     "vite-build": "vite build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build && touch ./storybook-static/.nojekyll",
+    "build-storybook": "npm run lint && npm run type-check-storybook && storybook build && touch ./storybook-static/.nojekyll",
     "deploy-storybook": "gh-pages -d storybook-static -t true"
   },
   "repository": {

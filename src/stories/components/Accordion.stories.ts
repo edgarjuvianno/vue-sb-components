@@ -9,11 +9,6 @@ const meta = {
 	component: Accordion,
 	tags: ['autodocs'],
 	argTypes: {
-		change: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Accordion will expand or will collapse',
-		},
 		clickOutside: {
 			control: 'boolean',
 			description: 'Whether Accordion will close on outside click',
@@ -36,6 +31,18 @@ const meta = {
 			control: 'boolean',
 			description: 'Set Accordion is expanded or not',
 		},
+		onChange: {
+			action: 'click',
+			control: false,
+			description: 'Fired when Accordion will expand or will collapse',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(expanded: boolean) => void',
+				},
+			},
+			type: 'function',
+		},
 		title: { control: 'text', description: 'Accordion header text' },
 	},
 	args: {},
@@ -57,6 +64,11 @@ const meta = {
 		},
 	],
 	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change'],
+			},
+		},
 		slots: {
 			default: {
 				description: 'Accordion body slot',

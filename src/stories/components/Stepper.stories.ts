@@ -9,25 +9,21 @@ const meta = {
 	component: Stepper,
 	tags: ['autodocs'],
 	argTypes: {
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'Stepper will throw this event to update modelValue',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(active: number) => void',
+				},
+			},
+			type: 'function',
 		},
 		alternateTitle: {
 			control: 'boolean',
 			description: 'Display Stepper title alternate or default',
-		},
-		change: {
-			action: 'change',
-			control: false,
-			description:
-				'Stepper will throw this event when Stepper current Step changed',
-		},
-		finish: {
-			action: 'click',
-			control: false,
-			description: 'Stepper will throw this event when step is finished',
 		},
 		interceptNav: {
 			description: 'Function to intercept stepper navigation',
@@ -49,6 +45,31 @@ const meta = {
 			control: 'boolean',
 			description:
 				'If this props exist then Stepper will allows users to enter multi-step flow at any point',
+		},
+		onChange: {
+			action: 'change',
+			control: false,
+			description:
+				'Stepper will throw this event when Stepper current Step changed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(active: number) => void',
+				},
+			},
+			type: 'function',
+		},
+		onFinish: {
+			action: 'click',
+			control: false,
+			description: 'Stepper will throw this event when step is finished',
+			table: {
+				category: 'events',
+				type: {
+					summary: '() => void',
+				},
+			},
+			type: 'function',
 		},
 		type: {
 			control: 'select',
@@ -73,7 +94,7 @@ const meta = {
 	decorators: [
 		(story, ctx) => {
 			delete (ctx.args as any).finish
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any)['onUpdate:modelValue']
 			delete (ctx.args as any)['change']
 			;(ctx.args as any).onFinish = () => {
 				console.log('STEPPER FINISHED')
@@ -93,6 +114,11 @@ const meta = {
 		},
 	],
 	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change', 'finish', 'update:modelValue'],
+			},
+		},
 		slots: {
 			step: {
 				description: 'Step render slot',

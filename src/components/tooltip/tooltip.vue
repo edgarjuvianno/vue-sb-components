@@ -22,7 +22,6 @@
 	import { defineComponent } from 'vue'
 
 	export default defineComponent({
-		emits: ['close'],
 		props: {
 			hidden: {
 				required: false,

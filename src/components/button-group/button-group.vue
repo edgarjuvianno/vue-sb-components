@@ -24,7 +24,9 @@
 	import { defineComponent, PropType } from 'vue'
 
 	export default defineComponent({
-		emits: ['click'],
+		emits: {
+			click: (_index: Number) => true,
+		},
 		props: {
 			color: {
 				default: 'default',

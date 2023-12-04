@@ -10,24 +10,21 @@ const meta = {
 	component: Dropdown,
 	tags: ['autodocs'],
 	argTypes: {
-		'update:modelValue': {
+		'onUpdate:modelValue': {
 			action: 'change',
 			control: false,
 			description: 'This event fired when users select items',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: any) => void',
+				},
+			},
+			type: 'function',
 		},
 		allowClear: {
 			control: 'boolean',
 			description: 'Allow users to clear selection',
-		},
-		change: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when users select items',
-		},
-		close: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when Dropdown collapsed',
 		},
 		closeOnSelect: {
 			control: 'boolean',
@@ -48,11 +45,6 @@ const meta = {
 		infinite: {
 			control: 'boolean',
 			description: 'Load more when users scroll until last option',
-		},
-		input: {
-			action: 'change',
-			control: false,
-			description: 'This event fired when users select items',
 		},
 		isError: {
 			control: 'boolean',
@@ -87,13 +79,56 @@ const meta = {
 			control: false,
 			description: 'Event fired on Ajax call',
 		},
-		onPopulateList: {
-			description: 'Load more when users scroll until last option',
+		onChange: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when users select items',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: any) => void',
+				},
+			},
+			type: 'function',
 		},
-		open: {
+		onClose: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when Dropdown collapsed',
+			table: {
+				category: 'events',
+				type: {
+					summary: '() => void',
+				},
+			},
+			type: 'function',
+		},
+		onInput: {
+			action: 'change',
+			control: false,
+			description: 'This event fired when users select items',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(selected: any) => void',
+				},
+			},
+			type: 'function',
+		},
+		onOpen: {
 			action: 'change',
 			control: false,
 			description: 'This event fired when Dropdown expanded',
+			table: {
+				category: 'events',
+				type: {
+					summary: '() => void',
+				},
+			},
+			type: 'function',
+		},
+		onPopulateList: {
+			description: 'Load more when users scroll until last option',
 		},
 		optLabel: {
 			control: 'text',
@@ -163,9 +198,9 @@ const meta = {
 	},
 	decorators: [
 		(story, ctx) => {
-			delete (ctx.args as any).change
-			delete (ctx.args as any).input
-			delete (ctx.args as any)['update:modelValue']
+			delete (ctx.args as any).onChange
+			delete (ctx.args as any).onInput
+			delete (ctx.args as any)['onUpdate:modelValue']
 			;(ctx.args as any).onChange = (selected: any) => {
 				// eslint-disable-next-line no-underscore-dangle
 				const channel = (window as any)
@@ -180,6 +215,19 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: [
+					'change',
+					'close',
+					'input',
+					'open',
+					'update:modelValue',
+				],
+			},
+		},
+	},
 	render: (args) => ({
 		components: { Dropdown },
 		setup() {

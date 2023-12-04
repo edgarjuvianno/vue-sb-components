@@ -9,7 +9,7 @@
 			noElevation && 'no-elevation',
 		]"
 		:disabled="disabled"
-		@click="(event) => handleClick(event)"
+		@click="handleClick"
 		v-bind="{ ...$attrs }"
 		v-if="!tooltip"
 	>
@@ -26,7 +26,7 @@
 				noElevation && 'no-elevation',
 			]"
 			:disabled="disabled"
-			@click="(event) => handleClick(event)"
+			@click="handleClick"
 			v-bind="{ ...$attrs }"
 		>
 			<slot />
@@ -39,7 +39,9 @@
 	import SBTooltip from '@/components/tooltip/tooltip.vue'
 
 	export default defineComponent({
-		emits: ['click'],
+		emits: {
+			click: (_event: MouseEvent) => true,
+		},
 		props: {
 			color: {
 				default: 'default',
@@ -83,7 +85,7 @@
 			return { isClicked: false }
 		},
 		methods: {
-			handleClick(event: Event) {
+			handleClick(event: MouseEvent) {
 				this.isClicked = true
 
 				setTimeout(() => {

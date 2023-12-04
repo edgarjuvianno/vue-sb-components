@@ -15,11 +15,6 @@ const meta = {
 			control: 'object',
 			description: 'Switch active state color (color in hex)',
 		},
-		change: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Switch on change',
-		},
 		label: {
 			control: 'object',
 			description: 'Switch label for active & not active',
@@ -28,12 +23,31 @@ const meta = {
 			control: 'boolean',
 			description: 'Toggle Switch elevation',
 		},
+		onChange: {
+			action: 'click',
+			control: false,
+			description: 'Fired when Switch on change',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(isActive: boolean) => void',
+				},
+			},
+			type: 'function',
+		},
 	},
 	args: {
 		active: false,
 		label: {
 			active: 'Active',
 			notActive: 'Inactive',
+		},
+	},
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['change'],
+			},
 		},
 	},
 	render: (args) => ({

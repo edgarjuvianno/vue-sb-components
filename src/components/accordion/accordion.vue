@@ -28,7 +28,9 @@
 	import { angleDown } from '@/assets/icons'
 
 	export default defineComponent({
-		emits: ['change'],
+		emits: {
+			change: (_expanded: boolean) => true,
+		},
 		props: {
 			clickOutside: {
 				default: false,

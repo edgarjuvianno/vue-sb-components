@@ -81,7 +81,13 @@
 	import { vMaska } from 'maska'
 
 	export default defineComponent({
-		emits: ['input', 'update:modelValue', 'blur', 'focus', 'keydown'],
+		emits: {
+			'update:modelValue': (_value: string | null) => true,
+			blur: (_event: Event) => true,
+			focus: (_event: Event) => true,
+			input: (_event: Event) => true,
+			keydown: (_event: Event) => true,
+		},
 		props: {
 			autocomplete: {
 				default: 'on',
@@ -117,9 +123,7 @@
 			},
 			modelValue: {
 				required: false,
-				type: null as unknown as PropType<
-					string | number | object | null
-				>,
+				type: null as unknown as PropType<string | null>,
 			},
 			pattern: {
 				required: false,
@@ -147,9 +151,7 @@
 			},
 			value: {
 				required: false,
-				type: null as unknown as PropType<
-					string | number | object | null
-				>,
+				type: null as unknown as PropType<string | null>,
 			},
 			variant: {
 				default: 'default',

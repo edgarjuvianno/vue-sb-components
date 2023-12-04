@@ -214,3 +214,8 @@ export interface IMaskaOptions {
 	preProcess?: Function
 	reversed?: boolean
 }
+
+export interface IPreviewFile {
+	file: File
+	type: string
+}

@@ -7,11 +7,6 @@ const meta = {
 	component: Button,
 	tags: ['autodocs'],
 	argTypes: {
-		click: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Button clicked',
-		},
 		color: {
 			control: 'select',
 			description: 'Button color',
@@ -33,6 +28,18 @@ const meta = {
 		noElevation: {
 			control: 'boolean',
 			description: 'Button has elevation or not (default: true)',
+		},
+		onClick: {
+			action: 'click',
+			control: false,
+			description: 'Fired when Button clicked',
+			table: {
+				category: 'events',
+				type: {
+					summary: '(event: MouseEvent) => void',
+				},
+			},
+			type: 'function',
 		},
 		size: {
 			control: 'select',
@@ -60,6 +67,11 @@ const meta = {
 		},
 	],
 	parameters: {
+		docs: {
+			controls: {
+				exclude: ['click'],
+			},
+		},
 		slots: {
 			default: {
 				description: 'Button default slot',

@@ -67,7 +67,11 @@
 	import { IIcon } from '@/interface'
 
 	export default defineComponent({
-		emits: ['change', 'update:modelValue', 'input'],
+		emits: {
+			'update:modelValue': (_selected: Dayjs | Dayjs[] | null) => true,
+			change: (_selected: Dayjs | Dayjs[] | null) => true,
+			input: (_selected: Dayjs | Dayjs[] | null) => true,
+		},
 		props: {
 			allowClear: {
 				required: false,
@@ -256,10 +260,12 @@
 					}
 				}
 			},
-			handleKeyDown(ev: KeyboardEvent) {
-				if (ev.key === 'Backspace') {
+			handleKeyDown(ev: Event) {
+				const event: KeyboardEvent = ev as KeyboardEvent
+
+				if (event.key === 'Backspace') {
 					this.handleUpdateModelValue(null)
-				} else if (ev.key === 'Tab') {
+				} else if (event.key === 'Tab') {
 					this.localShow = false
 
 					const self: HTMLElement = this.$el as HTMLElement

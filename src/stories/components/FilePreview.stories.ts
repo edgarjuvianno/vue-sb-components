@@ -11,10 +11,17 @@ const meta = {
 	component: FilePreview,
 	tags: ['autodocs'],
 	argTypes: {
-		close: {
+		onClose: {
 			action: 'click',
 			control: false,
 			description: 'Fired when Modal will close',
+			table: {
+				category: 'events',
+				type: {
+					summary: '() => void',
+				},
+			},
+			type: 'function',
 		},
 		pdfDisplayType: {
 			control: 'select',
@@ -55,6 +62,13 @@ const meta = {
 			return story()
 		},
 	],
+	parameters: {
+		docs: {
+			controls: {
+				exclude: ['close'],
+			},
+		},
+	},
 	render: (args, { id }) => ({
 		components: { Button, FilePreview },
 		setup() {
