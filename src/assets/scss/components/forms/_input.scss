@@ -1,6 +1,7 @@
 .input-wrapper {
 	border-radius: 6px;
 	display: block;
+	margin: 5px;
 
 	.input-group {
 		border-radius: 6px;
@@ -61,7 +62,7 @@
 			font-size: 1rem;
 			font-weight: 400;
 			left: calc(1rem + 2px);
-			line-height: 1;
+			line-height: normal;
 			margin-bottom: 0;
 			max-width: calc(100% - 2rem);
 			overflow: hidden;
@@ -243,7 +244,7 @@
 			}
 
 			.label {
-				top: -0.4rem;
+				top: -0.55rem;
 				transform: translate(0, 0) scale(0.9);
 			}
 
@@ -342,7 +343,7 @@
 			}
 
 			.label {
-				top: -0.4rem;
+				top: -0.55rem;
 				transform: translate(0, 0) scale(0.9);
 			}
 		}
@@ -373,7 +374,7 @@
 					var(--sb-color-primary-100) / var(--sb-color-opacity)
 				);
 				font-weight: 500;
-				top: -0.4rem;
+				top: -0.55rem;
 				transform: translate(0, 0) scale(0.9);
 			}
 
@@ -469,14 +470,14 @@
 			&.focus,
 			&.filled {
 				.label {
-					top: -0.4rem;
+					top: -0.55rem;
 					transform: translate(0, 0) scale(0.9);
 				}
 			}
 
 			&.icon_prepend {
 				.label {
-					top: -0.4rem;
+					top: -0.55rem;
 					transform: translate(0, 0) scale(0.9);
 				}
 			}

@@ -1,4 +1,6 @@
 .file-input-wrapper {
+	margin: 5px;
+
 	.helper-text {
 		color: rgb(var(--sb-color-info-100) / var(--sb-color-opacity));
 		display: block;
@@ -38,6 +40,8 @@
 	}
 
 	.input-wrapper {
+		margin: 0;
+
 		.input-group {
 			.form-control {
 				cursor: pointer;
