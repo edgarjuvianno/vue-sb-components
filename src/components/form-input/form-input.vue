@@ -232,14 +232,11 @@
 					typeof this.localValue !== 'undefined'
 				) {
 					if (this.type !== 'number') {
-						if (typeof this.localValue === 'object') {
-							return (
-								this.localValue?.length &&
-								Object.keys(this.localValue).length > 0
-							)
-						}
-
-						return this.localValue !== '' && this.localValue?.length
+						return (
+							this.localValue !== '' &&
+							(this.localValue?.length ||
+								Object.keys(this.localValue).length > 0)
+						)
 					}
 
 					return true

@@ -11,8 +11,8 @@
 			border: 1px solid
 				rgb(var(--sb-color-border) / var(--sb-color-opacity));
 			border-radius: 6px;
-			display: flex;
 			inset: -5px 0 0 0;
+			min-width: 0%;
 			overflow: hidden;
 			padding: 0 1rem;
 			pointer-events: none;
@@ -70,10 +70,11 @@
 			padding: 0;
 			position: absolute;
 			top: 50%;
-			transform: translate(0, -50%) scale(1);
+			transform: translate(0, -50%);
 			transform-origin: left top;
 			transition:
 				color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				font-size 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				top 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 				max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
@@ -88,7 +89,7 @@
 
 			&.multiline {
 				top: 1.2rem;
-				transform: translateY(0) scale(1);
+				transform: translateY(0);
 			}
 		}
 
@@ -181,7 +182,7 @@
 		&.icon_append,
 		&.icon_prepend {
 			.label {
-				max-width: calc(100% - 3rem);
+				max-width: calc(100% - 3rem - 6px);
 			}
 
 			.icon {
@@ -231,21 +232,22 @@
 				);
 
 				.notch {
-					max-width: calc(100% - 2rem);
+					max-width: calc(100% + 10px);
 				}
 			}
 
 			&.icon_append {
 				.input-border {
 					.notch {
-						max-width: calc(100% - 3rem);
+						max-width: calc(100% - 1rem + 10px);
 					}
 				}
 			}
 
 			.label {
+				font-size: 0.9rem;
 				top: -0.55rem;
-				transform: translate(0, 0) scale(0.9);
+				transform: translate(0, 0);
 			}
 
 			&:not(.readonly, .disabled) {
@@ -338,13 +340,14 @@
 		&.icon_prepend {
 			.input-border {
 				.notch {
-					max-width: calc(100% - 2rem);
+					max-width: calc(100% + 10px);
 				}
 			}
 
 			.label {
+				font-size: 0.9rem;
 				top: -0.55rem;
-				transform: translate(0, 0) scale(0.9);
+				transform: translate(0, 0);
 			}
 		}
 
@@ -357,14 +360,14 @@
 				);
 
 				.notch {
-					max-width: calc(100% - 2rem);
+					max-width: calc(100% + 10px);
 				}
 			}
 
 			&.icon_append {
 				.input-border {
 					.notch {
-						max-width: calc(100% - 3rem);
+						max-width: calc(100% - 1rem + 10px);
 					}
 				}
 			}
@@ -373,9 +376,10 @@
 				color: rgb(
 					var(--sb-color-primary-100) / var(--sb-color-opacity)
 				);
+				font-size: 0.9rem;
 				font-weight: 500;
 				top: -0.55rem;
-				transform: translate(0, 0) scale(0.9);
+				transform: translate(0, 0);
 			}
 
 			.form-control {
@@ -464,21 +468,23 @@
 			}
 
 			.label {
-				top: 11px;
+				top: 10px;
 			}
 
 			&.focus,
 			&.filled {
 				.label {
+					font-size: 0.9rem;
 					top: -0.55rem;
-					transform: translate(0, 0) scale(0.9);
+					transform: translate(0, 0);
 				}
 			}
 
 			&.icon_prepend {
 				.label {
+					font-size: 0.9rem;
 					top: -0.55rem;
-					transform: translate(0, 0) scale(0.9);
+					transform: translate(0, 0);
 				}
 			}
 		}

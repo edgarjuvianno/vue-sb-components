@@ -176,7 +176,8 @@ const meta = {
 		},
 	},
 	args: {
-		label: 'Some Text Input',
+		label: 'Gross Tonage / Ukuran Kapal',
+		required: true,
 		modelValue: null,
 	},
 	decorators: [
