@@ -116,6 +116,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['change', 'expand'],
+				sort: 'requiredFirst',
 			},
 		},
 	},

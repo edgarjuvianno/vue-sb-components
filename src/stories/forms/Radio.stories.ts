@@ -124,6 +124,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['change', 'input', 'update:modelValue'],
+				sort: 'requiredFirst',
 			},
 		},
 	},

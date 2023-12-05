@@ -117,6 +117,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['change', 'finish', 'update:modelValue'],
+				sort: 'requiredFirst',
 			},
 		},
 		slots: {

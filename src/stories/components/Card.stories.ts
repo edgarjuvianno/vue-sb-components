@@ -18,6 +18,11 @@ const meta = {
 	},
 	args: {},
 	parameters: {
+		docs: {
+			controls: {
+				sort: 'requiredFirst',
+			},
+		},
 		slots: {
 			default: {
 				description: 'Card default slot',

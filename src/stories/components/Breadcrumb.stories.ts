@@ -15,6 +15,13 @@ const meta = {
 	args: {
 		list: [],
 	},
+	parameters: {
+		docs: {
+			controls: {
+				sort: 'requiredFirst',
+			},
+		},
+	},
 	render: (args) => ({
 		components: { Breadcrumb },
 		setup() {

@@ -40,6 +40,13 @@ const meta = {
 			description: 'Progress Circular size in pixels',
 		},
 	},
+	parameters: {
+		docs: {
+			controls: {
+				sort: 'requiredFirst',
+			},
+		},
+	},
 	render: (args) => ({
 		components: { ProgressCircular },
 		setup() {

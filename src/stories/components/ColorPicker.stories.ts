@@ -52,6 +52,9 @@ const meta = {
 		list: [],
 	},
 	parameters: {
+		controls: {
+			sort: 'requiredFirst',
+		},
 		docs: {
 			controls: {
 				exclude: ['change', 'update:modelValue'],

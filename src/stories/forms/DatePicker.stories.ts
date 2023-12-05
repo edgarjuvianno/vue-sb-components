@@ -17,7 +17,7 @@ const meta = {
 			table: {
 				category: 'events',
 				type: {
-					summary: '(selected: Dayjs | Dayjs[] | null) => void',
+					summary: '(selected: string | string[] | null) => void',
 				},
 			},
 			type: 'function',
@@ -60,7 +60,8 @@ const meta = {
 		},
 		modelValue: {
 			control: 'object',
-			description: 'Input value in Day.js object',
+			description:
+				'Input value in Day.js object, Date object, or valid date string',
 		},
 		noIcon: {
 			control: 'boolean',
@@ -73,7 +74,7 @@ const meta = {
 			table: {
 				category: 'events',
 				type: {
-					summary: '(selected: Dayjs | Dayjs[] | null) => void',
+					summary: '(selected: string | string[] | null) => void',
 				},
 			},
 			type: 'function',
@@ -85,7 +86,7 @@ const meta = {
 			table: {
 				category: 'events',
 				type: {
-					summary: '(selected: Dayjs | Dayjs[] | null) => void',
+					summary: '(selected: string | string[] | null) => void',
 				},
 			},
 			type: 'function',
@@ -117,7 +118,8 @@ const meta = {
 		},
 		value: {
 			control: 'object',
-			description: 'Input value in Day.js object',
+			description:
+				'Input value in Day.js object, Date object, or valid date string',
 		},
 	},
 	args: {
@@ -147,6 +149,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['change', 'input', 'update:modelValue'],
+				sort: 'requiredFirst',
 			},
 		},
 	},

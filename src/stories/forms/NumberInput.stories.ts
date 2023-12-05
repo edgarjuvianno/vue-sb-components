@@ -210,6 +210,7 @@ const meta = {
 					'keydown',
 					'update:modelValue',
 				],
+				sort: 'requiredFirst',
 			},
 		},
 		slots: {
