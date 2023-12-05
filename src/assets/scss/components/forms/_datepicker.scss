@@ -298,6 +298,7 @@ body {
 						transition:
 							background 0.15s ease-in-out,
 							color 0.2s ease-in-out;
+						user-select: none;
 
 						&:hover {
 							background: rgb(
