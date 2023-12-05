@@ -1,0 +1,5 @@
+import{T as e,D as n}from"./datatable-b3df4b23.js";import"./vue.esm-bundler-1a22c5b9.js";import"./form-dropdown-57b9b909.js";import"./progress-circular-dd70a24d.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./form-input-72d9bcc9.js";import"./icons-69f7cd3d.js";import"./helper-91f3687e.js";const h={title:"Components/Table Loader",component:e,tags:["autodocs"],argTypes:{rowCount:{control:"number",description:"Table row count"}},render:s=>({components:{Datatable:n,TableLoader:e},setup(){return{args:s}},template:'<Datatable><template v-slot:header><tr><th>A</th><th>B</th><th>C</th><th>D</th></tr></template><template v-slot:body><TableLoader v-bind="args" /></template></Datatable>'})},t={args:{rowCount:10}};var o,r,a;t.parameters={...t.parameters,docs:{...(o=t.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  args: {
+    rowCount: 10
+  }
+}`,...(a=(r=t.parameters)==null?void 0:r.docs)==null?void 0:a.source}}};const D=["Default"];export{t as Default,D as __namedExportsOrder,h as default};
