@@ -33,6 +33,10 @@ const meta = {
 			control: 'text',
 			description: 'Input error message',
 		},
+		format: {
+			control: 'object',
+			description: 'Accept file formats. Example: [.jpg, .jpeg, .png]',
+		},
 		helperText: {
 			control: 'text',
 			description: 'File input helper text',
@@ -162,6 +166,7 @@ const meta = {
 					'retry',
 					'update:modelValue',
 				],
+				sort: 'requiredFirst',
 			},
 		},
 	},

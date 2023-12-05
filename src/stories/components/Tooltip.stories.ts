@@ -19,6 +19,13 @@ const meta = {
 	args: {
 		label: 'This is Tooltip',
 	},
+	parameters: {
+		docs: {
+			controls: {
+				sort: 'requiredFirst',
+			},
+		},
+	},
 	render: (args) => ({
 		components: { Tooltip },
 		setup() {

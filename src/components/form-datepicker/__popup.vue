@@ -1039,60 +1039,56 @@
 				}
 			},
 			setPopupPosition() {
-				if (this.inputWrapper) {
+				if (this.inputWrapper && this.$refs['popup-wrapper']) {
 					const input: any = this.inputWrapper as any
 
-					if (input) {
-						const DOMRect: DOMRect = input.getBoundingClientRect()
+					const DOMRect: DOMRect = input.getBoundingClientRect()
 
-						const popupWrapper: DOMRect = (
-							this.$refs['popup-wrapper'] as any
-						).getBoundingClientRect()
+					const popupWrapper: DOMRect = (
+						this.$refs['popup-wrapper'] as any
+					).getBoundingClientRect()
 
-						const isTop: boolean =
-							document.body.getBoundingClientRect().height -
-								(DOMRect.height + DOMRect.y) <=
-							popupWrapper.height
+					const isTop: boolean =
+						document.body.getBoundingClientRect().height -
+							(DOMRect.height + DOMRect.y) <=
+						popupWrapper.height
 
-						const left: () => number = () => {
-							if (
-								DOMRect.width > popupWrapper.width ||
-								DOMRect.width < popupWrapper.width
-							) {
-								return (
-									DOMRect.x +
-									(DOMRect.width - popupWrapper.width) / 2
-								)
-							}
-
-							return DOMRect.x
+					const left: () => number = () => {
+						if (
+							DOMRect.width > popupWrapper.width ||
+							DOMRect.width < popupWrapper.width
+						) {
+							return (
+								DOMRect.x +
+								(DOMRect.width - popupWrapper.width) / 2
+							)
 						}
 
-						if (isTop) {
-							this.popupStyles = {
-								left: `${left()}px`,
-								top: `${DOMRect.y - 6 - popupWrapper.height}px`,
-							}
-						} else {
-							this.popupStyles = {
-								left: `${left()}px`,
-								top: `${DOMRect.y + DOMRect.height}px`,
-							}
-						}
-
-						this.$nextTick(() => {
-							const currentYearElem: any =
-								this.$refs[
-									`year-${this.popupCurrentValue.year}`
-								]
-
-							if (currentYearElem?.length > 0) {
-								currentYearElem[0].scrollIntoView({
-									block: 'center',
-								})
-							}
-						})
+						return DOMRect.x
 					}
+
+					if (isTop) {
+						this.popupStyles = {
+							left: `${left()}px`,
+							top: `${DOMRect.y - 6 - popupWrapper.height}px`,
+						}
+					} else {
+						this.popupStyles = {
+							left: `${left()}px`,
+							top: `${DOMRect.y + DOMRect.height}px`,
+						}
+					}
+
+					this.$nextTick(() => {
+						const currentYearElem: any =
+							this.$refs[`year-${this.popupCurrentValue.year}`]
+
+						if (currentYearElem?.length > 0) {
+							currentYearElem[0].scrollIntoView({
+								block: 'center',
+							})
+						}
+					})
 				}
 			},
 			setPopupValue() {

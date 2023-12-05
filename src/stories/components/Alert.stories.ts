@@ -107,8 +107,10 @@ const meta = {
 	],
 	parameters: {
 		docs: {
+			argTypes: {},
 			controls: {
 				exclude: ['close'],
+				sort: 'requiredFirst',
 			},
 		},
 		slots: {

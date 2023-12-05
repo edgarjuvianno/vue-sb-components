@@ -78,6 +78,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['click'],
+				sort: 'requiredFirst',
 			},
 		},
 	},

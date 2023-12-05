@@ -66,6 +66,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['close'],
+				sort: 'requiredFirst',
 			},
 		},
 	},

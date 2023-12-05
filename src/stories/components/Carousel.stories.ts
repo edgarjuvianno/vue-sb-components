@@ -45,6 +45,9 @@ const meta = {
 		list: [1, 2, 3, 4],
 	},
 	parameters: {
+		docs: {
+			sort: 'requiredFirst',
+		},
 		slots: {
 			card: {
 				description: 'Card render template',

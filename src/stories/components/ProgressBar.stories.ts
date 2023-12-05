@@ -40,6 +40,13 @@ const meta = {
 			description: 'Progress Bar value',
 		},
 	},
+	parameters: {
+		docs: {
+			controls: {
+				sort: 'requiredFirst',
+			},
+		},
+	},
 	render: (args) => ({
 		components: { ProgressBar },
 		setup() {

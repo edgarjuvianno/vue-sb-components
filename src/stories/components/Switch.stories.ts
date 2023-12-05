@@ -47,6 +47,7 @@ const meta = {
 		docs: {
 			controls: {
 				exclude: ['change'],
+				sort: 'requiredFirst',
 			},
 		},
 	},

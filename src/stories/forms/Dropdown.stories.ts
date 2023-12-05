@@ -225,6 +225,7 @@ const meta = {
 					'open',
 					'update:modelValue',
 				],
+				sort: 'requiredFirst',
 			},
 		},
 	},

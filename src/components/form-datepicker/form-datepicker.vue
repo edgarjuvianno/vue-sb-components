@@ -55,7 +55,7 @@
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
-	import DayJS, { Dayjs } from 'dayjs'
+	import DayJS, { Dayjs, isDayjs } from 'dayjs'
 	import { sortDateRange } from './__funcs'
 
 	// components
@@ -68,9 +68,9 @@
 
 	export default defineComponent({
 		emits: {
-			'update:modelValue': (_selected: Dayjs | Dayjs[] | null) => true,
-			change: (_selected: Dayjs | Dayjs[] | null) => true,
-			input: (_selected: Dayjs | Dayjs[] | null) => true,
+			'update:modelValue': (_selected: string | string[] | null) => true,
+			change: (_selected: string | string[] | null) => true,
+			input: (_selected: string | string[] | null) => true,
 		},
 		props: {
 			allowClear: {
@@ -111,9 +111,7 @@
 			},
 			modelValue: {
 				required: false,
-				type: Object as PropType<
-					Date | Dayjs | Date[] | Dayjs[] | null
-				>,
+				type: String as PropType<string | string[] | null>,
 			},
 			noIcon: {
 				required: false,
@@ -148,9 +146,7 @@
 			},
 			value: {
 				required: false,
-				type: Object as PropType<
-					Date | Dayjs | Date[] | Dayjs[] | null
-				>,
+				type: String as PropType<string | string[] | null>,
 			},
 		},
 		name: 'sb-form-date-picker',
@@ -166,7 +162,7 @@
 					placement: 'append',
 				} as IIcon,
 				inputWrapper: null as any,
-				localValue: (this.modelValue || this.value || null) as any,
+				localValue: null as any,
 				localShow: false,
 				valueString: null as any,
 			}
@@ -187,6 +183,28 @@
 			},
 		},
 		methods: {
+			emitFinalValue() {
+				if (
+					typeof this.localValue === 'object' &&
+					this.localValue.length
+				) {
+					const stringValues: string[] = [
+						...(this.localValue as Dayjs[]),
+					].map((it: Dayjs) => it.toISOString())
+
+					this.$emit('update:modelValue', stringValues)
+					this.$emit('input', stringValues)
+					this.$emit('change', stringValues)
+				} else {
+					const stringValue: string = (
+						this.localValue as Dayjs
+					).toISOString()
+
+					this.$emit('update:modelValue', stringValue)
+					this.$emit('input', stringValue)
+					this.$emit('change', stringValue)
+				}
+			},
 			getDefaultFormat() {
 				switch (this.type) {
 					case 'datetime':
@@ -308,10 +326,7 @@
 
 				this.$nextTick(() => {
 					this.handleGenerateString()
-
-					this.$emit('update:modelValue', this.localValue)
-					this.$emit('input', this.localValue)
-					this.$emit('change', this.localValue)
+					this.emitFinalValue()
 				})
 			},
 			handleOpenCalendar() {
@@ -337,10 +352,7 @@
 
 					this.$nextTick(() => {
 						this.handleGenerateString()
-
-						this.$emit('update:modelValue', this.localValue)
-						this.$emit('input', this.localValue)
-						this.$emit('change', this.localValue)
+						this.emitFinalValue()
 					})
 				}
 			},
@@ -350,10 +362,7 @@
 
 					this.$nextTick(() => {
 						this.handleGenerateString()
-
-						this.$emit('update:modelValue', this.localValue)
-						this.$emit('input', this.localValue)
-						this.$emit('change', this.localValue)
+						this.emitFinalValue()
 					})
 				}
 			},
@@ -363,46 +372,61 @@
 					this.localValue = null
 				} else {
 					if (!this.range) {
-						const newValueObject: any = DayJS(value)
+						const newValueObject: Dayjs = isDayjs(value)
+							? value
+							: DayJS(value)
 
-						if (this.format) {
-							this.valueString = newValueObject.format(
-								this.format,
-							)
+						if (newValueObject.isValid()) {
+							if (this.format) {
+								this.valueString = newValueObject.format(
+									this.format,
+								)
+							} else {
+								this.valueString = newValueObject.format(
+									this.getDefaultFormat(),
+								)
+							}
+
+							this.localValue = newValueObject
 						} else {
-							this.valueString = newValueObject.format(
-								this.getDefaultFormat(),
-							)
+							this.valueString = null
+							this.localValue = null
 						}
-
-						this.localValue = newValueObject
 					} else {
-						const newValueObject: any[] = [
-							DayJS(value[0]),
-							DayJS(value[1]),
+						const newValueObject: Dayjs[] = [
+							isDayjs(value[0]) ? value[0] : DayJS(value[0]),
+							isDayjs(value[1]) ? value[1] : DayJS(value[1]),
 						]
+						const hasNotValid: boolean = [...newValueObject].some(
+							(it: Dayjs) => !it.isValid(),
+						)
 
-						if (this.format) {
-							const end: string = newValueObject[1].format(
-								this.format,
-							)
-							const start: string = newValueObject[0].format(
-								this.format,
-							)
-
-							this.valueString = `${start} - ${end}`
+						if (hasNotValid) {
+							this.valueString = null
+							this.localValue = null
 						} else {
-							const end: string = newValueObject[1].format(
-								this.getDefaultFormat(),
-							)
-							const start: string = newValueObject[0].format(
-								this.getDefaultFormat(),
-							)
+							if (this.format) {
+								const end: string = newValueObject[1].format(
+									this.format,
+								)
+								const start: string = newValueObject[0].format(
+									this.format,
+								)
 
-							this.valueString = `${start} - ${end}`
+								this.valueString = `${start} - ${end}`
+							} else {
+								const end: string = newValueObject[1].format(
+									this.getDefaultFormat(),
+								)
+								const start: string = newValueObject[0].format(
+									this.getDefaultFormat(),
+								)
+
+								this.valueString = `${start} - ${end}`
+							}
+
+							this.localValue = newValueObject
 						}
-
-						this.localValue = newValueObject
 					}
 				}
 			},
@@ -443,6 +467,8 @@
 			},
 		},
 		mounted() {
+			this.setLocalValue(this.modelValue || this.value)
+
 			this.icon.onClick = this.handleClickIcon
 
 			const childs: HTMLCollection = (this.$refs['input-wrapper'] as any)
