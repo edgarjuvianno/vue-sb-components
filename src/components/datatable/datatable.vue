@@ -509,7 +509,12 @@
 			 */
 			doRefresh() {
 				if (this.serverSide) {
-					this.handleAJAX()
+					this.response.page = 0
+					this.localPagination.current = 0
+
+					this.$nextTick(() => {
+						this.handleAJAX()
+					})
 				}
 			},
 			getHeadClass(index: number) {
