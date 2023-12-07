@@ -15,16 +15,14 @@
 		</sb-button>
 	</div>
 	<Teleport to="body">
-		<Transition>
-			<div
-				class="menu-items-wrapper"
-				ref="menu-items-wrapper"
-				:style="itemsWrapperStyles"
-				v-if="localOpen"
-			>
-				<slot />
-			</div>
-		</Transition>
+		<div
+			class="menu-items-wrapper"
+			ref="menu-items-wrapper"
+			:style="itemsWrapperStyles"
+			v-if="localOpen"
+		>
+			<slot />
+		</div>
 	</Teleport>
 </template>
 
