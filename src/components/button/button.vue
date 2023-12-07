@@ -90,7 +90,7 @@
 
 				setTimeout(() => {
 					this.isClicked = false
-				}, 350)
+				}, 200)
 
 				this.$emit('click', event)
 			},

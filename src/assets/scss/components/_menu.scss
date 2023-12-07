@@ -1,0 +1,17 @@
+.menu-wrapper {
+	height: fit-content;
+	width: fit-content;
+}
+
+body {
+	.menu-items-wrapper {
+		background: rgb(var(--sb-color-secondary-10) / var(--sb-color-opacity));
+		border-radius: 6px;
+		border: 1px solid
+			rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
+		max-height: 15rem;
+		max-width: 15rem;
+		overflow-y: auto;
+		position: absolute;
+	}
+}
