@@ -17,6 +17,8 @@ Documentation: [Homepage](http://edgarjuvianno.github.io/vue-sb-components)
 - Color Picker
 - Datatable
 - File Preview
+- Menu
+- Menu Item
 - Modal
 - Stepper
 - Switch

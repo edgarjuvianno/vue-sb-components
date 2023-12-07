@@ -615,14 +615,14 @@
 								top: `${
 									DOMRect.y - 6 - optionsWrapper.height
 								}px`,
-								width: `${DOMRect.width}px`,
+								width: `${DOMRect.width + 1}px`,
 							})
 						}
 
 						return (this.optWrapperStyles = {
 							left: `${DOMRect.x}px`,
 							top: `${DOMRect.y + DOMRect.height}px`,
-							width: `${DOMRect.width}px`,
+							width: `${DOMRect.width + 1}px`,
 						})
 					}
 				}
