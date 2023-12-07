@@ -9,6 +9,7 @@ body {
 		border-radius: 6px;
 		border: 1px solid
 			rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
+		box-sizing: border-box;
 		max-height: 15rem;
 		max-width: 15rem;
 		overflow-y: auto;
