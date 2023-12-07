@@ -44,9 +44,10 @@
 				fill: rgb(
 					var(--sb-color-secondary-60) / var(--sb-color-opacity)
 				);
-				height: 1rem;
+				height: 22px;
 				transform: rotate(0deg);
 				transition: transform 0.2s ease-in-out;
+				width: 22px;
 			}
 
 			&.selected {
@@ -84,10 +85,11 @@
 				border: 2px solid
 					rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
 				border-radius: 6px;
-				height: 1.5rem;
+				box-sizing: border-box;
+				height: 22px;
 				position: relative;
 				transition: all 0.25s ease-in-out;
-				width: 1.5rem;
+				width: 22px;
 
 				span {
 					color: rgb(
