@@ -147,7 +147,9 @@
 								<div class="time-nav">
 									<component
 										:is="iconAngleUp"
-										@click="handleNavTime(1, 'hour', i)"
+										@click.stop="
+											handleNavTime(1, 'hour', i)
+										"
 									/>
 								</div>
 								<div
@@ -159,7 +161,9 @@
 								<div class="time-nav down">
 									<component
 										:is="iconAngleDown"
-										@click="handleNavTime(-1, 'hour', i)"
+										@click.stop="
+											handleNavTime(-1, 'hour', i)
+										"
 									/>
 								</div>
 							</div>
@@ -168,7 +172,9 @@
 								<div class="time-nav">
 									<component
 										:is="iconAngleUp"
-										@click="handleNavTime(1, 'minute', i)"
+										@click.stop="
+											handleNavTime(1, 'minute', i)
+										"
 									/>
 								</div>
 								<div
@@ -180,7 +186,9 @@
 								<div class="time-nav down">
 									<component
 										:is="iconAngleDown"
-										@click="handleNavTime(-1, 'minute', i)"
+										@click.stop="
+											handleNavTime(-1, 'minute', i)
+										"
 									/>
 								</div>
 							</div>
