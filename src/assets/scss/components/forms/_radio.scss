@@ -36,10 +36,11 @@
 				border: 1px solid
 					rgb(var(--sb-color-border) / var(--sb-color-opacity));
 				border-radius: 50%;
+				box-sizing: border-box;
 				cursor: pointer;
-				height: 1.5rem;
+				height: 22px;
 				position: relative;
-				width: 1.5rem;
+				width: 22px;
 
 				&::after {
 					content: '';
