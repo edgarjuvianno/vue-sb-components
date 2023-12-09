@@ -331,8 +331,11 @@
 					this.$nextTick(() => this.handleAjax())
 				}
 			},
-			localList(newValue: any[]) {
-				this.$emit('listChange', newValue)
+			localList: {
+				deep: true,
+				handler(newValue: any[]) {
+					this.$emit('listChange', newValue)
+				},
 			},
 			term: {
 				handler() {

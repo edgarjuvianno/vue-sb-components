@@ -182,8 +182,12 @@
 			},
 			modelValue: {
 				required: false,
-				type: Object as PropType<
-					Record<string, any> | Record<string, any>[] | null
+				type: [Object, String] as PropType<
+					| Record<string, any>
+					| Record<string, any>[]
+					| String
+					| String[]
+					| null
 				>,
 			},
 			multi: {
@@ -214,6 +218,10 @@
 				required: true,
 				type: [String, Function],
 			},
+			optValue: {
+				required: false,
+				type: String,
+			},
 			placeholder: {
 				required: false,
 				type: String,
@@ -236,8 +244,12 @@
 			},
 			value: {
 				required: false,
-				type: Object as PropType<
-					Record<string, any> | Record<string, any>[] | null
+				type: [Object, String] as PropType<
+					| Record<string, any>
+					| Record<string, any>[]
+					| String
+					| String[]
+					| null
 				>,
 			},
 		},
@@ -268,7 +280,7 @@
 				},
 				isScrollBottom: false,
 				parentWithScroll: null as HTMLElement | any,
-				selected: (this.modelValue || this.value || null) as any,
+				selected: null as any,
 				termMulti: null as any,
 				termSingle: null as any,
 			}
@@ -486,6 +498,47 @@
 					})
 				}
 			},
+			handleOptValue() {
+				const value: any = this.value || this.modelValue
+
+				if (value && typeof value !== 'undefined') {
+					if (this.localList.length) {
+						if (this.multi) {
+							this.selected = [...this.localList].filter(
+								(it: any) =>
+									String(
+										it[this.optValue as string],
+									).toUpperCase() ===
+									String(value).toUpperCase(),
+							)
+						} else {
+							this.selected = [...this.localList].find(
+								(it: any) =>
+									String(
+										it[this.optValue as string],
+									).toUpperCase() ===
+									String(value).toUpperCase(),
+							)
+						}
+					} else {
+						const value: any = this.value || this.modelValue
+
+						if (this.multi) {
+							this.selected = [...this.selected].map(
+								(it: any) => ({
+									[this.optValue as string]: it,
+								}),
+							)
+						} else {
+							this.selected = {
+								[this.optValue as string]: value,
+							}
+						}
+					}
+				} else {
+					this.selected = null
+				}
+			},
 			handleParentBlur(event: FocusEvent) {
 				const self: Element = event.target as Element
 				const target: Element = event.relatedTarget as Element
@@ -579,9 +632,29 @@
 					})
 				}
 
-				this.$emit('update:modelValue', this.selected)
-				this.$emit('input', this.selected)
-				this.$emit('change', this.selected)
+				if (this.optValue) {
+					if (this.multi) {
+						const values: any[] = [...this.selected].map(
+							(it: any) =>
+								it[this.optValue as string] || it.value,
+						)
+
+						this.$emit('update:modelValue', values)
+						this.$emit('input', values)
+						this.$emit('change', values)
+					} else {
+						const value: any =
+							this.selected[this.optValue] || this.selected.value
+
+						this.$emit('update:modelValue', value)
+						this.$emit('input', value)
+						this.$emit('change', value)
+					}
+				} else {
+					this.$emit('update:modelValue', this.selected)
+					this.$emit('input', this.selected)
+					this.$emit('change', this.selected)
+				}
 			},
 			onScrollBottom(e: any) {
 				const { scrollTop, offsetHeight, scrollHeight }: any = e.target
@@ -665,6 +738,10 @@
 				deep: true,
 				handler() {
 					this.$nextTick(() => {
+						if (this.optValue) {
+							this.handleOptValue()
+						}
+
 						this.setOptionsPosition()
 					})
 				},
@@ -672,14 +749,24 @@
 			modelValue: {
 				deep: true,
 				handler(newValue: any) {
-					this.selected = newValue
+					if (typeof newValue === 'object') {
+						this.selected = newValue
+					} else {
+						this.handleOptValue()
+					}
 				},
+				immediate: true,
 			},
 			value: {
 				deep: true,
 				handler(newValue: any) {
-					this.selected = newValue
+					if (typeof newValue === 'object') {
+						this.selected = newValue
+					} else {
+						this.handleOptValue()
+					}
 				},
+				immediate: true,
 			},
 		},
 		mounted() {

@@ -134,6 +134,10 @@ const meta = {
 			control: 'text',
 			description: 'Data Option key to render as label',
 		},
+		optValue: {
+			control: 'text',
+			description: 'Data Option key to use as value',
+		},
 		placeholder: {
 			control: 'text',
 			description: 'Dropdown placeholder',
@@ -428,5 +432,11 @@ export const Error: Story = {
 	args: {
 		errorMessage: 'Some Error Message',
 		isError: true,
+	},
+}
+
+export const OptionValue: Story = {
+	args: {
+		optValue: 'value',
 	},
 }
