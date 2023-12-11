@@ -13,8 +13,8 @@
 	<div class="no-result" v-if="!localLoading && !localList.length">
 		{{ noResultText }}
 	</div>
-	<div class="loading-wrapper" v-if="localLoading">
-		<sb-circular indeterminate :size="36" />
+	<div class="loading-text" v-if="localLoading">
+		{{ loadingText }}
 	</div>
 </template>
 
@@ -25,12 +25,10 @@
 	// funcs
 	import { renderOption } from '../__funcs'
 
-	// components
-	import Circular from '@/components/progress-circular/progress-circular.vue'
-
 	export default defineComponent({
 		emits: {
 			listChange: (_list: any[]) => true,
+			loading: (_isLoading: boolean) => true,
 			select: (_option: any, _isSelected?: boolean) => true,
 		},
 		props: {
@@ -49,6 +47,10 @@
 			isScrollBottom: {
 				required: true,
 				type: Boolean,
+			},
+			loadingText: {
+				default: 'Loading...',
+				type: String,
 			},
 			multi: {
 				required: false,
@@ -86,9 +88,6 @@
 			},
 		},
 		name: 'sb-form-dropdown-option-ajax',
-		components: {
-			'sb-circular': Circular,
-		},
 		data() {
 			return {
 				localAbort: null as any | AbortController,
@@ -107,6 +106,7 @@
 				try {
 					if (this.serverSide?.url) {
 						this.localLoading = true
+						this.$emit('loading', true)
 
 						let additionalConfig: Record<string, any> = {
 							headers: this.serverSide?.options?.headers || {},
@@ -257,9 +257,11 @@
 								}
 
 								this.localLoading = false
+								this.$emit('loading', false)
 							})
 							.catch((ajaxResult: any) => {
 								this.localLoading = false
+								this.$emit('loading', false)
 
 								if (!this.infinite) {
 									this.localList = []

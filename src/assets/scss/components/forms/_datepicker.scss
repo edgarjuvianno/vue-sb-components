@@ -147,13 +147,16 @@ body {
 				margin-top: 1rem;
 
 				.date {
+					align-items: center;
 					border-radius: 6px;
 					box-sizing: border-box;
 					color: rgb(
 						var(--sb-color-secondary-font) / var(--sb-color-opacity)
 					);
 					cursor: pointer;
+					display: flex;
 					font-weight: 400;
+					justify-content: center;
 					text-align: center;
 					transition:
 						background 150ms ease-in-out,
