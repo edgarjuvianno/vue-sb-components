@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
+	--sb-color-backdrop: 0 0 0;
+	--sb-color-backdrop-opacity: 0.15;
+
 	--sb-color-border: 212 212 212;
 	--sb-color-table-head: 238 238 238;
 

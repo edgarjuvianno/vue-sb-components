@@ -10,6 +10,11 @@ const meta = {
 	component: Alert,
 	tags: ['autodocs'],
 	argTypes: {
+		backdropBlur: {
+			control: 'boolean',
+			description:
+				'Toggle Alert variant "big" backdrop blur. Default: true',
+		},
 		cancelButton: {
 			control: 'object',
 			description: 'Cancel Button configurations only for variant "big"',
@@ -181,6 +186,15 @@ export const BigAlert: Story = {
 
 export const CustomIconAlert: Story = {
 	args: {
+		show: false,
+		title: 'Example Alert Title',
+		variant: 'big',
+	},
+}
+
+export const NoBlur: Story = {
+	args: {
+		backdropBlur: false,
 		show: false,
 		title: 'Example Alert Title',
 		variant: 'big',

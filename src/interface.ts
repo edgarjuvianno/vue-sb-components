@@ -50,6 +50,8 @@ export interface ICSSColors {
 }
 
 export interface ICSSVariables {
+	backdropColor?: string
+	backdropOpacity?: number
 	borderColor?: string
 	dangerColor?: ICSSColors
 	defaultColor?: ICSSColors

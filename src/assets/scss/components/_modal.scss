@@ -106,8 +106,9 @@
 	z-index: 1050;
 
 	.backdrop {
-		backdrop-filter: blur(3px);
-		background: rgba(0, 0, 0, 0.15);
+		background: rgb(
+			var(--sb-color-backdrop) / var(--sb-color-backdrop-opacity)
+		);
 		height: 100%;
 		left: 0;
 		opacity: 0;
@@ -115,6 +116,10 @@
 		top: 0;
 		width: 100%;
 		z-index: 1050;
+
+		&.blur {
+			backdrop-filter: blur(3px);
+		}
 	}
 
 	.modal-wrapper {

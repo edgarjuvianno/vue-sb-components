@@ -16,7 +16,9 @@
 	.drag-overlay {
 		align-items: center;
 		backdrop-filter: blur(4px);
-		background: rgba(0, 0, 0, 0.15);
+		background: rgb(
+			var(--sb-color-backdrop) / var(--sb-color-backdrop-opacity)
+		);
 		border-radius: 6px;
 		display: flex;
 		height: calc(100% + 1.5rem);

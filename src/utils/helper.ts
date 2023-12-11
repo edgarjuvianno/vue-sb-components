@@ -53,6 +53,8 @@ export const recursiveSearchScrollParent: (
 }
 
 export const setCSSVariables = ({
+	backdropColor,
+	backdropOpacity,
 	borderColor,
 	dangerColor,
 	defaultColor,
@@ -69,6 +71,20 @@ export const setCSSVariables = ({
 }: ICSSVariables) => {
 	if (document) {
 		const root: HTMLElement = document.documentElement
+
+		if (backdropColor) {
+			root.style.setProperty(
+				'--sb-color-backdrop',
+				hexToRgb(backdropColor),
+			)
+		}
+
+		if (backdropOpacity) {
+			root.style.setProperty(
+				'--sb-color-backdrop-opacity',
+				String(backdropOpacity),
+			)
+		}
 
 		if (borderColor) {
 			root.style.setProperty('--sb-color-border', hexToRgb(borderColor))
