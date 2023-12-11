@@ -10,7 +10,11 @@
 				variant,
 			]"
 		>
-			<div class="backdrop" @click.stop="doClose()" />
+			<div
+				class="backdrop"
+				:class="{ blur: backdropBlur }"
+				@click.stop="doClose()"
+			/>
 			<div
 				class="alert"
 				:class="[
@@ -105,6 +109,10 @@
 			close: (_action?: string) => true,
 		},
 		props: {
+			backdropBlur: {
+				default: true,
+				type: Boolean,
+			},
 			cancelButton: {
 				required: false,
 				type: Object as PropType<IAlertButton>,

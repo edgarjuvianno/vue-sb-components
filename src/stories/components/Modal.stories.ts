@@ -10,6 +10,10 @@ const meta = {
 	component: Modal,
 	tags: ['autodocs'],
 	argTypes: {
+		backdropBlur: {
+			control: 'boolean',
+			description: 'Toggle Modal backdrop blur. Default: true',
+		},
 		container: {
 			control: 'select',
 			description: 'Set modal size',
@@ -104,6 +108,13 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
 	args: {
+		show: false,
+	},
+}
+
+export const NoBlur: Story = {
+	args: {
+		backdropBlur: false,
 		show: false,
 	},
 }

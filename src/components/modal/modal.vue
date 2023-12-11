@@ -6,7 +6,11 @@
 			v-bind="{ ...$attrs }"
 			v-if="localShow"
 		>
-			<div class="backdrop" @click.stop="doClose()" />
+			<div
+				class="backdrop"
+				:class="{ blur: backdropBlur }"
+				@click.stop="doClose()"
+			/>
 			<div class="modal-wrapper">
 				<div class="modal-container" :class="container">
 					<button
@@ -37,6 +41,10 @@
 			close: () => true,
 		},
 		props: {
+			backdropBlur: {
+				default: true,
+				type: Boolean,
+			},
 			container: {
 				default: 'fit-content',
 				type: String as PropType<
