@@ -5,6 +5,7 @@
 			multi,
 			ajax: serverSide,
 			expanded: isOpen,
+			loading: localLoading,
 			search: search || serverSide,
 		}"
 		:data-target="`dropdown-${$.uid}`"
@@ -27,10 +28,11 @@
 			ref="input-wrapper"
 			v-bind="{ disabled, readOnly }"
 			v-model="selected"
-			@click.stop="handleOpen"
+			@click="handleOpen"
 		>
 			<template v-slot:icon-slot>
-				<component :is="getIconSVG" />
+				<component :is="getIconSVG" v-if="!localLoading" />
+				<sb-circular indeterminate :size="20" v-else />
 			</template>
 			<template v-slot:custom-input>
 				<plain-input
@@ -68,13 +70,7 @@
 				}"
 				:data-target="`options-${$.uid}`"
 				:style="optWrapperStyles"
-				@scroll="
-					(ev) =>
-						(serverSide || search) &&
-						infinite &&
-						isOpen &&
-						onScrollBottom(ev)
-				"
+				@scroll="onScrollBottom"
 				ref="options-wrapper"
 				v-if="isOpen"
 			>
@@ -86,6 +82,7 @@
 					:optLabel="optLabel"
 					:selected="selected"
 					v-bind="{
+						loadingText,
 						noResultText,
 					}"
 					@select="doSelect"
@@ -103,9 +100,11 @@
 					:infinite="infinite"
 					:is-scroll-bottom="isScrollBottom"
 					v-bind="{
+						loadingText,
 						noResultText,
 					}"
 					@list-change="handleListChange"
+					@loading="handleAjaxLoading"
 					@select="doSelect"
 					v-else
 				/>
@@ -119,6 +118,7 @@
 
 	// components
 	import AjaxOption from './options/__option-ajax.vue'
+	import CircularLoading from '@/components/progress-circular/progress-circular.vue'
 	import Input from '@/components/form-input/form-input.vue'
 	import PlainInput from './inputs/__input-plain.vue'
 	import PlainOption from './options/__option-plain.vue'
@@ -179,6 +179,10 @@
 			list: {
 				required: false,
 				type: Object as PropType<any[]>,
+			},
+			loadingText: {
+				default: 'Loading...',
+				type: String,
 			},
 			modelValue: {
 				required: false,
@@ -258,6 +262,7 @@
 			'ajax-option': AjaxOption,
 			'plain-input': PlainInput,
 			'plain-option': PlainOption,
+			'sb-circular': CircularLoading,
 			'sb-input': Input,
 			'search-input': SearchInput,
 		},
@@ -272,6 +277,7 @@
 				isFocus: false,
 				isOpen: false,
 				localList: [] as any[],
+				localLoading: (this.isLoading || false) as boolean,
 				localTerm: '' as string,
 				optWrapperStyles: {
 					left: '0',
@@ -358,6 +364,9 @@
 				}
 
 				return null
+			},
+			handleAjaxLoading(isLoading: boolean) {
+				this.localLoading = isLoading
 			},
 			handleArrowEvent(inc: number, event: KeyboardEvent) {
 				if (this.isOpen) {
@@ -657,16 +666,19 @@
 				}
 			},
 			onScrollBottom(e: any) {
-				const { scrollTop, offsetHeight, scrollHeight }: any = e.target
+				if (this.infinite && this.isOpen) {
+					const { scrollTop, offsetHeight, scrollHeight }: any =
+						e.target
 
-				if (scrollTop + offsetHeight + 20 >= scrollHeight) {
-					this.isScrollBottom = true
+					if (scrollTop + offsetHeight + 20 >= scrollHeight) {
+						this.isScrollBottom = true
 
-					if (this.onPopulateList) {
-						this.onPopulateList(this.localTerm || '', true)
+						if (this.onPopulateList) {
+							this.onPopulateList(this.localTerm || '', true)
+						}
+					} else if (this.isScrollBottom) {
+						this.isScrollBottom = false
 					}
-				} else if (this.isScrollBottom) {
-					this.isScrollBottom = false
 				}
 			},
 			setOptionsPosition() {
@@ -702,10 +714,14 @@
 			},
 		},
 		watch: {
+			isLoading(newValue: boolean) {
+				this.localLoading = newValue
+			},
 			isOpen(newValue: boolean) {
 				this.handleParentScroll(newValue)
 
 				if (!newValue) {
+					this.localLoading = false
 					this.$emit('close')
 
 					this.activeOption = -1

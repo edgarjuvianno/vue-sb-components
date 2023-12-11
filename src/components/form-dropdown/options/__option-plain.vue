@@ -11,8 +11,8 @@
 	<div class="no-result" v-if="!isLoading && !list.length">
 		{{ noResultText }}
 	</div>
-	<div class="loading-wrapper" v-if="isLoading">
-		<sb-circular indeterminate :size="36" />
+	<div class="loading-text" v-if="isLoading">
+		{{ loadingText }}
 	</div>
 </template>
 
@@ -21,9 +21,6 @@
 
 	// funcs
 	import { renderOption } from '../__funcs'
-
-	// components
-	import Circular from '@/components/progress-circular/progress-circular.vue'
 
 	export default defineComponent({
 		emits: {
@@ -41,6 +38,10 @@
 			list: {
 				required: true,
 				type: Object as PropType<any[]>,
+			},
+			loadingText: {
+				default: 'Loading...',
+				type: String,
 			},
 			multi: {
 				required: false,
@@ -60,9 +61,6 @@
 			},
 		},
 		name: 'sb-form-dropdown-option-plain',
-		components: {
-			'sb-circular': Circular,
-		},
 		methods: {
 			doSelect(opt: any) {
 				if (!this.isLoading) {

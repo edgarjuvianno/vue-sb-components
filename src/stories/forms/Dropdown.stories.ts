@@ -62,6 +62,10 @@ const meta = {
 			control: 'object',
 			description: 'Dropdown items',
 		},
+		loadingText: {
+			control: 'text',
+			description: 'Text to show when loading',
+		},
 		modelValue: {
 			control: 'object',
 			description: 'Dropdown selected value',

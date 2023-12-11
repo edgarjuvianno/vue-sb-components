@@ -31,7 +31,7 @@
 				}"
 				class="icon"
 				v-if="icon"
-				@click.stop="handleClickIcon"
+				@click="handleClickIcon"
 				@mouseover="handleMouseOverIcon"
 				@mouseleave="handleMouseLeaveIcon"
 			>

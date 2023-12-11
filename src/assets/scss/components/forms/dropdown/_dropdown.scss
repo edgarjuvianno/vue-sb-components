@@ -12,10 +12,19 @@
 				cursor: pointer;
 			}
 
-			svg {
-				cursor: pointer;
-				transform: rotate(0);
-				transition: transform 0.3s ease-in-out;
+			.icon {
+				svg {
+					cursor: pointer;
+					transform: rotate(0);
+					transition: transform 0.3s ease-in-out;
+				}
+
+				.progress-circular {
+					cursor: progress;
+					padding: 0;
+					transform: unset;
+					transition: unset;
+				}
 			}
 
 			&.filled {
@@ -44,6 +53,17 @@
 		.input-group {
 			svg {
 				transform: rotate(-180deg);
+			}
+		}
+	}
+
+	&.loading {
+		.input-wrapper {
+			.input-group.icon_append {
+				.icon {
+					height: 20px;
+					width: 20px;
+				}
 			}
 		}
 	}
@@ -98,14 +118,8 @@ body {
 			}
 		}
 
-		.loading-wrapper {
-			align-items: center;
-			display: flex;
-			justify-content: center;
-			padding: 1rem;
-		}
-
-		.no-result {
+		.no-result,
+		.loading-text {
 			text-align: center;
 			padding: 1rem;
 		}
