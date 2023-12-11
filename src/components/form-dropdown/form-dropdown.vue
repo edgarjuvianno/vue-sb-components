@@ -771,7 +771,6 @@
 						this.handleOptValue()
 					}
 				},
-				immediate: true,
 			},
 			value: {
 				deep: true,
@@ -782,8 +781,16 @@
 						this.handleOptValue()
 					}
 				},
-				immediate: true,
 			},
+		},
+		beforeMount() {
+			const value: any = this.modelValue || this.value
+
+			if (typeof value === 'object') {
+				this.selected = value
+			} else {
+				this.handleOptValue()
+			}
 		},
 		mounted() {
 			const childs: HTMLCollection = (this.$refs['input-wrapper'] as any)
