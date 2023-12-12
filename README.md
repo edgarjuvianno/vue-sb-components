@@ -20,6 +20,7 @@ Documentation: [Homepage](http://edgarjuvianno.github.io/vue-sb-components)
 - Menu
 - Menu Item
 - Modal
+- Organization Tree
 - Stepper
 - Switch
 - Table Loader

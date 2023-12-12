@@ -230,8 +230,7 @@
 					})
 					.catch((reason: any) => {
 						this.isLoading = false
-
-						console.error(reason)
+						console.error(`[VUE-SB-LIB] - ${reason}`)
 					})
 			},
 			handlePdfScroll() {

@@ -223,3 +223,17 @@ export interface IPreviewFile {
 	file: File
 	type: string
 }
+
+export interface IOrganizationTreeItem {
+	additionalInfo?: string
+	childs?: IOrganizationTreeItem[]
+	department?: string
+	name?: string
+	photo?: string
+	position?: string
+}
+
+export interface IOrganizationCurrentData {
+	data: IOrganizationTreeItem
+	index: any
+}
