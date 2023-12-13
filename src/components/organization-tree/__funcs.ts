@@ -1,145 +1,157 @@
 import { IOrganizationTreeItem } from '@/interface'
 
-export const recurseArrayAddItem: (
-	arr: IOrganizationTreeItem[],
-	path: string[],
-	obj: IOrganizationTreeItem,
-) => IOrganizationTreeItem[] = (
-	arr: IOrganizationTreeItem[],
-	path: string[],
-	obj: IOrganizationTreeItem,
-) => {
-	const localPath: string[] = [...path]
+const getAllItems: (
+	items: IOrganizationTreeItem[],
+) => IOrganizationTreeItem[] = (items: IOrganizationTreeItem[]) => {
+	let childs: IOrganizationTreeItem[] = []
 
-	if (!localPath.length) {
-		return arr
-	} else if (arr[Number(localPath[0])]?.childs && localPath.length > 1) {
-		const firstIndex: number = Number(localPath[0])
-		const childs: IOrganizationTreeItem[] = [
-			...(arr[Number(localPath[0])].childs || []),
-		]
-		localPath.shift()
-
-		return [...arr].map((it: IOrganizationTreeItem, idx: number) => {
-			if (idx === firstIndex) {
-				return {
-					...it,
-					childs: [...recurseArrayAddItem(childs, localPath, obj)],
-				}
+	return [...items]
+		.map((it: IOrganizationTreeItem) => {
+			if (it.childs && it.childs.length) {
+				childs = [...childs, ...it.childs]
 			}
 
 			return it
 		})
+		.concat(childs.length ? getAllItems(childs) : childs)
+}
+
+export const addItemToParent: (
+	list: IOrganizationTreeItem,
+	obj: IOrganizationTreeItem,
+) => IOrganizationTreeItem = (
+	list: IOrganizationTreeItem,
+	obj: IOrganizationTreeItem,
+) => {
+	if (list.childs) {
+		return {
+			...list,
+			childs: [...list.childs, { ...obj }],
+		}
 	}
 
-	return [...arr].map((it: IOrganizationTreeItem, idx: number) => {
-		if (idx === Number(localPath[0])) {
+	return { ...list }
+}
+
+export const recurseArrayAddItem: (
+	item: IOrganizationTreeItem,
+	path: string,
+	obj: IOrganizationTreeItem,
+) => IOrganizationTreeItem = (
+	item: IOrganizationTreeItem,
+	path: string,
+	obj: IOrganizationTreeItem,
+) => {
+	if (item.childs) {
+		const hasTarget: boolean = [...item.childs].some(
+			(it: IOrganizationTreeItem) => it.path === path,
+		)
+
+		if (hasTarget) {
 			return {
-				...it,
-				childs: [...(it.childs || []), obj],
+				...item,
+				childs: [...item.childs].map((it: IOrganizationTreeItem) => {
+					if (it.path === path) {
+						return {
+							...it,
+							childs: [...(it.childs || []), obj],
+						}
+					}
+
+					return it
+				}),
 			}
 		}
 
-		return it
-	})
-}
-
-export const recurseArrayGetChilds: (
-	arr: IOrganizationTreeItem[],
-	path: string[],
-) => IOrganizationTreeItem[] = (
-	arr: IOrganizationTreeItem[],
-	path: string[],
-) => {
-	const localPath: string[] = [...path]
-
-	if (!localPath.length) {
-		return arr
-	} else if (arr[Number(localPath[0])]?.childs && localPath.length > 1) {
-		const childs: IOrganizationTreeItem[] = [
-			...(arr[Number(localPath[0])].childs || []),
-		]
-		localPath.shift()
-
-		return recurseArrayGetChilds(childs, localPath)
+		return {
+			...item,
+			childs: [...item.childs].map((it: IOrganizationTreeItem) =>
+				recurseArrayAddItem(it, path, obj),
+			),
+		}
 	}
 
-	return [...(arr[Number(localPath[0])]?.childs || [])]
+	return item
+}
+
+export const recurseArrayGetData: (
+	item: IOrganizationTreeItem,
+	path: string,
+) => IOrganizationTreeItem | undefined = (
+	item: IOrganizationTreeItem,
+	path: string,
+) => {
+	const tempItems: IOrganizationTreeItem[] = [item]
+	const items: IOrganizationTreeItem[] = [...getAllItems(item.childs || [])]
+
+	return [...tempItems, ...items].find(
+		(it: IOrganizationTreeItem) => it.path === path,
+	)
 }
 
 export const recurseArrayModifyItem: (
-	arr: IOrganizationTreeItem[],
-	path: string[],
+	item: IOrganizationTreeItem,
+	path: string,
 	obj: IOrganizationTreeItem,
-) => IOrganizationTreeItem[] = (
-	arr: IOrganizationTreeItem[],
-	path: string[],
+) => IOrganizationTreeItem = (
+	item: IOrganizationTreeItem,
+	path: string,
 	obj: IOrganizationTreeItem,
 ) => {
-	const localPath: string[] = [...path]
+	if (item.childs) {
+		const hasTarget: boolean = [...item.childs].some(
+			(it: IOrganizationTreeItem) => it.path === path,
+		)
 
-	if (!localPath.length) {
-		return arr
-	} else if (arr[Number(localPath[0])]?.childs && localPath.length > 1) {
-		const firstIndex: number = Number(localPath[0])
-		const childs: IOrganizationTreeItem[] = [
-			...(arr[Number(localPath[0])].childs || []),
-		]
-		localPath.shift()
+		if (hasTarget) {
+			return {
+				...item,
+				childs: [...item.childs].map((it: IOrganizationTreeItem) => {
+					if (it.path === path) {
+						return obj
+					}
 
-		return [...arr].map((it: IOrganizationTreeItem, idx: number) => {
-			if (idx === firstIndex) {
-				return {
-					...it,
-					childs: [...recurseArrayModifyItem(childs, localPath, obj)],
-				}
+					return it
+				}),
 			}
-
-			return it
-		})
-	}
-
-	return [...arr].map((it: IOrganizationTreeItem, idx: number) => {
-		if (idx === Number(localPath[0])) {
-			return obj
 		}
 
-		return it
-	})
+		return {
+			...item,
+			childs: [...item.childs].map((it: IOrganizationTreeItem) =>
+				recurseArrayModifyItem(it, path, obj),
+			),
+		}
+	}
+
+	return item
 }
 
 export const recurseArrayRemoveItem: (
-	arr: IOrganizationTreeItem[],
-	path: string[],
-) => IOrganizationTreeItem[] = (
-	arr: IOrganizationTreeItem[],
-	path: string[],
-) => {
-	const localPath: string[] = [...path]
+	item: IOrganizationTreeItem,
+	path: string,
+) => IOrganizationTreeItem = (item: IOrganizationTreeItem, path: string) => {
+	if (item.childs) {
+		const hasTarget: boolean = [...item.childs].some(
+			(it: IOrganizationTreeItem) => it.path === path,
+		)
 
-	if (!localPath.length) {
-		return arr
-	} else if (arr[Number(localPath[0])]?.childs && localPath.length > 1) {
-		const firstIndex: number = Number(localPath[0])
-		const childs: IOrganizationTreeItem[] = [
-			...(arr[Number(localPath[0])].childs || []),
-		]
-		localPath.shift()
-
-		return [...arr].map((it: IOrganizationTreeItem, idx: number) => {
-			if (idx === firstIndex) {
-				return {
-					...it,
-					childs: [...recurseArrayRemoveItem(childs, localPath)],
-				}
+		if (hasTarget) {
+			return {
+				...item,
+				childs: [...item.childs].filter(
+					(it: IOrganizationTreeItem) => it.path !== path,
+				),
 			}
+		}
 
-			return it
-		})
+		return {
+			...item,
+			childs: [...item.childs].map((it: IOrganizationTreeItem) =>
+				recurseArrayRemoveItem(it, path),
+			),
+		}
 	}
 
-	return [...arr].filter(
-		(_it: IOrganizationTreeItem, idx: number) =>
-			idx !== Number(localPath[0]),
-	)
+	return item
 }
