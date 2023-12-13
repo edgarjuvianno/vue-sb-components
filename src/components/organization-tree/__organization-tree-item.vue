@@ -10,15 +10,28 @@
 				class="department"
 				:class="{
 					'has-childs': !!item.childs?.length,
+					draggable: isDraggable,
+					dragged: isDragged(String(lastIndex)),
+					droparea: dropTarget === String(lastIndex),
+				}"
+				:id="String(lastIndex)"
+				v-bind="{
+					draggable: isDraggable,
 				}"
 				v-if="item.department"
+				@dragend="handleDragEnd"
+				@dragenter.prevent="handleDragEnter"
+				@dragleave.prevent="handleDragLeave"
+				@dragover.prevent="handleDragEnter"
+				@dragstart="handleDragCard($event, item)"
+				@drop.prevent="handleDropCard($event, item)"
 			>
 				{{ item.department }}
 			</div>
 			<ul class="parent-tree" v-if="item.childs?.length">
 				<sb-organization-tree-item
 					:item="child"
-					:key="`${String($.vnode.key)}-${idx}`"
+					:key="`${String($.vnode.key)}-childs-${idx}`"
 					:last-index="lastIndex + idx + 1"
 					v-bind="{
 						isDraggable,
@@ -104,7 +117,7 @@
 			<ul class="parent-tree">
 				<sb-organization-tree-item
 					:item="child"
-					:key="`${String($.vnode.key)}-${idx}`"
+					:key="`${String($.vnode.key)}-childs-${idx}`"
 					:last-index="lastIndex + idx + 1"
 					v-bind="{
 						isDraggable,
@@ -165,7 +178,7 @@
 					'text/html',
 					JSON.stringify({
 						data: { ...item },
-						index: this.$.vnode.key,
+						index: item.path,
 					}),
 				)
 			},
@@ -206,13 +219,12 @@
 					const parsedJson: IOrganizationCurrentData = {
 						...JSON.parse(jsonString),
 					}
-					const parentSequences: string = this.$.vnode.key as string
 
 					this.$emit(
 						'changeItem',
 						{
 							data: item,
-							index: parentSequences,
+							index: item.path,
 						},
 						parsedJson,
 					)

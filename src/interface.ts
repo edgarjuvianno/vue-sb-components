@@ -229,6 +229,7 @@ export interface IOrganizationTreeItem {
 	childs?: IOrganizationTreeItem[]
 	department?: string
 	name?: string
+	path?: string
 	photo?: string
 	position?: string
 }

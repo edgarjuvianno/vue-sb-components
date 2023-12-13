@@ -21,8 +21,9 @@
 		IOrganizationTreeItem,
 	} from '@/interface'
 	import {
+		addItemToParent,
 		recurseArrayAddItem,
-		recurseArrayGetChilds,
+		recurseArrayGetData,
 		recurseArrayModifyItem,
 		recurseArrayRemoveItem,
 	} from './__funcs'
@@ -54,126 +55,125 @@
 				localList: {} as IOrganizationTreeItem,
 			}
 		},
-		computed: {},
 		methods: {
 			handleChangeItem(
 				parent: IOrganizationCurrentData,
 				target: IOrganizationCurrentData,
 			) {
-				const targetSequence: string[] = target.index
-					.split('-org-')[1]
+				const parentPaths: string[] = parent.index
+					.replace(`${this.$.uid}-org`, '')
 					.split('-')
+					.filter((it: string) => it !== '')
+				const targetPaths: string[] = target.index
+					.replace(`${this.$.uid}-org`, '')
+					.split('-')
+					.filter((it: string) => it !== '')
 
-				if (parent.index.split('-org')[1] === '') {
-					const tempList: IOrganizationTreeItem[] = [
-						...(this.localList.childs || []),
-						target.data,
-					]
+				if (!parentPaths.length) {
+					const removeItem: IOrganizationTreeItem = {
+						...recurseArrayRemoveItem(
+							{ ...this.localList },
+							target.index,
+						),
+					}
 
-					const finalArray: IOrganizationTreeItem[] = [
-						...recurseArrayRemoveItem(tempList, targetSequence),
-					]
+					const addToParent: IOrganizationTreeItem = {
+						...addItemToParent({ ...removeItem }, target.data),
+					}
 
-					this.$emit('change', {
-						...this.localList,
-						childs: [...finalArray],
-					})
-				} else {
-					const dropSequence: string[] = parent.index
-						.split('-org-')[1]
-						.split('-')
-					const tempList: IOrganizationTreeItem[] = [
-						...(this.localList.childs || []),
-					]
-
-					if (targetSequence.length < dropSequence.length) {
-						if (!parent.data.childs && !target.data.childs) {
-							const modChild: IOrganizationTreeItem[] = [
-								...recurseArrayModifyItem(
-									tempList,
-									dropSequence,
-									{
-										...parent.data,
-										childs: [target.data],
-									},
-								),
-							]
-
-							const removeTarget: IOrganizationTreeItem[] = [
-								...recurseArrayRemoveItem(
-									modChild,
-									targetSequence,
-								),
-							]
-
-							this.$emit('change', {
-								...this.localList,
-								childs: [...removeTarget],
-							})
-						} else {
-							const removeParent: IOrganizationTreeItem[] = [
-								...recurseArrayRemoveItem(
-									tempList,
-									dropSequence,
-								),
-							]
-
-							const parentChilds: IOrganizationTreeItem[] = [
-								...(parent.data.childs || []),
-							]
-							const targetChilds: IOrganizationTreeItem[] = [
-								...recurseArrayGetChilds(
-									removeParent,
-									targetSequence,
-								),
-							]
-							const modTargetData: IOrganizationTreeItem = {
-								...target.data,
-							}
-							delete modTargetData.childs
-
-							const modChild: IOrganizationTreeItem[] = [
-								...recurseArrayModifyItem(
-									removeParent,
-									targetSequence,
-									{
-										...parent.data,
-										childs: [
-											...parentChilds,
-											...targetChilds,
-											modTargetData,
-										],
-									},
-								),
-							]
-
-							this.$emit('change', {
-								...this.localList,
-								childs: [...modChild],
-							})
+					this.$emit('change', addToParent)
+				} else if (parent.index !== target.index) {
+					if (targetPaths.length < parentPaths.length) {
+						const removeParent: IOrganizationTreeItem = {
+							...recurseArrayRemoveItem(
+								{ ...this.localList },
+								parent.index,
+							),
 						}
+
+						const parentChilds: IOrganizationTreeItem[] = [
+							...(parent.data.childs || []),
+						]
+
+						const newTargetData: IOrganizationTreeItem = {
+							...recurseArrayGetData(
+								{ ...removeParent },
+								target.index,
+							),
+						}
+
+						const modChild: IOrganizationTreeItem = {
+							...recurseArrayModifyItem(
+								{ ...removeParent },
+								target.index,
+								{
+									...parent.data,
+									childs: [...parentChilds, newTargetData],
+								},
+							),
+						}
+
+						this.$emit('change', modChild)
 					} else {
-						const addedChild: IOrganizationTreeItem[] = [
+						const removeTarget: IOrganizationTreeItem = {
+							...recurseArrayRemoveItem(
+								{ ...this.localList },
+								target.index,
+							),
+						}
+
+						const addTarget: IOrganizationTreeItem = {
 							...recurseArrayAddItem(
-								tempList,
-								dropSequence,
+								{ ...removeTarget },
+								parent.index,
 								target.data,
 							),
-						]
+						}
 
-						const finalArray: IOrganizationTreeItem[] = [
-							...recurseArrayRemoveItem(
-								addedChild,
-								targetSequence,
-							),
-						]
-
-						this.$emit('change', {
-							...this.localList,
-							childs: [...finalArray],
-						})
+						this.$emit('change', addTarget)
 					}
 				}
+			},
+			handleModList(newValue: IOrganizationTreeItem) {
+				const modList: (
+					item: IOrganizationTreeItem,
+					selfIndex?: number,
+					ancestorPath?: string,
+				) => IOrganizationTreeItem = (
+					item: IOrganizationTreeItem,
+					selfIndex?: number,
+					ancestorPath?: string,
+				) => {
+					const path: string = !ancestorPath
+						? `${this.$.uid}-org`
+						: `${ancestorPath}-childs[${selfIndex}]`
+
+					if (item.childs) {
+						return {
+							...item,
+							childs: [...item.childs].map(
+								(it: IOrganizationTreeItem, idx: number) => {
+									if (it.childs) {
+										return modList(it, idx, path)
+									}
+
+									return {
+										...it,
+										path: `${path}-childs[${idx}]`,
+									}
+								},
+							),
+							path,
+						}
+					}
+
+					return {
+						...item,
+						path,
+					}
+				}
+
+				this.localList = { ...modList(newValue) }
 			},
 		},
 		watch: {
@@ -184,13 +184,14 @@
 						this.cardIndex = 1
 					}
 
-					this.localList = { ...newValue }
+					this.handleModList(newValue)
 				},
 			},
 		},
 		mounted() {
 			this.cardIndex = 1
-			this.localList = { ...(this.list || {}) }
+
+			this.handleModList({ ...(this.list || {}) })
 		},
 	})
 </script>
