@@ -880,7 +880,11 @@
 				}
 
 				this.$nextTick(() => {
-					this.handleAJAX()
+					this.$emit('change', this.getModdedResponse())
+
+					if (this.serverSide) {
+						this.handleAJAX()
+					}
 				})
 			},
 			isTopSearchEnabled(index: number) {

@@ -1,6 +1,6 @@
 <template>
 	<div class="organization-wrapper" v-bind="{ ...$attrs }">
-		<ul class="parent-tree">
+		<ul class="parent-tree" v-if="Object.keys(list).length">
 			<sb-org-tree-item
 				:item="localList"
 				:key="`${$.uid}-org`"
