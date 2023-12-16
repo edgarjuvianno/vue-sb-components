@@ -8,26 +8,34 @@
 				<div
 					class="header-step"
 					:class="{
-						'non-linear': nonLinear,
+						'non-linear': nonLinear || isDetail,
 						active: localCurrent >= index + 1 && !item.isSkip,
 						alternate: alternateTitle,
 						error: isError(item.rules),
 						filled: isFilled(index),
 					}"
-					@click="() => nonLinear && handleClickHead(index)"
+					@click="
+						() => (nonLinear || isDetail) && handleClickHead(index)
+					"
 				>
 					<div class="header-step-number-wrapper">
-						<component :is="iconXMark" v-if="isError(item.rules)" />
-						<component
-							:is="iconPen"
-							v-else-if="
-								localCurrent === index + 1 && !item.isSkip
-							"
-						/>
-						<component
-							:is="iconCheck"
-							v-else-if="isFilled(index) && !item.isSkip"
-						/>
+						<template v-if="!isDetail">
+							<component
+								:is="iconXMark"
+								v-if="isError(item.rules)"
+							/>
+							<component
+								:is="iconPen"
+								v-else-if="
+									localCurrent === index + 1 && !item.isSkip
+								"
+							/>
+							<component
+								:is="iconCheck"
+								v-else-if="isFilled(index) && !item.isSkip"
+							/>
+							<span v-else>{{ index + 1 }}</span>
+						</template>
 						<span v-else>{{ index + 1 }}</span>
 					</div>
 					<div
@@ -65,13 +73,14 @@
 							<div
 								class="stepper-footer"
 								:class="{ 'only-next': localCurrent === 1 }"
+								v-if="!hideFooter"
 							>
 								<sb-button
 									:color="getPrevColor"
 									:disabled="isButtonDisabled"
 									no-elevation
 									type="button"
-									variant="text"
+									variant="outlined"
 									v-if="index !== 0"
 									@click="handleNav(-1)"
 								>
@@ -141,13 +150,14 @@
 			<div
 				class="stepper-footer"
 				:class="{ 'only-next': localCurrent === 1 }"
+				v-if="!hideFooter"
 			>
 				<sb-button
 					:color="getPrevColor"
 					:disabled="isButtonDisabled"
 					no-elevation
 					type="button"
-					variant="text"
+					variant="outlined"
 					v-if="localCurrent !== 1"
 					@click="handleNav(-1)"
 				>
@@ -200,12 +210,20 @@
 				required: false,
 				type: Boolean,
 			},
+			hideFooter: {
+				required: false,
+				type: Boolean,
+			},
 			interceptNav: {
 				required: false,
 				type: Function as PropType<
 					| ((_target: number) => boolean)
 					| ((_target: number) => Promise<boolean>)
 				>,
+			},
+			isDetail: {
+				required: false,
+				type: Boolean,
 			},
 			items: {
 				required: true,
