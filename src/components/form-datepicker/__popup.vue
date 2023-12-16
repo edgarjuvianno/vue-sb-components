@@ -839,7 +839,7 @@
 				if (this.max || this.min) {
 					const lteMaxDate: () => boolean = () => {
 						if (this.max) {
-							const ltDate: Dayjs = DayJS(this.max).add(1, 'day')
+							const ltDate: Dayjs = DayJS(this.max).endOf('day')
 
 							return ltDate.diff(DayJS(properDate)) <= 0
 						}
@@ -849,10 +849,9 @@
 
 					const gteMinDate: () => boolean = () => {
 						if (this.min) {
-							const gtDate: Dayjs = DayJS(this.min).subtract(
-								1,
-								'day',
-							)
+							const gtDate: Dayjs = DayJS(this.min)
+								.subtract(1, 'day')
+								.startOf('day')
 
 							return DayJS(properDate).diff(gtDate) <= 0
 						}
