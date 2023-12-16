@@ -198,6 +198,21 @@ body {
 							text-align: center;
 						}
 					}
+
+					tr {
+						transition: background 0.15s ease-in-out;
+
+						&.can-hover:hover {
+							background: rgb(
+								var(--sb-color-secondary-20) /
+									var(--sb-color-opacity)
+							);
+						}
+
+						&.can-click {
+							cursor: pointer;
+						}
+					}
 				}
 
 				&.with-col-sort,

@@ -158,7 +158,17 @@
 				<template v-else-if="list">
 					<tbody v-if="list.length > 0">
 						<tr
+							v-bind="{
+								...(canClickRow && {
+									onClick: (ev: MouseEvent) =>
+										handleClickRow(ev, tr),
+								}),
+							}"
 							v-for="(tr, trIndex) in list"
+							:class="{
+								'can-click': canClickRow,
+								'can-hover': canHoverRow || canClickRow,
+							}"
 							:key="`body-tr-${trIndex}`"
 						>
 							<slot
@@ -307,8 +317,17 @@
 	export default defineComponent({
 		emits: {
 			change: (_resp: IDTChangeResponse) => true,
+			clickRow: (_ev: MouseEvent, _data: any) => true,
 		},
 		props: {
+			canClickRow: {
+				required: false,
+				type: Boolean,
+			},
+			canHoverRow: {
+				required: false,
+				type: Boolean,
+			},
 			columnSearchPlacement: {
 				default: 'bottom',
 				type: String as PropType<'bottom' | 'top'>,
@@ -822,6 +841,16 @@
 
 				if (isClose) {
 					this.handleChange()
+				}
+			},
+			handleClickRow(ev: MouseEvent, row: any) {
+				ev.stopPropagation()
+				ev.preventDefault()
+
+				const target: HTMLElement = ev.target as HTMLElement
+
+				if (target.nodeName === 'TD') {
+					this.$emit('clickRow', ev, row)
 				}
 			},
 			handlePaginate(operation: number, isDisabled: boolean) {

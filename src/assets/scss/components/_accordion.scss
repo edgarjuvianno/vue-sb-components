@@ -101,12 +101,12 @@
 		animation: accordion-slide 400ms linear;
 		overflow: unset;
 
-		.content-wrapper {
+		> .content-wrapper {
 			max-height: 100vh;
 			overflow: unset;
 		}
 
-		.header-wrapper {
+		> .header-wrapper {
 			border-top-left-radius: 6px;
 			border-top-right-radius: 6px;
 
