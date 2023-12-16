@@ -283,3 +283,16 @@ export const Vertical: Story = {
 		type: 'vertical',
 	},
 }
+
+export const NoFooter: Story = {
+	args: {
+		hideFooter: true,
+		nonLinear: true,
+	},
+}
+
+export const ViewDetail: Story = {
+	args: {
+		isDetail: true,
+	},
+}

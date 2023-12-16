@@ -379,3 +379,226 @@ export const ServerSide: Story = {
 		`,
 	}),
 }
+
+export const HoverRow: Story = {
+	args: {
+		canHoverRow: true,
+		columnSearchPlacement: 'top',
+		columns: [
+			{
+				alignHead: 'center',
+				label: '#',
+				sort: true,
+			},
+			{
+				alignHead: 'center',
+				label: 'Pokemon Name',
+				search: true,
+				sort: true,
+			},
+			{
+				alignHead: 'center',
+				label: 'Image URL',
+				name: 'sortUrl',
+				search: true,
+				sort: true,
+			},
+		],
+		lengthChange: {
+			enabled: true,
+			options: [5, 10, 20, 40],
+		},
+		list: [],
+		search: true,
+		serverSide: {
+			options: {
+				payload: {
+					limit: 10,
+					offset: 0,
+				},
+			},
+			url: 'https://pokeapi.co/api/v2/pokemon',
+		},
+	},
+	decorators: [
+		(story, ctx) => {
+			delete (ctx.args as any).change
+			;(ctx.args as any).onAjax = (
+				{ headers, payload, response }: IDTServerSideHandler,
+				type: 'BEFORE SEND' | 'SUCCESS' | 'ERROR',
+			) => {
+				if (type === 'BEFORE SEND') {
+					return {
+						headers,
+						payload: {
+							...payload,
+							limit: payload.length,
+							offset: payload.length * payload.page,
+						},
+					}
+				} else if (response?.status) {
+					const channel = (window as any)
+						.__STORYBOOK_ADDONS_CHANNEL__ as Channel
+
+					channel.emit(UPDATE_STORY_ARGS, {
+						storyId: ctx.id,
+						updatedArgs: {
+							list: [...(response.data?.results || [])],
+						},
+					})
+
+					return {
+						total: response?.data?.count,
+						totalRow: response?.data?.results.length,
+					}
+				}
+
+				const channel = (window as any)
+					.__STORYBOOK_ADDONS_CHANNEL__ as Channel
+
+				channel.emit(UPDATE_STORY_ARGS, {
+					storyId: ctx.id,
+					updatedArgs: {
+						list: [],
+					},
+				})
+				return null
+			}
+
+			return story()
+		},
+	],
+	render: (args) => ({
+		components: { Datatable },
+		setup() {
+			return { args }
+		},
+		template: `
+			<Datatable v-bind="args">
+				<template #th-3="{ label }">
+					<span>The Label: {{ label }}</span>
+				</template>
+				<template #tr="{ dtConfig, index, name, url }">
+					<td style="text-align: center;">
+						{{ dtConfig.page * dtConfig.length + index + 1 }}
+					</td>
+					<td style="text-align: center;">{{ name }}</td>
+					<td style="text-align: center;">{{ url }}</td>
+				</template>
+			</Datatable>
+		`,
+	}),
+}
+
+export const ClickRow: Story = {
+	args: {
+		canClickRow: true,
+		columnSearchPlacement: 'top',
+		columns: [
+			{
+				alignHead: 'center',
+				label: '#',
+				sort: true,
+			},
+			{
+				alignHead: 'center',
+				label: 'Pokemon Name',
+				search: true,
+				sort: true,
+			},
+			{
+				alignHead: 'center',
+				label: 'Image URL',
+				name: 'sortUrl',
+				search: true,
+				sort: true,
+			},
+		],
+		lengthChange: {
+			enabled: true,
+			options: [5, 10, 20, 40],
+		},
+		list: [],
+		search: true,
+		serverSide: {
+			options: {
+				payload: {
+					limit: 10,
+					offset: 0,
+				},
+			},
+			url: 'https://pokeapi.co/api/v2/pokemon',
+		},
+	},
+	decorators: [
+		(story, ctx) => {
+			delete (ctx.args as any).change
+			;(ctx.args as any).onAjax = (
+				{ headers, payload, response }: IDTServerSideHandler,
+				type: 'BEFORE SEND' | 'SUCCESS' | 'ERROR',
+			) => {
+				if (type === 'BEFORE SEND') {
+					return {
+						headers,
+						payload: {
+							...payload,
+							limit: payload.length,
+							offset: payload.length * payload.page,
+						},
+					}
+				} else if (response?.status) {
+					const channel = (window as any)
+						.__STORYBOOK_ADDONS_CHANNEL__ as Channel
+
+					channel.emit(UPDATE_STORY_ARGS, {
+						storyId: ctx.id,
+						updatedArgs: {
+							list: [...(response.data?.results || [])],
+						},
+					})
+
+					return {
+						total: response?.data?.count,
+						totalRow: response?.data?.results.length,
+					}
+				}
+
+				const channel = (window as any)
+					.__STORYBOOK_ADDONS_CHANNEL__ as Channel
+
+				channel.emit(UPDATE_STORY_ARGS, {
+					storyId: ctx.id,
+					updatedArgs: {
+						list: [],
+					},
+				})
+				return null
+			}
+			;(ctx.args as any).onClickRow = (_ev: MouseEvent, data: any) => {
+				console.log('row clicked', data)
+			}
+
+			return story()
+		},
+	],
+	render: (args) => ({
+		components: { Datatable },
+		setup() {
+			return { args }
+		},
+		template: `
+			<Datatable v-bind="args">
+				<template #th-3="{ label }">
+					<span>The Label: {{ label }}</span>
+				</template>
+				<template #tr="{ dtConfig, index, name, url }">
+					<td style="text-align: center;">
+						{{ dtConfig.page * dtConfig.length + index + 1 }}
+					</td>
+					<td style="text-align: center;">{{ name }}</td>
+					<td style="text-align: center;">{{ url }}</td>
+				</template>
+			</Datatable>
+		`,
+	}),
+}
