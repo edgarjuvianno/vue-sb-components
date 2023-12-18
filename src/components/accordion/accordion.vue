@@ -1,20 +1,20 @@
 <template>
 	<div
 		class="accordion"
-		:class="{ expanded: expand }"
+		:class="{ expanded: localExpanded || localExpanding }"
 		ref="accordion"
 		v-bind="{ ...$attrs }"
 	>
 		<div
 			class="header-wrapper"
 			:class="[color]"
-			@click.stop="handleToggle(!expand)"
+			@click.stop="handleToggle(!localExpanded)"
 		>
 			<p class="title" v-if="title">{{ title }}</p>
 			<component :is="angleDown" />
 		</div>
-		<div class="content-wrapper">
-			<div class="content">
+		<div class="content-wrapper" :style="getAccordionStyles">
+			<div class="content" :ref="`${$.uid}-content`">
 				<slot />
 			</div>
 		</div>
@@ -59,9 +59,34 @@
 			},
 		},
 		name: 'sb-accordion',
+		data() {
+			return {
+				localCollapsing: false,
+				localExpanding: false,
+				localExpanded: false,
+			}
+		},
 		computed: {
 			angleDown() {
 				return angleDown()
+			},
+			getAccordionStyles() {
+				if (this.localExpanding || this.localCollapsing) {
+					const content: HTMLElement = this.$refs[
+						`${this.$.uid}-content`
+					] as unknown as HTMLElement
+
+					if (content) {
+						const height: number =
+							content.getBoundingClientRect()?.height || 0
+
+						return {
+							height: `${height}px`,
+						}
+					}
+				}
+
+				return {}
 			},
 		},
 		methods: {
@@ -70,7 +95,7 @@
 				const parent: HTMLElement = this.$refs['accordion'] as any
 
 				if (
-					this.expand &&
+					this.localExpanded &&
 					this.clickOutside &&
 					target &&
 					parent &&
@@ -81,7 +106,29 @@
 				}
 			},
 			handleToggle(value: boolean) {
-				this.$emit('change', value)
+				if (value && !this.localExpanded) {
+					this.localExpanding = true
+
+					setTimeout(() => {
+						this.localExpanding = false
+						this.localExpanded = true
+					}, 300)
+				} else {
+					this.localCollapsing = true
+
+					setTimeout(() => {
+						this.localCollapsing = false
+						this.localExpanded = false
+					}, 150)
+				}
+			},
+		},
+		watch: {
+			expand: {
+				handler(newValue: boolean) {
+					this.localExpanded = newValue
+				},
+				immediate: true,
 			},
 		},
 		mounted() {
