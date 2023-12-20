@@ -121,6 +121,11 @@ const meta = {
 			description:
 				'Input value in Day.js object, Date object, or valid date string',
 		},
+		variant: {
+			control: 'select',
+			description: 'Input style',
+			options: ['default', 'flat'],
+		},
 	},
 	args: {
 		label: 'Date Picker',
