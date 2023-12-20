@@ -16,6 +16,7 @@
 			:placeholder="placeholder"
 			:tabindex="-1"
 			:value="valueString"
+			:variant="variant"
 			ref="input-wrapper"
 			type="text"
 			v-bind="{
@@ -147,6 +148,11 @@
 			value: {
 				required: false,
 				type: String as PropType<string | string[] | null>,
+			},
+			variant: {
+				default: 'default',
+				required: false,
+				type: String as PropType<'default' | 'flat'>,
 			},
 		},
 		name: 'sb-form-date-picker',

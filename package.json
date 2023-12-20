@@ -19,7 +19,14 @@
     "vite-build": "vite build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "npm run lint && npm run type-check-storybook && storybook build && touch ./storybook-static/.nojekyll",
-    "deploy-storybook": "gh-pages -d storybook-static -t true"
+    "deploy-storybook": "gh-pages -d storybook-static -t true",
+    "commit": "run-s git:*",
+    "git:add": "git add .",
+    "git:commit": "git-cz",
+    "deploy": "run-s deploy:*",
+    "deploy:lint": "run-s lint type-check",
+    "deploy:version": "standard-version -a",
+    "deploy:push": "git push --follow-tags"
   },
   "repository": {
     "type": "git",
@@ -49,6 +56,7 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",
+    "commitizen": "^4.3.0",
     "eslint": "^8.45.0",
     "eslint-formatter-table": "^7.32.1",
     "eslint-plugin-prettier": "^5.0.0",
@@ -60,6 +68,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.65.1",
+    "standard-version": "^9.5.0",
     "storybook": "^7.6.2",
     "storybook-addon-vue-slots": "^0.9.27",
     "typescript": "~5.1.6",
@@ -77,5 +86,10 @@
     "npm": ">=9.4.0",
     "node": ">=18.12.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
 }
