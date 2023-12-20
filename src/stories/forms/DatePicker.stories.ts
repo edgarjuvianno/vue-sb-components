@@ -123,7 +123,7 @@ const meta = {
 		},
 		variant: {
 			control: 'select',
-			description: 'Input style',
+			description: 'Input size',
 			options: ['default', 'flat'],
 		},
 	},
