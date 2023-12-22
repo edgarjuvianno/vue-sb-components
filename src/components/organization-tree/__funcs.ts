@@ -1,157 +1,171 @@
 import { IOrganizationTreeItem } from '@/interface'
+import { IConnection, ICoordinates } from './interface'
 
-const getAllItems: (
-	items: IOrganizationTreeItem[],
-) => IOrganizationTreeItem[] = (items: IOrganizationTreeItem[]) => {
-	let childs: IOrganizationTreeItem[] = []
-
-	return [...items]
-		.map((it: IOrganizationTreeItem) => {
-			if (it.childs && it.childs.length) {
-				childs = [...childs, ...it.childs]
-			}
-
-			return it
-		})
-		.concat(childs.length ? getAllItems(childs) : childs)
-}
-
-export const addItemToParent: (
-	list: IOrganizationTreeItem,
-	obj: IOrganizationTreeItem,
-) => IOrganizationTreeItem = (
-	list: IOrganizationTreeItem,
-	obj: IOrganizationTreeItem,
-) => {
-	if (list.childs) {
+const getUpdatedPointCoordinates: (
+	pointIndex: number,
+	coordinates: ICoordinates,
+) => ICoordinates = (pointIndex: number, coordinates: ICoordinates) => {
+	if (pointIndex < 1) {
 		return {
-			...list,
-			childs: [...list.childs, { ...obj }],
+			x: coordinates.x + 3,
+			y: coordinates.y,
+		}
+	} else if (pointIndex >= 1 && pointIndex <= 3) {
+		return {
+			x: coordinates.x,
+			y: coordinates.y + 3,
+		}
+	} else if (pointIndex >= 4 && pointIndex <= 6) {
+		return {
+			x: coordinates.x,
+			y: coordinates.y - 3,
 		}
 	}
 
-	return { ...list }
+	return {
+		x: coordinates.x - 3,
+		y: coordinates.y,
+	}
 }
 
-export const recurseArrayAddItem: (
-	item: IOrganizationTreeItem,
-	path: string,
-	obj: IOrganizationTreeItem,
-) => IOrganizationTreeItem = (
-	item: IOrganizationTreeItem,
-	path: string,
-	obj: IOrganizationTreeItem,
+export const doUpdateConnectionPath: (item: IConnection) => IConnection = (
+	item: IConnection,
 ) => {
-	if (item.childs) {
-		const hasTarget: boolean = [...item.childs].some(
-			(it: IOrganizationTreeItem) => it.path === path,
-		)
+	const points: ICoordinates[] = [...(item.points || [])]
 
-		if (hasTarget) {
-			return {
-				...item,
-				childs: [...item.childs].map((it: IOrganizationTreeItem) => {
-					if (it.path === path) {
-						return {
-							...it,
-							childs: [...(it.childs || []), obj],
+	if (points.length) {
+		const updatedPath: string = points
+			.map((_it: ICoordinates, idx: number) => {
+				if (idx === points.length - 1) {
+					return `L ${item.pathObject.to.x} ${item.pathObject.to.y}`
+				}
+
+				return `L ${points[idx + 1].x} ${points[idx + 1].y}`
+			})
+			.join(' ')
+
+		const finalPath: string = `M ${item.pathObject.from.x} ${item.pathObject.from.y} L ${points[0].x} ${points[0].y} ${updatedPath}`
+
+		return {
+			...item,
+			path: finalPath,
+		}
+	}
+
+	return {
+		...item,
+		path: `M ${item.pathObject.from.x} ${item.pathObject.from.y} L ${item.pathObject.to.x} ${item.pathObject.to.y}`,
+	}
+}
+
+export const doUpdateConnectionPathItemMoved: (
+	items: IOrganizationTreeItem[],
+	itemMoved: number,
+	orgUID: string,
+	canvasState: Record<string, any>,
+) => IOrganizationTreeItem[] = (
+	items: IOrganizationTreeItem[],
+	itemMoved: number,
+	orgUID: string,
+	canvasState: Record<string, any>,
+) => {
+	const { canvasHeight, canvasWidth, x: canvasX, y: canvasY } = canvasState
+
+	const modItems: IOrganizationTreeItem[] = [...items].map(
+		(it: IOrganizationTreeItem) => {
+			const isAffected: boolean = [...(it.connections || [])].some(
+				(itConnection: IConnection) =>
+					itConnection.from.item === itemMoved ||
+					itConnection.to.item === itemMoved,
+			)
+
+			if (isAffected) {
+				const modConnections: IConnection[] = [
+					...(it.connections || []),
+				].map((itConnection: IConnection) => {
+					if (
+						itConnection.from.item === itemMoved ||
+						itConnection.to.item === itemMoved
+					) {
+						const elemFrom: HTMLElement | null =
+							document.getElementById(
+								`${orgUID}-org-item-${itConnection.from.item}-io-${itConnection.from.io}`,
+							)
+						const elemTo: HTMLElement | null =
+							document.getElementById(
+								`${orgUID}-org-item-${itConnection.to.item}-io-${itConnection.to.io}`,
+							)
+
+						if (elemFrom && elemTo) {
+							const {
+								height: heightFrom,
+								width: widthFrom,
+								x: xFrom,
+								y: yFrom,
+							}: DOMRect = elemFrom
+								.getBoundingClientRect()
+								.toJSON()
+							const {
+								height: heightTo,
+								width: widthTo,
+								x: xTo,
+								y: yTo,
+							}: DOMRect = elemTo.getBoundingClientRect().toJSON()
+
+							const fromX: number =
+								widthFrom / 2 + (xFrom - canvasX) * canvasWidth
+							const fromY =
+								heightFrom / 2 +
+								(yFrom - canvasY) * canvasHeight
+
+							const toX: number =
+								widthTo / 2 + (xTo - canvasX) * canvasWidth
+							const toY: number =
+								heightTo / 2 + (yTo - canvasY) * canvasHeight
+
+							const updatedPath: IConnection =
+								doUpdateConnectionPath({
+									...itConnection,
+									pathObject: {
+										from: {
+											...getUpdatedPointCoordinates(
+												itConnection.from.io,
+												{
+													x: fromX,
+													y: fromY,
+												},
+											),
+										},
+										to: {
+											...getUpdatedPointCoordinates(
+												itConnection.to.io,
+												{
+													x: toX,
+													y: toY,
+												},
+											),
+										},
+									},
+								})
+
+							return {
+								...updatedPath,
+							}
 						}
 					}
 
-					return it
-				}),
+					return itConnection
+				})
+
+				return {
+					...it,
+					connections: [...modConnections],
+				}
 			}
-		}
 
-		return {
-			...item,
-			childs: [...item.childs].map((it: IOrganizationTreeItem) =>
-				recurseArrayAddItem(it, path, obj),
-			),
-		}
-	}
-
-	return item
-}
-
-export const recurseArrayGetData: (
-	item: IOrganizationTreeItem,
-	path: string,
-) => IOrganizationTreeItem | undefined = (
-	item: IOrganizationTreeItem,
-	path: string,
-) => {
-	const tempItems: IOrganizationTreeItem[] = [item]
-	const items: IOrganizationTreeItem[] = [...getAllItems(item.childs || [])]
-
-	return [...tempItems, ...items].find(
-		(it: IOrganizationTreeItem) => it.path === path,
+			return it
+		},
 	)
-}
 
-export const recurseArrayModifyItem: (
-	item: IOrganizationTreeItem,
-	path: string,
-	obj: IOrganizationTreeItem,
-) => IOrganizationTreeItem = (
-	item: IOrganizationTreeItem,
-	path: string,
-	obj: IOrganizationTreeItem,
-) => {
-	if (item.childs) {
-		const hasTarget: boolean = [...item.childs].some(
-			(it: IOrganizationTreeItem) => it.path === path,
-		)
-
-		if (hasTarget) {
-			return {
-				...item,
-				childs: [...item.childs].map((it: IOrganizationTreeItem) => {
-					if (it.path === path) {
-						return obj
-					}
-
-					return it
-				}),
-			}
-		}
-
-		return {
-			...item,
-			childs: [...item.childs].map((it: IOrganizationTreeItem) =>
-				recurseArrayModifyItem(it, path, obj),
-			),
-		}
-	}
-
-	return item
-}
-
-export const recurseArrayRemoveItem: (
-	item: IOrganizationTreeItem,
-	path: string,
-) => IOrganizationTreeItem = (item: IOrganizationTreeItem, path: string) => {
-	if (item.childs) {
-		const hasTarget: boolean = [...item.childs].some(
-			(it: IOrganizationTreeItem) => it.path === path,
-		)
-
-		if (hasTarget) {
-			return {
-				...item,
-				childs: [...item.childs].filter(
-					(it: IOrganizationTreeItem) => it.path !== path,
-				),
-			}
-		}
-
-		return {
-			...item,
-			childs: [...item.childs].map((it: IOrganizationTreeItem) =>
-				recurseArrayRemoveItem(it, path),
-			),
-		}
-	}
-
-	return item
+	return modItems
 }

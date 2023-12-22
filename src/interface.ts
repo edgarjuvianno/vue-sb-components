@@ -1,3 +1,7 @@
+import {
+	IConnection,
+	ICoordinates,
+} from '@/components/organization-tree/interface'
 export interface IHTTPResponse {
 	code: number | string
 	message: string
@@ -226,15 +230,11 @@ export interface IPreviewFile {
 
 export interface IOrganizationTreeItem {
 	additionalInfo?: string
-	childs?: IOrganizationTreeItem[]
+	connections?: IConnection[]
+	coordinates: ICoordinates
 	department?: string
 	name?: string
 	path?: string
 	photo?: string
 	position?: string
-}
-
-export interface IOrganizationCurrentData {
-	data: IOrganizationTreeItem
-	index: any
 }

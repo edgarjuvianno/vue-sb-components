@@ -1,48 +1,99 @@
 <template>
-	<div class="organization-wrapper" v-bind="{ ...$attrs }">
-		<ul class="parent-tree" v-if="Object.keys(list).length">
+	<div
+		:class="{
+			connecting: connectorState.from,
+			dragging: parentState.isDrag,
+		}"
+		:id="`${$.uid}-org`"
+		class="organization-wrapper"
+		v-bind="{ ...$attrs }"
+		@mousedown.stop="handleParentClick"
+		@mousemove.stop="handleParentPosition"
+		@mouseup.stop="handleParentDragEnd"
+		@pointercancel="handleParentPointerUp"
+		@pointerdown="handleParentPointerDown"
+		@pointerleave="handleParentPointerUp"
+		@pointermove="handleParentPointerMove"
+		@pointerout="handleParentPointerUp"
+		@pointerup="handleParentPointerUp"
+		@touchend.stop="handleParentDragEnd"
+		@touchmove.stop="handleParentPosition"
+		@touchstart.stop="handleParentClick"
+		@wheel.stop="handleParentZoom"
+	>
+		<div class="canvas" ref="canvas-tree" :style="canvasStyle">
 			<sb-org-tree-item
-				:item="localList"
-				:key="`${$.uid}-org`"
-				:lastIndex="cardIndex"
+				:canvas-state="canvasState"
+				:connector-state="connectorState"
+				:is-dragged="isItemDragged(`${$.uid}-org-item-${index}`)"
+				:key="`${$.uid}-org-item-${index}`"
 				v-bind="{
-					isDraggable,
+					isEditable,
+					item,
+					...(selectedConnection && { selectedConnection }),
 				}"
-				@change-item="handleChangeItem"
+				v-for="(item, index) in localList"
+				@change-point="handleChangeItemPoint"
+				@drag-connection="handleConnectionDragged"
+				@drag-item="handleItemDragged"
+				@drag-point="handlePointDragged"
+				@select-connection="handleSelectConnection"
 			/>
-		</ul>
+			<svg
+				class="connection connecting"
+				xmlns="http://www.w3.org/2000/svg"
+				v-if="connectorState.from"
+			>
+				<path :d="connectorState.path"></path>
+			</svg>
+		</div>
 	</div>
+	<Teleport to="body">
+		<div
+			v-if="isExporting"
+			class="export-area-org-chart"
+			:id="`${$.uid}-org-export-area`"
+			:style="exportAreaStyle"
+		></div>
+	</Teleport>
 </template>
 
 <script lang="ts">
 	import { PropType, defineComponent } from 'vue'
+	import { IOrganizationTreeItem } from '@/interface'
 	import {
-		IOrganizationCurrentData,
-		IOrganizationTreeItem,
-	} from '@/interface'
+		ICanvasState,
+		IConnection,
+		IConnectorState,
+		ICoordinates,
+		IDraggedItem,
+		IMouseState,
+		IParentPointerState,
+		IParentState,
+		IPointState,
+		IPointTarget,
+	} from './interface'
 	import {
-		addItemToParent,
-		recurseArrayAddItem,
-		recurseArrayGetData,
-		recurseArrayModifyItem,
-		recurseArrayRemoveItem,
+		doUpdateConnectionPath,
+		doUpdateConnectionPathItemMoved,
 	} from './__funcs'
+	import { toPng as htmlToPNG } from 'html-to-image'
 
 	// components
 	import TreeItem from './__organization-tree-item.vue'
 
 	export default defineComponent({
 		emits: {
-			change: (_list: IOrganizationTreeItem) => true,
+			change: (_list: IOrganizationTreeItem[]) => true,
 		},
 		props: {
-			isDraggable: {
+			isEditable: {
 				required: false,
 				type: Boolean,
 			},
 			list: {
 				required: true,
-				type: Object as PropType<IOrganizationTreeItem>,
+				type: Object as PropType<IOrganizationTreeItem[]>,
 			},
 		},
 		name: 'sb-organization-tree',
@@ -51,148 +102,700 @@
 		},
 		data() {
 			return {
-				cardIndex: 1 as number,
-				localList: {} as IOrganizationTreeItem,
+				canvasState: {
+					coordinates: {
+						x: 0,
+						y: 0,
+					},
+					elem: null,
+					lastZoom: 1,
+					zoom: 1,
+				} as ICanvasState,
+				canvasStyle: {} as Record<string, any>,
+				connectorState: {
+					from: null,
+					fromRect: null,
+					toCoordinates: null,
+				} as IConnectorState,
+				draggedItem: null as IDraggedItem | null,
+				exportAreaStyle: {} as Record<string, any>,
+				isExporting: false,
+				localList: [] as IOrganizationTreeItem[],
+				mouseState: {
+					mouse: {
+						x: 0,
+						y: 0,
+					},
+					position: {
+						x: 0,
+						y: 0,
+					},
+					positionStart: {
+						x: 0,
+						y: 0,
+					},
+				} as IMouseState,
+				parentPointerState: {
+					events: [],
+					prevDiff: -1,
+				} as IParentPointerState,
+				parentState: {
+					isDrag: false,
+					position: {
+						x: 0,
+						y: 0,
+					},
+				} as IParentState,
+				pointState: {
+					fromRect: null,
+					target: null,
+					toCoordinates: null,
+				} as IPointState,
+				selectedConnection: null as null | string,
 			}
 		},
 		methods: {
-			handleChangeItem(
-				parent: IOrganizationCurrentData,
-				target: IOrganizationCurrentData,
-			) {
-				const parentPaths: string[] = parent.index
-					.replace(`${this.$.uid}-org`, '')
-					.split('-')
-					.filter((it: string) => it !== '')
-				const targetPaths: string[] = target.index
-					.replace(`${this.$.uid}-org`, '')
-					.split('-')
-					.filter((it: string) => it !== '')
+			async doExport() {
+				this.isExporting = true
 
-				if (!parentPaths.length) {
-					const removeItem: IOrganizationTreeItem = {
-						...recurseArrayRemoveItem(
-							{ ...this.localList },
-							target.index,
-						),
-					}
+				await new Promise((resolve) =>
+					setTimeout(() => {
+						resolve(true)
+					}, 200),
+				)
 
-					const addToParent: IOrganizationTreeItem = {
-						...addItemToParent({ ...removeItem }, target.data),
-					}
+				const connections: IConnection[] = [...this.localList].flatMap(
+					(item: IOrganizationTreeItem) =>
+						item.connections ? [...item.connections] : [],
+				)
+				const points: ICoordinates[] = [...connections].flatMap(
+					(item: IConnection) =>
+						item.points ? [...item.points] : [],
+				)
+				const itemRects: (DOMRect | null)[] = [...this.localList].map(
+					(_it: IOrganizationTreeItem, idx: number) => {
+						const id: string = `${this.$.uid}-org-item-${idx}`
+						const elem: HTMLElement | null =
+							document.getElementById(id)
 
-					this.$emit('change', addToParent)
-				} else if (parent.index !== target.index) {
-					if (targetPaths.length < parentPaths.length) {
-						const removeParent: IOrganizationTreeItem = {
-							...recurseArrayRemoveItem(
-								{ ...this.localList },
-								parent.index,
-							),
+						if (elem) {
+							const elemRect: DOMRect = elem
+								.getBoundingClientRect()
+								.toJSON()
+
+							return elemRect
 						}
 
-						const parentChilds: IOrganizationTreeItem[] = [
-							...(parent.data.childs || []),
+						return null
+					},
+				)
+
+				const itemX: number[] = [...itemRects].map(
+					(it: DOMRect | null) => it?.x || 0,
+				)
+				const itemXWidth: number[] = [...itemRects].map(
+					(it: DOMRect | null) => (it?.x || 0) + (it?.width || 0),
+				)
+				const itemY: number[] = [...itemRects].map(
+					(it: DOMRect | null) => it?.y || 0,
+				)
+				const itemYHeight: number[] = [...itemRects].map(
+					(it: DOMRect | null) => (it?.y || 0) + (it?.height || 0),
+				)
+
+				const xAxis: number[] = [
+					...[...points].map((it: ICoordinates) => it.x),
+					...itemX,
+					...itemXWidth,
+				]
+				const yAxis: number[] = [
+					...[...points].map((it: ICoordinates) => it.y),
+					...itemY,
+					...itemYHeight,
+				]
+
+				const maxX: number = Math.max.apply(null, xAxis)
+				const minX: number = Math.min.apply(null, xAxis)
+
+				const maxY: number = Math.max.apply(null, yAxis)
+				const minY: number = Math.min.apply(null, yAxis)
+
+				const elemHeight: number = Math.abs(minY) + maxY
+				const elemWidth: number = Math.abs(minX) + maxX
+
+				const canvasElem: HTMLElement | null = this.canvasState.elem
+
+				this.exportAreaStyle = {
+					height: `${elemHeight + 40}px`,
+					width: `${elemWidth + 40}px`,
+				}
+
+				if (canvasElem) {
+					const clonedElem: HTMLElement = canvasElem.cloneNode(
+						true,
+					) as HTMLElement
+
+					clonedElem.style.transform = 'none'
+					clonedElem.style.background = 'transparent'
+					clonedElem.style.height = `${elemHeight}px`
+					clonedElem.style.position = 'relative'
+					clonedElem.style.width = `${elemWidth}px`
+
+					const parent: HTMLElement | null = document.getElementById(
+						`${this.$.uid}-org-export-area`,
+					)
+
+					if (parent) {
+						parent.appendChild(clonedElem)
+
+						const pngDataURI: string | null = await htmlToPNG(
+							parent,
+							{
+								style: {
+									opacity: '1',
+								},
+							},
+						).catch(() => null)
+
+						clonedElem.remove()
+						this.isExporting = false
+
+						return pngDataURI
+					}
+				}
+
+				return null
+			},
+			doParentZoom(inc: number) {
+				this.canvasState.zoom += inc
+
+				this.$nextTick(() => this.doParentZoomRefresh())
+			},
+			doParentZoomRefresh() {
+				const { coordinates, lastZoom, zoom }: ICanvasState =
+					this.canvasState
+
+				const targetX: number = (coordinates.x / lastZoom) * zoom
+				const targetY: number = (coordinates.y / lastZoom) * zoom
+
+				this.canvasState.lastZoom = zoom
+				this.canvasStyle = {
+					transform: `translate(${targetX}px, ${targetY}px) scale(${zoom})`,
+				}
+			},
+			doSetTempConnectionPath() {
+				if (
+					this.connectorState.toCoordinates &&
+					this.connectorState.fromRect
+				) {
+					const { x: mouseX, y: mouseY } =
+						this.connectorState.toCoordinates
+					const {
+						height: fromHeight,
+						width: fromWidth,
+						x: fromX,
+						y: fromY,
+					} = this.connectorState.fromRect
+					const { zoom } = this.canvasState
+
+					const canvasRect: DOMRect | null = this.getCanvasRect()
+
+					const canvasHeight: number = canvasRect?.height || 0
+					const canvasWidth: number = canvasRect?.width || 0
+
+					const canvasWidthZoom: number =
+						canvasWidth / (canvasWidth * zoom) || 0
+					const canvasHeightZoom: number =
+						canvasHeight / (canvasHeight * zoom) || 0
+
+					const canvasX: number = canvasRect?.x || 0
+					const canvasY: number = canvasRect?.y || 0
+
+					const startX: number =
+						fromWidth / 2 + (fromX - canvasX) * canvasWidthZoom
+
+					const startY =
+						fromHeight / 2 + (fromY - canvasY) * canvasHeightZoom
+
+					const endX: number =
+						mouseX * (canvasWidth / (canvasWidth * zoom)) -
+						canvasX * (canvasWidth / (canvasWidth * zoom))
+
+					const endY =
+						mouseY * (canvasHeight / (canvasHeight * zoom)) -
+						canvasY * (canvasHeight / (canvasHeight * zoom))
+
+					this.connectorState.pathObject = {
+						from: {
+							x: startX,
+							y: startY,
+						},
+						to: {
+							x: endX,
+							y: endY,
+						},
+					}
+					this.connectorState.path = `M ${startX} ${startY} L ${endX} ${endY}`
+				} else {
+					this.connectorState.pathObject = undefined
+					this.connectorState.path = undefined
+				}
+			},
+			doUpdateConnections(
+				itemTrigger: number,
+				updatedList: IOrganizationTreeItem[],
+			) {
+				const { zoom } = this.canvasState
+
+				const canvasRect: DOMRect | null = this.getCanvasRect()
+
+				if (canvasRect) {
+					const canvasHeight: number = canvasRect.height || 0
+					const canvasWidth: number = canvasRect.width || 0
+
+					const canvasWidthZoom: number =
+						canvasWidth / (canvasWidth * zoom) || 0
+					const canvasHeightZoom: number =
+						canvasHeight / (canvasHeight * zoom) || 0
+
+					this.localList = [
+						...doUpdateConnectionPathItemMoved(
+							updatedList,
+							itemTrigger,
+							String(this.$.uid),
+							{
+								canvasHeight: canvasHeightZoom,
+								canvasWidth: canvasWidthZoom,
+								x: canvasRect.x,
+								y: canvasRect.y,
+							},
+						),
+					]
+				}
+			},
+			getCanvasRect() {
+				if (this.$refs['canvas-tree']) {
+					const clientRect: DOMRect = (
+						this.$refs['canvas-tree'] as any
+					).getBoundingClientRect()
+
+					return {
+						...clientRect.toJSON(),
+					}
+				}
+
+				return null
+			},
+			getCoordinatesEnd(ev: MouseEvent | TouchEvent) {
+				if (ev.type === 'touchend') {
+					return {
+						x: this.mouseState.mouse.x,
+						y: this.mouseState.mouse.y,
+					}
+				}
+
+				return {
+					x: (ev as MouseEvent).clientX,
+					y: (ev as MouseEvent).clientY,
+				}
+			},
+			getCoordinatesMove(ev: MouseEvent | TouchEvent) {
+				if (ev.type === 'touchmove' || ev.type === 'touchstart') {
+					return {
+						x: (ev as TouchEvent).touches[0].clientX,
+						y: (ev as TouchEvent).touches[0].clientY,
+					}
+				}
+
+				return {
+					x: (ev as MouseEvent).clientX,
+					y: (ev as MouseEvent).clientY,
+				}
+			},
+			handleChangeItemPoint(item: IOrganizationTreeItem, index: number) {
+				this.localList[index] = { ...item }
+
+				this.$nextTick(() => this.$emit('change', this.localList))
+			},
+			handleConnectionDragged(io: string, fromRect: DOMRect) {
+				this.connectorState.from = io
+				this.connectorState.fromRect = { ...fromRect.toJSON() }
+				this.selectedConnection = null
+			},
+			handleItemChangePosition(coordinates: ICoordinates) {
+				if (this.draggedItem) {
+					const index: number = Number(
+						this.draggedItem.key.split('-item-')[1],
+					)
+
+					const tempList: IOrganizationTreeItem[] = [
+						...this.localList,
+					]
+
+					tempList[index] = {
+						...this.localList[index],
+						coordinates,
+					}
+
+					this.$nextTick(() =>
+						this.doUpdateConnections(index, tempList),
+					)
+				}
+			},
+			handleItemDragged(item: IDraggedItem) {
+				this.draggedItem = { ...item }
+				this.mouseState.position = { ...item.coordinates }
+				this.selectedConnection = null
+			},
+			handleParentClick(ev: MouseEvent | TouchEvent) {
+				const coordinates: ICoordinates = this.getCoordinatesMove(ev)
+
+				this.selectedConnection = null
+				this.mouseState.mouse = { ...coordinates }
+				this.mouseState.position = { ...coordinates }
+				this.mouseState.positionStart = { ...coordinates }
+				this.parentState.isDrag = true
+			},
+			handleParentDragEnd(ev: MouseEvent | TouchEvent) {
+				const { x, y }: ICoordinates = this.getCoordinatesEnd(ev)
+				const { coordinates }: ICanvasState = this.canvasState
+
+				const targetX: number =
+					coordinates.x + -(this.mouseState.position.x - x)
+				const targetY: number =
+					coordinates.y + -(this.mouseState.position.y - y)
+
+				if (this.parentState.isDrag) {
+					this.canvasState.coordinates = {
+						x: targetX,
+						y: targetY,
+					}
+				} else if (this.connectorState.from) {
+					const targetDrop: HTMLElement = ev.target as HTMLElement
+
+					if (targetDrop.id !== this.connectorState.from) {
+						const isConnectionExist: boolean =
+							this.isConnectionExist(
+								this.connectorState.from,
+								targetDrop.id,
+							)
+
+						if (!isConnectionExist) {
+							const fromItemId: string =
+								this.connectorState.from.split('-io-')[0]
+							const fromIOIndex: number = Number(
+								this.connectorState.from.split('-io-')[1],
+							)
+							const fromItemIndex: number = Number(
+								fromItemId.split('-item-')[1],
+							)
+
+							const toItemId: string =
+								targetDrop.id.split('-io-')[0]
+							const toIOIndex: number = Number(
+								targetDrop.id.split('-io-')[1],
+							)
+							const toItemIndex: number = Number(
+								toItemId.split('-item-')[1],
+							)
+
+							if (
+								this.localList[fromItemIndex] &&
+								this.localList[toItemIndex] &&
+								this.connectorState.fromRect
+							) {
+								const tempList: IOrganizationTreeItem[] = [
+									...this.localList,
+								]
+								tempList[fromItemIndex].connections = [
+									...(tempList[fromItemIndex].connections ||
+										[]),
+									{
+										from: {
+											io: fromIOIndex,
+											item: fromItemIndex,
+										},
+										to: {
+											io: toIOIndex,
+											item: toItemIndex,
+										},
+										path: this.connectorState
+											.path as string,
+										pathObject:
+											this.connectorState.pathObject!,
+									},
+								]
+
+								this.$nextTick(() =>
+									this.doUpdateConnections(
+										fromItemIndex,
+										tempList,
+									),
+								)
+							}
+						}
+					}
+				}
+
+				this.$nextTick(() => {
+					if (
+						this.draggedItem ||
+						this.pointState.target ||
+						this.connectorState.from
+					) {
+						this.$nextTick(() =>
+							this.$emit('change', this.localList),
+						)
+					}
+
+					this.parentState.isDrag = false
+					this.draggedItem = null
+					this.connectorState = {
+						from: null,
+						fromRect: null,
+						path: undefined,
+						toCoordinates: null,
+					}
+					this.pointState = {
+						fromRect: null,
+						target: null,
+						toCoordinates: null,
+					}
+				})
+			},
+			handleParentKeydown(ev: KeyboardEvent) {
+				if (
+					(ev.key === 'Delete' ||
+						(ev.key === 'Backspace' && ev.metaKey)) &&
+					this.selectedConnection
+				) {
+					const splitConnection: string[] =
+						this.selectedConnection.split('-connection-')
+					const itemIndex: number = Number(
+						splitConnection[0].split('-item-')[1],
+					)
+					const connectionIndex: number = Number(splitConnection[1])
+
+					if (this.localList[itemIndex]) {
+						const connections: IConnection[] = [
+							...(this.localList[itemIndex].connections || []),
 						]
 
-						const newTargetData: IOrganizationTreeItem = {
-							...recurseArrayGetData(
-								{ ...removeParent },
-								target.index,
-							),
-						}
+						this.localList[itemIndex].connections =
+							connections.filter(
+								(_it: IConnection, idx: number) =>
+									idx !== connectionIndex,
+							)
 
-						const modChild: IOrganizationTreeItem = {
-							...recurseArrayModifyItem(
-								{ ...removeParent },
-								target.index,
-								{
-									...parent.data,
-									childs: [...parentChilds, newTargetData],
-								},
-							),
-						}
-
-						this.$emit('change', modChild)
-					} else {
-						const removeTarget: IOrganizationTreeItem = {
-							...recurseArrayRemoveItem(
-								{ ...this.localList },
-								target.index,
-							),
-						}
-
-						const addTarget: IOrganizationTreeItem = {
-							...recurseArrayAddItem(
-								{ ...removeTarget },
-								parent.index,
-								target.data,
-							),
-						}
-
-						this.$emit('change', addTarget)
+						this.$nextTick(() =>
+							this.$emit('change', this.localList),
+						)
 					}
 				}
 			},
-			handleModList(newValue: IOrganizationTreeItem) {
-				const modList: (
-					item: IOrganizationTreeItem,
-					selfIndex?: number,
-					ancestorPath?: string,
-				) => IOrganizationTreeItem = (
-					item: IOrganizationTreeItem,
-					selfIndex?: number,
-					ancestorPath?: string,
-				) => {
-					const path: string = !ancestorPath
-						? `${this.$.uid}-org`
-						: `${ancestorPath}-childs[${selfIndex}]`
+			handleParentPointerDown(ev: PointerEvent) {
+				this.parentPointerState.events.push(ev)
+			},
+			handleParentPointerMove(ev: PointerEvent) {
+				this.parentPointerState.events = [
+					...this.parentPointerState.events,
+				].map((it: PointerEvent) => {
+					if (it.pointerId === ev.pointerId) {
+						return ev
+					}
 
-					if (item.childs) {
-						return {
-							...item,
-							childs: [...item.childs].map(
-								(it: IOrganizationTreeItem, idx: number) => {
-									if (it.childs) {
-										return modList(it, idx, path)
-									}
+					return it
+				})
 
-									return {
-										...it,
-										path: `${path}-childs[${idx}]`,
-									}
-								},
-							),
-							path,
+				this.$nextTick(() => {
+					if (this.parentPointerState.events.length === 2) {
+						const currentDiff: number = Math.abs(
+							this.parentPointerState.events[0].clientX -
+								this.parentPointerState.events[1].clientX,
+						)
+
+						if (
+							this.parentPointerState.prevDiff > 100 &&
+							currentDiff > this.parentPointerState.prevDiff
+						) {
+							this.doParentZoom(0.1)
+						} else if (
+							this.parentPointerState.prevDiff > 100 &&
+							currentDiff < this.parentPointerState.prevDiff
+						) {
+							this.doParentZoom(-0.1)
 						}
+
+						this.parentPointerState.prevDiff = currentDiff
+					}
+				})
+			},
+			handleParentPointerUp(ev: PointerEvent) {
+				this.parentPointerState.events = [
+					...this.parentPointerState.events,
+				].filter((it: PointerEvent) => it.pointerId !== ev.pointerId)
+
+				this.$nextTick(() => {
+					if (this.parentPointerState.events.length < 2) {
+						this.parentPointerState.prevDiff = -1
+					}
+				})
+			},
+			handleParentPosition(ev: MouseEvent | TouchEvent) {
+				const { x, y }: ICoordinates = this.getCoordinatesMove(ev)
+				const { coordinates, zoom }: ICanvasState = this.canvasState
+				const canvasRect: DOMRect | null = this.getCanvasRect()
+
+				if (this.parentState.isDrag) {
+					const targetX: number =
+						coordinates.x + -(this.mouseState.position.x - x)
+					const targetY: number =
+						coordinates.y + -(this.mouseState.position.y - y)
+
+					this.canvasStyle = {
+						transform: `translate(${targetX}px, ${targetY}px) scale(${zoom})`,
+					}
+				} else if (this.draggedItem) {
+					ev.preventDefault()
+
+					const { x: posX, y: posY } = this.mouseState.position
+
+					const targetX: number =
+						((posX - x) * (canvasRect?.width || 0)) /
+						((canvasRect?.width || 0) * zoom)
+
+					const targetY: number =
+						((posY - y) * (canvasRect?.height || 0)) /
+						((canvasRect?.height || 0) * zoom)
+
+					this.handleItemChangePosition({
+						x: this.draggedItem.elem.offsetLeft - targetX,
+						y: this.draggedItem.elem.offsetTop - targetY,
+					})
+
+					this.$nextTick(() => (this.mouseState.position = { x, y }))
+				} else if (this.connectorState.from) {
+					this.connectorState.toCoordinates = {
+						x,
+						y,
 					}
 
-					return {
-						...item,
-						path,
+					this.$nextTick(() => this.doSetTempConnectionPath())
+				} else if (this.pointState.target && this.canvasState.elem) {
+					const {
+						height,
+						width,
+						x: canvasX,
+						y: canvasY,
+					}: DOMRect = this.canvasState.elem
+						.getBoundingClientRect()
+						.toJSON()
+
+					const targetX: number =
+						x * (width / (width * zoom)) -
+						canvasX * (width / (width * zoom))
+					const targetY =
+						y * (height / (height * zoom)) -
+						canvasY * (height / (height * zoom))
+
+					const { target } = this.pointState
+
+					const tempConnections: IConnection[] = [
+						...(this.localList[target.item].connections || []),
+					]
+					const tempPoints: ICoordinates[] = [
+						...(tempConnections[target.connection].points || []),
+					]
+
+					tempPoints[target.point] = {
+						x: targetX,
+						y: targetY,
 					}
+
+					const updatedConnectionPath: IConnection =
+						doUpdateConnectionPath({
+							...tempConnections[target.connection],
+							points: [...tempPoints],
+						})
+
+					tempConnections[target.connection] = {
+						...updatedConnectionPath,
+					}
+
+					this.localList[target.item].connections = [
+						...tempConnections,
+					]
 				}
 
-				this.localList = { ...modList(newValue) }
+				this.parentState.position = { x, y }
+
+				if (ev.type === 'touchmove') {
+					this.mouseState.mouse = {
+						x,
+						y,
+					}
+				}
+			},
+			handleParentZoom(ev: WheelEvent) {
+				if (ev.ctrlKey) {
+					ev.preventDefault()
+
+					if (ev.deltaY > 0 && this.canvasState.zoom > 0.5) {
+						this.doParentZoom(-0.1)
+					} else if (this.canvasState.zoom < 1.6) {
+						this.doParentZoom(0.1)
+					}
+				}
+			},
+			handlePointDragged(target: IPointTarget, fromRect: DOMRect) {
+				this.pointState.target = { ...target }
+				this.pointState.fromRect = { ...fromRect.toJSON() }
+			},
+			handleSelectConnection(key: string) {
+				this.selectedConnection = key
+			},
+			isConnectionExist(fromId: string, toId: string) {
+				const connections: IConnection[] = [...this.localList].flatMap(
+					(item: IOrganizationTreeItem) =>
+						item.connections ? [...item.connections] : [],
+				)
+
+				return connections.some((it: IConnection) => {
+					const itemFromId: string = `${this.$.uid}-org-item-${it.from.item}-io-${it.from.io}`
+					const itemToId: string = `${this.$.uid}-org-item-${it.to.item}-io-${it.to.io}`
+
+					return (
+						(fromId === itemFromId && toId === itemToId) ||
+						(fromId === itemToId && toId === itemFromId)
+					)
+				})
+			},
+			isItemDragged(key: string) {
+				return this.draggedItem?.key === key
 			},
 		},
 		watch: {
 			list: {
 				deep: true,
-				handler(newValue: IOrganizationTreeItem) {
-					if (!Object.keys(newValue).length) {
-						this.cardIndex = 1
-					}
-
-					this.handleModList(newValue)
+				handler(newValue: IOrganizationTreeItem[]) {
+					this.localList = [...newValue]
 				},
+				immediate: true,
 			},
 		},
 		mounted() {
-			this.cardIndex = 1
+			if (this.$refs['canvas-tree']) {
+				this.canvasState.elem = this.$refs['canvas-tree'] as HTMLElement
+			}
 
-			this.handleModList({ ...(this.list || {}) })
+			document.addEventListener('keydown', this.handleParentKeydown)
 		},
+		unmounted() {
+			this.canvasState.elem = null
+
+			document.removeEventListener('keydown', this.handleParentKeydown)
+		},
+		expose: ['doExport'],
 	})
 </script>
 

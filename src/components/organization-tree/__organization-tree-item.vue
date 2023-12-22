@@ -1,151 +1,129 @@
 <template>
-	<li
-		class="child-tree"
+	<div
+		v-if="item.department"
+		class="department"
 		:class="{
-			'has-childs': !!item.childs?.length,
+			connecting: isConnecting,
+			draggable: isEditable,
+			dragged: isDragged,
 		}"
+		:id="String($.vnode.key)"
+		:style="getItemPosition"
+		@mousedown.stop="handleItemClick"
+		@touchstart.stop="handleItemClick"
 	>
-		<template v-if="item.department">
-			<div
-				class="department"
-				:class="{
-					'has-childs': !!item.childs?.length,
-					draggable: isDraggable,
-					dragged: isDragged(String(lastIndex)),
-					droparea: dropTarget === String(lastIndex),
-				}"
-				:id="String(lastIndex)"
-				v-bind="{
-					draggable: isDraggable,
-				}"
-				v-if="item.department"
-				@dragend="handleDragEnd"
-				@dragenter.prevent="handleDragEnter"
-				@dragleave.prevent="handleDragLeave"
-				@dragover.prevent="handleDragEnter"
-				@dragstart="handleDragCard($event, item)"
-				@drop.prevent="handleDropCard($event, item)"
-			>
-				{{ item.department }}
-			</div>
-			<ul class="parent-tree" v-if="item.childs?.length">
-				<sb-organization-tree-item
-					:item="child"
-					:key="`${String($.vnode.key)}-childs-${idx}`"
-					:last-index="lastIndex + idx + 1"
-					v-bind="{
-						isDraggable,
-					}"
-					v-for="(child, idx) in item.childs"
-					@change-item="handleEmitChange"
-				/>
-			</ul>
-		</template>
-		<template v-else-if="!item.childs?.length">
-			<div
-				class="card"
-				:class="{
-					draggable: isDraggable,
-					dragged: isDragged(String(lastIndex)),
-					droparea: dropTarget === String(lastIndex),
-				}"
-				:id="String(lastIndex)"
-				v-bind="{
-					draggable: isDraggable,
-				}"
-				@dragend="handleDragEnd"
-				@dragenter.prevent="handleDragEnter"
-				@dragleave.prevent="handleDragLeave"
-				@dragover.prevent="handleDragEnter"
-				@dragstart="handleDragCard($event, item)"
-				@drop.prevent="handleDropCard($event, item)"
-			>
-				<div
-					class="item-photo"
-					:style="{
-						backgroundImage: `url(${item.photo})`,
-					}"
-					v-if="item.photo"
-				></div>
-				<div class="data-wrapper">
-					<p class="name">{{ item.name }}</p>
-					<p class="position">{{ item.position }}</p>
-					<div
-						v-html="item.additionalInfo"
-						v-if="item.additionalInfo"
-					></div>
-				</div>
-			</div>
-		</template>
-		<template v-else>
-			<div
-				class="card has-childs"
-				:class="{
-					draggable: isDraggable && lastIndex > 1,
-					dragged: isDragged(String(lastIndex)),
-					droparea: dropTarget === String(lastIndex),
-				}"
-				:id="String(lastIndex)"
-				v-bind="{
-					draggable: isDraggable && lastIndex > 1,
-					...(lastIndex > 1 && {
-						onDragend: handleDragEnd,
-						onDragstart: (ev: any) => handleDragCard(ev, item),
-					}),
-				}"
-				@dragenter.prevent="handleDragEnter"
-				@dragleave.prevent="handleDragLeave"
-				@dragover.prevent="handleDragEnter"
-				@drop.prevent="handleDropCard($event, item)"
-			>
-				<div
-					class="item-photo"
-					:style="{
-						backgroundImage: `url(${item.photo})`,
-					}"
-					v-if="item.photo"
-				></div>
-				<div class="data-wrapper">
-					<p class="name">{{ item.name }}</p>
-					<p class="position">{{ item.position }}</p>
-					<div
-						v-html="item.additionalInfo"
-						v-if="item.additionalInfo"
-					></div>
-				</div>
-			</div>
-			<ul class="parent-tree">
-				<sb-organization-tree-item
-					:item="child"
-					:key="`${String($.vnode.key)}-childs-${idx}`"
-					:last-index="lastIndex + idx + 1"
-					v-bind="{
-						isDraggable,
-					}"
-					v-for="(child, idx) in item.childs"
-					@change-item="handleEmitChange"
-				/>
-			</ul>
-		</template>
-	</li>
+		<span
+			class="io"
+			:id="`${String($.vnode.key)}-io-${io}`"
+			:key="`io-${io}`"
+			v-for="io in [...Array(8).keys()]"
+			@mousedown.stop="handleClickIO($event, io)"
+			@touchstart.stop="handleClickIO($event, io)"
+		></span>
+		{{ item.department }}
+	</div>
+	<div
+		v-else
+		class="card"
+		:class="{
+			connecting: isConnecting,
+			draggable: isEditable,
+			dragged: isDragged,
+		}"
+		:id="String($.vnode.key)"
+		:style="getItemPosition"
+		@mousedown.stop="handleItemClick"
+		@touchstart.stop="handleItemClick"
+	>
+		<span
+			class="io"
+			:id="`${String($.vnode.key)}-io-${io}`"
+			:key="`io-${io}`"
+			v-for="io in [...Array(8).keys()]"
+			@mousedown.stop="handleClickIO($event, io)"
+			@touchstart.stop="handleClickIO($event, io)"
+		></span>
+		<div
+			class="item-photo"
+			:style="{
+				backgroundImage: `url(${item.photo})`,
+			}"
+			v-if="item.photo"
+		></div>
+		<div class="data-wrapper">
+			<p class="name">{{ item.name }}</p>
+			<p class="position">{{ item.position }}</p>
+			<div v-html="item.additionalInfo" v-if="item.additionalInfo"></div>
+		</div>
+	</div>
+	<svg
+		class="connection"
+		xmlns="http://www.w3.org/2000/svg"
+		:class="{
+			editable: isEditable,
+			selected:
+				`${String($.vnode.key)}-connection-${index}` ===
+				selectedConnection,
+		}"
+		:key="`${String($.vnode.key)}-connection-${index}`"
+		v-for="(connection, index) in item.connections || []"
+	>
+		<path
+			:d="connection.path"
+			@click.stop="handleConnectionClick(index)"
+			@dblclick.stop="handleConnectionDoubleClick($event, index)"
+		></path>
+		<circle
+			class="circle"
+			r="4"
+			:cx="circle.x"
+			:cy="circle.y"
+			:key="`${String(
+				$.vnode.key,
+			)}-connection-${index}-circle-${indexCircle}`"
+			v-for="(circle, indexCircle) in connection.points || []"
+			@dblclick.stop="handleCircleDoubleClick(index, indexCircle)"
+			@mousedown.stop="handleClickPoint($event, index, indexCircle)"
+			@touchstart.stop="handleClickPoint($event, index, indexCircle)"
+		></circle>
+	</svg>
 </template>
 
 <script lang="ts">
 	import { PropType, defineComponent } from 'vue'
+	import { IOrganizationTreeItem } from '@/interface'
 	import {
-		IOrganizationCurrentData,
-		IOrganizationTreeItem,
-	} from '@/interface'
+		ICanvasState,
+		IConnection,
+		IConnectorState,
+		ICoordinates,
+		IDraggedItem,
+		IPointTarget,
+	} from './interface'
+	import { doUpdateConnectionPath } from './__funcs'
 
 	export default defineComponent({
 		emits: {
-			changeItem: (
-				_parent: IOrganizationCurrentData,
-				_target: IOrganizationCurrentData,
-			) => true,
+			changePoint: (_item: IOrganizationTreeItem, _index: number) => true,
+			dragItem: (_item: IDraggedItem) => true,
+			dragConnection: (_io: string, _fromRect: DOMRect) => true,
+			dragPoint: (_target: IPointTarget, _fromRect: DOMRect) => true,
+			selectConnection: (_connectionKey: string) => true,
 		},
 		props: {
-			isDraggable: {
+			canvasState: {
+				required: true,
+				type: Object as PropType<ICanvasState>,
+			},
+			connectorState: {
+				required: true,
+				type: Object as PropType<IConnectorState>,
+			},
+			isDragged: {
+				required: false,
+				type: Boolean,
+			},
+			isEditable: {
 				required: false,
 				type: Boolean,
 			},
@@ -153,91 +131,192 @@
 				required: true,
 				type: Object as PropType<IOrganizationTreeItem>,
 			},
-			lastIndex: {
-				required: true,
-				type: Number,
+			selectedConnection: {
+				required: false,
+				type: String as PropType<string | null>,
 			},
 		},
 		name: 'sb-organization-tree-item',
-		data() {
-			return {
-				draggedCards: [] as string[],
-				dropTarget: null as string | null,
-				onDropTimeout: null as any,
-			}
-		},
-		computed: {},
-		methods: {
-			handleDragCard(ev: DragEvent, item: IOrganizationTreeItem) {
-				ev.stopPropagation()
-
-				const target: HTMLDivElement = ev.target as HTMLDivElement
-				this.draggedCards.push(target.id)
-
-				ev.dataTransfer?.setData(
-					'text/html',
-					JSON.stringify({
-						data: { ...item },
-						index: item.path,
-					}),
-				)
-			},
-			handleDragEnd(ev: DragEvent) {
-				ev.stopPropagation()
-
-				const target: HTMLDivElement = ev.target as HTMLDivElement
-				this.draggedCards = [...this.draggedCards].filter(
-					(it: string) => it !== target.id,
-				)
-			},
-			handleDragEnter(ev: DragEvent) {
-				const target: HTMLDivElement = ev.target as HTMLDivElement
-
-				this.dropTarget = target.id
-
-				if (this.onDropTimeout) {
-					clearTimeout(this.onDropTimeout)
+		computed: {
+			getItemPosition() {
+				return {
+					left: this.item.coordinates.x
+						? `${this.item.coordinates.x}px`
+						: 0,
+					top: this.item.coordinates.y
+						? `${this.item.coordinates.y}px`
+						: 0,
 				}
 			},
-			handleDragLeave() {
-				this.onDropTimeout = setTimeout(() => {
-					this.dropTarget = null
-				}, 50)
-			},
-			handleDropCard(ev: DragEvent, item: IOrganizationTreeItem) {
-				ev.stopPropagation()
-				this.handleDragLeave()
-
-				const currentData: string | undefined =
-					ev.dataTransfer?.getData('text/html')
-
-				if (currentData) {
-					const jsonString: string = currentData.replace(
-						'<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">',
-						'',
+			isConnecting() {
+				if (this.connectorState.from) {
+					return (
+						this.connectorState.from.split('-io-')[0] ===
+						this.$.vnode.key
 					)
-					const parsedJson: IOrganizationCurrentData = {
-						...JSON.parse(jsonString),
+				}
+
+				return false
+			},
+		},
+		methods: {
+			getCoordinatesMove(ev: MouseEvent | TouchEvent) {
+				if (ev.type === 'touchstart') {
+					return {
+						x: (ev as TouchEvent).touches[0].clientX,
+						y: (ev as TouchEvent).touches[0].clientY,
+					}
+				}
+
+				return {
+					x: (ev as MouseEvent).clientX,
+					y: (ev as MouseEvent).clientY,
+				}
+			},
+			handleCircleDoubleClick(
+				indexConnection: number,
+				indexCircle: number,
+			) {
+				if (this.isEditable) {
+					const tempConnections: IConnection[] = [
+						...(this.item.connections || []),
+					]
+					const tempPoints: ICoordinates[] = [
+						...(tempConnections[indexConnection]?.points || []),
+					]
+
+					tempPoints.splice(indexCircle, 1)
+
+					const updatedConnectionPath: IConnection =
+						doUpdateConnectionPath({
+							...tempConnections[indexConnection],
+							points: [...tempPoints],
+						})
+
+					tempConnections[indexConnection] = {
+						...updatedConnectionPath,
 					}
 
+					const itemIndex: number = Number(
+						String(this.$.vnode.key).split('-item-')[1],
+					)
+
 					this.$emit(
-						'changeItem',
+						'changePoint',
 						{
-							data: item,
-							index: item.path,
+							...this.item,
+							connections: [...tempConnections],
 						},
-						parsedJson,
+						itemIndex,
 					)
 				}
 			},
-			handleEmitChange(
-				parent: IOrganizationCurrentData,
-				target: IOrganizationCurrentData,
-			) {
-				this.$emit('changeItem', parent, target)
+			handleClickIO(ev: MouseEvent | TouchEvent, targetIO: number) {
+				const target: HTMLElement = ev.target as HTMLElement
+
+				if (target && this.isEditable) {
+					const fromRect: DOMRect = target.getBoundingClientRect()
+
+					this.$emit(
+						'dragConnection',
+						`${String(this.$.vnode.key)}-io-${targetIO}`,
+						fromRect,
+					)
+				}
 			},
-			isDragged(id: string) {
-				return this.draggedCards.indexOf(id) > -1
+			handleClickPoint(
+				ev: MouseEvent | TouchEvent,
+				indexConnection: number,
+				indexPoint: number,
+			) {
+				const target: HTMLElement = ev.target as HTMLElement
+
+				if (target && this.isEditable) {
+					const fromRect: DOMRect = target.getBoundingClientRect()
+
+					this.$emit(
+						'dragPoint',
+						{
+							connection: indexConnection,
+							item: Number(
+								String(this.$.vnode.key).split('-item-')[1],
+							),
+							point: indexPoint,
+						},
+						fromRect,
+					)
+				}
+			},
+			handleConnectionClick(index: number) {
+				if (this.isEditable) {
+					this.$emit(
+						'selectConnection',
+						`${String(this.$.vnode.key)}-connection-${index}`,
+					)
+				}
+			},
+			handleConnectionDoubleClick(ev: MouseEvent, index: number) {
+				const tempConnections: IConnection[] = [
+					...(this.item.connections || []),
+				]
+
+				const { elem, zoom } = this.canvasState
+
+				if (elem && this.isEditable) {
+					const { height, width, x, y }: DOMRect = elem
+						.getBoundingClientRect()
+						.toJSON()
+					const posX: number = ev.clientX
+					const posY: number = ev.clientY
+
+					const targetX: number =
+						posX * (width / (width * zoom)) -
+						x * (width / (width * zoom))
+					const targetY =
+						posY * (height / (height * zoom)) -
+						y * (height / (height * zoom))
+
+					const updatedConnectionPath: IConnection =
+						doUpdateConnectionPath({
+							...tempConnections[index],
+							points: [
+								...(tempConnections[index].points || []),
+								{
+									x: targetX,
+									y: targetY,
+								},
+							],
+						})
+
+					tempConnections[index] = { ...updatedConnectionPath }
+
+					const itemIndex: number = Number(
+						String(this.$.vnode.key).split('-item-')[1],
+					)
+
+					this.$emit(
+						'changePoint',
+						{
+							...this.item,
+							connections: [...tempConnections],
+						},
+						itemIndex,
+					)
+				}
+			},
+			handleItemClick(ev: MouseEvent | TouchEvent) {
+				const target: HTMLElement = ev.target as HTMLElement
+
+				if (!target.classList.contains('io') && this.isEditable) {
+					const coordinates: ICoordinates =
+						this.getCoordinatesMove(ev)
+
+					this.$emit('dragItem', {
+						coordinates,
+						elem: this.$el.nextSibling,
+						key: this.$.vnode.key as string,
+					})
+				}
 			},
 		},
 	})
