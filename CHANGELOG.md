@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.5](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.4...v2.0.5) (2023-12-23)
+
+
+### Bug Fixes
+
+* accordion expand prop optional ([da651c7](https://github.com/edgarjuvianno/vue-sb-components/commit/da651c7ea89f1dc0932078024653c105db32589e))
+
 ### [2.0.4](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.3...v2.0.4) (2023-12-23)
 
 
