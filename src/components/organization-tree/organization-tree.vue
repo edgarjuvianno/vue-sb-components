@@ -869,14 +869,21 @@
 				return this.draggedItem?.key === key
 			},
 		},
+		watch: {
+			list: {
+				deep: true,
+				handler(newValue: IOrganizationTreeItem[]) {
+					this.localList = [...newValue]
+				},
+				immediate: true,
+			},
+		},
 		mounted() {
 			if (this.$refs['canvas-tree']) {
 				this.canvasState.elem = this.$refs['canvas-tree'] as HTMLElement
 			}
 
 			document.addEventListener('keydown', this.handleParentKeydown)
-
-			this.localList = [...this.list]
 		},
 		unmounted() {
 			this.canvasState.elem = null
