@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.5...v2.0.6) (2023-12-23)
+
+
+### Bug Fixes
+
+* move org chart interfaces to global interface ([78890e8](https://github.com/edgarjuvianno/vue-sb-components/commit/78890e8f799a20acb91fd7718f4ee0a623d29002))
+
 ### [2.0.5](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.4...v2.0.5) (2023-12-23)
 
 
