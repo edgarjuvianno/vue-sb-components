@@ -79,3 +79,9 @@ export interface IPointState {
 	target: IPointTarget | null
 	toCoordinates: ICoordinates | null
 }
+
+export interface ISelectedConnection {
+	from: IConnectionIO
+	key: string
+	to: IConnectionIO
+}

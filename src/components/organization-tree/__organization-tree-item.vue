@@ -61,16 +61,15 @@
 		xmlns="http://www.w3.org/2000/svg"
 		:class="{
 			editable: isEditable,
-			selected:
-				`${String($.vnode.key)}-connection-${index}` ===
-				selectedConnection,
+			selected: isConnectionSelected(index),
 		}"
+		:id="`${String($.vnode.key)}-connection-${index}`"
 		:key="`${String($.vnode.key)}-connection-${index}`"
 		v-for="(connection, index) in item.connections || []"
 	>
 		<path
 			:d="connection.path"
-			@click.stop="handleConnectionClick(index)"
+			@click.stop="handleConnectionClick($event, index)"
 			@dblclick.stop="handleConnectionDoubleClick($event, index)"
 		></path>
 		<circle
@@ -99,8 +98,9 @@
 		ICoordinates,
 		IDraggedItem,
 		IPointTarget,
+		ISelectedConnection,
 	} from './interface'
-	import { doUpdateConnectionPath } from './__funcs'
+	import { doSortPoints, doUpdateConnectionPath } from './__funcs'
 
 	export default defineComponent({
 		emits: {
@@ -108,7 +108,7 @@
 			dragItem: (_item: IDraggedItem) => true,
 			dragConnection: (_io: string, _fromRect: DOMRect) => true,
 			dragPoint: (_target: IPointTarget, _fromRect: DOMRect) => true,
-			selectConnection: (_connectionKey: string) => true,
+			selectConnection: (_connection: ISelectedConnection) => true,
 		},
 		props: {
 			canvasState: {
@@ -133,7 +133,7 @@
 			},
 			selectedConnection: {
 				required: false,
-				type: String as PropType<string | null>,
+				type: Object as PropType<ISelectedConnection | null>,
 			},
 		},
 		name: 'sb-organization-tree-item',
@@ -247,12 +247,18 @@
 					)
 				}
 			},
-			handleConnectionClick(index: number) {
-				if (this.isEditable) {
-					this.$emit(
-						'selectConnection',
-						`${String(this.$.vnode.key)}-connection-${index}`,
-					)
+			handleConnectionClick(ev: MouseEvent, index: number) {
+				if (this.isEditable && ev.target) {
+					const connection: IConnection = {
+						...((this.item.connections as IConnection[])[index] ||
+							{}),
+					}
+
+					this.$emit('selectConnection', {
+						from: connection.from,
+						key: `${String(this.$.vnode.key)}-connection-${index}`,
+						to: connection.to,
+					})
 				}
 			},
 			handleConnectionDoubleClick(ev: MouseEvent, index: number) {
@@ -276,16 +282,23 @@
 						posY * (height / (height * zoom)) -
 						y * (height / (height * zoom))
 
-					const updatedConnectionPath: IConnection =
-						doUpdateConnectionPath({
-							...tempConnections[index],
-							points: [
+					const sortedPoints: ICoordinates[] = [
+						...doSortPoints(
+							[
 								...(tempConnections[index].points || []),
 								{
 									x: targetX,
 									y: targetY,
 								},
 							],
+							tempConnections[index].pathObject.to,
+						),
+					]
+
+					const updatedConnectionPath: IConnection =
+						doUpdateConnectionPath({
+							...tempConnections[index],
+							points: [...sortedPoints],
 						})
 
 					tempConnections[index] = { ...updatedConnectionPath }
@@ -317,6 +330,16 @@
 						key: this.$.vnode.key as string,
 					})
 				}
+			},
+			isConnectionSelected(index: number) {
+				if (this.selectedConnection) {
+					return (
+						`${String(this.$.vnode.key)}-connection-${index}` ===
+						this.selectedConnection.key
+					)
+				}
+
+				return false
 			},
 		},
 	})

@@ -21,16 +21,23 @@
 		@touchstart.stop="handleParentClick"
 		@wheel.stop="handleParentZoom"
 	>
-		<div class="canvas" ref="canvas-tree" :style="canvasStyle">
+		<div
+			class="canvas"
+			ref="canvas-tree"
+			:class="{
+				'connection-selected': selectedConnection,
+			}"
+			:style="canvasStyle"
+		>
 			<sb-org-tree-item
 				:canvas-state="canvasState"
 				:connector-state="connectorState"
 				:is-dragged="isItemDragged(`${$.uid}-org-item-${index}`)"
 				:key="`${$.uid}-org-item-${index}`"
+				:selected-connection="selectedConnection"
 				v-bind="{
 					isEditable,
 					item,
-					...(selectedConnection && { selectedConnection }),
 				}"
 				v-for="(item, index) in localList"
 				@change-point="handleChangeItemPoint"
@@ -72,6 +79,7 @@
 		IParentState,
 		IPointState,
 		IPointTarget,
+		ISelectedConnection,
 	} from './interface'
 	import {
 		doUpdateConnectionPath,
@@ -151,7 +159,7 @@
 					target: null,
 					toCoordinates: null,
 				} as IPointState,
-				selectedConnection: null as null | string,
+				selectedConnection: null as null | ISelectedConnection,
 			}
 		},
 		methods: {
@@ -235,6 +243,7 @@
 						true,
 					) as HTMLElement
 
+					clonedElem.classList.remove('connection-selected')
 					clonedElem.style.transform = 'none'
 					clonedElem.style.background = 'transparent'
 					clonedElem.style.height = `${elemHeight}px`
@@ -473,7 +482,10 @@
 				} else if (this.connectorState.from) {
 					const targetDrop: HTMLElement = ev.target as HTMLElement
 
-					if (targetDrop.id !== this.connectorState.from) {
+					if (
+						targetDrop.id !== this.connectorState.from &&
+						targetDrop.classList.contains('io')
+					) {
 						const isConnectionExist: boolean =
 							this.isConnectionExist(
 								this.connectorState.from,
@@ -563,14 +575,22 @@
 					}
 				})
 			},
-			handleParentKeydown(ev: KeyboardEvent) {
+			async handleParentKeydown(ev: KeyboardEvent) {
 				if (
-					(ev.key === 'Delete' ||
-						(ev.key === 'Backspace' && ev.metaKey)) &&
+					(ev.key === 'Delete' || ev.key === 'Backspace') &&
 					this.selectedConnection
 				) {
+					ev.preventDefault()
+
 					const splitConnection: string[] =
-						this.selectedConnection.split('-connection-')
+						this.selectedConnection.key.split('-connection-')
+
+					this.selectedConnection = null
+
+					await new Promise((resolve) =>
+						setTimeout(() => resolve(true), 150),
+					)
+
 					const itemIndex: number = Number(
 						splitConnection[0].split('-item-')[1],
 					)
@@ -587,9 +607,9 @@
 									idx !== connectionIndex,
 							)
 
-						this.$nextTick(() =>
-							this.$emit('change', this.localList),
-						)
+						this.$nextTick(() => {
+							this.$emit('change', this.localList)
+						})
 					}
 				}
 			},
@@ -751,8 +771,8 @@
 				this.pointState.target = { ...target }
 				this.pointState.fromRect = { ...fromRect.toJSON() }
 			},
-			handleSelectConnection(key: string) {
-				this.selectedConnection = key
+			handleSelectConnection(connection: ISelectedConnection) {
+				this.selectedConnection = { ...connection }
 			},
 			isConnectionExist(fromId: string, toId: string) {
 				const connections: IConnection[] = [...this.localList].flatMap(

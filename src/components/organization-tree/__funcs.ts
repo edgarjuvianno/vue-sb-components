@@ -28,6 +28,29 @@ const getUpdatedPointCoordinates: (
 	}
 }
 
+export const doSortPoints: (
+	points: ICoordinates[],
+	endLine: ICoordinates,
+) => ICoordinates[] = (points: ICoordinates[], endLine: ICoordinates) => {
+	const tempPoints: ICoordinates[] = [...points]
+	const sortedPoints: ICoordinates[] = tempPoints.sort(
+		(a: ICoordinates, b: ICoordinates) => {
+			const distanceAToEnd: number = Math.sqrt(
+				(a.x - endLine.x) * (a.x - endLine.x) +
+					(a.y - endLine.y) * (a.y - endLine.y),
+			)
+			const distanceBToEnd: number = Math.sqrt(
+				(b.x - endLine.x) * (b.x - endLine.x) +
+					(b.y - endLine.y) * (b.y - endLine.y),
+			)
+
+			return distanceAToEnd - distanceBToEnd
+		},
+	)
+
+	return sortedPoints.reverse()
+}
+
 export const doUpdateConnectionPath: (item: IConnection) => IConnection = (
 	item: IConnection,
 ) => {
