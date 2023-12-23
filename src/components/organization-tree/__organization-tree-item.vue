@@ -70,7 +70,7 @@
 		v-for="(connection, index) in item.connections || []"
 	>
 		<path
-			:d="connectionsPath[`${String($.vnode.key)}-connection-${index}`]"
+			:d="getConnectionPathString(connection)"
 			@click.stop="handleConnectionClick($event, index)"
 			@dblclick.stop="handleConnectionDoubleClick($event, index)"
 		></path>
@@ -195,6 +195,15 @@
 				}
 
 				return undefined
+			},
+			getConnectionPathString(connection: IConnection) {
+				return this.connectionsPath[
+					`${String(this.$.vnode.key)}-connection-${
+						connection.from.item
+					}-${connection.from.io}-${connection.to.item}-${
+						connection.to.io
+					}`
+				]
 			},
 			getCoordinatesMove(ev: MouseEvent | TouchEvent) {
 				if (ev.type === 'touchstart') {
@@ -408,35 +417,58 @@
 			if (this.item.connections) {
 				this.connectionsPath = {}
 
-				this.item.connections.forEach(
-					(it: IConnection, index: number) => {
-						const path: string | undefined =
-							this.getConnectionPath(it)
+				this.item.connections.forEach((it: IConnection) => {
+					const path: string | undefined = this.getConnectionPath(it)
 
-						this.connectionsPath[
-							`${String(this.$.vnode.key)}-connection-${index}`
-						] = path
-					},
-				)
+					this.connectionsPath[
+						`${String(this.$.vnode.key)}-connection-${
+							it.from.item
+						}-${it.from.io}-${it.to.item}-${it.to.io}`
+					] = path
+				})
 			}
 		},
 		watch: {
 			'item.connections': {
 				deep: true,
-				handler(newValue: IConnection[] | undefined) {
-					if (newValue) {
-						this.connectionsPath = {}
+				handler(
+					newValue: IConnection[] | undefined,
+					oldValue: IConnection[] | undefined,
+				) {
+					if (newValue && oldValue) {
+						if (newValue.length < oldValue.length) {
+							const newKeys: string[] = [...newValue].map(
+								(it: IConnection) =>
+									`${String(this.$.vnode.key)}-connection-${
+										it.from.item
+									}-${it.from.io}-${it.to.item}-${it.to.io}`,
+							)
+							const oldKeys: string[] = [...oldValue].map(
+								(it: IConnection) =>
+									`${String(this.$.vnode.key)}-connection-${
+										it.from.item
+									}-${it.from.io}-${it.to.item}-${it.to.io}`,
+							)
 
-						newValue.forEach((it: IConnection, index: number) => {
+							const deleted: string | undefined = oldKeys.find(
+								(it: string) => newKeys.indexOf(it) < 0,
+							)
+
+							if (deleted) {
+								delete this.connectionsPath[deleted]
+							}
+						} else if (newValue.length > oldValue.length) {
+							const conn: IConnection =
+								newValue[newValue.length - 1]
 							const path: string | undefined =
-								this.getConnectionPath(it)
+								this.getConnectionPath(conn)
 
 							this.connectionsPath[
-								`${String(
-									this.$.vnode.key,
-								)}-connection-${index}`
+								`${String(this.$.vnode.key)}-connection-${
+									conn.from.item
+								}-${conn.from.io}-${conn.to.item}-${conn.to.io}`
 							] = path
-						})
+						}
 					}
 				},
 			},

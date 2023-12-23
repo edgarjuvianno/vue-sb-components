@@ -27,7 +27,7 @@
 			:class="{
 				'connection-selected': selectedConnection,
 			}"
-			:style="canvasStyle"
+			:style="getCanvasStyle"
 		>
 			<template v-if="canvasState.elem">
 				<sb-org-tree-item
@@ -84,7 +84,7 @@
 		ISelectedConnection,
 	} from '@/interface'
 	import { toPng as htmlToPNG } from 'html-to-image'
-	import { getConnectionPath } from './__funcs'
+	import { getConnectionPathItem, getConnectionPathPoint } from './__funcs'
 
 	// components
 	import TreeItem from './__organization-tree-item.vue'
@@ -161,6 +161,23 @@
 				selectedConnection: null as null | ISelectedConnection,
 			}
 		},
+		computed: {
+			getCanvasStyle() {
+				const { maxX, minX, maxY, minY }: Record<string, number> =
+					this.getMinMaxXY()
+
+				const dimension: Record<string, string> = {
+					height: `${
+						Math.ceil((Math.abs(minY) + maxY) / 495) * 495
+					}px`,
+					width: `${
+						Math.ceil((Math.abs(minX) + maxX) / 700) * 700
+					}px`,
+				}
+
+				return { ...dimension, ...this.canvasStyle }
+			},
+		},
 		methods: {
 			async doExport() {
 				this.isExporting = true
@@ -171,61 +188,8 @@
 					}, 200),
 				)
 
-				const connections: IConnection[] = [...this.localList].flatMap(
-					(item: IOrganizationTreeItem) =>
-						item.connections ? [...item.connections] : [],
-				)
-				const points: ICoordinates[] = [...connections].flatMap(
-					(item: IConnection) =>
-						item.points ? [...item.points] : [],
-				)
-				const itemRects: (DOMRect | null)[] = [...this.localList].map(
-					(_it: IOrganizationTreeItem, idx: number) => {
-						const id: string = `org-${this.$.uid}-item-${idx}`
-						const elem: HTMLElement | null =
-							document.getElementById(id)
-
-						if (elem) {
-							const elemRect: DOMRect = elem
-								.getBoundingClientRect()
-								.toJSON()
-
-							return elemRect
-						}
-
-						return null
-					},
-				)
-
-				const itemX: number[] = [...itemRects].map(
-					(it: DOMRect | null) => it?.x || 0,
-				)
-				const itemXWidth: number[] = [...itemRects].map(
-					(it: DOMRect | null) => (it?.x || 0) + (it?.width || 0),
-				)
-				const itemY: number[] = [...itemRects].map(
-					(it: DOMRect | null) => it?.y || 0,
-				)
-				const itemYHeight: number[] = [...itemRects].map(
-					(it: DOMRect | null) => (it?.y || 0) + (it?.height || 0),
-				)
-
-				const xAxis: number[] = [
-					...[...points].map((it: ICoordinates) => it.x),
-					...itemX,
-					...itemXWidth,
-				]
-				const yAxis: number[] = [
-					...[...points].map((it: ICoordinates) => it.y),
-					...itemY,
-					...itemYHeight,
-				]
-
-				const maxX: number = Math.max.apply(null, xAxis)
-				const minX: number = Math.min.apply(null, xAxis)
-
-				const maxY: number = Math.max.apply(null, yAxis)
-				const minY: number = Math.min.apply(null, yAxis)
+				const { maxX, minX, maxY, minY }: Record<string, number> =
+					this.getMinMaxXY()
 
 				const elemHeight: number = Math.abs(minY) + maxY
 				const elemWidth: number = Math.abs(minX) + maxX
@@ -399,8 +363,10 @@
 												this.canvasState.zoom) || 0
 
 									const newPath: string | undefined =
-										getConnectionPath(
+										getConnectionPathItem(
+											idx,
 											itConnection,
+											path,
 											orgUID,
 											{
 												canvasHeight: canvasHeightZoom,
@@ -424,7 +390,7 @@
 				})
 			},
 			doUpdatePointMovedConnection(
-				connection: IConnection,
+				points: ICoordinates[],
 				connectionIndex: number,
 				itemIndex: number,
 			) {
@@ -435,27 +401,9 @@
 				const path: HTMLCollectionOf<SVGPathElement> | undefined =
 					connectionElem?.getElementsByTagName('path')
 
-				const orgUID: string = String(this.$.uid)
-
-				const canvasRect: DOMRect = this.getCanvasRect()
-
-				const canvasHeight: number = canvasRect.height || 0
-				const canvasWidth: number = canvasRect.width || 0
-
-				const canvasWidthZoom: number =
-					canvasWidth / (canvasWidth * this.canvasState.zoom) || 0
-				const canvasHeightZoom: number =
-					canvasHeight / (canvasHeight * this.canvasState.zoom) || 0
-
-				const newPath: string | undefined = getConnectionPath(
-					connection,
-					orgUID,
-					{
-						canvasHeight: canvasHeightZoom,
-						canvasWidth: canvasWidthZoom,
-						x: canvasRect.x,
-						y: canvasRect.y,
-					},
+				const newPath: string | undefined = getConnectionPathPoint(
+					points,
+					path,
 				)
 
 				if (newPath && path) {
@@ -525,6 +473,56 @@
 				}
 
 				return this.parentState.position
+			},
+			getMinMaxXY() {
+				const connections: IConnection[] = [...this.localList].flatMap(
+					(item: IOrganizationTreeItem) =>
+						item.connections ? [...item.connections] : [],
+				)
+				const points: ICoordinates[] = [...connections].flatMap(
+					(item: IConnection) =>
+						item.points ? [...item.points] : [],
+				)
+				const itemRects: ICoordinates[] = [...this.localList].map(
+					(it: IOrganizationTreeItem) => it.coordinates,
+				)
+
+				const itemX: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.x,
+				)
+				const itemXWidth: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.x + 220,
+				)
+				const itemY: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.y,
+				)
+				const itemYHeight: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.y + 100,
+				)
+
+				const xAxis: number[] = [
+					...[...points].map((it: ICoordinates) => it.x),
+					...itemX,
+					...itemXWidth,
+				]
+				const yAxis: number[] = [
+					...[...points].map((it: ICoordinates) => it.y),
+					...itemY,
+					...itemYHeight,
+				]
+
+				const maxX: number = Math.max.apply(null, xAxis)
+				const minX: number = Math.min.apply(null, xAxis)
+
+				const maxY: number = Math.max.apply(null, yAxis)
+				const minY: number = Math.min.apply(null, yAxis)
+
+				return {
+					maxX,
+					minX,
+					maxY,
+					minY,
+				}
 			},
 			handleChangeItemPoint(item: IOrganizationTreeItem, index: number) {
 				this.localList[index] = { ...item }
@@ -683,10 +681,6 @@
 
 					this.selectedConnection = null
 
-					await new Promise((resolve) =>
-						setTimeout(() => resolve(true), 150),
-					)
-
 					const itemIndex: number = Number(
 						splitConnection[0].split('-item-')[1],
 					)
@@ -760,8 +754,10 @@
 			handleParentPosition(ev: MouseEvent | TouchEvent) {
 				const { x, y }: ICoordinates = this.getCoordinatesMove(
 					ev,
-					!!this.connectorState.from,
+					!!this.connectorState.from || !!this.pointState.target,
 				)
+
+				const { x: parentX, y: parentY } = this.parentState.position
 
 				const { coordinates, zoom }: ICanvasState = this.canvasState
 				const canvasRect: DOMRect | null = this.getCanvasRect()
@@ -809,7 +805,11 @@
 					}
 
 					this.$nextTick(() => this.doSetTempConnectionPath())
-				} else if (this.pointState.target && this.canvasState.elem) {
+				} else if (
+					this.pointState.target &&
+					this.canvasState.elem &&
+					(x !== parentX || y !== parentY)
+				) {
 					const {
 						height,
 						width,
@@ -836,15 +836,12 @@
 					]
 
 					tempPoints[target.point] = {
-						x: Math.round(targetX / 10) * 10,
-						y: Math.round(targetY / 10) * 10,
+						x: Math.round(targetX / 5) * 5,
+						y: Math.round(targetY / 5) * 5,
 					}
 
 					this.doUpdatePointMovedConnection(
-						{
-							...tempConnections[target.connection],
-							points: [...tempPoints],
-						},
+						[...tempPoints],
 						target.connection,
 						target.item,
 					)
@@ -857,6 +854,11 @@
 					this.localList[target.item].connections = [
 						...tempConnections,
 					]
+				}
+
+				this.parentState.position = {
+					x,
+					y,
 				}
 
 				if (ev.type === 'touchmove') {
