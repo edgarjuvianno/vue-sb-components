@@ -20,7 +20,9 @@
 			@mousedown.stop="handleClickIO($event, io)"
 			@touchstart.stop="handleClickIO($event, io)"
 		></span>
-		{{ item.department }}
+		<div class="text">
+			{{ item.department }}
+		</div>
 	</div>
 	<div
 		v-else

@@ -488,18 +488,43 @@
 					y: (ev as MouseEvent).clientY,
 				}
 			},
-			getCoordinatesMove(ev: MouseEvent | TouchEvent) {
-				if (ev.type === 'touchmove' || ev.type === 'touchstart') {
+			getCoordinatesMove(
+				ev: MouseEvent | TouchEvent,
+				isPullConnection?: boolean,
+			) {
+				const treshold: number = isPullConnection ? 5 : 10
+
+				const position: () => ICoordinates = () => {
+					if (ev.type === 'touchmove' || ev.type === 'touchstart') {
+						return {
+							x: (ev as TouchEvent).touches[0].clientX,
+							y: (ev as TouchEvent).touches[0].clientY,
+						}
+					}
+
 					return {
-						x: (ev as TouchEvent).touches[0].clientX,
-						y: (ev as TouchEvent).touches[0].clientY,
+						x: (ev as MouseEvent).clientX,
+						y: (ev as MouseEvent).clientY,
 					}
 				}
 
-				return {
-					x: (ev as MouseEvent).clientX,
-					y: (ev as MouseEvent).clientY,
+				const cursorPosition: ICoordinates = position()
+
+				if (
+					Math.abs(cursorPosition.x - this.parentState.position.x) >=
+						treshold ||
+					Math.abs(cursorPosition.y - this.parentState.position.y) >=
+						treshold
+				) {
+					const rounded: ICoordinates = {
+						x: Math.round(cursorPosition.x / treshold) * treshold,
+						y: Math.round(cursorPosition.y / treshold) * treshold,
+					}
+
+					return rounded
 				}
+
+				return this.parentState.position
 			},
 			handleChangeItemPoint(item: IOrganizationTreeItem, index: number) {
 				this.localList[index] = { ...item }
@@ -733,7 +758,11 @@
 				})
 			},
 			handleParentPosition(ev: MouseEvent | TouchEvent) {
-				const { x, y }: ICoordinates = this.getCoordinatesMove(ev)
+				const { x, y }: ICoordinates = this.getCoordinatesMove(
+					ev,
+					!!this.connectorState.from,
+				)
+
 				const { coordinates, zoom }: ICanvasState = this.canvasState
 				const canvasRect: DOMRect | null = this.getCanvasRect()
 
@@ -760,8 +789,16 @@
 						((canvasRect?.height || 0) * zoom)
 
 					this.handleItemChangePosition({
-						x: this.draggedItem.elem.offsetLeft - targetX,
-						y: this.draggedItem.elem.offsetTop - targetY,
+						x:
+							Math.round(
+								(this.draggedItem.elem.offsetLeft - targetX) /
+									10,
+							) * 10,
+						y:
+							Math.round(
+								(this.draggedItem.elem.offsetTop - targetY) /
+									10,
+							) * 10,
 					})
 
 					this.$nextTick(() => (this.mouseState.position = { x, y }))
@@ -799,8 +836,8 @@
 					]
 
 					tempPoints[target.point] = {
-						x: targetX,
-						y: targetY,
+						x: Math.round(targetX / 10) * 10,
+						y: Math.round(targetY / 10) * 10,
 					}
 
 					this.doUpdatePointMovedConnection(
@@ -821,8 +858,6 @@
 						...tempConnections,
 					]
 				}
-
-				this.parentState.position = { x, y }
 
 				if (ev.type === 'touchmove') {
 					this.mouseState.mouse = {

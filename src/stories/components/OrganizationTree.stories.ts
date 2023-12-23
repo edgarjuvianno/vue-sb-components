@@ -57,7 +57,7 @@ const meta = {
 			},
 			{
 				coordinates: {
-					x: 265,
+					x: 270,
 					y: 120,
 				},
 				department: 'Software Engineering',
@@ -94,8 +94,8 @@ const meta = {
 						},
 						points: [
 							{
-								x: 141,
-								y: 228,
+								x: 140,
+								y: 230,
 							},
 						],
 					},
@@ -111,7 +111,7 @@ const meta = {
 						points: [
 							{
 								x: 520,
-								y: 228,
+								y: 230,
 							},
 						],
 					},
@@ -144,6 +144,16 @@ const meta = {
 							io: 2,
 							item: 5,
 						},
+						points: [
+							{
+								x: 420,
+								y: 430,
+							},
+							{
+								x: 370,
+								y: 430,
+							},
+						],
 					},
 					{
 						from: {
@@ -154,13 +164,23 @@ const meta = {
 							io: 2,
 							item: 6,
 						},
+						points: [
+							{
+								x: 520,
+								y: 430,
+							},
+							{
+								x: 670,
+								y: 430,
+							},
+						],
 					},
 				],
 			},
 			{
 				coordinates: {
-					x: 270,
-					y: 440,
+					x: 260,
+					y: 470,
 				},
 				name: 'David',
 				photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww',
@@ -169,7 +189,7 @@ const meta = {
 			{
 				coordinates: {
 					x: 560,
-					y: 440,
+					y: 470,
 				},
 				name: 'Motoki',
 				photo: 'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHJhbmRvbSUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D',
@@ -181,7 +201,6 @@ const meta = {
 		(story, ctx) => {
 			delete (ctx.args as any).change
 			;(ctx.args as any).onChange = (list: IOrganizationTreeItem[]) => {
-				// console.log(list, 'here')
 				// eslint-disable-next-line no-underscore-dangle
 				const channel = (window as any)
 					.__STORYBOOK_ADDONS_CHANNEL__ as Channel
@@ -230,6 +249,7 @@ export const AdditionalInfo: Story = {
 	args: {
 		list: [
 			{
+				additionalInfo: '<p style="margin: 0;">additional info</p>',
 				coordinates: {
 					x: 250,
 					y: 10,
@@ -252,7 +272,7 @@ export const AdditionalInfo: Story = {
 			},
 			{
 				coordinates: {
-					x: 265,
+					x: 270,
 					y: 120,
 				},
 				department: 'Software Engineering',
@@ -270,7 +290,6 @@ export const AdditionalInfo: Story = {
 				],
 			},
 			{
-				additionalInfo: '<p style="margin: 0;">additional info</p>',
 				coordinates: {
 					x: 250,
 					y: 190,
@@ -290,8 +309,8 @@ export const AdditionalInfo: Story = {
 						},
 						points: [
 							{
-								x: 141,
-								y: 228,
+								x: 140,
+								y: 230,
 							},
 						],
 					},
@@ -307,7 +326,7 @@ export const AdditionalInfo: Story = {
 						points: [
 							{
 								x: 520,
-								y: 228,
+								y: 230,
 							},
 						],
 					},
@@ -340,6 +359,16 @@ export const AdditionalInfo: Story = {
 							io: 2,
 							item: 5,
 						},
+						points: [
+							{
+								x: 420,
+								y: 430,
+							},
+							{
+								x: 370,
+								y: 430,
+							},
+						],
 					},
 					{
 						from: {
@@ -350,13 +379,23 @@ export const AdditionalInfo: Story = {
 							io: 2,
 							item: 6,
 						},
+						points: [
+							{
+								x: 520,
+								y: 430,
+							},
+							{
+								x: 670,
+								y: 430,
+							},
+						],
 					},
 				],
 			},
 			{
 				coordinates: {
-					x: 270,
-					y: 440,
+					x: 260,
+					y: 470,
 				},
 				name: 'David',
 				photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww',
@@ -365,7 +404,7 @@ export const AdditionalInfo: Story = {
 			{
 				coordinates: {
 					x: 560,
-					y: 440,
+					y: 470,
 				},
 				name: 'Motoki',
 				photo: 'https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHJhbmRvbSUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D',
