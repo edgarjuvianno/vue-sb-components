@@ -47,7 +47,7 @@
 				>,
 			},
 			expand: {
-				required: true,
+				required: false,
 				type: Boolean,
 			},
 			title: {
@@ -122,8 +122,8 @@
 		},
 		watch: {
 			expand: {
-				handler(newValue: boolean) {
-					this.localExpanded = newValue
+				handler(newValue: boolean | undefined) {
+					this.localExpanded = newValue || false
 				},
 				immediate: true,
 			},
