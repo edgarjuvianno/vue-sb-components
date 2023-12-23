@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.4](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.3...v2.0.4) (2023-12-23)
+
+
+### Bug Fixes
+
+* remove emit, fix point css ([024e8a9](https://github.com/edgarjuvianno/vue-sb-components/commit/024e8a96bbf79cb50c5f90068d42bbff5353ebf6))
+
 ### [2.0.3](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.2...v2.0.3) (2023-12-23)
 
 
