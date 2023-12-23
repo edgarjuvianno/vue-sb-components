@@ -82,7 +82,7 @@
 		IPointState,
 		IPointTarget,
 		ISelectedConnection,
-	} from './interface'
+	} from '@/interface'
 	import { toPng as htmlToPNG } from 'html-to-image'
 	import { getConnectionPath } from './__funcs'
 

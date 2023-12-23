@@ -1,4 +1,4 @@
-import { IConnection, ICoordinates } from './interface'
+import { IConnection, ICoordinates } from '@/interface'
 
 const getUpdatedPointCoordinates: (
 	pointIndex: number,

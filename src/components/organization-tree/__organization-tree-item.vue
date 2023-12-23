@@ -99,7 +99,7 @@
 		IDraggedItem,
 		IPointTarget,
 		ISelectedConnection,
-	} from './interface'
+	} from '@/interface'
 	import { doSortPoints, getConnectionPath } from './__funcs'
 
 	export default defineComponent({
