@@ -52,17 +52,6 @@ const meta = {
 							io: 2,
 							item: 1,
 						},
-						path: 'M 360.5 80 L 362.5 123.5',
-						pathObject: {
-							from: {
-								x: 360.5,
-								y: 80,
-							},
-							to: {
-								x: 362.5,
-								y: 123.5,
-							},
-						},
 					},
 				],
 			},
@@ -81,17 +70,6 @@ const meta = {
 						to: {
 							io: 2,
 							item: 2,
-						},
-						path: 'M 362.5 155 L 360.5 193.5',
-						pathObject: {
-							from: {
-								x: 362.5,
-								y: 155,
-							},
-							to: {
-								x: 360.5,
-								y: 193.5,
-							},
 						},
 					},
 				],
@@ -114,17 +92,6 @@ const meta = {
 							io: 2,
 							item: 3,
 						},
-						path: 'M 253.5 227.5 L 141 228 L 140.5 323.5',
-						pathObject: {
-							from: {
-								x: 253.5,
-								y: 227.5,
-							},
-							to: {
-								x: 140.5,
-								y: 323.5,
-							},
-						},
 						points: [
 							{
 								x: 141,
@@ -140,17 +107,6 @@ const meta = {
 						to: {
 							io: 3,
 							item: 4,
-						},
-						path: 'M 467.5 227.5 L 520 228 L 520.25 323.5',
-						pathObject: {
-							from: {
-								x: 467.5,
-								y: 227.5,
-							},
-							to: {
-								x: 520.25,
-								y: 323.5,
-							},
 						},
 						points: [
 							{
@@ -188,17 +144,6 @@ const meta = {
 							io: 2,
 							item: 5,
 						},
-						path: 'M 420.75 390 L 380.5 443.5',
-						pathObject: {
-							from: {
-								x: 420.75,
-								y: 390,
-							},
-							to: {
-								x: 380.5,
-								y: 443.5,
-							},
-						},
 					},
 					{
 						from: {
@@ -208,17 +153,6 @@ const meta = {
 						to: {
 							io: 2,
 							item: 6,
-						},
-						path: 'M 520.25 390 L 670.5 443.5',
-						pathObject: {
-							from: {
-								x: 520.25,
-								y: 390,
-							},
-							to: {
-								x: 670.5,
-								y: 443.5,
-							},
 						},
 					},
 				],
@@ -313,17 +247,6 @@ export const AdditionalInfo: Story = {
 							io: 2,
 							item: 1,
 						},
-						path: 'M 360.5 80 L 362.5 123.5',
-						pathObject: {
-							from: {
-								x: 360.5,
-								y: 80,
-							},
-							to: {
-								x: 362.5,
-								y: 123.5,
-							},
-						},
 					},
 				],
 			},
@@ -342,17 +265,6 @@ export const AdditionalInfo: Story = {
 						to: {
 							io: 2,
 							item: 2,
-						},
-						path: 'M 362.5 155 L 360.5 193.5',
-						pathObject: {
-							from: {
-								x: 362.5,
-								y: 155,
-							},
-							to: {
-								x: 360.5,
-								y: 193.5,
-							},
 						},
 					},
 				],
@@ -376,17 +288,6 @@ export const AdditionalInfo: Story = {
 							io: 2,
 							item: 3,
 						},
-						path: 'M 253.5 227.5 L 141 228 L 140.5 323.5',
-						pathObject: {
-							from: {
-								x: 253.5,
-								y: 227.5,
-							},
-							to: {
-								x: 140.5,
-								y: 323.5,
-							},
-						},
 						points: [
 							{
 								x: 141,
@@ -402,17 +303,6 @@ export const AdditionalInfo: Story = {
 						to: {
 							io: 3,
 							item: 4,
-						},
-						path: 'M 467.5 227.5 L 520 228 L 520.25 323.5',
-						pathObject: {
-							from: {
-								x: 467.5,
-								y: 227.5,
-							},
-							to: {
-								x: 520.25,
-								y: 323.5,
-							},
 						},
 						points: [
 							{
@@ -450,17 +340,6 @@ export const AdditionalInfo: Story = {
 							io: 2,
 							item: 5,
 						},
-						path: 'M 420.75 390 L 380.5 443.5',
-						pathObject: {
-							from: {
-								x: 420.75,
-								y: 390,
-							},
-							to: {
-								x: 380.5,
-								y: 443.5,
-							},
-						},
 					},
 					{
 						from: {
@@ -470,17 +349,6 @@ export const AdditionalInfo: Story = {
 						to: {
 							io: 2,
 							item: 6,
-						},
-						path: 'M 520.25 390 L 670.5 443.5',
-						pathObject: {
-							from: {
-								x: 520.25,
-								y: 390,
-							},
-							to: {
-								x: 670.5,
-								y: 443.5,
-							},
 						},
 					},
 				],

@@ -62,8 +62,6 @@ export interface IConnectionIO {
 
 export interface IConnection {
 	from: IConnectionIO
-	path: string
-	pathObject: IConnectorStatePathObject
 	points?: ICoordinates[]
 	to: IConnectionIO
 }

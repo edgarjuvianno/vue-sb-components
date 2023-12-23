@@ -4,7 +4,7 @@
 			connecting: connectorState.from,
 			dragging: parentState.isDrag,
 		}"
-		:id="`${$.uid}-org`"
+		:id="`org-${$.uid}`"
 		class="organization-wrapper"
 		v-bind="{ ...$attrs }"
 		@mousedown.stop="handleParentClick"
@@ -29,37 +29,39 @@
 			}"
 			:style="canvasStyle"
 		>
-			<sb-org-tree-item
-				:canvas-state="canvasState"
-				:connector-state="connectorState"
-				:is-dragged="isItemDragged(`${$.uid}-org-item-${index}`)"
-				:key="`${$.uid}-org-item-${index}`"
-				:selected-connection="selectedConnection"
-				v-bind="{
-					isEditable,
-					item,
-				}"
-				v-for="(item, index) in localList"
-				@change-point="handleChangeItemPoint"
-				@drag-connection="handleConnectionDragged"
-				@drag-item="handleItemDragged"
-				@drag-point="handlePointDragged"
-				@select-connection="handleSelectConnection"
-			/>
-			<svg
-				class="connection connecting"
-				xmlns="http://www.w3.org/2000/svg"
-				v-if="connectorState.from"
-			>
-				<path :d="connectorState.path"></path>
-			</svg>
+			<template v-if="canvasState.elem">
+				<sb-org-tree-item
+					:canvas-state="canvasState"
+					:connector-state="connectorState"
+					:is-dragged="isItemDragged(`org-${$.uid}-item-${index}`)"
+					:key="`org-${$.uid}-item-${index}`"
+					:selected-connection="selectedConnection"
+					v-bind="{
+						isEditable,
+						item,
+					}"
+					v-for="(item, index) in localList"
+					@change-point="handleChangeItemPoint"
+					@drag-connection="handleConnectionDragged"
+					@drag-item="handleItemDragged"
+					@drag-point="handlePointDragged"
+					@select-connection="handleSelectConnection"
+				/>
+				<svg
+					class="connection connecting"
+					xmlns="http://www.w3.org/2000/svg"
+					v-if="connectorState.from"
+				>
+					<path :d="connectorState.path"></path>
+				</svg>
+			</template>
 		</div>
 	</div>
 	<Teleport to="body">
 		<div
 			v-if="isExporting"
 			class="export-area-org-chart"
-			:id="`${$.uid}-org-export-area`"
+			:id="`org-${$.uid}-export-area`"
 			:style="exportAreaStyle"
 		></div>
 	</Teleport>
@@ -81,11 +83,8 @@
 		IPointTarget,
 		ISelectedConnection,
 	} from './interface'
-	import {
-		doUpdateConnectionPath,
-		doUpdateConnectionPathItemMoved,
-	} from './__funcs'
 	import { toPng as htmlToPNG } from 'html-to-image'
+	import { getConnectionPath } from './__funcs'
 
 	// components
 	import TreeItem from './__organization-tree-item.vue'
@@ -182,7 +181,7 @@
 				)
 				const itemRects: (DOMRect | null)[] = [...this.localList].map(
 					(_it: IOrganizationTreeItem, idx: number) => {
-						const id: string = `${this.$.uid}-org-item-${idx}`
+						const id: string = `org-${this.$.uid}-item-${idx}`
 						const elem: HTMLElement | null =
 							document.getElementById(id)
 
@@ -251,7 +250,7 @@
 					clonedElem.style.width = `${elemWidth}px`
 
 					const parent: HTMLElement | null = document.getElementById(
-						`${this.$.uid}-org-export-area`,
+						`org-${this.$.uid}-export-area`,
 					)
 
 					if (parent) {
@@ -350,36 +349,117 @@
 					this.connectorState.path = undefined
 				}
 			},
-			doUpdateConnections(
-				itemTrigger: number,
-				updatedList: IOrganizationTreeItem[],
+			doUpdateItemMovedConnections(
+				triggerIndex: number,
+				list: IOrganizationTreeItem[],
 			) {
-				const { zoom } = this.canvasState
+				list.forEach((it: IOrganizationTreeItem, idx: number) => {
+					if (
+						[...(it.connections || [])].some(
+							(itConnection: IConnection) =>
+								itConnection.from.item === triggerIndex ||
+								itConnection.to.item === triggerIndex,
+						)
+					) {
+						;[...(it.connections || [])].forEach(
+							(
+								itConnection: IConnection,
+								idxConnection: number,
+							) => {
+								if (
+									itConnection.from.item === triggerIndex ||
+									itConnection.to.item === triggerIndex
+								) {
+									const connection: HTMLElement | null =
+										document.getElementById(
+											`org-${this.$.uid}-item-${idx}-connection-${idxConnection}`,
+										)
+									const path:
+										| HTMLCollectionOf<SVGPathElement>
+										| undefined =
+										connection?.getElementsByTagName('path')
 
-				const canvasRect: DOMRect | null = this.getCanvasRect()
+									const orgUID: string = String(this.$.uid)
 
-				if (canvasRect) {
-					const canvasHeight: number = canvasRect.height || 0
-					const canvasWidth: number = canvasRect.width || 0
+									const canvasRect: DOMRect =
+										this.getCanvasRect()
 
-					const canvasWidthZoom: number =
-						canvasWidth / (canvasWidth * zoom) || 0
-					const canvasHeightZoom: number =
-						canvasHeight / (canvasHeight * zoom) || 0
+									const canvasHeight: number =
+										canvasRect.height || 0
+									const canvasWidth: number =
+										canvasRect.width || 0
 
-					this.localList = [
-						...doUpdateConnectionPathItemMoved(
-							updatedList,
-							itemTrigger,
-							String(this.$.uid),
-							{
-								canvasHeight: canvasHeightZoom,
-								canvasWidth: canvasWidthZoom,
-								x: canvasRect.x,
-								y: canvasRect.y,
+									const canvasWidthZoom: number =
+										canvasWidth /
+											(canvasWidth *
+												this.canvasState.zoom) || 0
+									const canvasHeightZoom: number =
+										canvasHeight /
+											(canvasHeight *
+												this.canvasState.zoom) || 0
+
+									const newPath: string | undefined =
+										getConnectionPath(
+											itConnection,
+											orgUID,
+											{
+												canvasHeight: canvasHeightZoom,
+												canvasWidth: canvasWidthZoom,
+												x: canvasRect.x,
+												y: canvasRect.y,
+											},
+										)
+
+									if (newPath && path) {
+										path[0].setAttributeNS(
+											null,
+											'd',
+											newPath,
+										)
+									}
+								}
 							},
-						),
-					]
+						)
+					}
+				})
+			},
+			doUpdatePointMovedConnection(
+				connection: IConnection,
+				connectionIndex: number,
+				itemIndex: number,
+			) {
+				const connectionElem: HTMLElement | null =
+					document.getElementById(
+						`org-${this.$.uid}-item-${itemIndex}-connection-${connectionIndex}`,
+					)
+				const path: HTMLCollectionOf<SVGPathElement> | undefined =
+					connectionElem?.getElementsByTagName('path')
+
+				const orgUID: string = String(this.$.uid)
+
+				const canvasRect: DOMRect = this.getCanvasRect()
+
+				const canvasHeight: number = canvasRect.height || 0
+				const canvasWidth: number = canvasRect.width || 0
+
+				const canvasWidthZoom: number =
+					canvasWidth / (canvasWidth * this.canvasState.zoom) || 0
+				const canvasHeightZoom: number =
+					canvasHeight / (canvasHeight * this.canvasState.zoom) || 0
+
+				const newPath: string | undefined = getConnectionPath(
+					connection,
+					orgUID,
+					{
+						canvasHeight: canvasHeightZoom,
+						canvasWidth: canvasWidthZoom,
+						x: canvasRect.x,
+						y: canvasRect.y,
+					},
+				)
+
+				if (newPath && path) {
+					path[0].setAttributeNS(null, 'd', newPath)
 				}
 			},
 			getCanvasRect() {
@@ -446,9 +526,9 @@
 						coordinates,
 					}
 
-					this.$nextTick(() =>
-						this.doUpdateConnections(index, tempList),
-					)
+					this.doUpdateItemMovedConnections(index, tempList)
+
+					this.localList = [...tempList]
 				}
 			},
 			handleItemDragged(item: IDraggedItem) {
@@ -531,19 +611,10 @@
 											io: toIOIndex,
 											item: toItemIndex,
 										},
-										path: this.connectorState
-											.path as string,
-										pathObject:
-											this.connectorState.pathObject!,
 									},
 								]
 
-								this.$nextTick(() =>
-									this.doUpdateConnections(
-										fromItemIndex,
-										tempList,
-									),
-								)
+								this.localList = [...tempList]
 							}
 						}
 					}
@@ -732,14 +803,18 @@
 						y: targetY,
 					}
 
-					const updatedConnectionPath: IConnection =
-						doUpdateConnectionPath({
+					this.doUpdatePointMovedConnection(
+						{
 							...tempConnections[target.connection],
 							points: [...tempPoints],
-						})
+						},
+						target.connection,
+						target.item,
+					)
 
 					tempConnections[target.connection] = {
-						...updatedConnectionPath,
+						...tempConnections[target.connection],
+						points: [...tempPoints],
 					}
 
 					this.localList[target.item].connections = [
@@ -781,8 +856,8 @@
 				)
 
 				return connections.some((it: IConnection) => {
-					const itemFromId: string = `${this.$.uid}-org-item-${it.from.item}-io-${it.from.io}`
-					const itemToId: string = `${this.$.uid}-org-item-${it.to.item}-io-${it.to.io}`
+					const itemFromId: string = `org-${this.$.uid}-item-${it.from.item}-io-${it.from.io}`
+					const itemToId: string = `org-${this.$.uid}-item-${it.to.item}-io-${it.to.io}`
 
 					return (
 						(fromId === itemFromId && toId === itemToId) ||
@@ -794,21 +869,14 @@
 				return this.draggedItem?.key === key
 			},
 		},
-		watch: {
-			list: {
-				deep: true,
-				handler(newValue: IOrganizationTreeItem[]) {
-					this.localList = [...newValue]
-				},
-				immediate: true,
-			},
-		},
 		mounted() {
 			if (this.$refs['canvas-tree']) {
 				this.canvasState.elem = this.$refs['canvas-tree'] as HTMLElement
 			}
 
 			document.addEventListener('keydown', this.handleParentKeydown)
+
+			this.localList = [...this.list]
 		},
 		unmounted() {
 			this.canvasState.elem = null

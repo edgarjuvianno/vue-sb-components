@@ -68,7 +68,7 @@
 		v-for="(connection, index) in item.connections || []"
 	>
 		<path
-			:d="connection.path"
+			:d="connectionsPath[`${String($.vnode.key)}-connection-${index}`]"
 			@click.stop="handleConnectionClick($event, index)"
 			@dblclick.stop="handleConnectionDoubleClick($event, index)"
 		></path>
@@ -100,7 +100,7 @@
 		IPointTarget,
 		ISelectedConnection,
 	} from './interface'
-	import { doSortPoints, doUpdateConnectionPath } from './__funcs'
+	import { doSortPoints, getConnectionPath } from './__funcs'
 
 	export default defineComponent({
 		emits: {
@@ -137,6 +137,11 @@
 			},
 		},
 		name: 'sb-organization-tree-item',
+		data() {
+			return {
+				connectionsPath: {} as Record<string, any>,
+			}
+		},
 		computed: {
 			getItemPosition() {
 				return {
@@ -160,6 +165,35 @@
 			},
 		},
 		methods: {
+			getConnectionPath(connection: IConnection) {
+				if (this.canvasState.elem) {
+					const orgUID: string = String(this.$.vnode.key)
+						.split('-item-')[0]
+						.replace('org-', '')
+
+					const canvasRect: DOMRect = this.canvasState.elem
+						.getBoundingClientRect()
+						.toJSON()
+
+					const canvasHeight: number = canvasRect.height || 0
+					const canvasWidth: number = canvasRect.width || 0
+
+					const canvasWidthZoom: number =
+						canvasWidth / (canvasWidth * this.canvasState.zoom) || 0
+					const canvasHeightZoom: number =
+						canvasHeight / (canvasHeight * this.canvasState.zoom) ||
+						0
+
+					return getConnectionPath(connection, orgUID, {
+						canvasHeight: canvasHeightZoom,
+						canvasWidth: canvasWidthZoom,
+						x: canvasRect.x,
+						y: canvasRect.y,
+					})
+				}
+
+				return undefined
+			},
 			getCoordinatesMove(ev: MouseEvent | TouchEvent) {
 				if (ev.type === 'touchstart') {
 					return {
@@ -187,14 +221,9 @@
 
 					tempPoints.splice(indexCircle, 1)
 
-					const updatedConnectionPath: IConnection =
-						doUpdateConnectionPath({
-							...tempConnections[indexConnection],
-							points: [...tempPoints],
-						})
-
 					tempConnections[indexConnection] = {
-						...updatedConnectionPath,
+						...tempConnections[indexConnection],
+						points: [...tempPoints],
 					}
 
 					const itemIndex: number = Number(
@@ -282,39 +311,70 @@
 						posY * (height / (height * zoom)) -
 						y * (height / (height * zoom))
 
-					const sortedPoints: ICoordinates[] = [
-						...doSortPoints(
-							[
-								...(tempConnections[index].points || []),
-								{
-									x: targetX,
-									y: targetY,
-								},
-							],
-							tempConnections[index].pathObject.to,
-						),
-					]
+					const orgKey: string = String(this.$.vnode.key).split(
+						'-item-',
+					)[0]
 
-					const updatedConnectionPath: IConnection =
-						doUpdateConnectionPath({
+					const elemTo: HTMLElement | null = document.getElementById(
+						`${orgKey}-item-${tempConnections[index].to.item}-io-${tempConnections[index].to.io}`,
+					)
+
+					if (elemTo && this.canvasState.elem) {
+						const {
+							height: heightTo,
+							width: widthTo,
+							x: xTo,
+							y: yTo,
+						}: DOMRect = elemTo.getBoundingClientRect().toJSON()
+
+						const {
+							height: canvasHeight,
+							width: canvasWidth,
+							x: canvasX,
+							y: canvasY,
+						}: DOMRect = this.canvasState.elem
+							.getBoundingClientRect()
+							.toJSON()
+
+						const toX: number =
+							widthTo / 2 + (xTo - canvasX) * canvasWidth
+						const toY: number =
+							heightTo / 2 + (yTo - canvasY) * canvasHeight
+
+						const sortedPoints: ICoordinates[] = [
+							...doSortPoints(
+								[
+									...(tempConnections[index].points || []),
+									{
+										x: targetX,
+										y: targetY,
+									},
+								],
+								{
+									x: toX,
+									y: toY,
+								},
+							),
+						]
+
+						tempConnections[index] = {
 							...tempConnections[index],
 							points: [...sortedPoints],
-						})
+						}
 
-					tempConnections[index] = { ...updatedConnectionPath }
+						const itemIndex: number = Number(
+							String(this.$.vnode.key).split('-item-')[1],
+						)
 
-					const itemIndex: number = Number(
-						String(this.$.vnode.key).split('-item-')[1],
-					)
-
-					this.$emit(
-						'changePoint',
-						{
-							...this.item,
-							connections: [...tempConnections],
-						},
-						itemIndex,
-					)
+						this.$emit(
+							'changePoint',
+							{
+								...this.item,
+								connections: [...tempConnections],
+							},
+							itemIndex,
+						)
+					}
 				}
 			},
 			handleItemClick(ev: MouseEvent | TouchEvent) {
@@ -340,6 +400,43 @@
 				}
 
 				return false
+			},
+		},
+		mounted() {
+			if (this.item.connections) {
+				this.connectionsPath = {}
+
+				this.item.connections.forEach(
+					(it: IConnection, index: number) => {
+						const path: string | undefined =
+							this.getConnectionPath(it)
+
+						this.connectionsPath[
+							`${String(this.$.vnode.key)}-connection-${index}`
+						] = path
+					},
+				)
+			}
+		},
+		watch: {
+			'item.connections': {
+				deep: true,
+				handler(newValue: IConnection[] | undefined) {
+					if (newValue) {
+						this.connectionsPath = {}
+
+						newValue.forEach((it: IConnection, index: number) => {
+							const path: string | undefined =
+								this.getConnectionPath(it)
+
+							this.connectionsPath[
+								`${String(
+									this.$.vnode.key,
+								)}-connection-${index}`
+							] = path
+						})
+					}
+				},
 			},
 		},
 	})
