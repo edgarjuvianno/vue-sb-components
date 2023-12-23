@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.7](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.6...v2.0.7) (2023-12-23)
+
+
+### Bug Fixes
+
+* fix org chart styling & movement treshold ([56ced5b](https://github.com/edgarjuvianno/vue-sb-components/commit/56ced5b113b6dbba230875c0e80e19e235bb0faa))
+
 ### [2.0.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.5...v2.0.6) (2023-12-23)
 
 
