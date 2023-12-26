@@ -56,6 +56,22 @@
 				</svg>
 			</template>
 		</div>
+		<div
+			class="connection-options-wrapper"
+			ref="connection-options-wrapper"
+			:style="getOptionWrapperStyle"
+			v-if="selectedConnection"
+		>
+			<sb-dropdown
+				flat
+				opt-value="value"
+				type="flat"
+				v-model="selectedLineType"
+				:list="lineType"
+				:opt-label="getOptionLine"
+				@change="handleChangeLineType"
+			/>
+		</div>
 	</div>
 	<Teleport to="body">
 		<div
@@ -87,6 +103,7 @@
 	import { getConnectionPathItem, getConnectionPathPoint } from './__funcs'
 
 	// components
+	import Dropdown from '@/components/form-dropdown/form-dropdown.vue'
 	import TreeItem from './__organization-tree-item.vue'
 
 	export default defineComponent({
@@ -105,6 +122,7 @@
 		},
 		name: 'sb-organization-tree',
 		components: {
+			'sb-dropdown': Dropdown,
 			'sb-org-tree-item': TreeItem,
 		},
 		data() {
@@ -127,6 +145,20 @@
 				draggedItem: null as IDraggedItem | null,
 				exportAreaStyle: {} as Record<string, any>,
 				isExporting: false,
+				lineType: [
+					{
+						label: 'Solid',
+						value: 'solid',
+					},
+					{
+						label: 'Dashed',
+						value: 'dashed',
+					},
+					{
+						label: 'Dotted',
+						value: 'dotted',
+					},
+				],
 				localList: [] as IOrganizationTreeItem[],
 				mouseState: {
 					mouse: {
@@ -159,6 +191,7 @@
 					toCoordinates: null,
 				} as IPointState,
 				selectedConnection: null as null | ISelectedConnection,
+				selectedLineType: 'solid' as any,
 			}
 		},
 		computed: {
@@ -212,9 +245,31 @@
 					minY,
 				}
 			},
+			getOptionWrapperStyle() {
+				if (this.selectedConnection) {
+					const svgElem: HTMLElement | null = document.getElementById(
+						this.selectedConnection.key,
+					)
+					const path: HTMLCollectionOf<SVGPathElement> | undefined =
+						svgElem?.getElementsByTagName('path')
+
+					if (svgElem && path) {
+						const pathRect: DOMRect =
+							path[0].getBoundingClientRect()
+
+						return {
+							left: `${pathRect.left + 64}px`,
+							top: `${pathRect.top - 96}px`,
+						}
+					}
+				}
+
+				return {}
+			},
 		},
 		methods: {
 			async doExport() {
+				this.selectedConnection = null
 				this.isExporting = true
 
 				await new Promise((resolve) =>
@@ -518,10 +573,43 @@
 
 				return this.parentState.position
 			},
+			getOptionLine(opt: any) {
+				return `
+					<div class="line-opt ${opt.value}">
+						<div></div>
+					</div>
+				`
+			},
 			handleChangeItemPoint(item: IOrganizationTreeItem, index: number) {
 				this.localList[index] = { ...item }
 
 				this.$nextTick(() => this.$emit('change', this.localList))
+			},
+			handleChangeLineType(selected: any) {
+				if (this.selectedConnection) {
+					const splitConnection: string[] =
+						this.selectedConnection.key.split('-connection-')
+
+					this.selectedConnection = null
+
+					const itemIndex: number = Number(
+						splitConnection[0].split('-item-')[1],
+					)
+					const connectionIndex: number = Number(splitConnection[1])
+
+					if (this.localList[itemIndex]) {
+						const connections: IConnection[] = [
+							...(this.localList[itemIndex].connections || []),
+						]
+						connections[connectionIndex].type = selected
+
+						this.localList[itemIndex].connections = [...connections]
+
+						this.$nextTick(() => {
+							this.$emit('change', this.localList)
+						})
+					}
+				}
 			},
 			handleConnectionDragged(io: string, fromRect: DOMRect) {
 				this.connectorState.from = io
@@ -568,11 +656,26 @@
 			handleParentClick(ev: MouseEvent | TouchEvent) {
 				const coordinates: ICoordinates = this.getCoordinatesMove(ev, 1)
 
-				this.selectedConnection = null
-				this.mouseState.mouse = { ...coordinates }
-				this.mouseState.position = { ...coordinates }
-				this.mouseState.positionStart = { ...coordinates }
-				this.parentState.isDrag = true
+				const optionsWrapper: HTMLElement = this.$refs[
+					'connection-options-wrapper'
+				] as HTMLElement
+
+				const target: HTMLElement = ev.target as HTMLElement
+
+				if (
+					this.selectedConnection &&
+					(!optionsWrapper ||
+						(optionsWrapper &&
+							!optionsWrapper.contains(target) &&
+							!optionsWrapper.isSameNode(target)))
+				) {
+					this.selectedConnection = null
+					this.parentState.isDrag = true
+					this.mouseState.mouse = { ...coordinates }
+					this.mouseState.position = { ...coordinates }
+					this.mouseState.positionStart = { ...coordinates }
+					this.selectedLineType = 'solid'
+				}
 			},
 			handleParentDragEnd(ev: MouseEvent | TouchEvent) {
 				const { x, y }: ICoordinates = this.getCoordinatesEnd(ev)
@@ -641,6 +744,7 @@
 											io: toIOIndex,
 											item: toItemIndex,
 										},
+										type: 'solid',
 									},
 								]
 
@@ -898,6 +1002,7 @@
 			},
 			handleSelectConnection(connection: ISelectedConnection) {
 				this.selectedConnection = { ...connection }
+				this.selectedLineType = connection.type
 			},
 			isConnectionExist(fromId: string, toId: string) {
 				const connections: IConnection[] = [...this.localList].flatMap(

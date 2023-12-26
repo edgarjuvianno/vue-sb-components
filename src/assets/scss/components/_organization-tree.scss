@@ -25,6 +25,56 @@
 			}
 		}
 	}
+
+	.connection-options-wrapper {
+		background-color: #ffffff;
+		border: 1px solid
+			rgb(var(--sb-color-secondary-40) / var(--sb-color-opacity));
+		border-radius: 6px;
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.1),
+			0 4px 6px -4px rgb(0 0 0 / 0.1);
+		box-sizing: border-box;
+		min-width: 12rem;
+		padding: 0.75rem 1rem;
+		position: absolute;
+		z-index: 3;
+
+		.line-opt {
+			align-items: center;
+			display: flex;
+			height: 5px;
+			justify-content: center;
+			width: 5rem;
+
+			> div {
+				border-top: 1px solid
+					rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
+				height: 2px;
+				width: 100%;
+			}
+
+			&.dashed {
+				> div {
+					border-top: 1px dashed
+						rgb(
+							var(--sb-color-primary-font) /
+								var(--sb-color-opacity)
+						);
+				}
+			}
+
+			&.dotted {
+				> div {
+					border-top: 1px dotted
+						rgb(
+							var(--sb-color-primary-font) /
+								var(--sb-color-opacity)
+						);
+				}
+			}
+		}
+	}
 }
 
 body {
@@ -37,6 +87,57 @@ body {
 		position: absolute;
 		top: 0;
 		z-index: -100;
+	}
+
+	.sb-dropdown-options-wrapper {
+		.option {
+			.line-opt {
+				align-items: center;
+				display: flex;
+				height: 5px;
+				justify-content: center;
+				width: 5rem;
+
+				> div {
+					border-top: 1px solid
+						rgb(
+							var(--sb-color-primary-font) /
+								var(--sb-color-opacity)
+						);
+					height: 2px;
+					width: 100%;
+				}
+
+				&.dashed {
+					> div {
+						border-top: 1px dashed
+							rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
+					}
+				}
+
+				&.dotted {
+					> div {
+						border-top: 1px dotted
+							rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
+					}
+				}
+			}
+
+			&.selected,
+			&:hover {
+				.line-opt {
+					> div {
+						border-color: #ffffff;
+					}
+				}
+			}
+		}
 	}
 
 	.organization-wrapper {
@@ -370,6 +471,18 @@ body {
 
 					circle {
 						cursor: move;
+					}
+				}
+
+				&.dashed {
+					path {
+						stroke-dasharray: 6.6 6.6;
+					}
+				}
+
+				&.dotted {
+					path {
+						stroke-dasharray: 2.2 2.2;
 					}
 				}
 			}

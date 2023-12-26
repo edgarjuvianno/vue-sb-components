@@ -291,6 +291,7 @@ export interface IConnection {
 	from: IConnectionIO
 	points?: ICoordinates[]
 	to: IConnectionIO
+	type: 'solid' | 'dashed' | 'dotted'
 }
 
 export interface IPointTarget {
@@ -309,6 +310,7 @@ export interface ISelectedConnection {
 	from: IConnectionIO
 	key: string
 	to: IConnectionIO
+	type: 'solid' | 'dashed' | 'dotted'
 }
 
 export interface IOrganizationTreeItem {

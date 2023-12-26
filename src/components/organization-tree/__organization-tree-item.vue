@@ -61,10 +61,11 @@
 	<svg
 		class="connection"
 		xmlns="http://www.w3.org/2000/svg"
-		:class="{
-			editable: isEditable,
-			selected: isConnectionSelected(index),
-		}"
+		:class="[
+			connection.type || 'solid',
+			isConnectionSelected(index) && 'selected',
+			isEditable && 'editable',
+		]"
 		:id="`${String($.vnode.key)}-connection-${index}`"
 		:key="`${String($.vnode.key)}-connection-${index}`"
 		v-for="(connection, index) in item.connections || []"
@@ -298,6 +299,7 @@
 						from: connection.from,
 						key: `${String(this.$.vnode.key)}-connection-${index}`,
 						to: connection.to,
+						type: connection.type,
 					})
 				}
 			},
