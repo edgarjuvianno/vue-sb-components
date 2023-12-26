@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.14](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.13...v2.0.14) (2023-12-26)
+
+
+### Bug Fixes
+
+* fix deleted connection ([8d567a1](https://github.com/edgarjuvianno/vue-sb-components/commit/8d567a16da1d00f9a921e4c97e6d10fcbf4a4265))
+
 ### [2.0.13](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.12...v2.0.13) (2023-12-26)
 
 
