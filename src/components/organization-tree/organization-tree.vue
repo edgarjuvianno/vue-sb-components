@@ -641,11 +641,12 @@
 				const target: HTMLElement = ev.target as HTMLElement
 
 				if (
-					this.selectedConnection &&
-					(!optionsWrapper ||
-						(optionsWrapper &&
-							!optionsWrapper.contains(target) &&
-							!optionsWrapper.isSameNode(target)))
+					!this.selectedConnection ||
+					(this.selectedConnection &&
+						(!optionsWrapper ||
+							(optionsWrapper &&
+								!optionsWrapper.contains(target) &&
+								!optionsWrapper.isSameNode(target))))
 				) {
 					this.selectedConnection = null
 					this.parentState.isDrag = true
