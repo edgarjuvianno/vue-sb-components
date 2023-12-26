@@ -643,6 +643,7 @@
 								const tempList: IOrganizationTreeItem[] = [
 									...this.localList,
 								]
+
 								tempList[fromItemIndex].connections = [
 									...(tempList[fromItemIndex].connections ||
 										[]),

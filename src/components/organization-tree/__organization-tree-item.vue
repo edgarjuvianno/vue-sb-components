@@ -435,40 +435,46 @@
 					newValue: IConnection[] | undefined,
 					oldValue: IConnection[] | undefined,
 				) {
-					if (newValue && oldValue) {
-						if (newValue.length < oldValue.length) {
-							const newKeys: string[] = [...newValue].map(
-								(it: IConnection) =>
-									`${String(this.$.vnode.key)}-connection-${
-										it.from.item
-									}-${it.from.io}-${it.to.item}-${it.to.io}`,
-							)
-							const oldKeys: string[] = [...oldValue].map(
-								(it: IConnection) =>
-									`${String(this.$.vnode.key)}-connection-${
-										it.from.item
-									}-${it.from.io}-${it.to.item}-${it.to.io}`,
-							)
-
-							const deleted: string | undefined = oldKeys.find(
-								(it: string) => newKeys.indexOf(it) < 0,
-							)
-
-							if (deleted) {
-								delete this.connectionsPath[deleted]
-							}
-						} else if (newValue.length > oldValue.length) {
-							const conn: IConnection =
-								newValue[newValue.length - 1]
-							const path: string | undefined =
-								this.getConnectionPath(conn)
-
-							this.connectionsPath[
+					if (
+						newValue &&
+						oldValue &&
+						newValue.length < oldValue.length
+					) {
+						const newKeys: string[] = [...newValue].map(
+							(it: IConnection) =>
 								`${String(this.$.vnode.key)}-connection-${
-									conn.from.item
-								}-${conn.from.io}-${conn.to.item}-${conn.to.io}`
-							] = path
+									it.from.item
+								}-${it.from.io}-${it.to.item}-${it.to.io}`,
+						)
+						const oldKeys: string[] = [...oldValue].map(
+							(it: IConnection) =>
+								`${String(this.$.vnode.key)}-connection-${
+									it.from.item
+								}-${it.from.io}-${it.to.item}-${it.to.io}`,
+						)
+
+						const deleted: string | undefined = oldKeys.find(
+							(it: string) => newKeys.indexOf(it) < 0,
+						)
+
+						if (deleted) {
+							delete this.connectionsPath[deleted]
 						}
+					} else if (
+						(newValue &&
+							oldValue &&
+							newValue.length > oldValue.length) ||
+						(!oldValue && newValue?.length)
+					) {
+						const conn: IConnection = newValue[newValue.length - 1]
+						const path: string | undefined =
+							this.getConnectionPath(conn)
+
+						this.connectionsPath[
+							`${String(this.$.vnode.key)}-connection-${
+								conn.from.item
+							}-${conn.from.io}-${conn.to.item}-${conn.to.io}`
+						] = path
 					}
 				},
 			},
