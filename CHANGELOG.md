@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.13](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.12...v2.0.13) (2023-12-26)
+
+
+### Bug Fixes
+
+* fix min height card ([4635d9a](https://github.com/edgarjuvianno/vue-sb-components/commit/4635d9a92e5360c8fd38a96fba0a43925984d09e))
+
 ### [2.0.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.11...v2.0.12) (2023-12-26)
 
 
