@@ -773,8 +773,11 @@
 				})
 			},
 			handleParentPosition(ev: MouseEvent | TouchEvent) {
-				const positionTreshold: number =
-					this.pointState.target || this.connectorState.from ? 5 : 10
+				const positionTreshold: number = this.pointState.target
+					? 5
+					: this.connectorState.from
+					? 1
+					: 10
 
 				const { x, y }: ICoordinates = this.getCoordinatesMove(
 					ev,
