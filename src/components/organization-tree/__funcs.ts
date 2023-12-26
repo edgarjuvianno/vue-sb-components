@@ -132,13 +132,13 @@ export const getConnectionPath: (
 }
 
 export const getConnectionPathItem: (
-	itemIndex: number,
+	movedItem: number,
 	connection: IConnection,
 	connectionElem: HTMLCollectionOf<SVGPathElement> | undefined,
 	orgUID: string,
 	canvasRect: Record<string, any>,
 ) => string | undefined = (
-	itemIndex: number,
+	movedItem: number,
 	connection: IConnection,
 	connectionElem: HTMLCollectionOf<SVGPathElement> | undefined,
 	orgUID: string,
@@ -151,7 +151,7 @@ export const getConnectionPathItem: (
 		y: canvasY,
 	}: Record<string, any> = canvasRect
 
-	const isStartFromItem: boolean = connection.from.item === itemIndex
+	const isStartFromItem: boolean = connection.from.item === movedItem
 
 	const { from, to }: IConnection = connection
 
@@ -163,7 +163,7 @@ export const getConnectionPathItem: (
 		`#org-${orgUID} #org-${orgUID}-item-${to.item}-io-${to.io}`,
 	)
 
-	if (isStartFromItem && elemTo && connectionElem && connectionElem[0]) {
+	if (!isStartFromItem && elemTo && connectionElem && connectionElem[0]) {
 		const {
 			height: heightTo,
 			width: widthTo,

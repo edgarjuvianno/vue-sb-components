@@ -313,81 +313,87 @@
 					this.connectorState.path = undefined
 				}
 			},
-			doUpdateItemMovedConnections(
-				triggerIndex: number,
-				list: IOrganizationTreeItem[],
-			) {
-				list.forEach((it: IOrganizationTreeItem, idx: number) => {
-					if (
-						[...(it.connections || [])].some(
-							(itConnection: IConnection) =>
-								itConnection.from.item === triggerIndex ||
-								itConnection.to.item === triggerIndex,
-						)
-					) {
-						;[...(it.connections || [])].forEach(
-							(
-								itConnection: IConnection,
-								idxConnection: number,
-							) => {
-								if (
+			doUpdateItemMovedConnections(triggerIndex: number) {
+				this.localList.forEach(
+					(it: IOrganizationTreeItem, idx: number) => {
+						if (
+							[...(it.connections || [])].some(
+								(itConnection: IConnection) =>
 									itConnection.from.item === triggerIndex ||
-									itConnection.to.item === triggerIndex
-								) {
-									const connection: HTMLElement | null =
-										document.getElementById(
-											`org-${this.$.uid}-item-${idx}-connection-${idxConnection}`,
-										)
-									const path:
-										| HTMLCollectionOf<SVGPathElement>
-										| undefined =
-										connection?.getElementsByTagName('path')
+									itConnection.to.item === triggerIndex,
+							)
+						) {
+							;[...(it.connections || [])].forEach(
+								(
+									itConnection: IConnection,
+									idxConnection: number,
+								) => {
+									if (
+										itConnection.from.item ===
+											triggerIndex ||
+										itConnection.to.item === triggerIndex
+									) {
+										const connection: HTMLElement | null =
+											document.getElementById(
+												`org-${this.$.uid}-item-${idx}-connection-${idxConnection}`,
+											)
+										const path:
+											| HTMLCollectionOf<SVGPathElement>
+											| undefined =
+											connection?.getElementsByTagName(
+												'path',
+											)
 
-									const orgUID: string = String(this.$.uid)
-
-									const canvasRect: DOMRect =
-										this.getCanvasRect()
-
-									const canvasHeight: number =
-										canvasRect.height || 0
-									const canvasWidth: number =
-										canvasRect.width || 0
-
-									const canvasWidthZoom: number =
-										canvasWidth /
-											(canvasWidth *
-												this.canvasState.zoom) || 0
-									const canvasHeightZoom: number =
-										canvasHeight /
-											(canvasHeight *
-												this.canvasState.zoom) || 0
-
-									const newPath: string | undefined =
-										getConnectionPathItem(
-											idx,
-											itConnection,
-											path,
-											orgUID,
-											{
-												canvasHeight: canvasHeightZoom,
-												canvasWidth: canvasWidthZoom,
-												x: canvasRect.x,
-												y: canvasRect.y,
-											},
+										const orgUID: string = String(
+											this.$.uid,
 										)
 
-									if (newPath && path) {
-										path[0].setAttributeNS(
-											null,
-											'd',
-											newPath,
-										)
+										const canvasRect: DOMRect =
+											this.getCanvasRect()
+
+										const canvasHeight: number =
+											canvasRect.height || 0
+										const canvasWidth: number =
+											canvasRect.width || 0
+
+										const canvasWidthZoom: number =
+											canvasWidth /
+												(canvasWidth *
+													this.canvasState.zoom) || 0
+										const canvasHeightZoom: number =
+											canvasHeight /
+												(canvasHeight *
+													this.canvasState.zoom) || 0
+
+										const newPath: string | undefined =
+											getConnectionPathItem(
+												triggerIndex,
+												itConnection,
+												path,
+												orgUID,
+												{
+													canvasHeight:
+														canvasHeightZoom,
+													canvasWidth:
+														canvasWidthZoom,
+													x: canvasRect.x,
+													y: canvasRect.y,
+												},
+											)
+
+										if (newPath && path) {
+											path[0].setAttributeNS(
+												null,
+												'd',
+												newPath,
+											)
+										}
 									}
-								}
-							},
-						)
-					}
-				})
+								},
+							)
+						}
+					},
+				)
 			},
 			doUpdatePointMovedConnection(
 				points: ICoordinates[],
@@ -436,11 +442,8 @@
 					y: (ev as MouseEvent).clientY,
 				}
 			},
-			getCoordinatesMove(
-				ev: MouseEvent | TouchEvent,
-				isPullConnection?: boolean,
-			) {
-				const treshold: number = isPullConnection ? 5 : 10
+			getCoordinatesMove(ev: MouseEvent | TouchEvent, treshold?: number) {
+				const finalTreshold: number = treshold ? treshold : 10
 
 				const position: () => ICoordinates = () => {
 					if (ev.type === 'touchmove' || ev.type === 'touchstart') {
@@ -458,15 +461,21 @@
 
 				const cursorPosition: ICoordinates = position()
 
-				if (
+				if (treshold && treshold < 2) {
+					return cursorPosition
+				} else if (
 					Math.abs(cursorPosition.x - this.parentState.position.x) >=
-						treshold ||
+						finalTreshold ||
 					Math.abs(cursorPosition.y - this.parentState.position.y) >=
-						treshold
+						finalTreshold
 				) {
 					const rounded: ICoordinates = {
-						x: Math.round(cursorPosition.x / treshold) * treshold,
-						y: Math.round(cursorPosition.y / treshold) * treshold,
+						x:
+							Math.round(cursorPosition.x / finalTreshold) *
+							finalTreshold,
+						y:
+							Math.round(cursorPosition.y / finalTreshold) *
+							finalTreshold,
 					}
 
 					return rounded
@@ -544,23 +553,35 @@
 						...this.localList,
 					]
 
-					tempList[index] = {
-						...this.localList[index],
-						coordinates,
+					const lastCoordinates: ICoordinates = {
+						...tempList[index].coordinates,
 					}
 
-					this.doUpdateItemMovedConnections(index, tempList)
+					if (
+						lastCoordinates.x !== coordinates.x ||
+						lastCoordinates.y !== coordinates.y
+					) {
+						tempList[index] = {
+							...this.localList[index],
+							coordinates,
+						}
 
-					this.localList = [...tempList]
+						this.localList = [...tempList]
+
+						this.$nextTick(() =>
+							this.doUpdateItemMovedConnections(index),
+						)
+					}
 				}
 			},
 			handleItemDragged(item: IDraggedItem) {
 				this.draggedItem = { ...item }
 				this.mouseState.position = { ...item.coordinates }
+				this.parentState.position = { ...item.coordinates }
 				this.selectedConnection = null
 			},
 			handleParentClick(ev: MouseEvent | TouchEvent) {
-				const coordinates: ICoordinates = this.getCoordinatesMove(ev)
+				const coordinates: ICoordinates = this.getCoordinatesMove(ev, 1)
 
 				this.selectedConnection = null
 				this.mouseState.mouse = { ...coordinates }
@@ -752,9 +773,12 @@
 				})
 			},
 			handleParentPosition(ev: MouseEvent | TouchEvent) {
+				const positionTreshold: number =
+					this.pointState.target || this.connectorState.from ? 5 : 10
+
 				const { x, y }: ICoordinates = this.getCoordinatesMove(
 					ev,
-					!!this.connectorState.from || !!this.pointState.target,
+					positionTreshold,
 				)
 
 				const { x: parentX, y: parentY } = this.parentState.position
