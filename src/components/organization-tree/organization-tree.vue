@@ -27,7 +27,7 @@
 			:class="{
 				'connection-selected': selectedConnection,
 			}"
-			:style="getCanvasStyle"
+			:style="canvasStyle"
 		>
 			<template v-if="canvasState.elem">
 				<sb-org-tree-item
@@ -162,20 +162,55 @@
 			}
 		},
 		computed: {
-			getCanvasStyle() {
-				const { maxX, minX, maxY, minY }: Record<string, number> =
-					this.getMinMaxXY()
+			getMinMaxXY() {
+				const connections: IConnection[] = [...this.localList].flatMap(
+					(item: IOrganizationTreeItem) =>
+						item.connections ? [...item.connections] : [],
+				)
+				const points: ICoordinates[] = [...connections].flatMap(
+					(item: IConnection) =>
+						item.points ? [...item.points] : [],
+				)
+				const itemRects: ICoordinates[] = [...this.localList].map(
+					(it: IOrganizationTreeItem) => it.coordinates,
+				)
 
-				const dimension: Record<string, string> = {
-					height: `${
-						Math.ceil((Math.abs(minY) + maxY) / 495) * 495
-					}px`,
-					width: `${
-						Math.ceil((Math.abs(minX) + maxX) / 700) * 700
-					}px`,
+				const itemX: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.x,
+				)
+				const itemXWidth: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.x + 220,
+				)
+				const itemY: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.y,
+				)
+				const itemYHeight: number[] = [...itemRects].map(
+					(it: ICoordinates) => it.y + 100,
+				)
+
+				const xAxis: number[] = [
+					...[...points].map((it: ICoordinates) => it.x),
+					...itemX,
+					...itemXWidth,
+				]
+				const yAxis: number[] = [
+					...[...points].map((it: ICoordinates) => it.y),
+					...itemY,
+					...itemYHeight,
+				]
+
+				const maxX: number = Math.max.apply(null, xAxis)
+				const minX: number = Math.min.apply(null, xAxis)
+
+				const maxY: number = Math.max.apply(null, yAxis)
+				const minY: number = Math.min.apply(null, yAxis)
+
+				return {
+					maxX,
+					minX,
+					maxY,
+					minY,
 				}
-
-				return { ...dimension, ...this.canvasStyle }
 			},
 		},
 		methods: {
@@ -189,7 +224,7 @@
 				)
 
 				const { maxX, minX, maxY, minY }: Record<string, number> =
-					this.getMinMaxXY()
+					this.getMinMaxXY
 
 				const elemHeight: number = Math.abs(minY) + maxY
 				const elemWidth: number = Math.abs(minX) + maxX
@@ -482,56 +517,6 @@
 				}
 
 				return this.parentState.position
-			},
-			getMinMaxXY() {
-				const connections: IConnection[] = [...this.localList].flatMap(
-					(item: IOrganizationTreeItem) =>
-						item.connections ? [...item.connections] : [],
-				)
-				const points: ICoordinates[] = [...connections].flatMap(
-					(item: IConnection) =>
-						item.points ? [...item.points] : [],
-				)
-				const itemRects: ICoordinates[] = [...this.localList].map(
-					(it: IOrganizationTreeItem) => it.coordinates,
-				)
-
-				const itemX: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.x,
-				)
-				const itemXWidth: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.x + 220,
-				)
-				const itemY: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.y,
-				)
-				const itemYHeight: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.y + 100,
-				)
-
-				const xAxis: number[] = [
-					...[...points].map((it: ICoordinates) => it.x),
-					...itemX,
-					...itemXWidth,
-				]
-				const yAxis: number[] = [
-					...[...points].map((it: ICoordinates) => it.y),
-					...itemY,
-					...itemYHeight,
-				]
-
-				const maxX: number = Math.max.apply(null, xAxis)
-				const minX: number = Math.min.apply(null, xAxis)
-
-				const maxY: number = Math.max.apply(null, yAxis)
-				const minY: number = Math.min.apply(null, yAxis)
-
-				return {
-					maxX,
-					minX,
-					maxY,
-					minY,
-				}
 			},
 			handleChangeItemPoint(item: IOrganizationTreeItem, index: number) {
 				this.localList[index] = { ...item }

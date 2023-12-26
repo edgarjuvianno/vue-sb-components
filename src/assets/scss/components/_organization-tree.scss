@@ -40,13 +40,11 @@ body {
 	}
 
 	.organization-wrapper {
-		.canvas {
-			background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQiIGhlaWdodD0iNTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI1NCIgaGVpZ2h0PSI1NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEzLjUgTCA1NCAxMy41IE0gMTMuNSAwIEwgMTMuNSA1NCBNIDAgMjcgTCA1NCAyNyBNIDI3IDAgTCAyNyA1NCBNIDAgNDAuNSBMIDU0IDQwLjUgTSA0MC41IDAgTCA0MC41IDU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNkMGQwZDAiIG9wYWNpdHk9IjAuMiIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTSA1NCAwIEwgMCAwIDAgNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2QwZDBkMCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+');
-			background-position: -1px -1px;
-			border: 1px solid
-				rgb(var(--sb-color-secondary-40) / var(--sb-color-opacity));
-			box-sizing: border-box;
-		}
+		background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQiIGhlaWdodD0iNTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI1NCIgaGVpZ2h0PSI1NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEzLjUgTCA1NCAxMy41IE0gMTMuNSAwIEwgMTMuNSA1NCBNIDAgMjcgTCA1NCAyNyBNIDI3IDAgTCAyNyA1NCBNIDAgNDAuNSBMIDU0IDQwLjUgTSA0MC41IDAgTCA0MC41IDU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNkMGQwZDAiIG9wYWNpdHk9IjAuMiIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTSA1NCAwIEwgMCAwIDAgNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2QwZDBkMCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+');
+		background-position: -1px -1px;
+		border: 1px solid
+			rgb(var(--sb-color-secondary-40) / var(--sb-color-opacity));
+		box-sizing: border-box;
 	}
 
 	.export-area-org-chart,
