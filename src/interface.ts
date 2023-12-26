@@ -291,7 +291,7 @@ export interface IConnection {
 	from: IConnectionIO
 	points?: ICoordinates[]
 	to: IConnectionIO
-	type: 'solid' | 'dashed' | 'dotted'
+	type?: 'solid' | 'dashed' | 'dotted'
 }
 
 export interface IPointTarget {
