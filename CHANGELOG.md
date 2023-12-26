@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.3...v2.1.4) (2023-12-26)
+
+
+### Bug Fixes
+
+* fix drag canvas ([5653316](https://github.com/edgarjuvianno/vue-sb-components/commit/5653316d683a0b341940e7b44105b642c6e9e95a))
+
 ### [2.1.3](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.2...v2.1.3) (2023-12-26)
 
 
