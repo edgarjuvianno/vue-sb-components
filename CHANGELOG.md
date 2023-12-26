@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.2...v2.1.3) (2023-12-26)
+
+
+### Bug Fixes
+
+* connection option positioning ([2006704](https://github.com/edgarjuvianno/vue-sb-components/commit/200670487f4bad89e65ee78435bca66ec4818317))
+
 ### [2.1.2](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.1...v2.1.2) (2023-12-26)
 
 
