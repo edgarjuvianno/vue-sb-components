@@ -310,7 +310,7 @@ export interface ISelectedConnection {
 	from: IConnectionIO
 	key: string
 	to: IConnectionIO
-	type: 'solid' | 'dashed' | 'dotted'
+	type?: 'solid' | 'dashed' | 'dotted'
 }
 
 export interface IOrganizationTreeItem {
