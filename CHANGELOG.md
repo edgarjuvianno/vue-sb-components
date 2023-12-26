@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.10](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.9...v2.0.10) (2023-12-26)
+
+
+### Bug Fixes
+
+* connector drag position treshold ([02e8648](https://github.com/edgarjuvianno/vue-sb-components/commit/02e864839cd36dc784e05feb4dd022fe0c2831cd))
+
 ### [2.0.9](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.0.8...v2.0.9) (2023-12-26)
 
 
