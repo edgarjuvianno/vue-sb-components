@@ -59,7 +59,6 @@
 		<div
 			class="connection-options-wrapper"
 			ref="connection-options-wrapper"
-			:style="getOptionWrapperStyle"
 			v-if="selectedConnection"
 		>
 			<sb-dropdown
@@ -244,27 +243,6 @@
 					maxY,
 					minY,
 				}
-			},
-			getOptionWrapperStyle() {
-				if (this.selectedConnection) {
-					const svgElem: HTMLElement | null = document.getElementById(
-						this.selectedConnection.key,
-					)
-					const path: HTMLCollectionOf<SVGPathElement> | undefined =
-						svgElem?.getElementsByTagName('path')
-
-					if (svgElem && path) {
-						const pathRect: DOMRect =
-							path[0].getBoundingClientRect()
-
-						return {
-							left: `${pathRect.left + 64}px`,
-							top: `${pathRect.top - 96}px`,
-						}
-					}
-				}
-
-				return {}
 			},
 		},
 		methods: {
@@ -1002,7 +980,7 @@
 			},
 			handleSelectConnection(connection: ISelectedConnection) {
 				this.selectedConnection = { ...connection }
-				this.selectedLineType = connection.type
+				this.selectedLineType = connection.type || 'solid'
 			},
 			isConnectionExist(fromId: string, toId: string) {
 				const connections: IConnection[] = [...this.localList].flatMap(
