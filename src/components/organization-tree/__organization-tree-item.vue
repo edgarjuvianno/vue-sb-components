@@ -388,6 +388,22 @@
 					}
 				}
 			},
+			handleInitConnections() {
+				if (this.item.connections) {
+					this.connectionsPath = {}
+
+					this.item.connections.forEach((it: IConnection) => {
+						const path: string | undefined =
+							this.getConnectionPath(it)
+
+						this.connectionsPath[
+							`${String(this.$.vnode.key)}-connection-${
+								it.from.item
+							}-${it.from.io}-${it.to.item}-${it.to.io}`
+						] = path
+					})
+				}
+			},
 			handleItemClick(ev: MouseEvent | TouchEvent) {
 				const target: HTMLElement = ev.target as HTMLElement
 
@@ -414,19 +430,7 @@
 			},
 		},
 		mounted() {
-			if (this.item.connections) {
-				this.connectionsPath = {}
-
-				this.item.connections.forEach((it: IConnection) => {
-					const path: string | undefined = this.getConnectionPath(it)
-
-					this.connectionsPath[
-						`${String(this.$.vnode.key)}-connection-${
-							it.from.item
-						}-${it.from.io}-${it.to.item}-${it.to.io}`
-					] = path
-				})
-			}
+			this.handleInitConnections()
 		},
 		watch: {
 			'item.connections': {
@@ -459,6 +463,8 @@
 
 						if (deleted) {
 							delete this.connectionsPath[deleted]
+
+							this.$nextTick(() => this.handleInitConnections())
 						}
 					} else if (
 						(newValue &&
