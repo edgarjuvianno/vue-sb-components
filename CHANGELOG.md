@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.6...v2.1.7) (2023-12-27)
+
+
+### Bug Fixes
+
+* org chart path width editable ([f848485](https://github.com/edgarjuvianno/vue-sb-components/commit/f84848553b879ea0f748205542e19c71c94769c8))
+
 ### [2.1.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.5...v2.1.6) (2023-12-27)
 
 
