@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.5](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.4...v2.1.5) (2023-12-27)
+
+
+### Bug Fixes
+
+* fix organization chart line overlay, accordion no elevation ([8f231ff](https://github.com/edgarjuvianno/vue-sb-components/commit/8f231ffe0395f920dd51aacc62d99a37e9d2568a))
+
 ### [2.1.4](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.3...v2.1.4) (2023-12-26)
 
 
