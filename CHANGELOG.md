@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.9](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.8...v2.1.9) (2023-12-27)
+
+
+### Bug Fixes
+
+* accordion border ([dac2f75](https://github.com/edgarjuvianno/vue-sb-components/commit/dac2f7569f94dfa97c0056d8dd64d67eef2dc190))
+
 ### [2.1.8](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.7...v2.1.8) (2023-12-27)
 
 
