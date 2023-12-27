@@ -1,4 +1,6 @@
 .accordion {
+	border: 1px solid
+		rgb(var(--sb-color-secondary-30) / var(--sb-color-opacity));
 	border-radius: 6px;
 	box-shadow:
 		0 10px 15px -3px rgb(0 0 0 / 0.1),
