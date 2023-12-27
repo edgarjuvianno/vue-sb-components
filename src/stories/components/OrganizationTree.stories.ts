@@ -415,9 +415,7 @@ export const AdditionalInfo: Story = {
 }
 
 export const ExportImage: Story = {
-	args: {
-		isEditable: true,
-	},
+	args: {},
 	render: (args) => ({
 		components: { Button, OrganizationTree },
 		setup() {

@@ -441,7 +441,7 @@ body {
 					);
 					stroke-linejoin: round;
 					stroke-miterlimit: 10;
-					stroke-width: 5;
+					stroke-width: 2px;
 					transition: stroke 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
 					&:hover {
@@ -470,6 +470,7 @@ body {
 				&.editable {
 					path {
 						cursor: pointer;
+						stroke-width: 5;
 					}
 
 					circle {
@@ -504,16 +505,6 @@ body {
 							display: block;
 						}
 					}
-				}
-			}
-		}
-	}
-
-	.export-area-org-chart {
-		.canvas {
-			.connection {
-				path {
-					stroke-width: 2px !important;
 				}
 			}
 		}
