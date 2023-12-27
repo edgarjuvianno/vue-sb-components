@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.5...v2.1.6) (2023-12-27)
+
+
+### Bug Fixes
+
+* feat org chart delete card, datepicker custom date style, etc ([e5fd178](https://github.com/edgarjuvianno/vue-sb-components/commit/e5fd178983f22a8730d7f30e675c8b5a6e1c7707))
+
 ### [2.1.5](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.4...v2.1.5) (2023-12-27)
 
 
