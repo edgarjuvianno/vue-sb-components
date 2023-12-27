@@ -440,7 +440,8 @@ body {
 						var(--sb-color-secondary-40) / var(--sb-color-opacity)
 					);
 					stroke-linejoin: round;
-					stroke-width: 3px;
+					stroke-miterlimit: 10;
+					stroke-width: 2px;
 					transition: stroke 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
 					&:hover {
@@ -448,6 +449,11 @@ body {
 							var(--sb-color-primary-accent-60) /
 								var(--sb-color-opacity)
 						);
+					}
+
+					&.real {
+						stroke-width: 8.7;
+						visibility: hidden;
 					}
 				}
 
@@ -477,13 +483,13 @@ body {
 				}
 
 				&.dashed {
-					path {
+					path:not(.real) {
 						stroke-dasharray: 6.6 6.6;
 					}
 				}
 
 				&.dotted {
-					path {
+					path:not(.real) {
 						stroke-dasharray: 2.2 2.2;
 					}
 				}

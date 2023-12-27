@@ -1,7 +1,10 @@
 <template>
 	<div
 		class="accordion"
-		:class="{ expanded: localExpanded || localExpanding }"
+		:class="{
+			expanded: localExpanded || localExpanding,
+			'no-elevation': noElevation,
+		}"
 		ref="accordion"
 		v-bind="{ ...$attrs }"
 	>
@@ -47,6 +50,10 @@
 				>,
 			},
 			expand: {
+				required: false,
+				type: Boolean,
+			},
+			noElevation: {
 				required: false,
 				type: Boolean,
 			},

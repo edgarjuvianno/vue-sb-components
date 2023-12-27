@@ -70,14 +70,16 @@
 		:key="`${String($.vnode.key)}-connection-${index}`"
 		v-for="(connection, index) in item.connections || []"
 	>
+		<path :d="getConnectionPathString(connection)"></path>
 		<path
+			class="real"
 			:d="getConnectionPathString(connection)"
 			@click.stop="handleConnectionClick($event, index)"
 			@dblclick.stop="handleConnectionDoubleClick($event, index)"
 		></path>
 		<circle
 			class="circle"
-			r="4"
+			r="6"
 			:cx="circle.x"
 			:cy="circle.y"
 			:key="`${String(

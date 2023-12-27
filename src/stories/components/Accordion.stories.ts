@@ -31,6 +31,10 @@ const meta = {
 			control: 'boolean',
 			description: 'Set Accordion is expanded or not',
 		},
+		noElevation: {
+			control: 'boolean',
+			description: 'Show Accordion shadow or not',
+		},
 		title: { control: 'text', description: 'Accordion header text' },
 	},
 	args: {},

@@ -104,4 +104,8 @@
 			}
 		}
 	}
+
+	&.no-elevation {
+		box-shadow: none;
+	}
 }
