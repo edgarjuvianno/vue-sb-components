@@ -4,6 +4,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events'
 import { Dayjs } from 'dayjs'
 
 import Datepicker from '@/components/form-datepicker/form-datepicker.vue'
+import { IDate } from '@/interface'
 
 const meta = {
 	title: 'Forms/Date Picker',
@@ -50,6 +51,11 @@ const meta = {
 			control: 'text',
 			description: 'Input label',
 		},
+		locale: {
+			control: 'select',
+			description: 'Datepicker locale',
+			options: ['en', 'id'],
+		},
 		max: {
 			control: 'text',
 			description: 'Max Date to select. Please provide valid Date format',
@@ -90,6 +96,10 @@ const meta = {
 				},
 			},
 			type: 'function',
+		},
+		overrideDateStyle: {
+			control: 'function',
+			description: 'Pass this function to override date style',
 		},
 		placeholder: {
 			control: 'text',
@@ -219,5 +229,28 @@ export const Error: Story = {
 	args: {
 		errorMessage: 'Some Error Message',
 		isError: true,
+	},
+}
+
+export const LocaleID: Story = {
+	args: {
+		format: 'DD MMMM YYYY',
+		locale: 'id',
+	},
+}
+
+export const OverrideDateStyle: Story = {
+	args: {
+		overrideDateStyle: (date: IDate) => {
+			if (date.value === 21) {
+				return {
+					background: 'lightgray',
+					border: '1px solid red',
+					color: 'red',
+				}
+			}
+
+			return {}
+		},
 	},
 }

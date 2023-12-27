@@ -5,7 +5,7 @@
 		:class="{
 			connecting: isConnecting,
 			draggable: isEditable,
-			dragged: isDragged,
+			dragged: isDragged || isSelected,
 		}"
 		:id="String($.vnode.key)"
 		:style="getItemPosition"
@@ -30,7 +30,7 @@
 		:class="{
 			connecting: isConnecting,
 			draggable: isEditable,
-			dragged: isDragged,
+			dragged: isDragged || isSelected,
 		}"
 		:id="String($.vnode.key)"
 		:style="getItemPosition"
@@ -70,9 +70,7 @@
 		:key="`${String($.vnode.key)}-connection-${index}`"
 		v-for="(connection, index) in item.connections || []"
 	>
-		<path :d="getConnectionPathString(connection)"></path>
 		<path
-			class="real"
 			:d="getConnectionPathString(connection)"
 			@click.stop="handleConnectionClick($event, index)"
 			@dblclick.stop="handleConnectionDoubleClick($event, index)"
@@ -125,6 +123,10 @@
 				type: Object as PropType<IConnectorState>,
 			},
 			isDragged: {
+				required: false,
+				type: Boolean,
+			},
+			isSelected: {
 				required: false,
 				type: Boolean,
 			},
@@ -439,53 +441,8 @@
 		watch: {
 			'item.connections': {
 				deep: true,
-				handler(
-					newValue: IConnection[] | undefined,
-					oldValue: IConnection[] | undefined,
-				) {
-					if (
-						newValue &&
-						oldValue &&
-						newValue.length < oldValue.length
-					) {
-						const newKeys: string[] = [...newValue].map(
-							(it: IConnection) =>
-								`${String(this.$.vnode.key)}-connection-${
-									it.from.item
-								}-${it.from.io}-${it.to.item}-${it.to.io}`,
-						)
-						const oldKeys: string[] = [...oldValue].map(
-							(it: IConnection) =>
-								`${String(this.$.vnode.key)}-connection-${
-									it.from.item
-								}-${it.from.io}-${it.to.item}-${it.to.io}`,
-						)
-
-						const deleted: string | undefined = oldKeys.find(
-							(it: string) => newKeys.indexOf(it) < 0,
-						)
-
-						if (deleted) {
-							delete this.connectionsPath[deleted]
-
-							this.$nextTick(() => this.handleInitConnections())
-						}
-					} else if (
-						(newValue &&
-							oldValue &&
-							newValue.length > oldValue.length) ||
-						(!oldValue && newValue?.length)
-					) {
-						const conn: IConnection = newValue[newValue.length - 1]
-						const path: string | undefined =
-							this.getConnectionPath(conn)
-
-						this.connectionsPath[
-							`${String(this.$.vnode.key)}-connection-${
-								conn.from.item
-							}-${conn.from.io}-${conn.to.item}-${conn.to.io}`
-						] = path
-					}
+				handler() {
+					this.$nextTick(() => this.handleInitConnections())
 				},
 			},
 		},

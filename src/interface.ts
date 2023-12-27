@@ -323,3 +323,9 @@ export interface IOrganizationTreeItem {
 	photo?: string
 	position?: string
 }
+
+export interface IDate {
+	disabled?: boolean
+	value: number
+	viewOnly?: boolean
+}

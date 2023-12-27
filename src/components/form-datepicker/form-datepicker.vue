@@ -38,6 +38,7 @@
 			:datepicker-elem="datepickerWrapper"
 			:close-on-select="closeOnSelect"
 			:input-wrapper="inputWrapper"
+			:override-date-style="overrideDateStyle"
 			:show="localShow"
 			:value="localValue"
 			v-bind="{
@@ -65,7 +66,7 @@
 
 	// icons
 	import { calendar, clock, xMark } from '@/assets/icons'
-	import { IIcon } from '@/interface'
+	import { IDate, IIcon } from '@/interface'
 
 	export default defineComponent({
 		emits: {
@@ -102,6 +103,10 @@
 				required: false,
 				type: String,
 			},
+			locale: {
+				required: false,
+				type: String as PropType<'en' | 'id'>,
+			},
 			max: {
 				required: false,
 				type: String,
@@ -117,6 +122,12 @@
 			noIcon: {
 				required: false,
 				type: Boolean,
+			},
+			overrideDateStyle: {
+				required: false,
+				type: Function as PropType<
+					(_date: IDate) => Record<string, any>
+				>,
 			},
 			placeholder: {
 				required: false,
@@ -298,6 +309,11 @@
 					ev.preventDefault()
 				}
 			},
+			handleLocale(locale: 'en' | 'id') {
+				this.locales[locale || 'en'].then(() =>
+					DayJS.locale(locale || 'en'),
+				)
+			},
 			handleOnChange(value: any) {
 				if (!this.range) {
 					this.handleUpdateModelValue(value)
@@ -438,6 +454,12 @@
 			},
 		},
 		watch: {
+			locale: {
+				handler(newValue: 'en' | 'id') {
+					this.handleLocale(newValue)
+				},
+				immediate: true,
+			},
 			localShow(newValue: boolean, oldValue: boolean) {
 				if (
 					!newValue &&
@@ -471,6 +493,14 @@
 					this.setLocalValue(newValue)
 				},
 			},
+		},
+		setup() {
+			const locales: Record<'en' | 'id', Promise<any>> = {
+				en: import('dayjs/locale/en'),
+				id: import('dayjs/locale/id'),
+			}
+
+			return { locales }
 		},
 		mounted() {
 			this.setLocalValue(this.modelValue || this.value)

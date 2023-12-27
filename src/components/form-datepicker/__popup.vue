@@ -128,6 +128,7 @@
 								selected: isDateSelected(item),
 							}"
 							:key="`date-${i}`"
+							:style="handleOverrideDateStyle(item)"
 							v-for="(item, i) in getDates"
 							@click.stop="handleSelectDate(item)"
 							@mouseover="handleDateMouseover(item)"
@@ -242,6 +243,7 @@
 		getProperTimeFormat,
 		sortDateRange,
 	} from './__funcs'
+	import { IDate } from '@/interface'
 
 	DayJS.extend(isToday)
 	DayJS.extend(localeData)
@@ -263,12 +265,6 @@
 
 	// utils
 	import { recursiveSearchScrollParent } from '@/utils/helper'
-
-	interface IDate {
-		disabled?: boolean
-		value: number
-		viewOnly?: boolean
-	}
 
 	interface IPopupValue {
 		date: number
@@ -304,6 +300,12 @@
 			min: {
 				required: false,
 				type: String,
+			},
+			overrideDateStyle: {
+				required: false,
+				type: Function as PropType<
+					(_date: IDate) => Record<string, any>
+				>,
 			},
 			range: {
 				required: false,
@@ -704,6 +706,13 @@
 			},
 			handleNavYear(inc: number) {
 				this.popupCurrentValue.year += inc
+			},
+			handleOverrideDateStyle(date: IDate) {
+				if (this.overrideDateStyle) {
+					return this.overrideDateStyle(date)
+				}
+
+				return {}
 			},
 			handleParentScroll(isOpen: boolean) {
 				const parentWithScroll: HTMLElement | null =

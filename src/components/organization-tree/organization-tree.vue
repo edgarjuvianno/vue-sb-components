@@ -34,6 +34,7 @@
 					:canvas-state="canvasState"
 					:connector-state="connectorState"
 					:is-dragged="isItemDragged(`org-${$.uid}-item-${index}`)"
+					:is-selected="isItemSelected(`org-${$.uid}-item-${index}`)"
 					:key="`org-${$.uid}-item-${index}`"
 					:selected-connection="selectedConnection"
 					v-bind="{
@@ -190,6 +191,7 @@
 					toCoordinates: null,
 				} as IPointState,
 				selectedConnection: null as null | ISelectedConnection,
+				selectedItem: null as null | IDraggedItem,
 				selectedLineType: 'solid' as any,
 			}
 		},
@@ -627,6 +629,7 @@
 			},
 			handleItemDragged(item: IDraggedItem) {
 				this.draggedItem = { ...item }
+				this.selectedItem = { ...item }
 				this.mouseState.position = { ...item.coordinates }
 				this.parentState.position = { ...item.coordinates }
 				this.selectedConnection = null
@@ -654,6 +657,7 @@
 					this.mouseState.position = { ...coordinates }
 					this.mouseState.positionStart = { ...coordinates }
 					this.selectedLineType = 'solid'
+					this.selectedItem = null
 				}
 			},
 			handleParentDragEnd(ev: MouseEvent | TouchEvent) {
@@ -760,32 +764,107 @@
 				})
 			},
 			async handleParentKeydown(ev: KeyboardEvent) {
-				if (
-					(ev.key === 'Delete' || ev.key === 'Backspace') &&
-					this.selectedConnection
-				) {
-					ev.preventDefault()
+				if (ev.key === 'Delete' || ev.key === 'Backspace') {
+					if (this.selectedConnection) {
+						ev.preventDefault()
 
-					const splitConnection: string[] =
-						this.selectedConnection.key.split('-connection-')
+						const splitConnection: string[] =
+							this.selectedConnection.key.split('-connection-')
 
-					this.selectedConnection = null
+						this.selectedConnection = null
 
-					const itemIndex: number = Number(
-						splitConnection[0].split('-item-')[1],
-					)
-					const connectionIndex: number = Number(splitConnection[1])
+						const itemIndex: number = Number(
+							splitConnection[0].split('-item-')[1],
+						)
+						const connectionIndex: number = Number(
+							splitConnection[1],
+						)
 
-					if (this.localList[itemIndex]) {
-						const connections: IConnection[] = [
-							...(this.localList[itemIndex].connections || []),
-						]
+						if (this.localList[itemIndex]) {
+							const connections: IConnection[] = [
+								...(this.localList[itemIndex].connections ||
+									[]),
+							]
 
-						this.localList[itemIndex].connections =
-							connections.filter(
-								(_it: IConnection, idx: number) =>
-									idx !== connectionIndex,
-							)
+							this.localList[itemIndex].connections =
+								connections.filter(
+									(_it: IConnection, idx: number) =>
+										idx !== connectionIndex,
+								)
+
+							this.$nextTick(() => {
+								this.$emit('change', this.localList)
+							})
+						}
+					} else if (this.selectedItem) {
+						ev.preventDefault()
+
+						const itemIndex: number = Number(
+							this.selectedItem.key.split('-item-')[1],
+						)
+
+						const tempList: IOrganizationTreeItem[] = [
+							...this.localList,
+						].filter(
+							(_it: IOrganizationTreeItem, idx: number) =>
+								idx !== itemIndex,
+						)
+
+						const removeConnections: IOrganizationTreeItem[] = [
+							...tempList,
+						].map((it: IOrganizationTreeItem) => {
+							if (it.connections) {
+								const modConnections: IConnection[] = [
+									...it.connections,
+								]
+									.filter(
+										(itConnection: IConnection) =>
+											itConnection.from.item !==
+												itemIndex &&
+											itConnection.to.item !== itemIndex,
+									)
+									.map((itConnection: IConnection) => {
+										if (
+											itConnection.from.item >
+												itemIndex ||
+											itConnection.to.item > itemIndex
+										) {
+											return {
+												...itConnection,
+												...(itConnection.from.item >
+													itemIndex && {
+													from: {
+														...itConnection.from,
+														item:
+															itConnection.from
+																.item - 1,
+													},
+												}),
+												...(itConnection.to.item >
+													itemIndex && {
+													to: {
+														...itConnection.to,
+														item:
+															itConnection.to
+																.item - 1,
+													},
+												}),
+											}
+										}
+
+										return itConnection
+									})
+
+								return {
+									...it,
+									connections: modConnections,
+								}
+							}
+
+							return it
+						})
+
+						this.localList = [...removeConnections]
 
 						this.$nextTick(() => {
 							this.$emit('change', this.localList)
@@ -1001,6 +1080,9 @@
 			},
 			isItemDragged(key: string) {
 				return this.draggedItem?.key === key
+			},
+			isItemSelected(key: string) {
+				return this.selectedItem?.key === key
 			},
 		},
 		watch: {
