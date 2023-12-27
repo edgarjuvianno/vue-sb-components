@@ -509,4 +509,14 @@ body {
 			}
 		}
 	}
+
+	.export-area-org-chart {
+		.canvas {
+			.connection {
+				path {
+					stroke-width: 2px !important;
+				}
+			}
+		}
+	}
 }
