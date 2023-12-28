@@ -42,6 +42,7 @@
 			:show="localShow"
 			:value="localValue"
 			v-bind="{
+				locale,
 				max,
 				min,
 				range,
@@ -61,8 +62,7 @@
 	import { sortDateRange } from './__funcs'
 
 	// locales
-	import('dayjs/locale/en')
-	// import('dayjs/locale/id')
+	import('dayjs/locale/id')
 
 	// components
 	import Input from '@/components/form-input/form-input.vue'
@@ -313,9 +313,6 @@
 					ev.preventDefault()
 				}
 			},
-			handleLocale() {
-				DayJS.locale(this.locale || 'en')
-			},
 			handleOnChange(value: any) {
 				if (!this.range) {
 					this.handleUpdateModelValue(value)
@@ -491,7 +488,7 @@
 			},
 		},
 		mounted() {
-			this.handleLocale()
+			DayJS.locale(this.locale || 'en')
 			this.setLocalValue(this.modelValue || this.value)
 
 			this.icon.onClick = this.handleClickIcon
