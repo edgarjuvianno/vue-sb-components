@@ -263,9 +263,6 @@
 		clock,
 	} from '@/assets/icons'
 
-	// locales
-	import('dayjs/locale/id')
-
 	// utils
 	import { recursiveSearchScrollParent } from '@/utils/helper'
 
@@ -295,10 +292,6 @@
 			inputWrapper: {
 				required: false,
 				type: Object,
-			},
-			locale: {
-				required: false,
-				type: String as PropType<'en' | 'id'>,
 			},
 			max: {
 				required: false,
@@ -1216,7 +1209,6 @@
 			},
 		},
 		mounted() {
-			DayJS.locale(this.locale || 'en')
 			this.setPopupPosition()
 
 			this.parentWithScroll = recursiveSearchScrollParent(
