@@ -293,6 +293,10 @@
 				required: false,
 				type: Object,
 			},
+			locale: {
+				required: false,
+				type: String as PropType<'en' | 'id'>,
+			},
 			max: {
 				required: false,
 				type: String,
@@ -586,6 +590,13 @@
 					this.localShowContainer = 'calendar'
 				} else {
 					this.localShowContainer = 'time'
+				}
+			},
+			handleLocale() {
+				if (this.locale && this.locale !== 'en') {
+					import('dayjs/locale/id').then(() => {
+						DayJS.locale(this.locale)
+					})
 				}
 			},
 			handleNavMonth(inc: number) {
@@ -1209,6 +1220,7 @@
 			},
 		},
 		mounted() {
+			this.handleLocale()
 			this.setPopupPosition()
 
 			this.parentWithScroll = recursiveSearchScrollParent(
