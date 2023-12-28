@@ -198,6 +198,12 @@
 
 				return calendar()
 			},
+			getLocales() {
+				return {
+					en: import('dayjs/locale/en'),
+					id: import('dayjs/locale/id'),
+				}
+			},
 		},
 		methods: {
 			emitFinalValue() {
@@ -310,7 +316,7 @@
 				}
 			},
 			handleLocale(locale: 'en' | 'id') {
-				this.locales[locale || 'en'].then(() =>
+				this.getLocales[locale || 'en'].then(() =>
 					DayJS.locale(locale || 'en'),
 				)
 			},
@@ -493,14 +499,6 @@
 					this.setLocalValue(newValue)
 				},
 			},
-		},
-		setup() {
-			const locales: Record<'en' | 'id', Promise<any>> = {
-				en: import('dayjs/locale/en'),
-				id: import('dayjs/locale/id'),
-			}
-
-			return { locales }
 		},
 		mounted() {
 			this.setLocalValue(this.modelValue || this.value)
