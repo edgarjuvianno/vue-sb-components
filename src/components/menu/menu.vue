@@ -63,7 +63,7 @@
 				type: Boolean,
 			},
 			open: {
-				required: true,
+				required: false,
 				type: Boolean,
 			},
 			size: {
@@ -148,23 +148,7 @@
 						this.$refs['menu-items-wrapper'] as any
 					)?.getBoundingClientRect()
 
-					const left: () => number = () => {
-						if (DOMRect.width < itemsWrapper.width) {
-							return (
-								DOMRect.x +
-								(DOMRect.width - itemsWrapper.width) / 2
-							)
-						}
-
-						return DOMRect.x
-					}
-
 					if (itemsWrapper) {
-						const width: number =
-							DOMRect.width > itemsWrapper.width
-								? DOMRect.width
-								: itemsWrapper.width
-
 						const isTop: boolean =
 							document.body.getBoundingClientRect().height -
 								(DOMRect.height + DOMRect.y) <=
@@ -172,16 +156,16 @@
 
 						if (isTop) {
 							return (this.itemsWrapperStyles = {
-								left: `${left()}px`,
+								left: `${DOMRect.x}px`,
 								top: `${DOMRect.y - 6 - itemsWrapper.height}px`,
-								width: `${width}px`,
+								width: `${DOMRect.width}px`,
 							})
 						}
 
 						return (this.itemsWrapperStyles = {
-							left: `${left()}px`,
+							left: `${DOMRect.x}px`,
 							top: `${DOMRect.y + DOMRect.height}px`,
-							width: `${width}px`,
+							width: `${DOMRect.width}px`,
 						})
 					}
 				}

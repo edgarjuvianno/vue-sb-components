@@ -4,7 +4,7 @@
 		:class="{
 			clicked: isClicked,
 		}"
-		@click.stop="handleClick"
+		@click="handleClick"
 	>
 		<slot />
 	</div>

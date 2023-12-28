@@ -57,7 +57,7 @@ const meta = {
 	},
 	args: {
 		label: 'Menu Prop',
-		open: true,
+		open: false,
 	},
 	parameters: {
 		docs: {
