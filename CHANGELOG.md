@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.18](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.17...v2.1.18) (2023-12-28)
+
+
+### Bug Fixes
+
+* fix disable locale id ([cb4973f](https://github.com/edgarjuvianno/vue-sb-components/commit/cb4973f38b726959f52ae49651a5560ff2c8198d))
+
 ### [2.1.17](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.16...v2.1.17) (2023-12-28)
 
 
