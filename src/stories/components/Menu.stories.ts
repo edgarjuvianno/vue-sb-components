@@ -36,18 +36,6 @@ const meta = {
 			control: 'boolean',
 			description: 'Button has elevation or not (default: true)',
 		},
-		onChange: {
-			action: 'click',
-			control: false,
-			description: 'Fired when Menu will open or will close',
-			table: {
-				category: 'events',
-				type: {
-					summary: '(isOpen: boolean) => void',
-				},
-			},
-			type: 'function',
-		},
 		open: {
 			control: 'boolean',
 			description: 'Set Menu is open or not',
@@ -69,29 +57,11 @@ const meta = {
 	},
 	args: {
 		label: 'Menu Prop',
-		open: false,
+		open: true,
 	},
-	decorators: [
-		(story, ctx) => {
-			delete (ctx.args as any).change
-			;(ctx.args as any).onChange = (open: boolean) => {
-				// eslint-disable-next-line no-underscore-dangle
-				const channel = (window as any)
-					.__STORYBOOK_ADDONS_CHANNEL__ as Channel
-
-				channel.emit(UPDATE_STORY_ARGS, {
-					storyId: ctx.id,
-					updatedArgs: { open },
-				})
-			}
-
-			return story()
-		},
-	],
 	parameters: {
 		docs: {
 			controls: {
-				exclude: ['change'],
 				sort: 'requiredFirst',
 			},
 		},

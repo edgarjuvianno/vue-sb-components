@@ -1,13 +1,16 @@
 <template>
-	<div
-		class="tooltip"
-		:class="{ hide: isMobile || hidden, show }"
-		:style="rect"
-		ref="tooltip"
-		v-bind="{ ...$attrs }"
-	>
-		{{ label }}
-	</div>
+	<Teleport to="body">
+		<div
+			class="tooltip"
+			:class="{ hide: isMobile || hidden, show }"
+			:style="rect"
+			ref="tooltip"
+			v-bind="{ ...$attrs }"
+			v-if="show && !isMobile && !hidden"
+		>
+			{{ label }}
+		</div>
+	</Teleport>
 	<div
 		@mouseleave="toggleShow(false)"
 		@mouseover="toggleShow(true)"
@@ -61,7 +64,7 @@
 			},
 		},
 		methods: {
-			toggleShow(show: boolean) {
+			handlePopupPosition() {
 				if (this.$refs['content-wrapper'] && this.$refs['tooltip']) {
 					const elemContentRect: DOMRect = (
 						this.$refs['content-wrapper'] as any
@@ -88,8 +91,6 @@
 								elemContentRect.top - elemContentRect.height - 6
 							}px`,
 						}
-
-						this.show = show
 					} else {
 						this.rect = {
 							left: `${tooltipLeft < 0 ? 6 : tooltipLeft}px`,
@@ -97,10 +98,13 @@
 								elemContentRect.top + elemContentRect.height + 6
 							}px`,
 						}
-
-						this.show = show
 					}
 				}
+			},
+			toggleShow(show: boolean) {
+				this.show = show
+
+				this.$nextTick(() => this.handlePopupPosition())
 			},
 		},
 	})

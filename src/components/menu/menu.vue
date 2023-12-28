@@ -1,5 +1,5 @@
 <template>
-	<div class="menu-wrapper" ref="menu-wrapper">
+	<div class="menu-wrapper" ref="menu-wrapper" v-bind="{ ...$attrs }">
 		<sb-button
 			:no-elevation="localOpen || noElevation"
 			v-bind="{
@@ -36,9 +36,6 @@
 	import { recursiveSearchScrollParent } from '@/utils/helper'
 
 	export default defineComponent({
-		emits: {
-			change: (_isOpen: boolean) => true,
-		},
 		props: {
 			color: {
 				default: 'default',
@@ -104,13 +101,12 @@
 					!parent.contains(target) &&
 					!target.isSameNode(parent)
 				) {
-					this.$emit('change', false)
+					this.localOpen = false
 				}
 			},
 			handleOpen() {
 				if (!this.disabled) {
 					this.localOpen = true
-					this.$emit('change', true)
 
 					this.$nextTick(() => {
 						this.setPopupPosition()
@@ -192,15 +188,14 @@
 			},
 		},
 		watch: {
-			open(newValue: boolean) {
-				this.localOpen = newValue
-			},
 			localOpen(newValue: boolean) {
 				this.handleParentScroll(newValue)
 			},
 		},
 		mounted() {
-			this.setPopupPosition()
+			this.localOpen = this.open
+
+			this.$nextTick(() => this.setPopupPosition())
 
 			document.addEventListener('click', (event: MouseEvent) =>
 				this.handleClose(event),

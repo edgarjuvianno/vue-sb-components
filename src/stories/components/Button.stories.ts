@@ -86,7 +86,7 @@ const meta = {
 			return { args, slot: parameters.slots.default.template }
 		},
 		template:
-			'<div style="height: 5rem; display: flex; justify-content: center; align-items: center;"><Button v-bind="args">{{ slot }}</Button></div>',
+			'<div style="height: 10rem; display: flex; justify-content: center; align-items: center;"><Button v-bind="args">{{ slot }}</Button></div>',
 	}),
 } satisfies Meta<typeof Button>
 

@@ -59,8 +59,9 @@
 	import { defineComponent, PropType } from 'vue'
 	import DayJS, { Dayjs, isDayjs } from 'dayjs'
 	import { sortDateRange } from './__funcs'
-	import('dayjs/locale/en')
-	import('dayjs/locale/en')
+
+	// locales
+	import('dayjs/locale/id')
 
 	// components
 	import Input from '@/components/form-input/form-input.vue'
