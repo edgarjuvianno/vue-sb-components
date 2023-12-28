@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.20](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.19...v2.1.20) (2023-12-28)
+
+
+### Bug Fixes
+
+* try fix datepicker locale ([9819cb6](https://github.com/edgarjuvianno/vue-sb-components/commit/9819cb6a86ecc2401fb22e73ec97527bb49a251f))
+
 ### [2.1.19](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.18...v2.1.19) (2023-12-28)
 
 
