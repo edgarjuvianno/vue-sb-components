@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.11...v2.1.12) (2023-12-28)
+
+
+### Bug Fixes
+
+* fix change locale handler to mounted ([c5c2ee8](https://github.com/edgarjuvianno/vue-sb-components/commit/c5c2ee89f0076b472cea62196c9917a16e19b953))
+
 ### [2.1.11](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.10...v2.1.11) (2023-12-28)
 
 
