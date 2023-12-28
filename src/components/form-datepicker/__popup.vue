@@ -594,9 +594,7 @@
 			},
 			handleLocale() {
 				if (this.locale && this.locale !== 'en') {
-					import('dayjs/locale/id').then(() => {
-						DayJS.locale(this.locale)
-					})
+					DayJS.locale(this.locale)
 				}
 			},
 			handleNavMonth(inc: number) {
