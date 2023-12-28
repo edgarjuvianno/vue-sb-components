@@ -1,7 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-
-import 'dayjs/locale/id'
-
 export { setCSSVariables } from './utils/helper'
 
 export * from './interface'

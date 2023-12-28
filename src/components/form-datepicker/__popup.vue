@@ -244,6 +244,7 @@
 		sortDateRange,
 	} from './__funcs'
 	import { IDate } from '@/interface'
+	import LocaleID from 'dayjs/locale/id'
 
 	DayJS.extend(isToday)
 	DayJS.extend(localeData)
@@ -594,7 +595,7 @@
 			},
 			handleLocale() {
 				if (this.locale && this.locale !== 'en') {
-					DayJS.locale(this.locale)
+					DayJS.locale(LocaleID)
 				}
 			},
 			handleNavMonth(inc: number) {
