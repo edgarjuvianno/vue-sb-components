@@ -62,7 +62,7 @@
 
 	// locales
 	import('dayjs/locale/en')
-	import('dayjs/locale/id')
+	// import('dayjs/locale/id')
 
 	// components
 	import Input from '@/components/form-input/form-input.vue'
