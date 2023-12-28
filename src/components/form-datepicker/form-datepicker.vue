@@ -315,9 +315,9 @@
 					ev.preventDefault()
 				}
 			},
-			handleLocale(locale: 'en' | 'id') {
-				this.getLocales[locale || 'en'].then(() =>
-					DayJS.locale(locale || 'en'),
+			handleLocale() {
+				this.getLocales[this.locale || 'en'].then(() =>
+					DayJS.locale(this.locale || 'en'),
 				)
 			},
 			handleOnChange(value: any) {
@@ -460,12 +460,6 @@
 			},
 		},
 		watch: {
-			locale: {
-				handler(newValue: 'en' | 'id') {
-					this.handleLocale(newValue)
-				},
-				immediate: true,
-			},
 			localShow(newValue: boolean, oldValue: boolean) {
 				if (
 					!newValue &&
@@ -501,6 +495,7 @@
 			},
 		},
 		mounted() {
+			this.handleLocale()
 			this.setLocalValue(this.modelValue || this.value)
 
 			this.icon.onClick = this.handleClickIcon
