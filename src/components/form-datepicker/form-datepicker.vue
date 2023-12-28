@@ -59,6 +59,8 @@
 	import { defineComponent, PropType } from 'vue'
 	import DayJS, { Dayjs, isDayjs } from 'dayjs'
 	import { sortDateRange } from './__funcs'
+	import('dayjs/locale/en')
+	import('dayjs/locale/en')
 
 	// components
 	import Input from '@/components/form-input/form-input.vue'
@@ -198,12 +200,6 @@
 
 				return calendar()
 			},
-			getLocales() {
-				return {
-					en: import('dayjs/locale/en'),
-					id: import('dayjs/locale/id'),
-				}
-			},
 		},
 		methods: {
 			emitFinalValue() {
@@ -316,9 +312,7 @@
 				}
 			},
 			handleLocale() {
-				this.getLocales[this.locale || 'en'].then(() =>
-					DayJS.locale(this.locale || 'en'),
-				)
+				DayJS.locale(this.locale || 'en')
 			},
 			handleOnChange(value: any) {
 				if (!this.range) {
