@@ -311,8 +311,8 @@
 			},
 			handleLocale() {
 				if (this.locale && this.locale !== 'en') {
-					import('dayjs/locale/id').then(() => {
-						DayJS.locale(this.locale)
+					import('dayjs/locale/id').then((value: any) => {
+						DayJS.locale(value)
 					})
 				}
 			},
