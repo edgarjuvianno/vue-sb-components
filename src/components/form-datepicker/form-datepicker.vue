@@ -58,7 +58,10 @@
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
 	import DayJS, { Dayjs, isDayjs } from 'dayjs'
+	import localeData from 'dayjs/plugin/localeData'
 	import { sortDateRange } from './__funcs'
+
+	DayJS.extend(localeData)
 
 	// components
 	import Input from '@/components/form-input/form-input.vue'
@@ -311,8 +314,8 @@
 			},
 			handleLocale() {
 				if (this.locale && this.locale !== 'en') {
-					import('dayjs/locale/id').then((value: any) => {
-						DayJS.locale(value)
+					import('dayjs/locale/id').then(() => {
+						DayJS.locale(this.locale)
 					})
 				}
 			},
