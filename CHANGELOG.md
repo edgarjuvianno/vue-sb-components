@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.13](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.12...v2.1.13) (2023-12-28)
+
+
+### Bug Fixes
+
+* import all locale first ([a77b3fb](https://github.com/edgarjuvianno/vue-sb-components/commit/a77b3fb3d7721d56efb9ae8e2463efe27e0c83db))
+
 ### [2.1.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.11...v2.1.12) (2023-12-28)
 
 
