@@ -61,6 +61,7 @@
 	import { sortDateRange } from './__funcs'
 
 	// locales
+	import('dayjs/locale/en')
 	import('dayjs/locale/id')
 
 	// components
