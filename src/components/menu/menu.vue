@@ -2,6 +2,7 @@
 	<div class="menu-wrapper" ref="menu-wrapper" v-bind="{ ...$attrs }">
 		<sb-button
 			:no-elevation="localOpen || noElevation"
+			type="button"
 			v-bind="{
 				color,
 				disabled,
