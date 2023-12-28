@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.16](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.15...v2.1.16) (2023-12-28)
+
+
+### Bug Fixes
+
+* fix menu button type ([89fc479](https://github.com/edgarjuvianno/vue-sb-components/commit/89fc4792dc0b710bd79833c1757bf110aa372d86))
+
 ### [2.1.15](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.14...v2.1.15) (2023-12-28)
 
 
