@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.14](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.13...v2.1.14) (2023-12-28)
+
+
+### Bug Fixes
+
+* tooltip teleport to body, remove menu emit ([8a39c19](https://github.com/edgarjuvianno/vue-sb-components/commit/8a39c19b299d43c4f98a8969af00e86781e86d9e))
+
 ### [2.1.13](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.12...v2.1.13) (2023-12-28)
 
 
