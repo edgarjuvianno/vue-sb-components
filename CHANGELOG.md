@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.26](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.25...v2.1.26) (2023-12-30)
+
+
+### Bug Fixes
+
+* organization tree card on click, tree item new key ([34e7dc8](https://github.com/edgarjuvianno/vue-sb-components/commit/34e7dc86217087d884b7510e06b8fa61327071bb))
+
 ### [2.1.25](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.24...v2.1.25) (2023-12-28)
 
 
