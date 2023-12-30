@@ -168,7 +168,7 @@ body {
 				border-radius: 6px;
 				box-shadow: none;
 				box-sizing: border-box;
-				cursor: default;
+				cursor: pointer;
 				display: flex;
 				gap: 1rem;
 				max-height: 120px;
@@ -188,11 +188,11 @@ body {
 					);
 				}
 
-				&.draggable {
+				&.dragged {
 					cursor: move;
 				}
 
-				&.dragged {
+				&.selected {
 					box-shadow: 0px 0px 6px 3px
 						rgb(var(--sb-color-primary-accent-60) / 0.75);
 				}
@@ -246,7 +246,7 @@ body {
 				box-sizing: border-box;
 				box-shadow: none;
 				color: white;
-				cursor: default;
+				cursor: pointer;
 				font-size: 0.875rem;
 				font-weight: 400;
 				height: 40px;
@@ -256,11 +256,11 @@ body {
 				user-select: none;
 				width: 180px;
 
-				&.draggable {
+				&.dragged {
 					cursor: move;
 				}
 
-				&.dragged {
+				&.selected {
 					box-shadow: 0px 0px 6px 3px
 						rgb(var(--sb-color-primary-accent-60) / 0.75);
 				}

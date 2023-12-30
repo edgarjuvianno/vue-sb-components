@@ -43,6 +43,7 @@
 					}"
 					v-for="(item, index) in localList"
 					@change-point="handleChangeItemPoint"
+					@click-item="handleClickItem"
 					@drag-connection="handleConnectionDragged"
 					@drag-item="handleItemDragged"
 					@drag-point="handlePointDragged"
@@ -109,6 +110,7 @@
 	export default defineComponent({
 		emits: {
 			change: (_list: IOrganizationTreeItem[]) => true,
+			clickItem: (_item: IOrganizationTreeItem, _index: number) => true,
 		},
 		props: {
 			isEditable: {
@@ -145,6 +147,7 @@
 				draggedItem: null as IDraggedItem | null,
 				exportAreaStyle: {} as Record<string, any>,
 				isExporting: false,
+				isItemMoved: false,
 				lineType: [
 					{
 						label: 'Solid',
@@ -591,6 +594,9 @@
 					}
 				}
 			},
+			handleClickItem(item: IOrganizationTreeItem, index: number) {
+				this.$emit('clickItem', item, index)
+			},
 			handleConnectionDragged(io: string, fromRect: DOMRect) {
 				this.connectorState.from = io
 				this.connectorState.fromRect = { ...fromRect.toJSON() }
@@ -614,6 +620,8 @@
 						lastCoordinates.x !== coordinates.x ||
 						lastCoordinates.y !== coordinates.y
 					) {
+						this.isItemMoved = true
+
 						tempList[index] = {
 							...this.localList[index],
 							coordinates,
@@ -735,6 +743,17 @@
 							}
 						}
 					}
+				} else if (this.draggedItem && !this.isItemMoved) {
+					const { key } = this.draggedItem
+					const itemIndex: number = Number(
+						String(key).split('-item-')[1],
+					)
+
+					this.$emit(
+						'clickItem',
+						this.localList[itemIndex],
+						itemIndex,
+					)
 				}
 
 				this.$nextTick(() => {
@@ -748,6 +767,7 @@
 						)
 					}
 
+					this.isItemMoved = false
 					this.parentState.isDrag = false
 					this.draggedItem = null
 					this.connectorState = {
@@ -1079,7 +1099,7 @@
 				})
 			},
 			isItemDragged(key: string) {
-				return this.draggedItem?.key === key
+				return this.draggedItem?.key === key && this.isItemMoved
 			},
 			isItemSelected(key: string) {
 				return this.selectedItem?.key === key

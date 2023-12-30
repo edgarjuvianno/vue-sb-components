@@ -20,13 +20,26 @@ const meta = {
 			description: 'Organization Tree items',
 		},
 		onChange: {
-			action: 'click',
+			action: 'change',
 			control: false,
 			description: 'Fired when tree changed by user drag',
 			table: {
 				category: 'events',
 				type: {
 					summary: '(list: IOrganizationTreeItem[]) => void',
+				},
+			},
+			type: 'function',
+		},
+		onClickItem: {
+			action: 'click',
+			control: false,
+			description: 'Fired when user click on tree item',
+			table: {
+				category: 'events',
+				type: {
+					summary:
+						'(item: IOrganizationTreeItem, index: number) => void',
 				},
 			},
 			type: 'function',
@@ -209,6 +222,12 @@ const meta = {
 					storyId: ctx.id,
 					updatedArgs: { list },
 				})
+			}
+			;(ctx.args as any).onClickItem = (
+				item: IOrganizationTreeItem,
+				itemIndex: number,
+			) => {
+				console.log(item, itemIndex, 'item clicked')
 			}
 
 			return story()

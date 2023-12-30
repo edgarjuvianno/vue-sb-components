@@ -5,7 +5,8 @@
 		:class="{
 			connecting: isConnecting,
 			draggable: isEditable,
-			dragged: isDragged || isSelected,
+			dragged: isDragged,
+			selected: isSelected,
 		}"
 		:id="String($.vnode.key)"
 		:style="getItemPosition"
@@ -30,7 +31,8 @@
 		:class="{
 			connecting: isConnecting,
 			draggable: isEditable,
-			dragged: isDragged || isSelected,
+			dragged: isDragged,
+			selected: isSelected,
 		}"
 		:id="String($.vnode.key)"
 		:style="getItemPosition"
@@ -108,6 +110,7 @@
 	export default defineComponent({
 		emits: {
 			changePoint: (_item: IOrganizationTreeItem, _index: number) => true,
+			clickItem: (_item: IOrganizationTreeItem, _index: number) => true,
 			dragItem: (_item: IDraggedItem) => true,
 			dragConnection: (_io: string, _fromRect: DOMRect) => true,
 			dragPoint: (_target: IPointTarget, _fromRect: DOMRect) => true,
@@ -413,15 +416,23 @@
 			handleItemClick(ev: MouseEvent | TouchEvent) {
 				const target: HTMLElement = ev.target as HTMLElement
 
-				if (!target.classList.contains('io') && this.isEditable) {
-					const coordinates: ICoordinates =
-						this.getCoordinatesMove(ev)
+				if (!target.classList.contains('io')) {
+					if (this.isEditable) {
+						const coordinates: ICoordinates =
+							this.getCoordinatesMove(ev)
 
-					this.$emit('dragItem', {
-						coordinates,
-						elem: this.$el.nextSibling,
-						key: this.$.vnode.key as string,
-					})
+						this.$emit('dragItem', {
+							coordinates,
+							elem: this.$el.nextSibling,
+							key: this.$.vnode.key as string,
+						})
+					} else {
+						const itemIndex: number = Number(
+							String(this.$.vnode.key).split('-item-')[1],
+						)
+
+						this.$emit('clickItem', this.item, itemIndex)
+					}
 				}
 			},
 			isConnectionSelected(index: number) {

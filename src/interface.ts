@@ -318,6 +318,7 @@ export interface IOrganizationTreeItem {
 	connections?: IConnection[]
 	coordinates: ICoordinates
 	department?: string
+	id?: any
 	name?: string
 	path?: string
 	photo?: string
