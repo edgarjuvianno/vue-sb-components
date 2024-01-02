@@ -186,11 +186,13 @@
 			},
 			modelValue: {
 				required: false,
-				type: [Object, String] as PropType<
+				type: [Object, String, Number] as PropType<
 					| Record<string, any>
 					| Record<string, any>[]
 					| String
 					| String[]
+					| number
+					| number[]
 					| null
 				>,
 			},
@@ -248,11 +250,13 @@
 			},
 			value: {
 				required: false,
-				type: [Object, String] as PropType<
+				type: [Object, String, Number] as PropType<
 					| Record<string, any>
 					| Record<string, any>[]
 					| String
 					| String[]
+					| number
+					| number[]
 					| null
 				>,
 			},
