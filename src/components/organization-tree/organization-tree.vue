@@ -6,6 +6,7 @@
 		}"
 		:id="`org-${$.uid}`"
 		class="organization-wrapper"
+		ref="organization-wrapper"
 		v-bind="{ ...$attrs }"
 		@mousedown.stop="handleParentClick"
 		@mousemove.stop="handleParentPosition"
@@ -668,6 +669,35 @@
 					this.selectedItem = null
 				}
 			},
+			handleParentClickOutside(event: MouseEvent) {
+				const target: HTMLElement = event.target as HTMLElement
+				const parent: HTMLElement = this.$refs[
+					'organization-wrapper'
+				] as any
+
+				if (
+					target &&
+					parent &&
+					!parent.contains(target) &&
+					!target.isSameNode(parent)
+				) {
+					this.isItemMoved = false
+					this.parentState.isDrag = false
+					this.draggedItem = null
+					this.connectorState = {
+						from: null,
+						fromRect: null,
+						path: undefined,
+						toCoordinates: null,
+					}
+					this.pointState = {
+						fromRect: null,
+						target: null,
+						toCoordinates: null,
+					}
+					this.selectedItem = null
+				}
+			},
 			handleParentDragEnd(ev: MouseEvent | TouchEvent) {
 				const { x, y }: ICoordinates = this.getCoordinatesEnd(ev)
 				const { coordinates }: ICanvasState = this.canvasState
@@ -1120,11 +1150,17 @@
 			}
 
 			document.addEventListener('keydown', this.handleParentKeydown)
+			document.addEventListener('click', (event: MouseEvent) =>
+				this.handleParentClickOutside(event),
+			)
 		},
 		unmounted() {
 			this.canvasState.elem = null
 
 			document.removeEventListener('keydown', this.handleParentKeydown)
+			document.removeEventListener('click', (event: MouseEvent) =>
+				this.handleParentClickOutside(event),
+			)
 		},
 		expose: ['doExport'],
 	})
