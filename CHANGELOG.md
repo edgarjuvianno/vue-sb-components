@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.28](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.27...v2.1.28) (2024-01-04)
+
+
+### Bug Fixes
+
+* fix click outside organization chart ([70e9fc5](https://github.com/edgarjuvianno/vue-sb-components/commit/70e9fc5216199772dc845d0fc6098b3cf41ce135))
+
 ### [2.1.27](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.26...v2.1.27) (2024-01-02)
 
 
