@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.30](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.29...v2.1.30) (2024-01-15)
+
+
+### Bug Fixes
+
+* fix multiple file upload ([881a47e](https://github.com/edgarjuvianno/vue-sb-components/commit/881a47ebb6f1e644f48f8575c2a4f23dd46e5eeb))
+
 ### [2.1.29](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.28...v2.1.29) (2024-01-15)
 
 
