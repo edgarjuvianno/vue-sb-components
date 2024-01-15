@@ -348,10 +348,7 @@
 
 					if (this.doValidateFiles(files)) {
 						if (this.multi) {
-							return this.handleUpdateModelValue([
-								...(this.localValue || []),
-								...files,
-							])
+							return this.handleUpdateModelValue([...files])
 						}
 
 						return this.handleUpdateModelValue([...files])
@@ -360,8 +357,8 @@
 
 				return this.handleUpdateModelValue(null)
 			},
-			handleUpdateModelValue(value: any) {
-				this.localValue = value
+			handleUpdateModelValue(value: File[] | null) {
+				this.localValue = [...(value || [])]
 
 				this.$nextTick(() => {
 					this.$emit('update:modelValue', this.localValue)
