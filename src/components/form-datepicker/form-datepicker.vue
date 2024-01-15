@@ -118,7 +118,7 @@
 			},
 			modelValue: {
 				required: false,
-				type: String as PropType<string | string[] | null>,
+				type: [String, Object] as PropType<string | string[] | null>,
 			},
 			noIcon: {
 				required: false,
@@ -159,7 +159,7 @@
 			},
 			value: {
 				required: false,
-				type: String as PropType<string | string[] | null>,
+				type: [String, Object] as PropType<string | string[] | null>,
 			},
 			variant: {
 				default: 'default',
