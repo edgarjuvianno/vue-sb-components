@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.29](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.28...v2.1.29) (2024-01-15)
+
+
+### Bug Fixes
+
+* fix datepicker range modelvalue ([0cf397c](https://github.com/edgarjuvianno/vue-sb-components/commit/0cf397caae26d5e9ad8b478df9531bf039e9e418))
+
 ### [2.1.28](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.27...v2.1.28) (2024-01-04)
 
 
