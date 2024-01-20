@@ -375,6 +375,14 @@ body {
 					min-height: 15rem;
 				}
 			}
+
+			&.range {
+				.body {
+					.time-wrapper {
+						gap: 1.5rem;
+					}
+				}
+			}
 		}
 
 		&.datetime {
