@@ -808,21 +808,23 @@
 				}
 			},
 			handleChange() {
-				this.localPagination = {
-					...this.localPagination,
-					current: 0,
-				}
+				this.$nextTick(() => {
+					this.localPagination = {
+						...this.localPagination,
+						current: 0,
+					}
 
-				this.response = {
-					...this.response,
-					page: 0,
-				}
+					this.response = {
+						...this.response,
+						page: 0,
+					}
 
-				if (this.serverSide) {
-					this.handleAJAX()
-				}
+					if (this.serverSide) {
+						this.handleAJAX()
+					}
 
-				this.$emit('change', this.getModdedResponse())
+					this.$emit('change', this.getModdedResponse())
+				})
 			},
 			handleClickColSearch(index: number, isClose = false) {
 				this.colSearchState = [...this.colSearchState].map(

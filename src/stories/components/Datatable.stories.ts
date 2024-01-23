@@ -317,6 +317,7 @@ export const ServerSide: Story = {
 				{ headers, payload, response }: IDTServerSideHandler,
 				type: 'BEFORE SEND' | 'SUCCESS' | 'ERROR',
 			) => {
+				console.log(payload, 'here')
 				if (type === 'BEFORE SEND') {
 					return {
 						headers,
