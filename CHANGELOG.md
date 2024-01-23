@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.32](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.31...v2.1.32) (2024-01-23)
+
+
+### Bug Fixes
+
+* fix input pill remove max width ([2db10be](https://github.com/edgarjuvianno/vue-sb-components/commit/2db10be25402e194d5832f04c500713aa10968c0))
+
 ### [2.1.31](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.30...v2.1.31) (2024-01-20)
 
 
