@@ -449,7 +449,7 @@
 					if (this.onPopulateList && this.isOpen) {
 						this.onPopulateList(term)
 					} else {
-						term = term.replace(/\s/g, '').toLowerCase()
+						term = term.replace(/^\s?|\s?$/g, '').toLowerCase()
 
 						this.localList = [...(this.list || [])].filter(
 							(it: any) => {

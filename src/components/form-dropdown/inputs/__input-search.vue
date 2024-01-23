@@ -148,7 +148,7 @@
 				}
 			},
 			handleFilterList(term: string) {
-				term = term.replace(/\s/g, '').toLowerCase()
+				term = term.replace(/^\s?|\s?$/g, '').toLowerCase()
 
 				if (this.onFilter) {
 					this.onFilter(term)
