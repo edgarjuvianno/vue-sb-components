@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.35](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.34...v2.1.35) (2024-01-24)
+
+
+### Bug Fixes
+
+* fix color picker styling ([5d96f9e](https://github.com/edgarjuvianno/vue-sb-components/commit/5d96f9e327232e303b1042d9af78314c214ac7af))
+
 ### [2.1.34](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.33...v2.1.34) (2024-01-23)
 
 
