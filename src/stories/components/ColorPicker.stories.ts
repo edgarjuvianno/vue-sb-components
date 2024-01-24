@@ -19,6 +19,14 @@ const meta = {
 			},
 			type: 'function',
 		},
+		errorMessage: {
+			control: 'text',
+			description: 'Input error message',
+		},
+		isError: {
+			control: 'boolean',
+			description: 'Is Input validation error',
+		},
 		label: {
 			control: 'text',
 			description: 'Color Picker label',

@@ -9,11 +9,15 @@
 					selected: isSelected(color),
 				}"
 				:key="index"
-				:style="{ background: color }"
 				class="color"
 				v-for="(color, index) in list"
 				@click="doSelect(color)"
-			></div>
+			>
+				<div :style="{ background: color }"></div>
+			</div>
+		</div>
+		<div class="error-wrapper" v-if="isError && errorMessage">
+			<span v-html="handleErrorMessage()"></span>
 		</div>
 	</div>
 </template>
@@ -27,6 +31,14 @@
 			change: (_selected: string | null) => true,
 		},
 		props: {
+			errorMessage: {
+				required: false,
+				type: [String, Function],
+			},
+			isError: {
+				required: false,
+				type: Boolean,
+			},
 			label: {
 				required: false,
 				type: String,
@@ -60,6 +72,17 @@
 					this.$emit('update:modelValue', this.selected)
 					this.$emit('change', this.selected)
 				})
+			},
+			handleErrorMessage() {
+				if (this.errorMessage) {
+					if (typeof this.errorMessage === 'string') {
+						return this.errorMessage
+					}
+
+					return this.errorMessage(this.selected)
+				}
+
+				return ''
 			},
 			isSelected(item: string) {
 				if (this.selected) {
