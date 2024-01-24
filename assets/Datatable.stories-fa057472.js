@@ -1,4 +1,4 @@
-import{D as s}from"./datatable-68eeb31f.js";import"./vue.esm-bundler-1a22c5b9.js";import"./form-dropdown-6484bdd4.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./progress-circular-dd70a24d.js";import"./form-input-d13d842d.js";import"./icons-69f7cd3d.js";import"./helper-91f3687e.js";const{UPDATE_STORY_ARGS:i}=__STORYBOOK_MODULE_CORE_EVENTS__,F=[{color:"red",value:"#f00"},{color:"green",value:"#0f0"},{color:"blue",value:"#00f"},{color:"cyan",value:"#0ff"},{color:"magenta",value:"#f0f"},{color:"yellow",value:"#ff0"},{color:"black",value:"#000"}],y=[...F].map((t,a)=>`
+import{D as s}from"./datatable-35198ddd.js";import"./vue.esm-bundler-1a22c5b9.js";import"./form-dropdown-1a5cdbe0.js";import"./_plugin-vue_export-helper-c27b6911.js";import"./progress-circular-dd70a24d.js";import"./form-input-d13d842d.js";import"./icons-69f7cd3d.js";import"./helper-91f3687e.js";const{UPDATE_STORY_ARGS:i}=__STORYBOOK_MODULE_CORE_EVENTS__,F=[{color:"red",value:"#f00"},{color:"green",value:"#0f0"},{color:"blue",value:"#00f"},{color:"cyan",value:"#0ff"},{color:"magenta",value:"#f0f"},{color:"yellow",value:"#ff0"},{color:"black",value:"#000"}],y=[...F].map((t,a)=>`
             <tr style="text-align: center;">
                 <td>${a+1}</td>
                 <td>${t.color}</td>
@@ -41,7 +41,7 @@ import{D as s}from"./datatable-68eeb31f.js";import"./vue.esm-bundler-1a22c5b9.js
                     ${y}
                 </template>
             </Datatable>
-        `})},h={args:{columnSearchPlacement:"top",columns:[{alignHead:"center",label:"#",sort:!0},{alignHead:"center",label:"Pokemon Name",search:!0,sort:!0},{alignHead:"center",label:"Image URL",name:"sortUrl",search:!0,sort:!0}],lengthChange:{enabled:!0,options:[5,10,20,40]},list:[],search:!0,serverSide:{options:{payload:{limit:10,offset:0}},url:"https://pokeapi.co/api/v2/pokemon"}},decorators:[(t,a)=>(delete a.args.change,a.args.onAjax=({headers:d,payload:n,response:e},c)=>{var r,l,o;return c==="BEFORE SEND"?{headers:d,payload:{...n,limit:n.length,offset:n.length*n.page}}:e!=null&&e.status?(window.__STORYBOOK_ADDONS_CHANNEL__.emit(i,{storyId:a.id,updatedArgs:{list:[...((r=e.data)==null?void 0:r.results)||[]]}}),{total:(l=e==null?void 0:e.data)==null?void 0:l.count,totalRow:(o=e==null?void 0:e.data)==null?void 0:o.results.length}):(window.__STORYBOOK_ADDONS_CHANNEL__.emit(i,{storyId:a.id,updatedArgs:{list:[]}}),null)},t())],render:t=>({components:{Datatable:s},setup(){return{args:t}},template:`
+        `})},h={args:{columnSearchPlacement:"top",columns:[{alignHead:"center",label:"#",sort:!0},{alignHead:"center",label:"Pokemon Name",search:!0,sort:!0},{alignHead:"center",label:"Image URL",name:"sortUrl",search:!0,sort:!0}],lengthChange:{enabled:!0,options:[5,10,20,40]},list:[],search:!0,serverSide:{options:{payload:{limit:10,offset:0}},url:"https://pokeapi.co/api/v2/pokemon"}},decorators:[(t,a)=>(delete a.args.change,a.args.onAjax=({headers:d,payload:n,response:e},c)=>{var r,l,o;return console.log(n,"here"),c==="BEFORE SEND"?{headers:d,payload:{...n,limit:n.length,offset:n.length*n.page}}:e!=null&&e.status?(window.__STORYBOOK_ADDONS_CHANNEL__.emit(i,{storyId:a.id,updatedArgs:{list:[...((r=e.data)==null?void 0:r.results)||[]]}}),{total:(l=e==null?void 0:e.data)==null?void 0:l.count,totalRow:(o=e==null?void 0:e.data)==null?void 0:o.results.length}):(window.__STORYBOOK_ADDONS_CHANNEL__.emit(i,{storyId:a.id,updatedArgs:{list:[]}}),null)},t())],render:t=>({components:{Datatable:s},setup(){return{args:t}},template:`
             <Datatable v-bind="args">
                 <template #th-3="{ label }">
                     <span>The Label: {{ label }}</span>
@@ -224,6 +224,7 @@ import{D as s}from"./datatable-68eeb31f.js";import"./vue.esm-bundler-1a22c5b9.js
       payload,
       response
     }: IDTServerSideHandler, type: 'BEFORE SEND' | 'SUCCESS' | 'ERROR') => {
+      console.log(payload, 'here');
       if (type === 'BEFORE SEND') {
         return {
           headers,
