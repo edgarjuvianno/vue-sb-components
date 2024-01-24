@@ -1,6 +1,12 @@
 <template>
 	<div class="color-wrapper" v-bind="{ ...$attrs }">
-		<label class="label" v-if="label">
+		<label
+			class="label"
+			:class="{
+				error: isError && errorMessage,
+			}"
+			v-if="label"
+		>
 			<span>{{ label }}</span>
 		</label>
 		<div class="input-group colors-wrapper">
