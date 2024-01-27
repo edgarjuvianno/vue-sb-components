@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.38](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.37...v2.1.38) (2024-01-27)
+
+
+### Bug Fixes
+
+* fix datepicker default month to min if exist ([fbd0f3a](https://github.com/edgarjuvianno/vue-sb-components/commit/fbd0f3a7bc410f9bc26853b9e337ea8e730119a3))
+
 ### [2.1.37](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.36...v2.1.37) (2024-01-24)
 
 
