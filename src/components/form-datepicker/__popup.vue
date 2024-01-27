@@ -1167,6 +1167,20 @@
 							year: currentValue[currentValue.length - 1].year(),
 						}
 					}
+				} else if (this.min) {
+					const min: Dayjs = DayJS(this.min).startOf('month')
+
+					this.popupCurrentValue = {
+						date: min.date(),
+						hour: this.range
+							? [min.hour(), min.hour()]
+							: min.hour(),
+						minute: this.range
+							? [min.minute(), min.minute()]
+							: min.minute(),
+						month: min.month(),
+						year: min.year(),
+					}
 				} else {
 					const now: Dayjs = DayJS()
 
