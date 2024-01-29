@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.40](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.39...v2.1.40) (2024-01-29)
+
+
+### Bug Fixes
+
+* fix org chart render item ([0d51447](https://github.com/edgarjuvianno/vue-sb-components/commit/0d514476629a89edac16d0092752e7c31edc9983))
+
 ### [2.1.39](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.38...v2.1.39) (2024-01-29)
 
 
