@@ -14,6 +14,9 @@
 			@click.stop="handleToggle(!localExpanded)"
 		>
 			<p class="title" v-if="title">{{ title }}</p>
+			<div class="title" v-else-if="$slots.title">
+				<slot name="title" />
+			</div>
 			<component :is="angleDown" />
 		</div>
 		<div class="content-wrapper" :style="getAccordionStyles">
