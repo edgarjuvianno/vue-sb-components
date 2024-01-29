@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.41](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.40...v2.1.41) (2024-01-29)
+
+
+### Bug Fixes
+
+* fix accordion slot title ([801664c](https://github.com/edgarjuvianno/vue-sb-components/commit/801664c98632c790d025380f9d035c041d63e571))
+
 ### [2.1.40](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.39...v2.1.40) (2024-01-29)
 
 
