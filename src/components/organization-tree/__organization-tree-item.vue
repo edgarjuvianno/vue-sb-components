@@ -59,7 +59,7 @@
 				<p class="name">{{ item.name || '-' }}</p>
 				<p class="position">{{ item.position || '-' }}</p>
 			</template>
-			<div v-html="item.renderInfo()" v-else></div>
+			<div v-html="item.renderInfo(item)" v-else></div>
 		</div>
 	</div>
 	<svg

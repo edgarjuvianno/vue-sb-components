@@ -264,11 +264,10 @@ export const Editable: Story = {
 	},
 }
 
-export const AdditionalInfo: Story = {
+export const RenderInfo: Story = {
 	args: {
 		list: [
 			{
-				additionalInfo: '<p style="margin: 0;">additional info</p>',
 				coordinates: {
 					x: 250,
 					y: 10,
@@ -288,6 +287,8 @@ export const AdditionalInfo: Story = {
 						},
 					},
 				],
+				renderInfo: (item: IOrganizationTreeItem) =>
+					`<p style="margin: 0;">additional info: ${item.position}</p>`,
 			},
 			{
 				coordinates: {

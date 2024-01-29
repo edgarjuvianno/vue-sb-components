@@ -322,7 +322,7 @@ export interface IOrganizationTreeItem {
 	path?: string
 	photo?: string
 	position?: string
-	renderInfo?: Function
+	renderInfo?: (item: IOrganizationTreeItem) => string
 }
 
 export interface IDate {
