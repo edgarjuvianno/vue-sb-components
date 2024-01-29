@@ -55,9 +55,11 @@
 			v-if="item.photo"
 		></div>
 		<div class="data-wrapper">
-			<p class="name">{{ item.name }}</p>
-			<p class="position">{{ item.position }}</p>
-			<div v-html="item.additionalInfo" v-if="item.additionalInfo"></div>
+			<template v-if="!item.renderInfo">
+				<p class="name">{{ item.name || '-' }}</p>
+				<p class="position">{{ item.position || '-' }}</p>
+			</template>
+			<div v-html="item.renderInfo()" v-else></div>
 		</div>
 	</div>
 	<svg

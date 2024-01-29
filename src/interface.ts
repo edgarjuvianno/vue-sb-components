@@ -314,7 +314,6 @@ export interface ISelectedConnection {
 }
 
 export interface IOrganizationTreeItem {
-	additionalInfo?: string
 	connections?: IConnection[]
 	coordinates: ICoordinates
 	department?: string
@@ -323,6 +322,7 @@ export interface IOrganizationTreeItem {
 	path?: string
 	photo?: string
 	position?: string
+	renderInfo?: Function
 }
 
 export interface IDate {
