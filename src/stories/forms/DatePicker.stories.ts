@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { Channel } from '@storybook/channels'
 import { UPDATE_STORY_ARGS } from '@storybook/core-events'
-import { Dayjs } from 'dayjs'
+import DayJS, { Dayjs } from 'dayjs'
 
 import Datepicker from '@/components/form-datepicker/form-datepicker.vue'
 import { IDate } from '@/interface'
@@ -96,6 +96,11 @@ const meta = {
 				},
 			},
 			type: 'function',
+		},
+		overrideDateSelectable: {
+			control: 'function',
+			description:
+				'Pass this function to override date is selectable or not. Expected return from function is boolean',
 		},
 		overrideDateStyle: {
 			control: 'function',
@@ -251,6 +256,16 @@ export const OverrideDateStyle: Story = {
 			}
 
 			return {}
+		},
+	},
+}
+
+export const OverrideDateSelectable: Story = {
+	args: {
+		overrideDateSelectable: (date: string) => {
+			const day: number = DayJS(date).get('day')
+
+			return day === 4
 		},
 	},
 }

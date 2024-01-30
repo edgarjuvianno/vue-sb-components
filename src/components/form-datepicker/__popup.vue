@@ -306,6 +306,10 @@
 				required: false,
 				type: String,
 			},
+			overrideDateSelectable: {
+				required: false,
+				type: Function as PropType<(_date: string) => boolean>,
+			},
 			overrideDateStyle: {
 				required: false,
 				type: Function as PropType<
@@ -855,7 +859,11 @@
 					this.popupCurrentValue.year,
 				)
 
-				if (this.max || this.min) {
+				if (this.overrideDateSelectable) {
+					return !this.overrideDateSelectable(
+						DayJS(properDate).toISOString(),
+					)
+				} else if (this.max || this.min) {
 					const lteMaxDate: () => boolean = () => {
 						if (this.max) {
 							const ltDate: Dayjs = DayJS(this.max).endOf('day')

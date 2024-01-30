@@ -38,6 +38,7 @@
 			:datepicker-elem="datepickerWrapper"
 			:close-on-select="closeOnSelect"
 			:input-wrapper="inputWrapper"
+			:override-date-selectable="overrideDateSelectable"
 			:override-date-style="overrideDateStyle"
 			:show="localShow"
 			:value="localValue"
@@ -123,6 +124,10 @@
 			noIcon: {
 				required: false,
 				type: Boolean,
+			},
+			overrideDateSelectable: {
+				required: false,
+				type: Function as PropType<(_date: string) => boolean>,
 			},
 			overrideDateStyle: {
 				required: false,
