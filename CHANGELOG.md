@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.42](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.41...v2.1.42) (2024-01-30)
+
+
+### Bug Fixes
+
+* fix datepicker override selectable ([fda8ff4](https://github.com/edgarjuvianno/vue-sb-components/commit/fda8ff4241b0d165b471d668e5ff98631fa16818))
+
 ### [2.1.41](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.40...v2.1.41) (2024-01-29)
 
 
