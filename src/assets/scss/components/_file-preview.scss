@@ -35,6 +35,13 @@
 		}
 	}
 
+	&.image,
+	&.audio,
+	&.video {
+		max-height: 75vh;
+		overflow-y: auto;
+	}
+
 	.loading {
 		height: 50vh;
 		width: 100%;
