@@ -7,11 +7,12 @@
 			uploaded: uploadState?.status === 'SUCCESS',
 			uploading: isUploadVisible,
 		}"
-		v-bind="{ ...$attrs }"
 		@dragenter.prevent="handleDragEnter"
 		@dragleave.prevent="handleDragLeave"
 		@dragover.prevent="handleDragEnter"
 		@drop.prevent="handleDropFile"
+		@input="() => false"
+		@blur="() => false"
 	>
 		<div class="drag-overlay" v-if="onDragOver">
 			<div class="text">{{ getOnDragText }}</div>
@@ -26,6 +27,8 @@
 				type="file"
 				v-bind="{ multiple: multi }"
 				@change="(ev) => handleSelectFile(ev)"
+				@input="() => false"
+				@blur="() => false"
 			/>
 			<sb-input
 				:class="{ multi }"
@@ -44,6 +47,8 @@
 				}"
 				v-model="localValue"
 				@click="() => handleOpenInput()"
+				@input="() => false"
+				@blur="() => false"
 			>
 				<template v-slot:icon-slot v-if="!readOnly && !disabled">
 					<component :is="iconSVG" />
@@ -125,6 +130,7 @@
 				_errorType: 'INVALID FORMAT' | 'INVALID SIZE',
 				_format?: string,
 			) => true,
+			input: (_value: File[] | null) => true,
 			retry: (_value: File[] | null) => true,
 			previewFile: (_preview: IPreviewFile) => true,
 		},
@@ -347,10 +353,6 @@
 					const files: File[] = ev.target.files
 
 					if (this.doValidateFiles(files)) {
-						if (this.multi) {
-							return this.handleUpdateModelValue([...files])
-						}
-
 						return this.handleUpdateModelValue([...files])
 					}
 				}
@@ -358,11 +360,19 @@
 				return this.handleUpdateModelValue(null)
 			},
 			handleUpdateModelValue(value: File[] | null) {
-				this.localValue = [...(value || [])]
+				if (this.multi) {
+					this.localValue = [
+						...(this.localValue || []),
+						...(value || []),
+					]
+				} else {
+					this.localValue = [...(value || [])]
+				}
 
 				this.$nextTick(() => {
 					this.$emit('update:modelValue', this.localValue)
 					this.$emit('change', this.localValue)
+					this.$emit('input', this.localValue)
 				})
 			},
 			handleView(ev: Event, index?: number) {
@@ -438,7 +448,8 @@
 		watch: {
 			localValue: {
 				deep: true,
-				handler() {
+				handler(newValue: any) {
+					console.log(newValue, 'here cuaks')
 					this.iconSVG = this.getIcon
 				},
 				immediate: true,
@@ -446,7 +457,11 @@
 			modelValue: {
 				deep: true,
 				handler(newValue: any) {
-					this.localValue = newValue
+					if (newValue?.length) {
+						this.localValue = [...newValue]
+					} else {
+						this.localValue = null
+					}
 				},
 			},
 			uploadState: {
@@ -465,7 +480,11 @@
 			value: {
 				deep: true,
 				handler(newValue: any) {
-					this.localValue = newValue
+					if (newValue?.length) {
+						this.localValue = [...newValue]
+					} else {
+						this.localValue = null
+					}
 				},
 			},
 		},
