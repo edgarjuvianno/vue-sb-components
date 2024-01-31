@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.43](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.42...v2.1.43) (2024-01-31)
+
+
+### Bug Fixes
+
+* fix file preview scroll ([324026b](https://github.com/edgarjuvianno/vue-sb-components/commit/324026bb05bece3787724beb22be7988c30eaa71))
+
 ### [2.1.42](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.41...v2.1.42) (2024-01-30)
 
 
