@@ -353,6 +353,13 @@
 					const files: File[] = ev.target.files
 
 					if (this.doValidateFiles(files)) {
+						if (this.multi) {
+							return this.handleUpdateModelValue([
+								...(this.localValue || []),
+								...(files || []),
+							])
+						}
+
 						return this.handleUpdateModelValue([...files])
 					}
 				}
@@ -360,14 +367,7 @@
 				return this.handleUpdateModelValue(null)
 			},
 			handleUpdateModelValue(value: File[] | null) {
-				if (this.multi) {
-					this.localValue = [
-						...(this.localValue || []),
-						...(value || []),
-					]
-				} else {
-					this.localValue = [...(value || [])]
-				}
+				this.localValue = [...(value || [])]
 
 				this.$nextTick(() => {
 					this.$emit('update:modelValue', this.localValue)
@@ -448,8 +448,7 @@
 		watch: {
 			localValue: {
 				deep: true,
-				handler(newValue: any) {
-					console.log(newValue, 'here cuaks')
+				handler() {
 					this.iconSVG = this.getIcon
 				},
 				immediate: true,

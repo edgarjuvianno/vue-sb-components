@@ -330,3 +330,32 @@ export interface IDate {
 	value: number
 	viewOnly?: boolean
 }
+
+// wysiwyg interfaces
+interface IWysiswygDefault {
+	enabled?: boolean
+}
+interface IWysiswygHeader extends IWysiswygDefault {
+	levels?: number[]
+	placeholder?: string
+}
+
+interface IWysiswygList extends IWysiswygDefault {
+	type?: 'ordered' | 'unordered'
+}
+
+interface IWysiswygQuote extends IWysiswygDefault {
+	captionPlaceholder?: string
+	quotePlaceholder?: string
+}
+
+export interface IWysiswygConfig {
+	checklist?: IWysiswygDefault
+	code?: IWysiswygDefault
+	header?: IWysiswygHeader
+	linkWithPreview?: IWysiswygDefault
+	list?: IWysiswygList
+	quote?: IWysiswygQuote
+	table?: IWysiswygDefault
+	urlImage?: IWysiswygDefault
+}
