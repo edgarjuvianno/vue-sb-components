@@ -1,5 +1,5 @@
 <template>
-	<div class="wysiwyg-wrapper">
+	<div class="wysiwyg-wrapper" v-bind="{ ...$attrs }">
 		<div
 			class="input-wrapper"
 			:class="{
