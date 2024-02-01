@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.44...v2.2.0) (2024-02-01)
+
+
+### Features
+
+* feat new wysiwyg input and fix multiple upload file ([9d6fd61](https://github.com/edgarjuvianno/vue-sb-components/commit/9d6fd61fb1d74244108a5c27e24c6f55fd1fcced))
+
 ### [2.1.44](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.1.43...v2.1.44) (2024-01-31)
 
 
