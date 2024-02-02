@@ -48,8 +48,8 @@
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
-	import EditorJS, { OutputData } from '@editorjs/editorjs'
-	import { IWysiswygConfig } from '@/interface'
+	import EditorJS from '@editorjs/editorjs'
+	import { IWysiswygConfig, WysiwygOutputData } from '@/interface'
 
 	// components
 	import ProgressCircular from '@/components/progress-circular/progress-circular.vue'
@@ -87,7 +87,7 @@
 			},
 			modelValue: {
 				required: false,
-				type: null as unknown as PropType<OutputData | null>,
+				type: null as unknown as PropType<WysiwygOutputData | null>,
 			},
 			toolbarConfigs: {
 				required: false,
@@ -107,7 +107,7 @@
 			},
 			value: {
 				required: false,
-				type: null as unknown as PropType<OutputData | null>,
+				type: null as unknown as PropType<WysiwygOutputData | null>,
 			},
 		},
 		name: 'sb-form-wysiwyg',
@@ -206,7 +206,7 @@
 			},
 		},
 		methods: {
-			doRenderData(data: OutputData | null) {
+			doRenderData(data: WysiwygOutputData | null) {
 				if (this.stateEditor.editor) {
 					this.stateEditor.editor.render({
 						blocks: [],

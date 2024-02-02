@@ -359,3 +359,5 @@ export interface IWysiswygConfig {
 	table?: IWysiswygDefault
 	urlImage?: IWysiswygDefault
 }
+
+export { OutputData as WysiwygOutputData } from '@editorjs/editorjs'
