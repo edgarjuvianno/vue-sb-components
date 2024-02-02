@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.2](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.1...v2.2.2) (2024-02-02)
+
+
+### Bug Fixes
+
+* fix pill max width ellipsis ([49168c2](https://github.com/edgarjuvianno/vue-sb-components/commit/49168c298bfb604b2ac050de13c497dacc0dc153))
+
 ### [2.2.1](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.0...v2.2.1) (2024-02-01)
 
 
