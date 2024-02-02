@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.3](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.2...v2.2.3) (2024-02-02)
+
+
+### Bug Fixes
+
+* fix export wysiwyg output data type ([7ed078a](https://github.com/edgarjuvianno/vue-sb-components/commit/7ed078a0bf764225b8ff18daf317b7b7c76f79bc))
+
 ### [2.2.2](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.1...v2.2.2) (2024-02-02)
 
 
