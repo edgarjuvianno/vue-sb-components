@@ -173,7 +173,7 @@ const meta = {
 		label: 'Some Dropdown',
 		list: [
 			{
-				color: 'red',
+				color: 'Keputusan Ketua Komite Kebijakan Komite Penanganan COVID 19 dan Pemulihan Ekonomi Nasional Nomor 1 tahun 2020',
 				value: '#f00',
 			},
 			{
@@ -263,6 +263,7 @@ export const AllowClear: Story = {
 export const Multiple: Story = {
 	args: {
 		multi: true,
+		search: true,
 	},
 }
 
