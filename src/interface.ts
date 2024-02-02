@@ -1,3 +1,5 @@
+import { OutputBlockData } from '@editorjs/editorjs'
+
 export interface IHTTPResponse {
 	code: number | string
 	message: string
@@ -360,4 +362,8 @@ export interface IWysiswygConfig {
 	urlImage?: IWysiswygDefault
 }
 
-export { OutputData as WysiwygOutputData } from '@editorjs/editorjs'
+export interface WysiwygOutputData {
+	blocks: OutputBlockData[]
+	time?: number
+	version?: string
+}
