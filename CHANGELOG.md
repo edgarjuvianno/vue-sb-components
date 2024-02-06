@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.8](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.7...v2.2.8) (2024-02-06)
+
+
+### Bug Fixes
+
+* fix render label dropdown ([b2bdda4](https://github.com/edgarjuvianno/vue-sb-components/commit/b2bdda4a771d063b93428d7485bf5c9d391e366b))
+
 ### [2.2.7](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.6...v2.2.7) (2024-02-06)
 
 

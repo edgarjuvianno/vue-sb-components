@@ -2,7 +2,7 @@
   "author": "Edgar Juvianno S",
   "name": "@edgarjuvianno/vue-sb-components",
   "homepage": "http://edgarjuvianno.github.io/vue-sb-components",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "type": "module",
   "files": [
     "dist"
