@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.5...v2.2.6) (2024-02-06)
+
+
+### Bug Fixes
+
+* fix editor js narrow actions styling ([ea2cec4](https://github.com/edgarjuvianno/vue-sb-components/commit/ea2cec44e9dc6094ffab3e5b9bc47b7b7e8392a5))
+
 ### [2.2.5](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.4...v2.2.5) (2024-02-05)
 
 
