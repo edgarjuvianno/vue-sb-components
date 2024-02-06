@@ -228,17 +228,49 @@
 			:deep(.editor-container) {
 				.codex-editor {
 					@media screen and (min-width: 651px) {
-						&:has(
-								.ce-toolbar__actions.ce-toolbar__actions--opened
-							) {
-							margin-left: calc(36px - 0.5rem);
-
+						&:not(.codex-editor--narrow) {
 							&:has(
-									.ce-toolbar__settings-btn:not(
-											.ce-toolbar__settings-btn--hidden
-										)
+									.ce-toolbar__actions.ce-toolbar__actions--opened
 								) {
-								margin-left: calc(72px - 0.5rem);
+								padding-left: calc(36px - 0.5rem);
+
+								&:has(
+										.ce-toolbar__settings-btn:not(
+												.ce-toolbar__settings-btn--hidden
+											)
+									) {
+									padding-left: calc(72px - 0.5rem);
+								}
+							}
+
+							.ce-toolbar__actions {
+								left: 0;
+								right: unset;
+							}
+						}
+
+						&.codex-editor--narrow {
+							&:has(
+									.ce-toolbar__actions.ce-toolbar__actions--opened
+								) {
+								padding-right: calc(36px - 0.5rem);
+
+								&:has(
+										.ce-toolbar__settings-btn:not(
+												.ce-toolbar__settings-btn--hidden
+											)
+									) {
+									padding-right: calc(72px - 0.5rem);
+								}
+							}
+
+							.codex-editor__redactor {
+								margin-right: 0;
+							}
+
+							.ce-toolbar__actions {
+								left: unset;
+								right: 0;
 							}
 						}
 					}
