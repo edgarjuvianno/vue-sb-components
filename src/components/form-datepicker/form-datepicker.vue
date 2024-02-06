@@ -207,25 +207,31 @@
 		},
 		methods: {
 			emitFinalValue() {
-				if (
-					typeof this.localValue === 'object' &&
-					this.localValue.length
-				) {
-					const stringValues: string[] = [
-						...(this.localValue as Dayjs[]),
-					].map((it: Dayjs) => it.toISOString())
+				if (this.localValue) {
+					if (
+						typeof this.localValue === 'object' &&
+						this.localValue.length
+					) {
+						const stringValues: string[] = [
+							...(this.localValue as Dayjs[]),
+						].map((it: Dayjs) => it.toISOString())
 
-					this.$emit('update:modelValue', stringValues)
-					this.$emit('input', stringValues)
-					this.$emit('change', stringValues)
+						this.$emit('update:modelValue', stringValues)
+						this.$emit('input', stringValues)
+						this.$emit('change', stringValues)
+					} else {
+						const stringValue: string = (
+							this.localValue as Dayjs
+						).toISOString()
+
+						this.$emit('update:modelValue', stringValue)
+						this.$emit('input', stringValue)
+						this.$emit('change', stringValue)
+					}
 				} else {
-					const stringValue: string = (
-						this.localValue as Dayjs
-					).toISOString()
-
-					this.$emit('update:modelValue', stringValue)
-					this.$emit('input', stringValue)
-					this.$emit('change', stringValue)
+					this.$emit('update:modelValue', null)
+					this.$emit('input', null)
+					this.$emit('change', null)
 				}
 			},
 			getDefaultFormat() {
@@ -271,8 +277,10 @@
 				}
 			},
 			handleGenerateString() {
-				if (!this.range) {
-					if (this.localValue) {
+				if (!this.localValue?.length) {
+					this.valueString = null
+				} else {
+					if (!this.range) {
 						if (this.format) {
 							this.valueString = this.localValue.format(
 								this.format,
@@ -282,11 +290,9 @@
 								this.getDefaultFormat(),
 							)
 						}
-					}
-				} else {
-					const values: Dayjs[] = [...this.localValue]
+					} else {
+						const values: Dayjs[] = [...this.localValue]
 
-					if (values) {
 						if (this.format) {
 							this.valueString = values
 								.map((it: Dayjs) => it.format(this.format))
@@ -305,7 +311,12 @@
 				const event: KeyboardEvent = ev as KeyboardEvent
 
 				if (event.key === 'Backspace') {
-					this.handleUpdateModelValue(null)
+					this.localValue = null
+
+					this.$nextTick(() => {
+						this.handleGenerateString()
+						this.emitFinalValue()
+					})
 				} else if (event.key === 'Tab') {
 					this.localShow = false
 
