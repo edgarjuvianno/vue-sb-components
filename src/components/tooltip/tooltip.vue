@@ -5,7 +5,6 @@
 			:class="{ hide: isMobile || hidden, show }"
 			:style="rect"
 			ref="tooltip"
-			v-bind="{ ...$attrs }"
 			v-if="show && !isMobile && !hidden"
 		>
 			{{ label }}
@@ -16,6 +15,7 @@
 		@mouseover="toggleShow(true)"
 		class="content-wrapper"
 		ref="content-wrapper"
+		v-bind="{ ...$attrs }"
 	>
 		<slot />
 	</div>

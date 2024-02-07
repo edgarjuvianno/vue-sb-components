@@ -15,7 +15,7 @@
 	>
 		<slot />
 	</button>
-	<sb-tooltip :label="tooltip" v-else>
+	<sb-tooltip :label="tooltip" v-bind="{ ...$attrs }" v-else>
 		<button
 			class="btn"
 			:class="[
@@ -27,7 +27,6 @@
 			]"
 			:disabled="disabled"
 			@click="handleClick"
-			v-bind="{ ...$attrs }"
 		>
 			<slot />
 		</button>
