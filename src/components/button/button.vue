@@ -27,6 +27,7 @@
 			]"
 			:disabled="disabled"
 			@click="handleClick"
+			v-bind="{ ...$attrs }"
 		>
 			<slot />
 		</button>
