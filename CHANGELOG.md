@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.13](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.12...v2.2.13) (2024-02-07)
+
+
+### Bug Fixes
+
+* fix set all component as single root ([67e2134](https://github.com/edgarjuvianno/vue-sb-components/commit/67e2134301b1e510097a9181a6115c15e1913bf8))
+
 ### [2.2.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.11...v2.2.12) (2024-02-07)
 
 
