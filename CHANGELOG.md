@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.10](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.9...v2.2.10) (2024-02-07)
+
+
+### Bug Fixes
+
+* fix wysiwyg handle change ([3af88ef](https://github.com/edgarjuvianno/vue-sb-components/commit/3af88ef4edf6c6ebecc043b179df694ed9d16dca))
+
 ### [2.2.9](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.8...v2.2.9) (2024-02-07)
 
 
