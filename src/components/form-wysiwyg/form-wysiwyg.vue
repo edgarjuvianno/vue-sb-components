@@ -253,10 +253,7 @@
 							.then((data: any) => data)
 							.catch(() => null)
 
-						if (
-							saveData?.blocks?.length !==
-							this.localValue?.blocks?.length
-						) {
+						if (saveData) {
 							this.localValue = { ...saveData }
 
 							this.$nextTick(() => this.handleChange())
