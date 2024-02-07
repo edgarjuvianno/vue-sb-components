@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.11...v2.2.12) (2024-02-07)
+
+
+### Bug Fixes
+
+* fix tooltip wrapper ([66993f6](https://github.com/edgarjuvianno/vue-sb-components/commit/66993f6333ee97c5d2ef9204f57b3c2fefb56025))
+
 ### [2.2.11](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.10...v2.2.11) (2024-02-07)
 
 
