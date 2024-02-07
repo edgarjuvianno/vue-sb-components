@@ -1,30 +1,32 @@
 <template>
-	<div class="menu-wrapper" ref="menu-wrapper" v-bind="{ ...$attrs }">
-		<sb-button
-			:no-elevation="localOpen || noElevation"
-			type="button"
-			v-bind="{
-				color,
-				disabled,
-				size,
-				tooltip,
-				variant,
-			}"
-			@click.stop="handleOpen"
-		>
-			<slot name="slot-label">{{ label || '...' }}</slot>
-		</sb-button>
-	</div>
-	<Teleport to="body">
-		<div
-			class="menu-items-wrapper"
-			ref="menu-items-wrapper"
-			:style="itemsWrapperStyles"
-			v-if="localOpen"
-		>
-			<slot />
+	<div v-bind="{ ...$attrs }">
+		<div class="menu-wrapper" ref="menu-wrapper">
+			<sb-button
+				:no-elevation="localOpen || noElevation"
+				type="button"
+				v-bind="{
+					color,
+					disabled,
+					size,
+					tooltip,
+					variant,
+				}"
+				@click.stop="handleOpen"
+			>
+				<slot name="slot-label">{{ label || '...' }}</slot>
+			</sb-button>
 		</div>
-	</Teleport>
+		<Teleport to="body">
+			<div
+				class="menu-items-wrapper"
+				ref="menu-items-wrapper"
+				:style="itemsWrapperStyles"
+				v-if="localOpen"
+			>
+				<slot />
+			</div>
+		</Teleport>
+	</div>
 </template>
 
 <script lang="ts">

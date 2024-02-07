@@ -1,88 +1,93 @@
 <template>
-	<div
-		:class="{
-			connecting: connectorState.from,
-			dragging: parentState.isDrag,
-		}"
-		:id="`org-${$.uid}`"
-		class="organization-wrapper"
-		ref="organization-wrapper"
-		v-bind="{ ...$attrs }"
-		@mousedown.stop="handleParentClick"
-		@mousemove.stop="handleParentPosition"
-		@mouseup.stop="handleParentDragEnd"
-		@pointercancel="handleParentPointerUp"
-		@pointerdown="handleParentPointerDown"
-		@pointerleave="handleParentPointerUp"
-		@pointermove="handleParentPointerMove"
-		@pointerout="handleParentPointerUp"
-		@pointerup="handleParentPointerUp"
-		@touchend.stop="handleParentDragEnd"
-		@touchmove.stop="handleParentPosition"
-		@touchstart.stop="handleParentClick"
-		@wheel.stop="handleParentZoom"
-	>
+	<div v-bind="{ ...$attrs }">
 		<div
-			class="canvas"
-			ref="canvas-tree"
 			:class="{
-				'connection-selected': selectedConnection,
+				connecting: connectorState.from,
+				dragging: parentState.isDrag,
 			}"
-			:style="canvasStyle"
+			:id="`org-${$.uid}`"
+			class="organization-wrapper"
+			ref="organization-wrapper"
+			@mousedown.stop="handleParentClick"
+			@mousemove.stop="handleParentPosition"
+			@mouseup.stop="handleParentDragEnd"
+			@pointercancel="handleParentPointerUp"
+			@pointerdown="handleParentPointerDown"
+			@pointerleave="handleParentPointerUp"
+			@pointermove="handleParentPointerMove"
+			@pointerout="handleParentPointerUp"
+			@pointerup="handleParentPointerUp"
+			@touchend.stop="handleParentDragEnd"
+			@touchmove.stop="handleParentPosition"
+			@touchstart.stop="handleParentClick"
+			@wheel.stop="handleParentZoom"
 		>
-			<template v-if="canvasState.elem">
-				<sb-org-tree-item
-					:canvas-state="canvasState"
-					:connector-state="connectorState"
-					:is-dragged="isItemDragged(`org-${$.uid}-item-${index}`)"
-					:is-selected="isItemSelected(`org-${$.uid}-item-${index}`)"
-					:key="`org-${$.uid}-item-${index}`"
-					:selected-connection="selectedConnection"
-					v-bind="{
-						isEditable,
-						item,
-					}"
-					v-for="(item, index) in localList"
-					@change-point="handleChangeItemPoint"
-					@click-item="handleClickItem"
-					@drag-connection="handleConnectionDragged"
-					@drag-item="handleItemDragged"
-					@drag-point="handlePointDragged"
-					@select-connection="handleSelectConnection"
+			<div
+				class="canvas"
+				ref="canvas-tree"
+				:class="{
+					'connection-selected': selectedConnection,
+				}"
+				:style="canvasStyle"
+			>
+				<template v-if="canvasState.elem">
+					<sb-org-tree-item
+						:canvas-state="canvasState"
+						:connector-state="connectorState"
+						:is-dragged="
+							isItemDragged(`org-${$.uid}-item-${index}`)
+						"
+						:is-selected="
+							isItemSelected(`org-${$.uid}-item-${index}`)
+						"
+						:key="`org-${$.uid}-item-${index}`"
+						:selected-connection="selectedConnection"
+						v-bind="{
+							isEditable,
+							item,
+						}"
+						v-for="(item, index) in localList"
+						@change-point="handleChangeItemPoint"
+						@click-item="handleClickItem"
+						@drag-connection="handleConnectionDragged"
+						@drag-item="handleItemDragged"
+						@drag-point="handlePointDragged"
+						@select-connection="handleSelectConnection"
+					/>
+					<svg
+						class="connection connecting"
+						xmlns="http://www.w3.org/2000/svg"
+						v-if="connectorState.from"
+					>
+						<path :d="connectorState.path"></path>
+					</svg>
+				</template>
+			</div>
+			<div
+				class="connection-options-wrapper"
+				ref="connection-options-wrapper"
+				v-if="selectedConnection"
+			>
+				<sb-dropdown
+					flat
+					opt-value="value"
+					type="flat"
+					v-model="selectedLineType"
+					:list="lineType"
+					:opt-label="getOptionLine"
+					@change="handleChangeLineType"
 				/>
-				<svg
-					class="connection connecting"
-					xmlns="http://www.w3.org/2000/svg"
-					v-if="connectorState.from"
-				>
-					<path :d="connectorState.path"></path>
-				</svg>
-			</template>
+			</div>
 		</div>
-		<div
-			class="connection-options-wrapper"
-			ref="connection-options-wrapper"
-			v-if="selectedConnection"
-		>
-			<sb-dropdown
-				flat
-				opt-value="value"
-				type="flat"
-				v-model="selectedLineType"
-				:list="lineType"
-				:opt-label="getOptionLine"
-				@change="handleChangeLineType"
-			/>
-		</div>
+		<Teleport to="body">
+			<div
+				v-if="isExporting"
+				class="export-area-org-chart"
+				:id="`org-${$.uid}-export-area`"
+				:style="exportAreaStyle"
+			></div>
+		</Teleport>
 	</div>
-	<Teleport to="body">
-		<div
-			v-if="isExporting"
-			class="export-area-org-chart"
-			:id="`org-${$.uid}-export-area`"
-			:style="exportAreaStyle"
-		></div>
-	</Teleport>
 </template>
 
 <script lang="ts">
