@@ -1,23 +1,24 @@
 <template>
-	<Teleport to="body">
+	<div v-bind="{ ...$attrs }">
+		<Teleport to="body">
+			<div
+				class="tooltip"
+				:class="{ hide: isMobile || hidden, show }"
+				:style="rect"
+				ref="tooltip"
+				v-if="show && !isMobile && !hidden"
+			>
+				{{ label }}
+			</div>
+		</Teleport>
 		<div
-			class="tooltip"
-			:class="{ hide: isMobile || hidden, show }"
-			:style="rect"
-			ref="tooltip"
-			v-if="show && !isMobile && !hidden"
+			@mouseleave="toggleShow(false)"
+			@mouseover="toggleShow(true)"
+			class="content-wrapper"
+			ref="content-wrapper"
 		>
-			{{ label }}
+			<slot />
 		</div>
-	</Teleport>
-	<div
-		@mouseleave="toggleShow(false)"
-		@mouseover="toggleShow(true)"
-		class="content-wrapper"
-		ref="content-wrapper"
-		v-bind="{ ...$attrs }"
-	>
-		<slot />
 	</div>
 </template>
 
