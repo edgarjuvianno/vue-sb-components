@@ -1,5 +1,5 @@
 <template>
-	<div v-bind="getAttrs">
+	<div v-bind="{ ...$attrs }">
 		<Teleport to="body">
 			<div
 				class="tooltip"
@@ -47,13 +47,6 @@
 			}
 		},
 		computed: {
-			getAttrs() {
-				return {
-					...this.$attrs,
-					class: null,
-					style: null,
-				}
-			},
 			isMobile() {
 				const agent: any = navigator.userAgent || (window as any).opera
 
