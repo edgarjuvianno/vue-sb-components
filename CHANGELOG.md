@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.15](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.14...v2.2.15) (2024-02-09)
+
+
+### Bug Fixes
+
+* fix tooltip component ([cad4503](https://github.com/edgarjuvianno/vue-sb-components/commit/cad4503e78154388128e7f2f86a6cf89eb584a3b))
+
 ### [2.2.14](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.13...v2.2.14) (2024-02-07)
 
 
