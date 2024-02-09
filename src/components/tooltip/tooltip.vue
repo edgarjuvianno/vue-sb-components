@@ -48,11 +48,11 @@
 		},
 		computed: {
 			getAttrs() {
-				const tempAttrs: any = { ...this.$attrs }
-				delete tempAttrs.style
-				delete tempAttrs.class
-
-				return tempAttrs
+				return {
+					...this.$attrs,
+					class: null,
+					style: null,
+				}
 			},
 			isMobile() {
 				const agent: any = navigator.userAgent || (window as any).opera
