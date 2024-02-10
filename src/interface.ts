@@ -316,6 +316,7 @@ export interface ISelectedConnection {
 }
 
 export interface IOrganizationTreeItem {
+	additionalInfo?: Record<string, any>
 	connections?: IConnection[]
 	coordinates: ICoordinates
 	department?: string
