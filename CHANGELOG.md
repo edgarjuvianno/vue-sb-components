@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.0...v2.3.1) (2024-02-12)
+
+
+### Bug Fixes
+
+* fix remove nested list ([acc4542](https://github.com/edgarjuvianno/vue-sb-components/commit/acc45421bc2dc4a1bc9cb893c6db41652d8830d0))
+
 ## [2.3.0](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.2.18...v2.3.0) (2024-02-12)
 
 
