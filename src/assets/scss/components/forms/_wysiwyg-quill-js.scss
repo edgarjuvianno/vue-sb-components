@@ -291,8 +291,7 @@
 			transition: padding 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
 			.ql-editor {
-				max-height: 500px;
-				min-height: 200px;
+				height: 300px;
 				padding: 0;
 			}
 		}
