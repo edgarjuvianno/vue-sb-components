@@ -33,21 +33,13 @@
     "url": "git+https://github.com/edgarjuvianno/vue-sb-components.git"
   },
   "dependencies": {
-    "@editorjs/checklist": "^1.6.0",
-    "@editorjs/code": "^2.9.0",
     "@editorjs/editorjs": "^2.29.0",
-    "@editorjs/link": "^2.6.2",
     "@editorjs/nested-list": "^1.4.2",
-    "@editorjs/quote": "^2.6.0",
-    "@editorjs/simple-image": "^1.6.0",
-    "@editorjs/table": "^2.3.0",
-    "@editorjs/underline": "^1.1.0",
     "dayjs": "^1.11.9",
-    "editorjs-header-with-alignment": "^1.0.1",
-    "editorjs-paragraph-with-alignment": "^3.0.0",
     "html-to-image": "^1.11.11",
     "maska": "^2.1.10",
     "pdfjs-dist": "^3.9.179",
+    "quill": "^1.3.7",
     "vue": "^3.3.4"
   },
   "devDependencies": {
@@ -62,6 +54,7 @@
     "@storybook/vue3-vite": "^7.6.2",
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^20.6.1",
+    "@types/quill": "^2.0.14",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "@vitejs/plugin-vue": "^4.2.3",

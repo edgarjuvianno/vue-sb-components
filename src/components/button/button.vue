@@ -26,7 +26,7 @@
 				noElevation && 'no-elevation',
 			]"
 			:disabled="disabled"
-			v-bind="{ ...$attrs, class: null, style: null }"
+			v-bind="{ ...$attrs, class: undefined, style: undefined }"
 			@click="handleClick"
 		>
 			<slot />

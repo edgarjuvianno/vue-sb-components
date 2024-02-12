@@ -1,0 +1,452 @@
+.wysiwyg-wrapper {
+	margin: 5px;
+
+	.input-wrapper {
+		margin: 0;
+		position: relative;
+
+		.label {
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
+			display: flex;
+			font-size: 1rem;
+			font-weight: 400;
+			left: calc(1rem + 2px);
+			line-height: normal;
+			margin-bottom: 0;
+			max-width: calc(100% - 2rem);
+			overflow: hidden;
+			pointer-events: none;
+			padding: 0;
+			position: absolute;
+			top: 1.35rem;
+			transform: translate(0, 0);
+			transform-origin: left top;
+			transition:
+				color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				font-size 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				top 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+			user-select: none;
+
+			> span:not(.asterisk) {
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+
+		.input-border {
+			border: 1px solid
+				rgb(var(--sb-color-border) / var(--sb-color-opacity));
+			border-radius: 6px;
+			box-sizing: border-box;
+			inset: -5px 0 0 0;
+			margin: 0;
+			min-width: 0%;
+			overflow: hidden;
+			padding: 0 1rem;
+			pointer-events: none;
+			position: absolute;
+			text-align: left;
+			transition:
+				border-color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+				border-width 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+			.notch {
+				display: block;
+				float: unset;
+				height: 0.9rem;
+				margin-left: -6px;
+				max-width: 0.01px;
+				overflow: hidden;
+				padding: 0;
+				transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+				visibility: hidden;
+
+				.notch-label {
+					color: transparent;
+					display: flex;
+					font-size: 0.9rem;
+					font-weight: 500;
+					margin: 0;
+					opacity: 0;
+					padding: 0 5px;
+
+					> span:first-of-type {
+						flex: 1;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					&.no-label {
+						padding: 0;
+					}
+				}
+			}
+		}
+
+		.loader {
+			align-items: center;
+			background: rgb(
+				var(--sb-color-backdrop) / var(--sb-color-backdrop-opacity)
+			);
+			border-radius: 6px;
+			cursor: progress;
+			display: flex;
+			height: 100%;
+			justify-content: center;
+			left: 0;
+			position: absolute;
+			top: 0;
+			user-select: none;
+			width: 100%;
+			z-index: 1;
+
+			.progress-circular {
+				background: transparent;
+			}
+		}
+
+		:deep(.ql-tooltip) {
+			background: #ffffff;
+			border: 1px solid
+				rgb(var(--sb-color-border) / var(--sb-color-opacity));
+			border-radius: 10px;
+			box-shadow:
+				0 10px 15px -3px rgb(0 0 0 / 0.1),
+				0 4px 6px -4px rgb(0 0 0 / 0.1);
+			left: 1.25rem !important;
+			max-width: calc(100% - 3rem) !important;
+			padding: 0.5rem 0.75rem;
+			width: fit-content !important;
+			z-index: 1;
+
+			.ql-tooltip-arrow {
+				display: none;
+			}
+
+			.ql-toolbar {
+				align-items: center;
+				display: flex;
+				flex-flow: row wrap;
+				gap: 6px 0;
+				justify-content: flex-start;
+
+				.ql-formats {
+					align-items: center;
+					display: flex;
+					justify-content: flex-start;
+					margin: 0;
+					position: relative;
+
+					&:not(:last-of-type) {
+						padding-right: 6px;
+
+						&::after {
+							content: '';
+							background: rgb(
+								var(--sb-color-border) / var(--sb-color-opacity)
+							);
+							height: 100%;
+							position: absolute;
+							right: 3px;
+							width: 1px;
+						}
+					}
+
+					button {
+						height: 21px;
+						width: 25px;
+					}
+
+					.ql-picker-label::before {
+						font-size: 13px;
+						line-height: 25px;
+					}
+				}
+
+				svg {
+					line,
+					path,
+					polyline,
+					polygon,
+					rect {
+						&.ql-fill {
+							fill: rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
+						}
+
+						&.ql-stroke {
+							stroke: rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
+						}
+					}
+				}
+
+				.ql-color-picker {
+					&.ql-background {
+						.ql-picker-label {
+							svg {
+								width: 17px;
+
+								.ql-color-label {
+									> * {
+										fill: rgb(
+											var(--sb-color-secondary-80) /
+												var(--sb-color-opacity)
+										);
+										stroke: none;
+									}
+								}
+							}
+						}
+					}
+
+					&.ql-color {
+						.ql-picker-label {
+							svg {
+								width: 17px;
+
+								.ql-color-label {
+									stroke: rgb(
+										var(--sb-color-secondary-80) /
+											var(--sb-color-opacity)
+									);
+								}
+							}
+						}
+					}
+				}
+
+				.ql-picker {
+					.ql-picker-label {
+						align-items: center;
+						color: rgb(
+							var(--sb-color-primary-font) /
+								var(--sb-color-opacity)
+						);
+						display: flex;
+
+						svg {
+							margin-top: unset;
+							width: 14px;
+
+							polygon {
+								stroke: rgb(
+									var(--sb-color-secondary-font) /
+										var(--sb-color-opacity)
+								);
+							}
+						}
+					}
+
+					.ql-picker-options {
+						background: rgb(
+							var(--sb-color-secondary-20) /
+								var(--sb-color-opacity)
+						);
+						border: 1px solid
+							rgb(
+								var(--sb-color-border) / var(--sb-color-opacity)
+							);
+						border-radius: 8px;
+						max-height: 10rem;
+						overflow-y: auto;
+
+						.ql-picker-item {
+							color: rgb(
+								var(--sb-color-primary-font) /
+									var(--sb-color-opacity)
+							);
+						}
+					}
+
+					&.ql-font,
+					&.ql-header,
+					&.ql-size {
+						.ql-picker-label {
+							padding-left: 5px;
+
+							svg {
+								top: 50%;
+								transform: translateY(-50%);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		:deep(.editor-container) {
+			border: 0;
+			padding: 1rem 1.25rem;
+			position: relative;
+			transition: padding 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+			.ql-editor {
+				max-height: 500px;
+				min-height: 200px;
+				padding: 0;
+			}
+		}
+
+		&.filled,
+		&.focus {
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
+
+			.input-border {
+				border-color: rgb(
+					var(--sb-color-border) / var(--sb-color-opacity)
+				);
+
+				.notch {
+					max-width: calc(100% + 10px);
+				}
+			}
+
+			&.icon_append {
+				.input-border {
+					.notch {
+						max-width: calc(100% - 1rem + 10px);
+					}
+				}
+			}
+
+			.label {
+				font-size: 0.9rem;
+				top: -0.6rem;
+				transform: translate(0, 0);
+			}
+
+			&:not(.readonly, .disabled) {
+				.label {
+					color: rgb(
+						var(--sb-color-secondary-font) / var(--sb-color-opacity)
+					);
+					font-weight: 500;
+				}
+			}
+		}
+
+		&.focus:not(.readonly, .disabled) {
+			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
+
+			.input-border {
+				border-color: rgb(
+					var(--sb-color-primary-85) / var(--sb-color-opacity)
+				);
+				border-width: 2px;
+			}
+
+			.label {
+				color: rgb(
+					var(--sb-color-primary-100) / var(--sb-color-opacity)
+				);
+				font-weight: 500;
+			}
+
+			:deep(.editor-container) {
+				.codex-editor {
+					@media screen and (min-width: 651px) {
+						&:not(.codex-editor--narrow) {
+							padding-left: calc(36px - 0.5rem);
+
+							&:has(
+									.ce-toolbar__settings-btn:not(
+											.ce-toolbar__settings-btn--hidden
+										)
+								) {
+								padding-left: calc(72px - 0.5rem);
+							}
+
+							.ce-toolbar__actions {
+								left: 0;
+								right: unset;
+							}
+						}
+
+						&.codex-editor--narrow {
+							padding-right: calc(36px - 0.5rem);
+
+							&:has(
+									.ce-toolbar__settings-btn:not(
+											.ce-toolbar__settings-btn--hidden
+										)
+								) {
+								padding-right: calc(72px - 0.5rem);
+							}
+
+							.codex-editor__redactor {
+								margin-right: 0;
+							}
+
+							.ce-toolbar__actions {
+								left: unset;
+								right: 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&.readonly {
+			.label {
+				color: rgb(
+					var(--sb-color-secondary-60) / var(--sb-color-opacity)
+				);
+
+				.asterisk {
+					color: rgb(
+						var(--sb-color-secondary-60) / var(--sb-color-opacity)
+					);
+				}
+			}
+		}
+
+		&.error {
+			.label {
+				color: rgb(
+					var(--sb-color-danger-100) / var(--sb-color-opacity)
+				);
+
+				.asterisk {
+					color: rgb(
+						var(--sb-color-danger-100) / var(--sb-color-opacity)
+					);
+				}
+			}
+
+			.input-border {
+				border-color: rgb(
+					var(--sb-color-danger-100) / var(--sb-color-opacity)
+				);
+			}
+
+			&.filled:not(.focus) {
+				.label {
+					color: rgb(
+						var(--sb-color-danger-100) / var(--sb-color-opacity)
+					);
+				}
+			}
+		}
+	}
+
+	.error-wrapper {
+		margin-top: 0.5rem;
+
+		span {
+			color: rgb(var(--sb-color-danger-100) / var(--sb-color-opacity));
+			font-size: 1rem;
+			font-weight: 500;
+		}
+	}
+}

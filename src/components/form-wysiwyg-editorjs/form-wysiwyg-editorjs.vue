@@ -48,23 +48,14 @@
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
-	import EditorJS from '@editorjs/editorjs'
-	import { IWysiswygConfig, WysiwygOutputData } from '@/interface'
+	import EditorJS, {
+		ToolConstructable,
+		ToolSettings,
+	} from '@editorjs/editorjs'
+	import { IWysiwygOutputData } from '@/interface'
 
 	// components
 	import ProgressCircular from '@/components/progress-circular/progress-circular.vue'
-
-	// editor tools
-	import ToolChecklist from '@editorjs/checklist'
-	import ToolCode from '@editorjs/code'
-	import ToolHeader from 'editorjs-header-with-alignment'
-	import ToolLink from '@editorjs/link'
-	import ToolNestedList from '@editorjs/nested-list'
-	import ToolParagraph from 'editorjs-paragraph-with-alignment'
-	import ToolQuote from '@editorjs/quote'
-	import ToolSimpleImage from '@editorjs/simple-image'
-	import ToolTable from '@editorjs/table'
-	import ToolUnderline from '@editorjs/underline'
 
 	export default defineComponent({
 		emits: {
@@ -87,11 +78,13 @@
 			},
 			modelValue: {
 				required: false,
-				type: null as unknown as PropType<WysiwygOutputData | null>,
+				type: null as unknown as PropType<IWysiwygOutputData | null>,
 			},
-			toolbarConfigs: {
+			tools: {
 				required: false,
-				type: Object as PropType<IWysiswygConfig>,
+				type: Object as PropType<
+					Record<string, ToolConstructable | ToolSettings>
+				>,
 			},
 			readOnly: {
 				required: false,
@@ -107,7 +100,7 @@
 			},
 			value: {
 				required: false,
-				type: null as unknown as PropType<WysiwygOutputData | null>,
+				type: null as unknown as PropType<IWysiwygOutputData | null>,
 			},
 		},
 		name: 'sb-form-wysiwyg',
@@ -125,88 +118,12 @@
 			}
 		},
 		computed: {
-			getAdditionalTools() {
-				if (this.toolbarConfigs) {
-					const tempConfigs: Record<string, any> = {}
-
-					if (this.toolbarConfigs.checklist?.enabled) {
-						tempConfigs.checklist = {
-							class: ToolChecklist,
-							inlineToolbar: true,
-						}
-					}
-
-					if (this.toolbarConfigs.code?.enabled) {
-						tempConfigs.code = ToolCode
-					}
-
-					if (this.toolbarConfigs.header?.enabled) {
-						tempConfigs.header = {
-							class: ToolHeader,
-							config: {
-								levels: this.toolbarConfigs.header?.levels || [
-									1, 2, 3, 4, 5, 6,
-								],
-								placeholder:
-									this.toolbarConfigs.header?.placeholder ||
-									'Enter a Header',
-							},
-						}
-					}
-
-					if (this.toolbarConfigs.linkWithPreview?.enabled) {
-						tempConfigs.linkTool = {
-							class: ToolLink,
-						}
-					}
-
-					if (this.toolbarConfigs.list?.enabled) {
-						tempConfigs.list = {
-							class: ToolNestedList,
-							config: {
-								defaultStyle:
-									this.toolbarConfigs.list?.type ||
-									'unordered',
-							},
-							inlineToolbar: true,
-						}
-					}
-
-					if (this.toolbarConfigs.quote?.enabled) {
-						tempConfigs.quote = {
-							class: ToolQuote,
-							inlineToolbar: true,
-							config: {
-								captionPlaceholder:
-									this.toolbarConfigs.quote
-										?.captionPlaceholder ||
-									'Enter a Caption',
-								quotePlaceholder:
-									this.toolbarConfigs.quote
-										?.quotePlaceholder || 'Enter a Quote',
-							},
-						}
-					}
-
-					if (this.toolbarConfigs.table?.enabled) {
-						tempConfigs.table = ToolTable
-					}
-
-					if (this.toolbarConfigs.urlImage?.enabled) {
-						tempConfigs.image = ToolSimpleImage
-					}
-
-					return tempConfigs
-				}
-
-				return {}
-			},
 			getId() {
 				return `wysiwyg-${this.$.uid}`
 			},
 		},
 		methods: {
-			doRenderData(data: WysiwygOutputData | null) {
+			doRenderData(data: IWysiwygOutputData | null) {
 				if (this.stateEditor.editor) {
 					this.stateEditor.editor.render({
 						blocks: [],
@@ -248,15 +165,17 @@
 					holder: this.getId,
 					minHeight: 300,
 					onChange: async () => {
-						const saveData: any = await this.stateEditor.editor
-							?.save()
-							.then((data: any) => data)
-							.catch(() => null)
+						if (this.stateEditor.isReady) {
+							const saveData: any = await this.stateEditor.editor
+								?.save()
+								.then((data: any) => data)
+								.catch(() => null)
 
-						if (saveData) {
-							this.localValue = { ...saveData }
+							if (saveData) {
+								this.localValue = { ...saveData }
 
-							this.$nextTick(() => this.handleChange())
+								this.$nextTick(() => this.handleChange())
+							}
 						}
 					},
 					onReady: () => {
@@ -270,11 +189,7 @@
 					},
 					readOnly: !!this.readOnly,
 					tools: {
-						paragraph: {
-							class: ToolParagraph,
-						},
-						underline: ToolUnderline,
-						...this.getAdditionalTools,
+						...(this.tools || {}),
 					},
 				})
 			}
@@ -283,5 +198,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import '../../assets/scss/components/forms/_wysiwyg.scss';
+	@import '../../assets/scss/components/forms/_wysiwyg-editor-js.scss';
 </style>

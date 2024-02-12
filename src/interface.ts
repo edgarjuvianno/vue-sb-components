@@ -334,36 +334,30 @@ export interface IDate {
 	viewOnly?: boolean
 }
 
-// wysiwyg interfaces
-interface IWysiswygDefault {
-	enabled?: boolean
-}
-interface IWysiswygHeader extends IWysiswygDefault {
-	levels?: number[]
-	placeholder?: string
+interface IWysiswygParagraph {
+	align?: boolean
+	background?: boolean
+	blockquote?: boolean
+	code?: boolean
+	color?: boolean
+	header?: (1 | 2 | 3 | 4 | 5 | 6)[]
+	indent?: boolean
+	style?: ('bold' | 'italic' | 'strike' | 'underline')[]
+	subscript?: boolean
+	superscript?: boolean
 }
 
-interface IWysiswygList extends IWysiswygDefault {
-	type?: 'ordered' | 'unordered'
-}
-
-interface IWysiswygQuote extends IWysiswygDefault {
-	captionPlaceholder?: string
-	quotePlaceholder?: string
+interface IWysiswygList {
+	ordered?: boolean
+	unordered?: boolean
 }
 
 export interface IWysiswygConfig {
-	checklist?: IWysiswygDefault
-	code?: IWysiswygDefault
-	header?: IWysiswygHeader
-	linkWithPreview?: IWysiswygDefault
 	list?: IWysiswygList
-	quote?: IWysiswygQuote
-	table?: IWysiswygDefault
-	urlImage?: IWysiswygDefault
+	paragraph?: IWysiswygParagraph
 }
 
-export interface WysiwygOutputData {
+export interface IWysiwygOutputData {
 	blocks: OutputBlockData[]
 	time?: number
 	version?: string
