@@ -198,7 +198,7 @@
 		},
 		methods: {
 			doRenderData(html: string | null | undefined) {
-				if (this.stateEditor.editor) {
+				if (this.stateEditor.editor && html !== this.localValue) {
 					this.localValue = html || null
 					this.stateEditor.editor.clipboard.dangerouslyPasteHTML(
 						html || '',
