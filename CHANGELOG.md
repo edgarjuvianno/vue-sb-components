@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.10](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.9...v2.3.10) (2024-02-13)
+
+
+### Bug Fixes
+
+* fix dropdown input text ellipsis ([c43ef88](https://github.com/edgarjuvianno/vue-sb-components/commit/c43ef88250f39094a9192e64fdfd9cd20e9655bf))
+
 ### [2.3.9](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.8...v2.3.9) (2024-02-13)
 
 
