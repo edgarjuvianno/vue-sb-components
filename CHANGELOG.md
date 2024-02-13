@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.8](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.7...v2.3.8) (2024-02-13)
+
+
+### Bug Fixes
+
+* fix tooltip content wrapper display ([809b44a](https://github.com/edgarjuvianno/vue-sb-components/commit/809b44a1e0691b810734fbf3cdf67c42e5f1e2b0))
+
 ### [2.3.7](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.6...v2.3.7) (2024-02-12)
 
 
