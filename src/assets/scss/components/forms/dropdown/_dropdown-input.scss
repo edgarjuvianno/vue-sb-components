@@ -42,6 +42,20 @@
 		}
 	}
 
+	&:not(.multi) {
+		.input-group {
+			.form-control {
+				.dropdown-input-wrapper {
+					.content {
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+			}
+		}
+	}
+
 	&.multi {
 		.input-group {
 			.form-control {
