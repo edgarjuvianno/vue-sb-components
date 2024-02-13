@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.11](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.10...v2.3.11) (2024-02-13)
+
+
+### Bug Fixes
+
+* fix dropdown input ([ce113f5](https://github.com/edgarjuvianno/vue-sb-components/commit/ce113f5a5df3bdca2233cc4f8c8779fa7508d08f))
+
 ### [2.3.10](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.9...v2.3.10) (2024-02-13)
 
 
