@@ -46,11 +46,9 @@
 		.input-group {
 			.form-control {
 				.dropdown-input-wrapper {
-					.content {
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-					}
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 			}
 		}
