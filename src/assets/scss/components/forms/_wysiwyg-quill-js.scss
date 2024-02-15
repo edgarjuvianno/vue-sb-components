@@ -297,6 +297,14 @@
 			}
 		}
 
+		&:not(.focus) {
+			:deep(.editor-container) {
+				.ql-tooltip:not(.ql-hidden) {
+					display: none;
+				}
+			}
+		}
+
 		&.filled,
 		&.focus {
 			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));

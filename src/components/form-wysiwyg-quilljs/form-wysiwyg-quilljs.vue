@@ -15,13 +15,19 @@
 				<span>{{ label }}</span>
 				<span class="asterisk" v-if="required">*</span>
 			</label>
-			<div
+			<QuillEditor
 				class="editor-container"
-				:id="getId"
+				content-type="html"
+				ref="editor-container"
+				theme="bubble"
+				v-model:content="localValue"
 				:tabindex="tabindex || 0"
-				@focusin="handleToggleFocus"
-				@focusout="handleToggleFocus"
-			></div>
+				:toolbar="getToolbars"
+				@blur="handleToggleFocus"
+				@focus="handleToggleFocus"
+				@ready="handleReady"
+				@update:content="handleUpdateContent"
+			/>
 			<fieldset class="input-border">
 				<legend class="notch">
 					<span
@@ -36,7 +42,7 @@
 					</span>
 				</legend>
 			</fieldset>
-			<div class="loader" v-if="!stateEditor.isReady">
+			<div class="loader" v-if="!isReady">
 				<ProgressCircular indeterminate :size="54" />
 			</div>
 		</div>
@@ -48,9 +54,9 @@
 
 <script lang="ts">
 	import { defineComponent, PropType } from 'vue'
-	import QuillJS from 'quill'
+	import { QuillEditor } from '@vueup/vue-quill'
 	import { IWysiswygConfig } from '@/interface'
-	import 'quill/dist/quill.bubble.css'
+	import '@vueup/vue-quill/dist/vue-quill.bubble.css'
 
 	// components
 	import ProgressCircular from '@/components/progress-circular/progress-circular.vue'
@@ -102,21 +108,16 @@
 		name: 'sb-form-wysiwyg',
 		components: {
 			ProgressCircular,
+			QuillEditor,
 		},
 		data() {
 			return {
+				isReady: false,
 				localIsFocus: false,
 				localValue: null as any,
-				stateEditor: {
-					editor: null as null | QuillJS,
-					isReady: false,
-				},
 			}
 		},
 		computed: {
-			getId() {
-				return `wysiwyg-${this.$.uid}`
-			},
 			getToolbars() {
 				if (this.tools && Object.keys(this.tools).length) {
 					const { list, paragraph } = this.tools
@@ -185,10 +186,11 @@
 				return []
 			},
 			isFilled() {
-				if (this.localValue && this.stateEditor.editor) {
-					const text: string = this.stateEditor.editor
-						.getText()
-						.replace(/(\r\n|\n|\r)/gm, '')
+				if (this.localValue) {
+					const text: string = this.localValue.replace(
+						/(\r\n|\n|\r)/gm,
+						'',
+					)
 
 					return !!text.length
 				}
@@ -198,11 +200,8 @@
 		},
 		methods: {
 			doRenderData(html: string | null | undefined) {
-				if (this.stateEditor.editor && html !== this.localValue) {
+				if (this.isReady && html !== this.localValue) {
 					this.localValue = html || null
-					this.stateEditor.editor.clipboard.dangerouslyPasteHTML(
-						html || '',
-					)
 				}
 			},
 			handleChange() {
@@ -221,10 +220,20 @@
 
 				return ''
 			},
+			handleReady() {
+				this.isReady = true
+
+				if (this.modelValue?.length || this.value?.length) {
+					this.doRenderData(this.modelValue || this.value)
+				}
+			},
 			handleToggleFocus() {
 				if (!this.readOnly) {
 					this.localIsFocus = !this.localIsFocus
 				}
+			},
+			handleUpdateContent() {
+				this.$nextTick(() => this.handleChange())
 			},
 		},
 		watch: {
@@ -234,39 +243,6 @@
 			value(newValue: any) {
 				this.doRenderData(newValue)
 			},
-		},
-		mounted() {
-			const container: HTMLElement | null = document.getElementById(
-				this.getId,
-			)
-
-			if (container) {
-				this.stateEditor.editor = new QuillJS(container, {
-					modules: {
-						toolbar: [...this.getToolbars],
-					},
-					theme: 'bubble',
-				})
-
-				this.$nextTick(() => {
-					if (!this.stateEditor.isReady) {
-						this.stateEditor.isReady = true
-					}
-
-					this.stateEditor.editor?.on('editor-change', (ev: any) => {
-						if (ev === 'text-change') {
-							this.localValue =
-								this.stateEditor.editor?.root?.innerHTML
-
-							this.$nextTick(() => this.handleChange())
-						}
-					})
-
-					if (this.modelValue?.length || this.value?.length) {
-						this.doRenderData(this.modelValue || this.value)
-					}
-				})
-			}
 		},
 	})
 </script>
