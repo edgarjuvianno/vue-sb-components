@@ -160,18 +160,23 @@
 
 						const getURL: () => string = () => {
 							if (this.serverSide?.url) {
+								const params: string = new URLSearchParams(
+									additionalConfig.params || {},
+								).toString()
+
 								if (
 									this.serverSide?.method === 'GET' ||
 									!this.serverSide?.method
 								) {
-									const params: string = new URLSearchParams(
-										additionalConfig.payload || {},
-									).toString()
+									const params: string = new URLSearchParams({
+										...(additionalConfig.params || {}),
+										...(additionalConfig.payload || {}),
+									}).toString()
 
 									return `${this.serverSide?.url}?${params}`
 								}
 
-								return this.serverSide?.url
+								return `${this.serverSide?.url}?${params}`
 							}
 
 							return ''
