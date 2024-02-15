@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.13](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.12...v2.3.13) (2024-02-15)
+
+
+### Bug Fixes
+
+* fix change quill js editor ([b84b40f](https://github.com/edgarjuvianno/vue-sb-components/commit/b84b40fffdeef2bbd2d5131dd5d51a540dfd4035))
+
 ### [2.3.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.11...v2.3.12) (2024-02-15)
 
 
