@@ -44,6 +44,7 @@
 			>
 				<template v-if="!$slots['custom-input']">
 					<input
+						:name="name"
 						:type="getInputType"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-model="localValue"
@@ -64,9 +65,10 @@
 					/>
 					<textarea
 						:class="{ readonly: readOnly }"
-						rows="6"
+						:name="name"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-else
+						rows="6"
 						v-bind="{
 							autocomplete,
 							disabled,
@@ -159,6 +161,10 @@
 				type: null as unknown as PropType<
 					string | number | object | null
 				>,
+			},
+			name: {
+				required: false,
+				type: String,
 			},
 			noSavePassword: {
 				required: false,

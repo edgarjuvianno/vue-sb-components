@@ -62,6 +62,10 @@ const meta = {
 			control: 'text',
 			description: 'Input value',
 		},
+		name: {
+			control: 'text',
+			description: 'Input Name',
+		},
 		noSavePassword: {
 			control: 'boolean',
 			description:
@@ -159,6 +163,7 @@ const meta = {
 	args: {
 		label: 'Some Text Input',
 		modelValue: null,
+		name: 'test',
 	},
 	decorators: [
 		(story, ctx) => {
