@@ -270,7 +270,6 @@
 				const { maxX, minX, maxY, minY }: Record<string, number> =
 					this.getMinMaxXY
 
-				console.log(maxX, minX, maxY, minY)
 				const elemHeight: number = Math.abs(minY) + maxY
 				const elemWidth: number = Math.abs(minX) + maxX
 
