@@ -1,5 +1,5 @@
 <template>
-	<div v-bind="{ ...$attrs }">
+	<div class="organization-wrapper-parent" v-bind="{ ...$attrs }">
 		<div
 			:class="{
 				connecting: connectorState.from,
@@ -270,6 +270,7 @@
 				const { maxX, minX, maxY, minY }: Record<string, number> =
 					this.getMinMaxXY
 
+				console.log(maxX, minX, maxY, minY)
 				const elemHeight: number = Math.abs(minY) + maxY
 				const elemWidth: number = Math.abs(minX) + maxX
 
@@ -288,9 +289,12 @@
 					clonedElem.classList.remove('connection-selected')
 					clonedElem.style.transform = 'none'
 					clonedElem.style.background = 'transparent'
-					clonedElem.style.height = `${elemHeight}px`
+					clonedElem.style.height = `${elemHeight + 40}px`
 					clonedElem.style.position = 'relative'
-					clonedElem.style.width = `${elemWidth}px`
+					clonedElem.style.transform = `translate(${
+						Math.abs(minX) + 20
+					}px, ${Math.abs(minY) + 20}px)`
+					clonedElem.style.width = `${elemWidth + 40}px`
 
 					const parent: HTMLElement | null = document.getElementById(
 						`org-${this.$.uid}-export-area`,
