@@ -187,10 +187,9 @@
 			},
 			isFilled() {
 				if (this.localValue) {
-					const text: string = this.localValue.replace(
-						/(\r\n|\n|\r)/gm,
-						'',
-					)
+					const text: string = this.localValue
+						.replace(/(<([^>]+)>)/gi, '')
+						.replace(/(\r\n|\n|\r)/gm, '')
 
 					return !!text.length
 				}
