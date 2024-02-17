@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.19](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.18...v2.3.19) (2024-02-17)
+
+
+### Bug Fixes
+
+* fix stepper content body width ([54ba2be](https://github.com/edgarjuvianno/vue-sb-components/commit/54ba2be0cab12973839faacf0da20a37b0b26927))
+
 ### [2.3.18](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.17...v2.3.18) (2024-02-17)
 
 
