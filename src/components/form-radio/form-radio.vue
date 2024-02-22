@@ -26,7 +26,7 @@
 				@keydown="(event) => handleKeydown(event, radio)"
 			>
 				<div class="selector" />
-				<p class="label">{{ radio.label }}</p>
+				<p class="label" v-html="radio.label"></p>
 			</div>
 		</div>
 		<div class="error-wrapper" v-if="isError">

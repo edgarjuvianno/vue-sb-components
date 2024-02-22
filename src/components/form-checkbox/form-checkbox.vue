@@ -28,7 +28,7 @@
 				<div class="selector">
 					<component :is="check" />
 				</div>
-				<p class="label">{{ checkbox.label }}</p>
+				<p class="label" v-html="checkbox.label"></p>
 			</div>
 		</div>
 		<div class="error-wrapper" v-if="isError">
