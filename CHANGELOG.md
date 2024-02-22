@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.22](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.21...v2.3.22) (2024-02-22)
+
+
+### Bug Fixes
+
+* fix card style ([c896ade](https://github.com/edgarjuvianno/vue-sb-components/commit/c896adefdb0b23dd7810364cdf1588650c7e7c7a))
+
 ### [2.3.21](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.20...v2.3.21) (2024-02-22)
 
 
