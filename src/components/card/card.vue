@@ -1,6 +1,6 @@
 <template>
-	<div class="card-wrapper">
-		<div :class="{ error: isError }" class="card" v-bind="{ ...$attrs }">
+	<div class="card-wrapper" v-bind="{ ...$attrs }">
+		<div :class="{ error: isError }" class="card">
 			<div class="header" v-if="$slots.header">
 				<slot name="header" />
 			</div>
