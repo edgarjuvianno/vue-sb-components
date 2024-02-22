@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.23](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.22...v2.3.23) (2024-02-22)
+
+
+### Bug Fixes
+
+* fix radio & checkbox label html ([0c1e451](https://github.com/edgarjuvianno/vue-sb-components/commit/0c1e451030a9a38e2b9eede87415805ba8008663))
+
 ### [2.3.22](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.21...v2.3.22) (2024-02-22)
 
 
