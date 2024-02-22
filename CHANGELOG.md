@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.21](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.20...v2.3.21) (2024-02-22)
+
+
+### Bug Fixes
+
+* fix dropdown allow clear ([8e8d3e6](https://github.com/edgarjuvianno/vue-sb-components/commit/8e8d3e6362b3d7975fb16be722f91c19584d2f1d))
+
 ### [2.3.20](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.19...v2.3.20) (2024-02-22)
 
 
