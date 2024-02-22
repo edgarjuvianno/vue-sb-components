@@ -645,7 +645,7 @@
 					})
 				}
 
-				if (this.optValue) {
+				if (this.optValue && this.selected) {
 					if (this.multi) {
 						const values: any[] = [...this.selected].map(
 							(it: any) =>
