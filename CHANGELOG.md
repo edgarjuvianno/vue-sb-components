@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.25](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.24...v2.3.25) (2024-02-23)
+
+
+### Bug Fixes
+
+* fix org card size ([a5820f4](https://github.com/edgarjuvianno/vue-sb-components/commit/a5820f4c5fe071dd5eb0fe19d815c079b3c98338))
+
 ### [2.3.24](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.23...v2.3.24) (2024-02-23)
 
 
