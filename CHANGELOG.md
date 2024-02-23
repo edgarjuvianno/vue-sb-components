@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.27](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.26...v2.3.27) (2024-02-23)
+
+
+### Bug Fixes
+
+* fix org chart no wrap ([7d2d448](https://github.com/edgarjuvianno/vue-sb-components/commit/7d2d448a754457c313d448dd9165b39471d9af16))
+
 ### [2.3.26](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.25...v2.3.26) (2024-02-23)
 
 
