@@ -214,21 +214,33 @@
 					(item: IConnection) =>
 						item.points ? [...item.points] : [],
 				)
-				const itemRects: ICoordinates[] = [...this.localList].map(
-					(it: IOrganizationTreeItem) => it.coordinates,
-				)
+				const itemRects: Record<string, any>[] = [
+					...this.localList,
+				].map((it: IOrganizationTreeItem, idx: number) => {
+					const card: HTMLElement | null = document.getElementById(
+						`org-${this.$.uid}-item-${idx}`,
+					)
+
+					if (card) {
+						return {
+							...card.getBoundingClientRect().toJSON(),
+						}
+					}
+
+					return it.coordinates
+				})
 
 				const itemX: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.x,
+					(it: Record<string, any>) => it.x,
 				)
 				const itemXWidth: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.x + 220,
+					(it: Record<string, any>) => it.x + (it.width || 220),
 				)
 				const itemY: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.y,
+					(it: Record<string, any>) => it.y,
 				)
 				const itemYHeight: number[] = [...itemRects].map(
-					(it: ICoordinates) => it.y + 100,
+					(it: Record<string, any>) => it.y + (it.height || 100),
 				)
 
 				const xAxis: number[] = [
