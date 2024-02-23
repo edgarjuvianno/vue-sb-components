@@ -404,14 +404,30 @@
 					this.connectionsPath = {}
 
 					this.item.connections.forEach((it: IConnection) => {
-						const path: string | undefined =
-							this.getConnectionPath(it)
+						const card: HTMLElement | null =
+							document.getElementById(
+								String(this.$.vnode.key),
+							) as HTMLElement | null
 
-						this.connectionsPath[
-							`${String(this.$.vnode.key)}-connection-${
-								it.from.item
-							}-${it.from.io}-${it.to.item}-${it.to.io}`
-						] = path
+						if (card) {
+							const { height, width }: DOMRect = card
+								.getBoundingClientRect()
+								.toJSON()
+
+							card.style.height = `${
+								Math.ceil(height / 20) * 20
+							}px`
+							card.style.width = `${Math.ceil(width / 20) * 20}px`
+
+							const path: string | undefined =
+								this.getConnectionPath(it)
+
+							this.connectionsPath[
+								`${String(this.$.vnode.key)}-connection-${
+									it.from.item
+								}-${it.from.io}-${it.to.item}-${it.to.io}`
+							] = path
+						}
 					})
 				}
 			},
