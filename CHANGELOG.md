@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.26](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.25...v2.3.26) (2024-02-23)
+
+
+### Bug Fixes
+
+* fix org chart card use break-word ([39aa938](https://github.com/edgarjuvianno/vue-sb-components/commit/39aa93808e7675c32d92555fa1e147fc41d28ef8))
+
 ### [2.3.25](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.24...v2.3.25) (2024-02-23)
 
 
