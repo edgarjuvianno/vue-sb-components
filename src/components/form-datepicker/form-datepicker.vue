@@ -277,34 +277,30 @@
 				}
 			},
 			handleGenerateString() {
-				if (!this.localValue?.length) {
-					this.valueString = null
-				} else {
-					if (!this.range) {
-						if (this.format) {
-							this.valueString = this.localValue.format(
-								this.format,
-							)
-						} else {
-							this.valueString = this.localValue.format(
-								this.getDefaultFormat(),
-							)
-						}
-					} else {
-						const values: Dayjs[] = [...this.localValue]
+				if (this.localValue?.length && this.range) {
+					const values: Dayjs[] = [...this.localValue]
 
-						if (this.format) {
-							this.valueString = values
-								.map((it: Dayjs) => it.format(this.format))
-								.join(' - ')
-						} else {
-							this.valueString = values
-								.map((it: Dayjs) =>
-									it.format(this.getDefaultFormat()),
-								)
-								.join(' - ')
-						}
+					if (this.format) {
+						this.valueString = values
+							.map((it: Dayjs) => it.format(this.format))
+							.join(' - ')
+					} else {
+						this.valueString = values
+							.map((it: Dayjs) =>
+								it.format(this.getDefaultFormat()),
+							)
+							.join(' - ')
 					}
+				} else if (!this.range && typeof this.localValue === 'object') {
+					if (this.format) {
+						this.valueString = this.localValue.format(this.format)
+					} else {
+						this.valueString = this.localValue.format(
+							this.getDefaultFormat(),
+						)
+					}
+				} else {
+					this.valueString = null
 				}
 			},
 			handleKeyDown(ev: Event) {
