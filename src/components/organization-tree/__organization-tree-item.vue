@@ -404,30 +404,14 @@
 					this.connectionsPath = {}
 
 					this.item.connections.forEach((it: IConnection) => {
-						const card: HTMLElement | null =
-							document.getElementById(
-								String(this.$.vnode.key),
-							) as HTMLElement | null
+						const path: string | undefined =
+							this.getConnectionPath(it)
 
-						if (card) {
-							const { height, width }: DOMRect = card
-								.getBoundingClientRect()
-								.toJSON()
-
-							card.style.height = `${
-								Math.ceil(height / 20) * 20
-							}px`
-							card.style.width = `${Math.ceil(width / 20) * 20}px`
-
-							const path: string | undefined =
-								this.getConnectionPath(it)
-
-							this.connectionsPath[
-								`${String(this.$.vnode.key)}-connection-${
-									it.from.item
-								}-${it.from.io}-${it.to.item}-${it.to.io}`
-							] = path
-						}
+						this.connectionsPath[
+							`${String(this.$.vnode.key)}-connection-${
+								it.from.item
+							}-${it.from.io}-${it.to.item}-${it.to.io}`
+						] = path
 					})
 				}
 			},
@@ -465,7 +449,22 @@
 			},
 		},
 		mounted() {
-			this.handleInitConnections()
+			const card: HTMLElement | null = document.getElementById(
+				String(this.$.vnode.key),
+			) as HTMLElement | null
+
+			if (card) {
+				const { height, width }: DOMRect = card
+					.getBoundingClientRect()
+					.toJSON()
+
+				card.style.height = `${Math.ceil(height / 20) * 20}px`
+				card.style.width = `${Math.ceil(width / 20) * 20}px`
+
+				this.$nextTick(() => {
+					this.handleInitConnections()
+				})
+			}
 		},
 		watch: {
 			'item.connections': {
