@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.31](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.30...v2.3.31) (2024-02-24)
+
+
+### Bug Fixes
+
+* fix card sizing ([5945b29](https://github.com/edgarjuvianno/vue-sb-components/commit/5945b29031dee24c703a8623e72d60ee09511cd1))
+
 ### [2.3.30](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.29...v2.3.30) (2024-02-23)
 
 
