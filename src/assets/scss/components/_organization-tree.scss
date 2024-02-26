@@ -181,7 +181,7 @@ body {
 				gap: 1rem;
 				max-height: 240px;
 				min-height: 60px;
-				max-width: 440px;
+				// max-width: 540px;
 				min-width: 220px;
 				padding: 0.75rem 1rem;
 				position: absolute;
@@ -216,10 +216,11 @@ body {
 				}
 
 				.data-wrapper {
-					flex: 1;
+					flex-grow: 1;
 					font-size: 0.875rem;
 					font-weight: 400;
 					line-height: normal;
+					// overflow: hidden;
 					white-space: nowrap;
 
 					.name {
