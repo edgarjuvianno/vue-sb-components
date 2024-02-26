@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.33](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.32...v2.3.33) (2024-02-26)
+
+
+### Bug Fixes
+
+* fix org chart card length ([64de42c](https://github.com/edgarjuvianno/vue-sb-components/commit/64de42ccc7c2ba00b4a4956cc2eeb0885dbe6f4a))
+
 ### [2.3.32](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.31...v2.3.32) (2024-02-26)
 
 
