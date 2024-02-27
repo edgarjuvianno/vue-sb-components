@@ -757,7 +757,7 @@
 			handleSave() {
 				if (this.type === 'time') {
 					this.setModelValueTime()
-				} else if (this.type === 'month') {
+				} else if (this.type === 'month' && !this.range) {
 					const properDate: string = getProperDateFormat(
 						1,
 						this.popupCurrentValue.month + 1,
@@ -765,7 +765,7 @@
 					)
 
 					this.$emit('change', DayJS(properDate))
-				} else if (this.type === 'year') {
+				} else if (this.type === 'year' && !this.range) {
 					const properDate: string = getProperDateFormat(
 						1,
 						1,
@@ -975,7 +975,15 @@
 				return this.popupCurrentValue.month === month
 			},
 			isYearSelected(year: number) {
-				return this.popupCurrentValue.year === year
+				if (!this.range) {
+					return this.popupCurrentValue.year === year
+				}
+
+				const isSelected: boolean = [
+					...((this.value as Dayjs[]) || []),
+				].some((value: any) => DayJS(value).get('year') === year)
+
+				return isSelected
 			},
 			setModelValueDate(date: number) {
 				const properDate: string = getProperDateFormat(
