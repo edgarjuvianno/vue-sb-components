@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.35](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.34...v2.3.35) (2024-02-29)
+
+
+### Bug Fixes
+
+* fix org chart no teleport to body ([c3aed22](https://github.com/edgarjuvianno/vue-sb-components/commit/c3aed22575db5e23cea1d08b599173206239f12c))
+
 ### [2.3.34](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.33...v2.3.34) (2024-02-27)
 
 
