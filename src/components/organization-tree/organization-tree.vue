@@ -79,14 +79,12 @@
 				/>
 			</div>
 		</div>
-		<Teleport to="body">
-			<div
-				v-if="isExporting"
-				class="export-area-org-chart"
-				:id="`org-${$.uid}-export-area`"
-				:style="exportAreaStyle"
-			></div>
-		</Teleport>
+		<div
+			v-if="isExporting"
+			class="export-area-org-chart"
+			:id="`org-${$.uid}-export-area`"
+			:style="exportAreaStyle"
+		></div>
 	</div>
 </template>
 
