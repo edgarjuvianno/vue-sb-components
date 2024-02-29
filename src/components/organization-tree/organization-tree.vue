@@ -283,8 +283,9 @@
 				const { maxX, minX, maxY, minY }: Record<string, number> =
 					this.getMinMaxXY
 
-				const elemHeight: number = Math.abs(minY) + maxY
-				const elemWidth: number = Math.abs(minX) + maxX
+				const elemHeight: number =
+					(minY < 0 ? Math.abs(minY) : 0) + maxY
+				const elemWidth: number = (minX < 0 ? Math.abs(minX) : 0) + maxX
 
 				const canvasElem: HTMLElement | null = this.canvasState.elem
 
