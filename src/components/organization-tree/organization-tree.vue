@@ -80,7 +80,6 @@
 			</div>
 		</div>
 		<div
-			v-if="isExporting"
 			class="export-area-org-chart"
 			:id="`org-${$.uid}-export-area`"
 			:style="exportAreaStyle"
