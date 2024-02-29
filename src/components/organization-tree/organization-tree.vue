@@ -304,8 +304,8 @@
 					clonedElem.style.height = `${elemHeight + 40}px`
 					clonedElem.style.position = 'relative'
 					clonedElem.style.transform = `translate(${
-						Math.abs(minX) + 20
-					}px, ${Math.abs(minY) + 20}px)`
+						(minX < 0 ? Math.abs(minX) : 0) + 20
+					}px, ${(minY < 0 ? Math.abs(minY) : 0) + 20}px)`
 					clonedElem.style.width = `${elemWidth + 40}px`
 
 					const parent: HTMLElement | null = document.getElementById(
