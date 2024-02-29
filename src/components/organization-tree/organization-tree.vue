@@ -83,6 +83,7 @@
 			class="export-area-org-chart"
 			:id="`org-${$.uid}-export-area`"
 			:style="exportAreaStyle"
+			v-if="isExporting"
 		></div>
 	</div>
 </template>
@@ -220,7 +221,10 @@
 
 					if (card) {
 						return {
-							...card.getBoundingClientRect().toJSON(),
+							height: card.offsetHeight,
+							x: card.offsetLeft,
+							y: card.offsetTop,
+							width: card.offsetWidth,
 						}
 					}
 
