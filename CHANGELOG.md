@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.36](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.35...v2.3.36) (2024-02-29)
+
+
+### Bug Fixes
+
+* fix test no if org chart export area ([18daa24](https://github.com/edgarjuvianno/vue-sb-components/commit/18daa24caf26edd082dc6153312853386137e9a5))
+
 ### [2.3.35](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.34...v2.3.35) (2024-02-29)
 
 
