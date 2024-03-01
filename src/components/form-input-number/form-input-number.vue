@@ -37,12 +37,12 @@
 				@click="(event) => toggleFocus(true, event)"
 			>
 				<input
+					:autocomplete="autocomplete ? 'on' : 'off'"
 					:tabindex="readOnly || disabled ? -1 : tabindex"
 					type="text"
 					v-maska:[getMaskaOptions]
 					v-model="localValue"
 					v-bind="{
-						autocomplete,
 						disabled,
 						placeholder,
 						readonly: readOnly,
@@ -113,8 +113,8 @@
 		},
 		props: {
 			autocomplete: {
-				default: 'on',
-				type: String as PropType<'off' | 'on'>,
+				required: false,
+				type: Boolean,
 			},
 			disabled: {
 				required: false,

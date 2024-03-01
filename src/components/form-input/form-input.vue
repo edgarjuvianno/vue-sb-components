@@ -44,12 +44,12 @@
 			>
 				<template v-if="!$slots['custom-input']">
 					<input
+						:autocomplete="autocomplete ? 'on' : 'off'"
 						:name="name"
 						:type="getInputType"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-model="localValue"
 						v-bind="{
-							autocomplete,
 							disabled,
 							min,
 							max,
@@ -64,13 +64,13 @@
 						@keydown="(ev) => $emit('keydown', ev)"
 					/>
 					<textarea
+						:autocomplete="autocomplete ? 'on' : 'off'"
 						:class="{ readonly: readOnly }"
 						:name="name"
 						:tabindex="readOnly || disabled ? -1 : tabindex"
 						v-else
 						rows="6"
 						v-bind="{
-							autocomplete,
 							disabled,
 							placeholder,
 							readonly: readOnly,
@@ -121,8 +121,8 @@
 		},
 		props: {
 			autocomplete: {
-				default: 'on',
-				type: String as PropType<'off' | 'on'>,
+				required: false,
+				type: Boolean,
 			},
 			disabled: {
 				required: false,

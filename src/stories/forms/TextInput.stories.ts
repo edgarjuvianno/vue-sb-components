@@ -23,7 +23,7 @@ const meta = {
 			type: 'function',
 		},
 		autocomplete: {
-			control: 'text',
+			control: 'boolean',
 			description: 'Is Input autocomplete on/off',
 		},
 		disabled: {

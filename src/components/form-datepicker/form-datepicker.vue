@@ -20,6 +20,7 @@
 			ref="input-wrapper"
 			type="text"
 			v-bind="{
+				autocomplete,
 				disabled,
 				required,
 				readOnly,
@@ -78,6 +79,10 @@
 		},
 		props: {
 			allowClear: {
+				required: false,
+				type: Boolean,
+			},
+			autocomplete: {
 				required: false,
 				type: Boolean,
 			},

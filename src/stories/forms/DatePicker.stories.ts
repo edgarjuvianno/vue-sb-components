@@ -27,6 +27,10 @@ const meta = {
 			control: 'boolean',
 			description: 'Clear input value',
 		},
+		autocomplete: {
+			control: 'boolean',
+			description: 'Is Input autocomplete on/off',
+		},
 		closeOnSelect: {
 			control: 'boolean',
 			description: 'Close popup when users select date',
