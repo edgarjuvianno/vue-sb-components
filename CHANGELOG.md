@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.41](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.40...v2.3.41) (2024-03-01)
+
+
+### Bug Fixes
+
+* fix autocomplete default to off ([15df3a4](https://github.com/edgarjuvianno/vue-sb-components/commit/15df3a4e65940dcf8dd2f789710d505577c8a30f))
+* fix remove invalid input prop ([d4f09ab](https://github.com/edgarjuvianno/vue-sb-components/commit/d4f09ab82ce4a43b5771188b792ad4af82dbceb7))
+
 ### [2.3.40](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.39...v2.3.40) (2024-02-29)
 
 
