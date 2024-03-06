@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.43](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.42...v2.3.43) (2024-03-06)
+
+
+### Bug Fixes
+
+* fix change disabled color ([7f75407](https://github.com/edgarjuvianno/vue-sb-components/commit/7f75407a0bf8e83ac8355cbc75f351a2af1e0e25))
+
 ### [2.3.42](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.41...v2.3.42) (2024-03-06)
 
 
