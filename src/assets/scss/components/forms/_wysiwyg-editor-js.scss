@@ -273,12 +273,12 @@
 		&.readonly {
 			.label {
 				color: rgb(
-					var(--sb-color-secondary-60) / var(--sb-color-opacity)
+					var(--sb-color-disabled-100) / var(--sb-color-opacity)
 				);
 
 				.asterisk {
 					color: rgb(
-						var(--sb-color-secondary-60) / var(--sb-color-opacity)
+						var(--sb-color-disabled-100) / var(--sb-color-opacity)
 					);
 				}
 			}

@@ -110,10 +110,10 @@
 			.radio {
 				.selector {
 					background: rgb(
-						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+						var(--sb-color-disabled-60) / var(--sb-color-opacity)
 					);
 					border-color: rgb(
-						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+						var(--sb-color-disabled-60) / var(--sb-color-opacity)
 					);
 					cursor: not-allowed;
 
@@ -127,7 +127,7 @@
 				&.selected {
 					.selector::after {
 						background: rgb(
-							var(--sb-color-secondary-100) /
+							var(--sb-color-disabled-100) /
 								var(--sb-color-opacity)
 						);
 					}
@@ -139,7 +139,7 @@
 			.radio {
 				.selector {
 					background: rgb(
-						var(--sb-color-secondary-100) / var(--sb-color-opacity)
+						var(--sb-color-disabled-60) / var(--sb-color-opacity)
 					);
 
 					&:hover {

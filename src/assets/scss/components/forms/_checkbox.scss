@@ -99,10 +99,10 @@
 			.checkbox {
 				.selector {
 					background: rgb(
-						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+						var(--sb-color-disabled-60) / var(--sb-color-opacity)
 					);
 					border-color: rgb(
-						var(--sb-color-disabled-100) / var(--sb-color-opacity)
+						var(--sb-color-disabled-60) / var(--sb-color-opacity)
 					);
 					cursor: not-allowed;
 
@@ -118,7 +118,7 @@
 				&.selected {
 					.selector svg.check {
 						fill: rgb(
-							var(--sb-color-secondary-100) /
+							var(--sb-color-disabled-100) /
 								var(--sb-color-opacity)
 						);
 						opacity: 1;
@@ -131,7 +131,7 @@
 			.checkbox {
 				.selector {
 					background: rgb(
-						var(--sb-color-border) / var(--sb-color-opacity)
+						var(--sb-color-disabled-60) / var(--sb-color-opacity)
 					);
 
 					&:hover {
