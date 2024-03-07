@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.44](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.43...v2.3.44) (2024-03-07)
+
+
+### Bug Fixes
+
+* fix datatable add footer slot ([f1bc42c](https://github.com/edgarjuvianno/vue-sb-components/commit/f1bc42cbcab408c85a59d17aa3c69efc6a9210b1))
+
 ### [2.3.43](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.42...v2.3.43) (2024-03-06)
 
 
