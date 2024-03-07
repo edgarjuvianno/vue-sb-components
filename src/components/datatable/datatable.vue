@@ -196,7 +196,14 @@
 						</tr>
 					</tbody>
 				</template>
-				<tfoot v-if="showColumnSearch && !isColSearchTop && columns">
+				<template v-if="$slots.footer">
+					<tfoot>
+						<slot name="footer" />
+					</tfoot>
+				</template>
+				<tfoot
+					v-else-if="showColumnSearch && !isColSearchTop && columns"
+				>
 					<tr>
 						<th
 							v-for="(th, thIndex) in columns"
