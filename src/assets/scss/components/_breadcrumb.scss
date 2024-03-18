@@ -1,7 +1,10 @@
 .breadcrumb {
 	align-items: center;
 	display: flex;
+	flex-flow: row wrap;
+	gap: 0.5rem;
 	justify-content: flex-start;
+	max-width: 100%;
 	user-select: none;
 
 	.crumb {
@@ -9,6 +12,7 @@
 		font-size: 1rem;
 		font-weight: 400;
 		line-height: 1.5;
+		white-space: nowrap;
 
 		&:last-of-type {
 			color: rgb(var(--sb-color-primary-font) / var(--sb-color-opacity));
@@ -19,6 +23,7 @@
 	svg {
 		fill: rgb(var(--sb-color-secondary-60) / var(--sb-color-opacity));
 		height: 1rem;
-		margin: 0 0.5rem;
+		min-width: 1rem;
+		width: 1rem;
 	}
 }

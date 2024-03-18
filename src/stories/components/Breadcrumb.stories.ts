@@ -37,6 +37,6 @@ type Story = StoryObj<typeof meta>
 
 export const List: Story = {
 	args: {
-		list: ['a', 'b', 'c'],
+		list: ['Vue SB Components', 'Components', 'Breadcrumb'],
 	},
 }
