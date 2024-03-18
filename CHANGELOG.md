@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.45](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.44...v2.3.45) (2024-03-18)
+
+
+### Bug Fixes
+
+* fix breadcrumb styling ([165e192](https://github.com/edgarjuvianno/vue-sb-components/commit/165e19262e1f084202cc915ccb614ef1dd933bb8))
+
 ### [2.3.44](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.43...v2.3.44) (2024-03-07)
 
 
