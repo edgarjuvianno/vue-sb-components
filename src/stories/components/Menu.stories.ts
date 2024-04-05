@@ -92,7 +92,14 @@ const meta = {
 			return { args, onClickItem }
 		},
 		template: `
-			<div style="height: 20rem; display: flex; justify-content: center; padding-top: 2rem;">
+			<div style="align-items: center; height: 40rem; display: flex; gap: 10rem; flex-flow: column; justify-content: flex-start; padding-top: 2rem;">
+				<Menu v-bind="args">
+					<template v-slot:slot-label>Menu Slot</template>
+					<MenuItem @click="onClickItem">Menu 1</MenuItem>
+					<MenuItem @click="onClickItem">Menu 2</MenuItem>
+					<MenuItem @click="onClickItem">Menu 3</MenuItem>
+					<MenuItem @click="onClickItem">Menu 4</MenuItem>
+				</Menu>
 				<Menu v-bind="args">
 					<template v-slot:slot-label>Menu Slot</template>
 					<MenuItem @click="onClickItem">Menu 1</MenuItem>

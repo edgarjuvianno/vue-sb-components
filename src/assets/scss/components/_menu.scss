@@ -15,4 +15,14 @@ body {
 		overflow-y: auto;
 		position: absolute;
 	}
+
+	.menu-backdrop {
+		background: transparent;
+		bottom: 0;
+		left: 0;
+		position: fixed;
+		right: 0;
+		top: 0;
+		z-index: 1062;
+	}
 }

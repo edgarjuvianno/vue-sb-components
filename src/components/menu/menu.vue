@@ -18,12 +18,17 @@
 		</div>
 		<Teleport to="body">
 			<div
-				class="menu-items-wrapper"
-				ref="menu-items-wrapper"
-				:style="itemsWrapperStyles"
+				class="menu-backdrop"
 				v-if="localOpen"
+				@click.stop="handleClose"
 			>
-				<slot />
+				<div
+					class="menu-items-wrapper"
+					ref="menu-items-wrapper"
+					:style="itemsWrapperStyles"
+				>
+					<slot />
+				</div>
 			</div>
 		</Teleport>
 	</div>
@@ -94,18 +99,8 @@
 			}
 		},
 		methods: {
-			handleClose(event: MouseEvent) {
-				const target: HTMLElement = event.target as HTMLElement
-				const parent: HTMLElement = this.$refs['menu-wrapper'] as any
-
-				if (
-					target &&
-					parent &&
-					!parent.contains(target) &&
-					!target.isSameNode(parent)
-				) {
-					this.localOpen = false
-				}
+			handleClose() {
+				this.localOpen = false
 			},
 			handleOpen() {
 				if (!this.disabled) {
@@ -184,17 +179,9 @@
 
 			this.$nextTick(() => this.setPopupPosition())
 
-			document.addEventListener('click', (event: MouseEvent) =>
-				this.handleClose(event),
-			)
-
 			this.parentWithScroll = recursiveSearchScrollParent(this.$el)
 		},
 		unmounted() {
-			document.removeEventListener('click', (event: MouseEvent) =>
-				this.handleClose(event),
-			)
-
 			if (this.parentWithScroll) {
 				this.parentWithScroll.removeEventListener('scroll', () => {
 					this.setPopupPosition()
