@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.46](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.45...v2.3.46) (2024-04-05)
+
+
+### Bug Fixes
+
+* fix menu with backdrop ([fb0e11f](https://github.com/edgarjuvianno/vue-sb-components/commit/fb0e11fe899875945f61aec9098718f1bc24d8cd))
+
 ### [2.3.45](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.44...v2.3.45) (2024-03-18)
 
 
