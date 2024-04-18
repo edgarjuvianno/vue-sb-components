@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.3](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.2...v2.4.3) (2024-04-18)
+
+
+### Bug Fixes
+
+* fix autocomplete blur ([462b8b5](https://github.com/edgarjuvianno/vue-sb-components/commit/462b8b5a49ff5aedc5b21840d6b9247b6d3f3761))
+
 ### [2.4.2](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.1...v2.4.2) (2024-04-18)
 
 ### [2.4.1](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.0...v2.4.1) (2024-04-18)
