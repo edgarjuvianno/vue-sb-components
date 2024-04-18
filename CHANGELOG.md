@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.0...v2.4.1) (2024-04-18)
+
+
+### Bug Fixes
+
+* hide autocomplete option on loading ([c5ae409](https://github.com/edgarjuvianno/vue-sb-components/commit/c5ae4090a5a8adb40ae6135fdda9718e4d76ecf6))
+
 ## [2.4.0](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.3.46...v2.4.0) (2024-04-18)
 
 
