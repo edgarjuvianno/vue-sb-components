@@ -24,6 +24,7 @@
 			:variant="flat ? 'flat' : 'default'"
 			ref="input-wrapper"
 			v-bind="{ disabled, modelValue, readOnly, value }"
+			@blur="handleRemoveFocus"
 			@input="handleInput"
 		>
 			<template v-slot:icon-slot>
