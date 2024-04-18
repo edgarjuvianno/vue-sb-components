@@ -253,7 +253,7 @@
 						)
 
 						if (activeOption > -1) {
-							this.doSelect(this.localList[activeOption])
+							this.doSelect(this.localList[activeOption].value)
 						}
 					}
 				} else if (event.key === 'Escape' || event.key === 'Tab') {
