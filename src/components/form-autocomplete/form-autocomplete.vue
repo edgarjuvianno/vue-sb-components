@@ -216,10 +216,10 @@
 				const value: string = ev.target.value
 
 				this.handleFilterList(value)
+				this.handleUpdateModel(value)
 
 				if (value?.length) {
 					this.$emit('input', value)
-					this.handleUpdateModel(value)
 					this.handleOpen()
 				} else {
 					this.isOpen = false
