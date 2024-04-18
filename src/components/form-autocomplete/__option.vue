@@ -1,13 +1,15 @@
 <template>
-	<div
-		class="option"
-		:class="{ focus: activeOption === idx }"
-		:key="`opt-${idx}-${opt.value}`"
-		v-for="(opt, idx) in list"
-		@click.stop="doSelect(opt)"
-	>
-		<span v-html="renderOpt(opt)"></span>
-	</div>
+	<template v-if="!isLoading">
+		<div
+			class="option"
+			:class="{ focus: activeOption === idx }"
+			:key="`opt-${idx}-${opt.value}`"
+			v-for="(opt, idx) in list"
+			@click.stop="doSelect(opt)"
+		>
+			<span v-html="renderOpt(opt)"></span>
+		</div>
+	</template>
 	<div class="loading-text" v-if="isLoading">
 		{{ loadingText }}
 	</div>
