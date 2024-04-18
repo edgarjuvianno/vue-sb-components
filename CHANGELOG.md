@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.5...v2.4.6) (2024-04-18)
+
+
+### Bug Fixes
+
+* fix autocomplete enter event ([1e7d8bd](https://github.com/edgarjuvianno/vue-sb-components/commit/1e7d8bdfecdf7138651a436cbc078e3a455720ff))
+
 ### [2.4.5](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.4...v2.4.5) (2024-04-18)
 
 
