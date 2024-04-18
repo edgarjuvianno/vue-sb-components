@@ -362,3 +362,8 @@ export interface IWysiwygOutputData {
 	time?: number
 	version?: string
 }
+
+export interface IAutocompleteItem {
+	label: string
+	value: string
+}

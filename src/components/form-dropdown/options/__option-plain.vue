@@ -93,7 +93,3 @@
 		},
 	})
 </script>
-
-<style lang="scss" scoped>
-	@import '../../../assets/scss/components/forms/dropdown/_dropdown-option.scss';
-</style>
