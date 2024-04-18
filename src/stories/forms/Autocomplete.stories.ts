@@ -103,31 +103,31 @@ const meta = {
 		list: [
 			{
 				label: 'red',
-				value: '#f00',
+				value: 'red',
 			},
 			{
 				label: 'green',
-				value: '#0f0',
+				value: 'green',
 			},
 			{
 				label: 'blue',
-				value: '#00f',
+				value: 'blue',
 			},
 			{
 				label: 'cyan',
-				value: '#0ff',
+				value: 'cyan',
 			},
 			{
 				label: 'magenta',
-				value: '#f0f',
+				value: 'magenta',
 			},
 			{
 				label: 'yellow',
-				value: '#ff0',
+				value: 'yellow',
 			},
 			{
 				label: 'black',
-				value: '#000',
+				value: 'black',
 			},
 		],
 		modelValue: null,

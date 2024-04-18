@@ -219,6 +219,7 @@
 
 				if (value?.length) {
 					this.$emit('input', value)
+					this.handleUpdateModel(value)
 					this.handleOpen()
 				} else {
 					this.isOpen = false

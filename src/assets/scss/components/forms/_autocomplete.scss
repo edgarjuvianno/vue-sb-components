@@ -90,6 +90,13 @@ body {
 			outline: 0;
 			padding: 0.5rem 1.5rem;
 
+			b {
+				color: rgb(
+					var(--sb-color-primary-accent-100) / var(--sb-color-opacity)
+				);
+				font-weight: 600;
+			}
+
 			&:hover,
 			&.focus,
 			&.selected {
@@ -98,13 +105,10 @@ body {
 				);
 				color: #ffffff;
 				font-weight: 400;
-			}
 
-			b {
-				color: rgb(
-					var(--sb-color-primary-accent-100) / var(--sb-color-opacity)
-				);
-				font-weight: 600;
+				b {
+					color: #ffffff;
+				}
 			}
 		}
 
