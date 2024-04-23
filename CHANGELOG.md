@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.7](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.6...v2.4.7) (2024-04-23)
+
+
+### Bug Fixes
+
+* fix dropdown placeholder style ([e8f258f](https://github.com/edgarjuvianno/vue-sb-components/commit/e8f258fef2d549e5e375971cbdee6b8a5f9a29ce))
+
 ### [2.4.6](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.5...v2.4.6) (2024-04-18)
 
 
