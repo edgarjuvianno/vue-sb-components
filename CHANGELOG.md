@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.8](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.7...v2.4.8) (2024-04-30)
+
+
+### Bug Fixes
+
+* fix datepicker styling ([26bef62](https://github.com/edgarjuvianno/vue-sb-components/commit/26bef621569accc8e704dc79190f354fb7c17daf))
+
 ### [2.4.7](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.6...v2.4.7) (2024-04-23)
 
 
