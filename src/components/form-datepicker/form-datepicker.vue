@@ -296,7 +296,11 @@
 							)
 							.join(' - ')
 					}
-				} else if (!this.range && typeof this.localValue === 'object') {
+				} else if (
+					!this.range &&
+					this.localValue &&
+					typeof this.localValue === 'object'
+				) {
 					if (this.format) {
 						this.valueString = this.localValue.format(this.format)
 					} else {
