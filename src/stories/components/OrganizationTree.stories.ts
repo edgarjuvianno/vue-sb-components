@@ -52,7 +52,7 @@ const meta = {
 					x: 250,
 					y: 10,
 				},
-				name: 'Nicolas Saputra hehehehehehehe',
+				name: 'Nicolas Saputra hehehehehehehe alsdkjasjdklasdjajsdjklajsdalsjdjalsjdajdalsjdalksjdalkjsdklajsdljasldjaslkjdasdajsldkjasldjaskldjlasldkjasldas',
 				photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww',
 				position:
 					'alsdkjasjdklasdjajsdjklajsdalsjdjalsjdajdalsjdalksjdalkjsdklajsdljasldjaslkjdasdajsldkjasldjaskldjlasldkjasldas',
