@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.11](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.10...v2.4.11) (2024-05-27)
+
+
+### Bug Fixes
+
+* fix radio styling ([4e6c8a5](https://github.com/edgarjuvianno/vue-sb-components/commit/4e6c8a54d01901dae650bdd24bd584211d82723a))
+
 ### [2.4.10](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.9...v2.4.10) (2024-05-21)
 
 
