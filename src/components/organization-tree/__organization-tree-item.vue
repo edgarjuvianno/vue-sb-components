@@ -49,6 +49,7 @@
 		></span>
 		<div
 			class="item-photo"
+			:id="`photo-item-${String($.vnode.key)}`"
 			:style="{
 				backgroundImage: `url(${item.photo})`,
 			}"

@@ -440,11 +440,223 @@ export const ExportImage: Story = {
 	render: (args) => ({
 		components: { Button, OrganizationTree },
 		setup() {
+			// return {
+			// 	args: {
+			// 		...args,
+			// 		ref: 'example-org-chart',
+			// 	},
+			// }
 			return {
-				args: {
-					...args,
-					ref: 'example-org-chart',
-				},
+				args,
+				list1: [
+					{
+						id: 'internal-a7395579-dafa-44eb-9c9d-d4b1a559b984',
+						name: 'Wadda Karmila',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=21105dba-639a-4105-8a8f-f78746b96057',
+						position: 'Deputi Bidang Logistik dan Peralatan',
+						coordinates: {
+							x: 420,
+							y: 30,
+						},
+						connections: [
+							{
+								from: {
+									io: 5,
+									item: 0,
+								},
+								to: {
+									io: 2,
+									item: 3,
+								},
+								type: 'solid',
+							},
+							{
+								from: {
+									io: 5,
+									item: 0,
+								},
+								to: {
+									io: 2,
+									item: 2,
+								},
+								type: 'solid',
+								points: [
+									{
+										x: 575,
+										y: 225,
+									},
+									{
+										x: 820,
+										y: 230,
+									},
+								],
+							},
+							{
+								from: {
+									io: 5,
+									item: 0,
+								},
+								to: {
+									io: 7,
+									item: 1,
+								},
+								type: 'dotted',
+							},
+							{
+								from: {
+									io: 7,
+									item: 0,
+								},
+								to: {
+									io: 0,
+									item: 4,
+								},
+								type: 'dashed',
+							},
+						],
+					},
+					{
+						id: 'internal-2160332f-4a7d-4bca-b531-96b8029ee6d7',
+						name: 'Yaumi Aziza',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=327c79f4-c78f-4971-9107-9d9deb3e66f5',
+						position: 'Seketariat',
+						coordinates: {
+							x: 180,
+							y: 150,
+						},
+					},
+					{
+						id: 'internal-208a04ec-daa6-4323-974b-7b83fa04f06c',
+						name: 'Yandi Nugraha',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=b5478ecd-8dfe-4b8f-8af5-3326740de37d',
+						position: 'Kepala Bagian Logistik',
+						coordinates: {
+							x: 700,
+							y: 300,
+						},
+					},
+					{
+						id: 'internal-42c3430d-7b94-4bc7-9e27-daa49b21a3c0',
+						name: 'Angun',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=2c8be452-d427-4644-9ad0-c7820947c8a2',
+						position: 'admin ',
+						coordinates: {
+							x: 460,
+							y: 300,
+						},
+					},
+					{
+						id: 'internal-25c25abd-9d05-4fc5-99e3-95f99173e850',
+						name: 'Mawar Aulia',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=fd364d34-fc38-4c93-87b4-eb535325dd07',
+						position: 'admin Kab/kot',
+						coordinates: {
+							x: 870,
+							y: 20,
+						},
+					},
+				],
+				list2: [
+					{
+						id: 'internal-a7395579-dafa-44eb-9c9d-d4b1a559b984',
+						name: 'Wadda Karmila',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=21105dba-639a-4105-8a8f-f78746b96057',
+						position: 'Deputi Bidang Logistik dan Peralatan',
+						additionalInfo: {
+							oldPosition: 'Deputi Bidang Logistik dan Peralatan',
+						},
+						coordinates: {
+							x: -140,
+							y: -50,
+						},
+						connections: [
+							{
+								from: {
+									io: 5,
+									item: 0,
+								},
+								to: {
+									io: 7,
+									item: 3,
+								},
+								type: 'solid',
+								points: [
+									{
+										x: 15,
+										y: 230,
+									},
+								],
+							},
+							{
+								from: {
+									io: 5,
+									item: 0,
+								},
+								to: {
+									io: 0,
+									item: 1,
+								},
+								type: 'solid',
+								points: [
+									{
+										x: 15,
+										y: 230,
+									},
+								],
+							},
+							{
+								from: {
+									io: 7,
+									item: 0,
+								},
+								to: {
+									io: 0,
+									item: 2,
+								},
+								type: 'solid',
+							},
+						],
+					},
+					{
+						id: 'internal-2160332f-4a7d-4bca-b531-96b8029ee6d7',
+						name: 'Yaumi Aziza',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=327c79f4-c78f-4971-9107-9d9deb3e66f5',
+						position: 'Seketariat',
+						additionalInfo: {
+							oldPosition: 'Seketariat',
+						},
+						coordinates: {
+							x: 70,
+							y: 190,
+						},
+					},
+					{
+						id: 'internal-42c3430d-7b94-4bc7-9e27-daa49b21a3c0',
+						name: 'Angun',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=2c8be452-d427-4644-9ad0-c7820947c8a2',
+						position: 'admin ',
+						additionalInfo: {
+							oldPosition: 'admin ',
+						},
+						coordinates: {
+							x: 310,
+							y: -40,
+						},
+					},
+					{
+						id: 'internal-25c25abd-9d05-4fc5-99e3-95f99173e850',
+						name: 'Mawar Aulia',
+						photo: 'https://master.simampu.system-dev.online/v1/File/inline/download?id=fd364d34-fc38-4c93-87b4-eb535325dd07',
+						position: 'admin Kab/kot',
+						additionalInfo: {
+							oldPosition: 'admin Kab/kot',
+						},
+						coordinates: {
+							x: -280,
+							y: 200,
+						},
+					},
+				],
 			}
 		},
 		methods: {
@@ -456,8 +668,16 @@ export const ExportImage: Story = {
 					console.log(base64)
 				}
 			},
+			async onClickButtonTwo() {
+				if (this.$refs['example-org-chart-2']) {
+					const base64: string | null =
+						await this.$refs['example-org-chart-2'].doExport()
+
+					console.log(base64)
+				}
+			},
 		},
 		template:
-			'<div style="height: 100vh; width: 100%; display: block; justify-content: center; align-items: center;"><Button color="accent" @click="onClickButton">Export See Console for result</Button><OrganizationTree v-bind="args" /></div>',
+			'<div style="height: 100vh; width: 100%; display: block; justify-content: center; align-items: center;"><Button color="accent" @click="onClickButton">Export See Console for result</Button><OrganizationTree ref="example-org-chart" v-bind="{...args, list: list1}" /><Button color="accent" @click="onClickButtonTwo">Export See Console for result</Button><OrganizationTree ref="example-org-chart-2" v-bind="{...args, list: list2}" /></div>',
 	}),
 }
