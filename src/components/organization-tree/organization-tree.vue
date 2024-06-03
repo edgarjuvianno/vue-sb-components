@@ -321,6 +321,7 @@
 						const pngDataURI: string | null = await htmlToPNG(
 							parent,
 							{
+								cacheBust: true,
 								style: {
 									opacity: '1',
 								},
