@@ -300,6 +300,7 @@
 					const clonedElem: HTMLElement = canvasElem.cloneNode(
 						true,
 					) as HTMLElement
+					const now = new Date().getTime().toString()
 
 					clonedElem.classList.remove('connection-selected')
 					clonedElem.style.transform = 'none'
@@ -310,28 +311,42 @@
 						(minX < 0 ? Math.abs(minX) : minX * -1) + 20
 					}px, ${(minY < 0 ? Math.abs(minY) : minY * -1) + 20}px)`
 					clonedElem.style.width = `${elemWidth + 40}px`
+					clonedElem.id = `org-${this.$.uid}-export-${now}`
 
 					const parent: HTMLElement | null = document.getElementById(
 						`org-${this.$.uid}-export-area`,
 					)
 
-					if (parent) {
-						parent.appendChild(clonedElem)
+					const photos: HTMLCollectionOf<Element> =
+						clonedElem.getElementsByClassName('item-photo')
 
-						const pngDataURI: string | null = await htmlToPNG(
-							parent,
-							{
-								cacheBust: true,
-								style: {
-									opacity: '1',
+					for (let index = 0; index < photos.length; index++) {
+						const element = photos[index] as HTMLElement
+						const url: string =
+							element.style.backgroundImage.split(/"/)[1]
+						const urlObject = new URL(url)
+						urlObject.searchParams.append(now, now)
+
+						element.style.backgroundImage = `url(${urlObject.toString()})`
+
+						if (index === photos.length - 1 && parent) {
+							parent.appendChild(clonedElem)
+
+							const pngDataURI: string | null = await htmlToPNG(
+								parent,
+								{
+									cacheBust: true,
+									style: {
+										opacity: '1',
+									},
 								},
-							},
-						).catch(() => null)
+							).catch(() => null)
 
-						clonedElem.remove()
-						this.isExporting = false
+							clonedElem.remove()
+							this.isExporting = false
 
-						return pngDataURI
+							return pngDataURI
+						}
 					}
 				}
 
