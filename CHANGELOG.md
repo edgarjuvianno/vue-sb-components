@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.12](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.11...v2.4.12) (2024-06-03)
+
+
+### Bug Fixes
+
+* fix: try to fix clone node duplicate image ([5594590](https://github.com/edgarjuvianno/vue-sb-components/commit/5594590b5989d27a38f8e0c5f5d1e37b80f1afa0))
+
 ### [2.4.11](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.10...v2.4.11) (2024-05-27)
 
 
