@@ -28,6 +28,7 @@
 				:class="{
 					'connection-selected': selectedConnection,
 				}"
+				:id="`canvas-tree-${$.uid}`"
 				:style="canvasStyle"
 			>
 				<template v-if="canvasState.elem">
@@ -286,8 +287,9 @@
 				const elemHeight: number =
 					(minY < 0 ? Math.abs(minY) : 0) + maxY
 				const elemWidth: number = (minX < 0 ? Math.abs(minX) : 0) + maxX
-
-				const canvasElem: HTMLElement | null = this.canvasState.elem
+				const canvasElem: HTMLElement | null = document.getElementById(
+					`canvas-tree-${this.$.uid}`,
+				)
 
 				this.exportAreaStyle = {
 					height: `${elemHeight + 40}px`,
