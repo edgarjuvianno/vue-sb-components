@@ -186,8 +186,11 @@
 				return []
 			},
 			isFilled() {
-				if (this.localValue) {
-					const text: string = this.localValue
+				const value: any =
+					this.localValue || this.modelValue || this.value
+
+				if (value?.length) {
+					const text: string = value
 						.replace(/(<([^>]+)>)/gi, '')
 						.replace(/(\r\n|\n|\r)/gm, '')
 
