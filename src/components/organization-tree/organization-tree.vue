@@ -982,6 +982,7 @@
 						this.localList = [...removeConnections]
 
 						this.$nextTick(() => {
+							this.selectedItem = null
 							this.$emit('change', this.localList)
 						})
 					}
