@@ -49,7 +49,6 @@
 					}"
 					@blur="(ev) => handleBlur(ev)"
 					@focus="(ev) => handleInputFocus(ev)"
-					@input="(ev) => handleChange(ev)"
 					@keydown="(ev) => handleKeydown(ev)"
 					@change="(ev) => handleInputChange(ev)"
 					@paste="handlePaste"
@@ -278,6 +277,29 @@
 									minimumFractionDigits: 0,
 								}).format(splittedValue)
 							} else if (!Number.isNaN(value)) {
+								const inputValSplit = String(val).split(
+									this.numberLocale === 'en-US' ? '.' : ',',
+								)
+								const decimalVal = inputValSplit[1]
+
+								if (decimalVal?.indexOf('0') < 1) {
+									if (
+										decimalVal.length >
+										this.maxDecimalPlaces
+									) {
+										return `${inputValSplit[0]}${
+											this.numberLocale === 'en-US'
+												? '.'
+												: ','
+										}${decimalVal.substring(
+											0,
+											this.maxDecimalPlaces,
+										)}`
+									}
+
+									return val
+								}
+
 								return Intl.NumberFormat(this.numberLocale, {
 									maximumFractionDigits:
 										this.maxDecimalPlaces,
@@ -365,36 +387,6 @@
 
 				this.$emit('blur', ev)
 			},
-			handleChange(ev: Event) {
-				const event: InputEvent = ev as InputEvent
-
-				if (typeof (event.detail as any)?.unmasked !== 'undefined') {
-					const unmaskedValue: any = (event.detail as any)?.unmasked
-					const maskedValue: any = (event.detail as any)?.masked
-					const realValue: number | null =
-						this.getRealValue(maskedValue)
-
-					if (unmaskedValue === '') {
-						;(event as any).target.value = (event.detail as any)
-							?.unmasked
-						this.isInvalidNumber = false
-
-						this.$emit('input', ev)
-						this.$emit('update:modelValue', null)
-					} else if (!Number.isNaN(realValue)) {
-						;(event as any).target.value = realValue
-						this.isInvalidNumber = false
-
-						this.$emit('input', ev)
-						this.$emit('update:modelValue', realValue)
-					} else {
-						this.isInvalidNumber = true
-
-						this.$emit('input', ev)
-						this.$emit('update:modelValue', maskedValue)
-					}
-				}
-			},
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
 			},
@@ -469,6 +461,7 @@
 					this.localValue = this.max
 					this.$emit('update:modelValue', this.max)
 					this.$emit('change', ev)
+					this.$emit('input', ev)
 				} else if (
 					realValue !== null &&
 					typeof this.min !== 'undefined' &&
@@ -480,12 +473,16 @@
 					this.localValue = this.min
 					this.$emit('update:modelValue', this.min)
 					this.$emit('change', ev)
+					this.$emit('input', ev)
 				} else {
-					;(ev as any).target.value = Number.isNaN(realValue)
+					const val = Number.isNaN(realValue)
 						? this.localValue
 						: realValue
+					;(ev as any).target.value = val
 
+					this.$emit('update:modelValue', val)
 					this.$emit('change', ev)
+					this.$emit('input', ev)
 				}
 			},
 			handleInputFocus(ev: Event) {
