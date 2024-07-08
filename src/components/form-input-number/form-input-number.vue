@@ -301,7 +301,6 @@
 				}
 			},
 			handleComplete(value: any) {
-				console.log(value, 'here')
 				this.localValue = value
 				this.$emit('change', {
 					target: {
@@ -386,6 +385,12 @@
 		watch: {
 			isFocus(newValue: boolean) {
 				this.localIsFocus = newValue
+			},
+			modelValue(newValue) {
+				this.localValue = newValue
+			},
+			value(newValue) {
+				this.localValue = newValue
 			},
 		},
 		mounted() {
