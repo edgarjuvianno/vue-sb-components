@@ -263,12 +263,9 @@
 
 				this.$emit('blur', ev)
 			},
-			handleChange() {
-				this.$emit('change', {
-					target: {
-						value: this.localValue,
-					},
-				} as any)
+			handleChange(ev: any) {
+				;(ev as any).target.value = this.localValue
+				this.$emit('change', ev)
 			},
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
