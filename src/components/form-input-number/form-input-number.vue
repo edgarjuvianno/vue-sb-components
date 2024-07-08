@@ -54,6 +54,7 @@
 						readonly: readOnly,
 					}"
 					@blur="handleBlur"
+					@change="handleChange"
 					@complete:typed="handleComplete"
 					@focus="handleInputFocus"
 					@keydown="handleKeydown"
@@ -212,7 +213,7 @@
 			return {
 				localIsFocus: false,
 				isInvalidNumber: false,
-				localValue: (this.modelValue ?? this.value ?? null) as any,
+				localValue: (this.modelValue ?? this.value ?? '') as any,
 			}
 		},
 		computed: {
@@ -262,6 +263,13 @@
 
 				this.$emit('blur', ev)
 			},
+			handleChange() {
+				this.$emit('change', {
+					target: {
+						value: this.localValue,
+					},
+				} as any)
+			},
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
 			},
@@ -302,11 +310,6 @@
 			},
 			handleComplete(value: any) {
 				this.localValue = value
-				this.$emit('change', {
-					target: {
-						value,
-					},
-				} as any)
 				this.$emit('input', {
 					target: {
 						value,
@@ -387,10 +390,10 @@
 				this.localIsFocus = newValue
 			},
 			modelValue(newValue) {
-				this.localValue = newValue
+				this.localValue = newValue || ''
 			},
 			value(newValue) {
-				this.localValue = newValue
+				this.localValue = newValue || ''
 			},
 		},
 		mounted() {
