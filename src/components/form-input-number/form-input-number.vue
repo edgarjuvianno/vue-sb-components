@@ -36,22 +36,27 @@
 				:class="['text', textAlign]"
 				@click="(event) => toggleFocus(true, event)"
 			>
-				<input
+				<imask-input
+					unmask
 					:autocomplete="autocomplete ? 'on' : 'off'"
+					:mask="Number"
+					:max="max ?? Infinity"
+					:min="min ?? -Infinity"
+					:radix="getRadix"
+					:scale="10"
 					:tabindex="readOnly || disabled ? -1 : tabindex"
+					:thousands-separator="getThousandsSeparator"
+					v-model:typed="localValue"
 					type="text"
-					v-maska:[getMaskaOptions]
-					v-model="localValue"
 					v-bind="{
 						disabled,
 						placeholder,
 						readonly: readOnly,
 					}"
-					@blur="(ev) => handleBlur(ev)"
-					@focus="(ev) => handleInputFocus(ev)"
-					@input="(ev) => handleChange(ev)"
-					@keydown="(ev) => handleKeydown(ev)"
-					@change="(ev) => handleInputChange(ev)"
+					@blur="handleBlur"
+					@complete:typed="handleComplete"
+					@focus="handleInputFocus"
+					@keydown="handleKeydown"
 					@paste="handlePaste"
 				/>
 			</div>
@@ -94,10 +99,7 @@
 <script lang="ts">
 	import { IIcon } from '@/interface'
 	import { defineComponent, PropType } from 'vue'
-	import { vMaska } from 'maska'
-
-	// helper
-	import { parseLocaleNumber } from '@/utils/helper'
+	import { IMaskComponent } from 'vue-imask'
 
 	// icons
 	import { sortDown, sortUp } from '@/assets/icons'
@@ -203,8 +205,8 @@
 			},
 		},
 		name: 'sb-form-input',
-		directives: {
-			maska: vMaska,
+		components: {
+			'imask-input': IMaskComponent,
 		},
 		data() {
 			return {
@@ -214,111 +216,19 @@
 			}
 		},
 		computed: {
-			getMaskaOptions() {
-				if (!this.withLocale) {
-					const decimalPlaces: string = [
-						...Array(this.maxDecimalPlaces).keys(),
-					]
-						.map(() => '9')
-						.join('')
-
-					if (!this.maxDecimalPlaces) {
-						return {
-							mask: '#0',
-							preProcess: (val: string | number) => String(val),
-							tokens: {
-								'#': {
-									optional: true,
-									pattern: /-/,
-								},
-								0: {
-									multiple: true,
-									pattern: /[0-9]/,
-								},
-							},
-						}
-					}
-
-					return {
-						mask: `#0.${decimalPlaces}`,
-						preProcess: (val: string | number) => String(val),
-						tokens: {
-							'#': {
-								optional: true,
-								pattern: /-/,
-							},
-							0: {
-								multiple: true,
-								pattern: /[0-9]/,
-							},
-							9: {
-								optional: true,
-								pattern: /[0-9]/,
-							},
-						},
-					}
+			getRadix() {
+				if (this.withLocale && this.numberLocale === 'id-ID') {
+					return ','
 				}
 
-				return {
-					postProcess: (val: string | number) => {
-						if (val && typeof val !== 'undefined' && val !== '') {
-							const value: number | null = this.getRealValue(
-								String(val),
-							)
-							const splittedValue: number = Number(
-								String(value).split(
-									this.numberLocale === 'en-US' ? '.' : ',',
-								)[0],
-							)
-
-							if (!this.maxDecimalPlaces) {
-								return Intl.NumberFormat(this.numberLocale, {
-									maximumFractionDigits:
-										this.maxDecimalPlaces,
-									minimumFractionDigits: 0,
-								}).format(splittedValue)
-							} else if (!Number.isNaN(value)) {
-								const inputValSplit = String(val).split(
-									this.numberLocale === 'en-US' ? '.' : ',',
-								)
-								const decimalVal = inputValSplit[1]
-
-								if (decimalVal?.indexOf('0') < 1) {
-									if (
-										decimalVal.length >
-										this.maxDecimalPlaces
-									) {
-										return `${inputValSplit[0]}${
-											this.numberLocale === 'en-US'
-												? '.'
-												: ','
-										}${decimalVal.substring(
-											0,
-											this.maxDecimalPlaces,
-										)}`
-									}
-
-									return val
-								}
-
-								return Intl.NumberFormat(this.numberLocale, {
-									maximumFractionDigits:
-										this.maxDecimalPlaces,
-									minimumFractionDigits: 0,
-								}).format(Number(value))
-							}
-						}
-
-						return val || ''
-					},
-					preProcess: (val: any) => {
-						if (String(val).split(/[.,]/g)[0] === '') {
-							return ''
-						}
-
-						return String(val).replace(/[^0-9,.-]/gi, '')
-					},
+				return '.'
+			},
+			getThousandsSeparator() {
+				if (this.withLocale && this.numberLocale === 'id-ID') {
+					return '.'
 				}
+
+				return ','
 			},
 			iconSortDown() {
 				return sortDown()
@@ -346,77 +256,11 @@
 			},
 		},
 		methods: {
-			getRealValue(masked: string) {
-				if (!masked || typeof masked === 'undefined') {
-					return null
-				}
-
-				masked = String(masked)
-
-				if (!this.withLocale) {
-					if (
-						masked.split('.')[0] !== '' &&
-						masked.split('.')[1] === ''
-					) {
-						return Number('-')
-					}
-
-					return Number(masked)
-				} else if (
-					(this.numberLocale === 'en-US' &&
-						masked.split('.')[0] !== '' &&
-						masked.split('.')[1] === '') ||
-					(this.numberLocale === 'id-ID' &&
-						masked.split(',')[0] !== '' &&
-						masked.split(',')[1] === '') ||
-					masked === '-'
-				) {
-					return Number('-')
-				}
-
-				return parseLocaleNumber(masked, this.numberLocale)
-			},
 			handleBlur(ev: Event) {
 				this.localIsFocus = false
-				const realValue: number | null = this.getRealValue(
-					this.localValue,
-				)
-
-				;(ev as any).target.value = Number.isNaN(realValue)
-					? this.localValue
-					: Number(realValue)
+				;(ev as any).target.value = this.localValue
 
 				this.$emit('blur', ev)
-			},
-			handleChange(ev: Event) {
-				const event: InputEvent = ev as InputEvent
-
-				if (typeof (event.detail as any)?.unmasked !== 'undefined') {
-					const unmaskedValue: any = (event.detail as any)?.unmasked
-					const maskedValue: any = (event.detail as any)?.masked
-					const realValue: number | null =
-						this.getRealValue(maskedValue)
-
-					if (unmaskedValue === '') {
-						;(event as any).target.value = (event.detail as any)
-							?.unmasked
-						this.isInvalidNumber = false
-
-						this.$emit('input', ev)
-						this.$emit('update:modelValue', null)
-					} else if (!Number.isNaN(realValue)) {
-						;(event as any).target.value = realValue
-						this.isInvalidNumber = false
-
-						this.$emit('input', ev)
-						this.$emit('update:modelValue', realValue)
-					} else {
-						this.isInvalidNumber = true
-
-						this.$emit('input', ev)
-						this.$emit('update:modelValue', maskedValue)
-					}
-				}
 			},
 			handleClickIcon(ev: Event) {
 				return this.icon?.onClick && this.icon.onClick(ev)
@@ -435,9 +279,7 @@
 				}
 			},
 			handleClickStep(inc: number) {
-				const realValue: number | null =
-					this.getRealValue(this.localValue) || 0
-
+				const realValue: number = Number(this.localValue)
 				const tempValue: number = Number.isNaN(realValue)
 					? 0
 					: realValue + inc
@@ -455,15 +297,22 @@
 				) {
 					this.localValue = this.min
 				} else {
-					if (this.withLocale && this.numberLocale === 'id-ID') {
-						this.localValue = Intl.NumberFormat(this.numberLocale, {
-							maximumFractionDigits: this.maxDecimalPlaces,
-							minimumFractionDigits: 0,
-						}).format(Number(tempValue))
-					} else {
-						this.localValue = tempValue
-					}
+					this.localValue = tempValue
 				}
+			},
+			handleComplete(value: any) {
+				this.localValue = value
+				this.$emit('change', {
+					target: {
+						value,
+					},
+				} as any)
+				this.$emit('input', {
+					target: {
+						value,
+					},
+				} as any)
+				this.$emit('update:modelValue', value)
 			},
 			handleErrorMessage() {
 				if (this.errorMessage) {
@@ -475,43 +324,6 @@
 				}
 
 				return ''
-			},
-			handleInputChange(ev: Event) {
-				const realValue: number | null = this.getRealValue(
-					this.localValue,
-				)
-
-				if (
-					realValue !== null &&
-					typeof this.max !== 'undefined' &&
-					!Number.isNaN(realValue) &&
-					realValue > this.max
-				) {
-					;(ev as any).target.value = this.max
-
-					this.localValue = this.max
-					this.$emit('update:modelValue', this.max)
-					this.$emit('change', ev)
-				} else if (
-					realValue !== null &&
-					typeof this.min !== 'undefined' &&
-					!Number.isNaN(realValue) &&
-					realValue < this.min
-				) {
-					;(ev as any).target.value = this.min
-
-					this.localValue = this.min
-					this.$emit('update:modelValue', this.min)
-					this.$emit('change', ev)
-				} else {
-					const val = Number.isNaN(realValue)
-						? this.localValue
-						: realValue
-					;(ev as any).target.value = val
-
-					this.$emit('update:modelValue', val)
-					this.$emit('change', ev)
-				}
 			},
 			handleInputFocus(ev: Event) {
 				this.localIsFocus = true
@@ -535,43 +347,6 @@
 					ev.stopPropagation()
 
 					this.handleClickStep(this.step * -1)
-				} else if (
-					this.maxDecimalPlaces &&
-					this.withLocale &&
-					(ev.key === ',' || ev.key === '.')
-				) {
-					const currentValue: any = String(this.localValue)
-
-					if (currentValue) {
-						const target: any = ev.target as any
-						const startSelection: number = target.selectionStart
-						const endSelection: number = target.selectionEnd
-
-						if (this.numberLocale === 'en-US' && ev.key === ',') {
-							ev.preventDefault()
-							ev.stopPropagation()
-
-							this.localValue = `${currentValue.substr(
-								0,
-								startSelection,
-							)}.${currentValue.substr(endSelection)}`
-
-							target.selectionEnd = endSelection + 1
-						} else if (
-							this.numberLocale === 'id-ID' &&
-							ev.key === '.'
-						) {
-							ev.preventDefault()
-							ev.stopPropagation()
-
-							this.localValue = `${currentValue.substr(
-								0,
-								startSelection,
-							)},${currentValue.substr(endSelection)}`
-
-							target.selectionEnd = endSelection + 1
-						}
-					}
 				}
 
 				this.$emit('keydown', ev)
