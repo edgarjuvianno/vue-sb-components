@@ -210,7 +210,7 @@
 			return {
 				localIsFocus: false,
 				isInvalidNumber: false,
-				localValue: (this.modelValue || this.value || null) as any,
+				localValue: null as any,
 			}
 		},
 		computed: {
@@ -653,6 +653,7 @@
 			document.addEventListener('click', (event: MouseEvent) =>
 				this.handleClickOutsideInput(event),
 			)
+			this.handleValueProp(this.modelValue ?? this.localValue)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>
