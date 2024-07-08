@@ -642,11 +642,13 @@
 				handler(newValue: any) {
 					this.handleValueProp(newValue)
 				},
+				immediate: true,
 			},
 			value: {
 				handler(newValue: any) {
 					this.handleValueProp(newValue)
 				},
+				immediate: true,
 			},
 		},
 		mounted() {
