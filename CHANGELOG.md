@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.22](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.21...v2.4.22) (2024-07-08)
+
+
+### Bug Fixes
+
+* fix input init value ([71e6387](https://github.com/edgarjuvianno/vue-sb-components/commit/71e6387ffd7e560b34c21e7e15724b25ce4bf3ad))
+
 ### [2.4.21](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.20...v2.4.21) (2024-07-08)
 
 
