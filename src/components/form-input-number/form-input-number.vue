@@ -49,6 +49,7 @@
 					}"
 					@blur="(ev) => handleBlur(ev)"
 					@focus="(ev) => handleInputFocus(ev)"
+					@input="() => null"
 					@keydown="(ev) => handleKeydown(ev)"
 					@change="(ev) => handleInputChange(ev)"
 					@paste="handlePaste"
