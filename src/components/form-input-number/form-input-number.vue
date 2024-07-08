@@ -212,7 +212,7 @@
 			return {
 				localIsFocus: false,
 				isInvalidNumber: false,
-				localValue: null as any,
+				localValue: (this.modelValue ?? this.value ?? null) as any,
 			}
 		},
 		computed: {
@@ -301,6 +301,7 @@
 				}
 			},
 			handleComplete(value: any) {
+				console.log(value, 'here')
 				this.localValue = value
 				this.$emit('change', {
 					target: {
@@ -367,33 +368,6 @@
 					ev.preventDefault()
 				}
 			},
-			handleValueProp(value: any) {
-				if (
-					value !== null &&
-					typeof value !== 'undefined' &&
-					String(value) !== '' &&
-					this.withLocale &&
-					this.numberLocale === 'id-ID' &&
-					!Number.isNaN(Number(value))
-				) {
-					const inputValSplit = String(this.localValue).split(',')
-					const decimalVal = inputValSplit[1]
-
-					if (decimalVal?.charAt(0) !== '0') {
-						const incomingValue = Intl.NumberFormat(
-							this.numberLocale,
-							{
-								maximumFractionDigits: this.maxDecimalPlaces,
-								minimumFractionDigits: 0,
-							},
-						).format(Number(value))
-
-						this.localValue = incomingValue
-					}
-				} else {
-					this.localValue = value
-				}
-			},
 			toggleFocus(focus: boolean, event?: Event) {
 				if (event) {
 					const target: any = event.target
@@ -413,24 +387,11 @@
 			isFocus(newValue: boolean) {
 				this.localIsFocus = newValue
 			},
-			modelValue: {
-				handler(newValue: any) {
-					this.handleValueProp(newValue)
-				},
-				immediate: true,
-			},
-			value: {
-				handler(newValue: any) {
-					this.handleValueProp(newValue)
-				},
-				immediate: true,
-			},
 		},
 		mounted() {
 			document.addEventListener('click', (event: MouseEvent) =>
 				this.handleClickOutsideInput(event),
 			)
-			this.handleValueProp(this.modelValue ?? this.localValue)
 		},
 		unmounted() {
 			document.removeEventListener('click', (event: MouseEvent) =>
