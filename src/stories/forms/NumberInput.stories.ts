@@ -178,7 +178,10 @@ const meta = {
 	args: {
 		label: 'Gross Tonage / Ukuran Kapal',
 		required: true,
-		modelValue: null,
+		modelValue: 1,
+		maxDecimalPlaces: 10,
+		withLocale: true,
+		numberLocale: 'id-ID',
 	},
 	decorators: [
 		(story, ctx) => {

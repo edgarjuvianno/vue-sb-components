@@ -389,7 +389,7 @@
 			modelValue(newValue) {
 				this.localValue = newValue || ''
 			},
-			valuehandler(newValue) {
+			value(newValue) {
 				this.localValue = newValue || ''
 			},
 		},
