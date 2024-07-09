@@ -44,7 +44,7 @@
 					:max="max ?? Infinity"
 					:min="min ?? -Infinity"
 					:radix="getRadix"
-					:scale="maxDecimalPlaces"
+					:scale="maxDecimalPlaces ?? 0"
 					:tabindex="readOnly || disabled ? -1 : tabindex"
 					:thousands-separator="getThousandsSeparator"
 					v-model:typed="localValue"
