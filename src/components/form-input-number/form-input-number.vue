@@ -39,11 +39,12 @@
 				<imask-input
 					unmask
 					:autocomplete="autocomplete ? 'on' : 'off'"
+					:map-to-radix="['.']"
 					:mask="Number"
 					:max="max ?? Infinity"
 					:min="min ?? -Infinity"
 					:radix="getRadix"
-					:scale="10"
+					:scale="maxDecimalPlaces"
 					:tabindex="readOnly || disabled ? -1 : tabindex"
 					:thousands-separator="getThousandsSeparator"
 					v-model:typed="localValue"
@@ -306,7 +307,6 @@
 				}
 			},
 			handleComplete(value: any) {
-				this.localValue = value
 				this.$emit('input', {
 					target: {
 						value,
@@ -389,7 +389,7 @@
 			modelValue(newValue) {
 				this.localValue = newValue || ''
 			},
-			value(newValue) {
+			valuehandler(newValue) {
 				this.localValue = newValue || ''
 			},
 		},
