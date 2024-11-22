@@ -387,10 +387,10 @@
 				this.localIsFocus = newValue
 			},
 			modelValue(newValue) {
-				this.localValue = newValue || ''
+				this.localValue = newValue ?? ''
 			},
 			value(newValue) {
-				this.localValue = newValue || ''
+				this.localValue = newValue ?? ''
 			},
 		},
 		mounted() {
