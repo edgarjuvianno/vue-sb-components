@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.32](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.31...v2.4.32) (2024-11-22)
+
+
+### Bug Fixes
+
+* **fix input number watch value:** fix input number watch value ([151c86c](https://github.com/edgarjuvianno/vue-sb-components/commit/151c86c3468595f87da86ac925bae1a8b930a345))
+
 ### [2.4.31](https://github.com/edgarjuvianno/vue-sb-components/compare/v2.4.30...v2.4.31) (2024-07-09)
 
 
