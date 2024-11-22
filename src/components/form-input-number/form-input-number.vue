@@ -374,7 +374,6 @@
 
 					if (inputs.length > 0) {
 						const input: any = inputs[0]
-
 						input.focus()
 					}
 				}
